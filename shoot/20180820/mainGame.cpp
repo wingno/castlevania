@@ -5,7 +5,7 @@
 #include "enddingScene.h"
 #include "gameoverScene.h"
 
-
+// ¾¾¹ß
 
 void mainGame::setBackBuffer()
 {
