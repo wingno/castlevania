@@ -18,7 +18,6 @@ HRESULT mainGame::init()
 	hdc = GetDC(g_hWnd);
 
 	//HANDLE hTimer = (HANDLE)SetTimer(g_hWnd, 1, 10, NULL);
-	// 섹스
 	KEYMANAGER->init();
 	IMAGEMANAGER->init();
 	TIMEMANAGER->init();
@@ -27,7 +26,7 @@ HRESULT mainGame::init()
 	setBackBuffer();
 
 	// 필요한 리소스 미리 로드
-	m_nSaveX =7400;
+	m_nSaveX =0;
 	// scene test
 	m_pTitleScene = new titleScene;
 	SCENEMANAGER->addScene("title", m_pTitleScene);
