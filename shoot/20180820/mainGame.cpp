@@ -18,6 +18,7 @@ HRESULT mainGame::init()
 	hdc = GetDC(g_hWnd);
 
 	//HANDLE hTimer = (HANDLE)SetTimer(g_hWnd, 1, 10, NULL);
+	//아아아아아아아ㅏ
 	KEYMANAGER->init();
 	IMAGEMANAGER->init();
 	TIMEMANAGER->init();
