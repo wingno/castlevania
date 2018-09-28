@@ -70,6 +70,7 @@ void battleScene::update()
 	//{
 	//	m_benemyIsSetting = true;
 	//	m_pSpaceShip->update();
+	// 주석테스트
 
 	//}
 	//else
