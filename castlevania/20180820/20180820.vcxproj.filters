@@ -52,6 +52,9 @@
     <Filter Include="MainGame\scene">
       <UniqueIdentifier>{13c0093c-a854-40f3-b2f6-86e06fd7b2b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\room">
+      <UniqueIdentifier>{86f2e741-8fe9-417b-b91a-f34072d8a745}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -162,6 +165,12 @@
     <ClInclude Include="room.h">
       <Filter>2DGameFramework</Filter>
     </ClInclude>
+    <ClInclude Include="gateRoom.h">
+      <Filter>MainGame\room</Filter>
+    </ClInclude>
+    <ClInclude Include="hallwayRoom1.h">
+      <Filter>MainGame\room</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -256,6 +265,12 @@
     </ClCompile>
     <ClCompile Include="room.cpp">
       <Filter>2DGameFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="gateRoom.cpp">
+      <Filter>MainGame\room</Filter>
+    </ClCompile>
+    <ClCompile Include="hallwayRoom1.cpp">
+      <Filter>MainGame\room</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
