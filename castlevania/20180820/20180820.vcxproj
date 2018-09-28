@@ -169,6 +169,8 @@
     <ClInclude Include="progressBar.h" />
     <ClInclude Include="randomFunction.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="room.h" />
+    <ClInclude Include="roomManager.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="scoreScene.h" />
@@ -202,6 +204,8 @@
     <ClCompile Include="missileManager.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="progressBar.cpp" />
+    <ClCompile Include="room.cpp" />
+    <ClCompile Include="roomManager.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="scoreScene.cpp" />

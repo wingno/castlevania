@@ -156,6 +156,12 @@
     <ClInclude Include="player.h">
       <Filter>MainGame</Filter>
     </ClInclude>
+    <ClInclude Include="roomManager.h">
+      <Filter>2DGameFramework\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="room.h">
+      <Filter>2DGameFramework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -244,6 +250,12 @@
     </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="roomManager.cpp">
+      <Filter>2DGameFramework\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="room.cpp">
+      <Filter>2DGameFramework</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
