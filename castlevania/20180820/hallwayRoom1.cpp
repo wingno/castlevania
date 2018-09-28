@@ -36,8 +36,8 @@ void hallwayRoom1::update()
 
 void hallwayRoom1::render(HDC hdc)
 {
-	m_imgBg->render()
-	m_imgBg->render(hdc, 521 *3-m_posMap.x, 1551*3 -m_posMap.y, 1024 * 3, 600, 0, 0, 1024, 206);
+
+	m_imgBg->render(hdc, -m_posMap.x,  -m_posMap.y, 521, 1551, 800, 480,3);
 }
 
 void hallwayRoom1::colliderMake(int width, int height)

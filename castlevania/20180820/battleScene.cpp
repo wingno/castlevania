@@ -12,6 +12,8 @@ HRESULT battleScene::init()
 {
 	IMAGEMANAGER->addImage("background", "image/background.bmp", WINSIZEX, WINSIZEY, false, 0);
 
+	
+
 
 	m_pPlayer = new player;
 	m_pPlayer->init();

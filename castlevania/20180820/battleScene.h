@@ -5,6 +5,8 @@ class spaceShip;
 class enemyManager;
 class camel;
 class player;
+class roomManager;
+class room;
 
 
 
@@ -15,6 +17,10 @@ private:
 	spaceShip*		m_pSpaceShip;
 	enemyManager*	m_pEnemyMgr;
 	camel*			m_pCamel;
+
+	room*			m_phallwayRoom1;
+
+
 
 	player*			m_pPlayer;
 
