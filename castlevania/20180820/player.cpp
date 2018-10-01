@@ -4,10 +4,14 @@
 
 HRESULT player::init()
 {
+	// 플레이어의 오른쪽 보고 있을떄의 이미지 0부터 프레임 시작
 	m_pImg = IMAGEMANAGER->addImage("player", "image/playerMotion.bmp", 855, 741, 19, 13, true, RGB(0, 64, 128));
 
+
+	// 플레이어의 왼쪽 보고 있을떄의 이미지 18부터 프레임 시작
 	m_pImg2 = IMAGEMANAGER->addImage("player2", "image/playerMotion2.bmp", 855, 741, 19, 13, true, RGB(0, 64, 128));
 
+	// 플레이어의 동작 프레임 값
 	m_nCount = 0;
 	m_nRCurrFrameX = 0;
 	m_nRCurrFrameY = 0;
@@ -15,21 +19,33 @@ HRESULT player::init()
 	m_nLCurrFrameX = 18;
 	m_nLCurrFrameY = 0;
 
-
+	// 플레이어의 속성 초기화
 	m_Speed = 2.0f;
 	m_JumP = 7.0f;
 	m_Gravity = 3;
+	m_SildeP = 10.0f;
 
+	// 플레이어의 초기 위치 값
 	m_fX = 100;
 	m_fY = 400;
 
+	// 플레이어가 오른쪽 보고 있는 상태로 초기화
 	m_PlayerSee = 1;
 
+	// 플레이어의 공격 모션 초기화
 	m_PlayerAttack = 0;
 
+	// 플레이어의 점프 모션 초기화 점프는 int형식으로 주어서 2단 점프를 구현
 	m_PlayerJump = 0;
 
+	// 플레이어의 앉기 모션 초기화
 	m_PlayerDown = 0;
+
+	// 플레이어의 백대쉬 모션 초기화
+	m_PlayerBackDash = 0;
+
+	// 플레이어의 슬라이딩 모션 초기화
+	m_PlayerSilde = 0;
 
 
 	m_rc = RectMakeCenter(m_fX, m_fY, m_pImg->getFrameWidth() - 20, m_pImg->getFrameHeight() - 20);
@@ -78,7 +94,7 @@ void player::update()
 	}
 
 	// 플레이어 점프
-	if (KEYMANAGER->isStayKeyDown('Z') && m_PlayerJump < 2)
+	if (KEYMANAGER->isStayKeyDown('Z') && m_PlayerJump < 2 && m_PlayerDown == 0)
 	{
 		m_fY -= m_JumP;
 	//	m_nRCurrFrameY = 7;
@@ -101,19 +117,29 @@ void player::update()
 	}
 
 	// 플레이어 앉기
-	if (KEYMANAGER->isStayKeyDown(VK_DOWN))
+	if (KEYMANAGER->isStayKeyDown(VK_DOWN) && m_PlayerJump == 0)
 	{
 		m_PlayerDown = 1;
 		m_nRCurrFrameY = 11;
 	}
 
-	if(KEYMANAGER->isOnceKeyUp(VK_DOWN))
+	if(KEYMANAGER->isOnceKeyUp(VK_DOWN) && m_PlayerSilde == 0)
 	{
 		m_PlayerDown = 2;
 	}
 
 	// 플레이어 슬라이딩
-	//if(KEYMANAGER->isStayKeyDown(VK_DOWN) && )
+	if (KEYMANAGER->isOnceKeyDown('Z') && m_PlayerDown == 1 && m_PlayerSilde == 0)
+	{
+		m_nRCurrFrameX = 7;
+		m_PlayerSilde = 1;
+	}
+
+	// 플레이어 백대쉬
+	if (KEYMANAGER->isOnceKeyDown('A') && m_PlayerBackDash == 0 && m_PlayerDown == 0 && m_PlayerJump == 0)
+	{
+
+	}
 
 	// 플레이어가 우측 방향을 보고 있을 떄 프레임 모션 지정
 	if (m_PlayerSee == 1)
@@ -129,6 +155,7 @@ void player::update()
 				if (m_nRCurrFrameX > 3)
 				{
 					m_nRCurrFrameX = 0;
+					m_nCount = 0;
 				}
 			}
 		}
@@ -143,6 +170,7 @@ void player::update()
 				if (m_nRCurrFrameX > m_pImg->getMaxFrameX())
 				{
 					m_nRCurrFrameX = 3;
+					m_nCount = 0;
 				}
 			}
 		}
@@ -159,6 +187,7 @@ void player::update()
 					m_nRCurrFrameX = 0;
 					m_PlayerAttack = 0;
 					m_nRCurrFrameY = 0;
+					m_nCount = 0;
 				}
 			}
 		}
@@ -175,12 +204,13 @@ void player::update()
 					m_nRCurrFrameX = 0;
 					m_PlayerAttack = 0;
 					m_nRCurrFrameY = 0;
+					m_nCount = 0;
 				}
 			}
 		}*/
 
 		// 플레이어 앉기 자세
-		else if (m_nRCurrFrameY == 11 && m_PlayerDown == 1)
+		else if (m_nRCurrFrameY == 11 && m_PlayerDown == 1 && m_PlayerSilde == 0)
 		{
 			if (m_nCount % 10 == 0)
 			{
@@ -190,6 +220,7 @@ void player::update()
 				{
 					m_nRCurrFrameX = 3;
 					m_nRCurrFrameY = 11;
+					m_nCount = 0;
 				}
 			}
 		}
@@ -198,7 +229,6 @@ void player::update()
 		{
 			if (m_nCount % 5 == 0)
 			{
-				m_nLCurrFrameX = 3;
 				m_nRCurrFrameX++;
 				m_pImg->setFrameX(m_nRCurrFrameX);
 				if (m_nRCurrFrameX > 5)
@@ -206,6 +236,27 @@ void player::update()
 					m_nRCurrFrameX = 0;
 					m_nRCurrFrameY = 0;
 					m_PlayerDown = 0;
+					m_nCount = 0;
+				}
+			}
+		}
+
+		// 플레이어 슬라이딩 자세
+		else if (m_nRCurrFrameY == 11 && m_PlayerSilde == 1 && m_PlayerDown == 1)
+		{
+			if (m_nCount % 10 == 0)
+			{
+				m_nRCurrFrameX++;
+				m_pImg->setFrameX(m_nRCurrFrameX);
+				m_fX += m_SildeP;
+				m_SildeP--;
+				if (m_nRCurrFrameX > 9)
+				{
+					m_nRCurrFrameX = 10;
+					m_nRCurrFrameY = 11;
+					m_PlayerDown = 2;
+					m_PlayerSilde = 0;
+					m_SildeP = 10.0f;
 				}
 			}
 		}

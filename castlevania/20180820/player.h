@@ -16,6 +16,8 @@ private:
 
 	float	m_JumP;
 
+	float	m_SildeP;
+
 	// 플레이어 프레임설정 속성
 	int		m_nRCurrFrameX;
 	int		m_nRCurrFrameY;
@@ -37,6 +39,12 @@ private:
 
 	// 플레이어의 앉기 모션
 	int		m_PlayerDown;
+
+	// 플레이어의 슬라이딩 모션
+	bool	m_PlayerSilde;
+
+	// 플레이어의 백대쉬 모션
+	bool	m_PlayerBackDash;
 
 public:
 	HRESULT init();
