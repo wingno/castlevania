@@ -18,6 +18,12 @@ private:
 
 	float	m_SildeP;
 
+	float	m_BackP;
+
+	int		m_SildeC;
+
+	int		m_BackC;
+
 	// 플레이어 프레임설정 속성
 	int		m_nRCurrFrameX;
 	int		m_nRCurrFrameY;

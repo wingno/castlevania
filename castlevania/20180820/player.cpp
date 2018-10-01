@@ -23,7 +23,10 @@ HRESULT player::init()
 	m_Speed = 2.0f;
 	m_JumP = 7.0f;
 	m_Gravity = 3;
-	m_SildeP = 10.0f;
+	m_SildeP = 1.0f;
+	m_BackP = 10.0f;
+	m_SildeC = 0;
+	m_BackC = 0;
 
 	// 플레이어의 초기 위치 값
 	m_fX = 100;
@@ -138,6 +141,9 @@ void player::update()
 	// 플레이어 백대쉬
 	if (KEYMANAGER->isOnceKeyDown('A') && m_PlayerBackDash == 0 && m_PlayerDown == 0 && m_PlayerJump == 0)
 	{
+		m_nRCurrFrameX = 2;
+		m_nRCurrFrameY = 4;
+		m_PlayerBackDash = 1;
 
 	}
 
@@ -244,19 +250,56 @@ void player::update()
 		// 플레이어 슬라이딩 자세
 		else if (m_nRCurrFrameY == 11 && m_PlayerSilde == 1 && m_PlayerDown == 1)
 		{
-			if (m_nCount % 10 == 0)
+			if (m_nCount % 1 == 0)
 			{
-				m_nRCurrFrameX++;
+				if (m_SildeC>5)
+				{
+					m_nRCurrFrameX++;
+					m_SildeC = 0;
+				}
+				else
+				{
+					m_SildeC++;
+				}
+
+				if (m_nRCurrFrameX < 9)
+				{
+					m_fX += 10;
+				}
+			}
+
+
+			if (m_nCount % 15 == 0)
+			{
+
 				m_pImg->setFrameX(m_nRCurrFrameX);
-				m_fX += m_SildeP;
-				m_SildeP--;
 				if (m_nRCurrFrameX > 9)
 				{
 					m_nRCurrFrameX = 10;
 					m_nRCurrFrameY = 11;
 					m_PlayerDown = 2;
 					m_PlayerSilde = 0;
-					m_SildeP = 10.0f;
+					m_SildeP = 1.0f;
+					m_SildeC = 0;
+				}
+			}
+		}
+
+		// 플레이어 백대쉬 자세
+		else if (m_nRCurrFrameY == 4 && m_PlayerBackDash == 1)
+		{
+			m_fX -= m_BackP;
+			m_BackP++;
+			if (m_nCount % 5 == 0)
+			{
+				m_nRCurrFrameX++;
+				m_pImg->setFrameX(m_nRCurrFrameX);
+				if (m_nRCurrFrameX > 4)
+				{
+					m_nRCurrFrameX = 0;
+					m_nRCurrFrameY = 0;
+					m_PlayerBackDash = 0;
+					m_BackP = 10.0f;
 				}
 			}
 		}
