@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "player.h"
+#include "room.h"
 
 
 HRESULT player::init()
@@ -21,8 +22,8 @@ HRESULT player::init()
 
 	// 플레이어의 속성 초기화
 	m_Speed = 6.0f;
-	m_JumP = 7.0f;
-	m_Gravity = 3;
+	m_JumP = 14.0f;
+	m_Gravity = 10;
 	m_SildeP = 1.0f;
 	m_BackP = 10.0f;
 	m_SildeC = 0;
@@ -52,6 +53,9 @@ HRESULT player::init()
 
 	m_rc = RectMakeCenter(m_fX, m_fY, (m_pImg->getFrameWidth()-20)*3, (m_pImg->getFrameHeight() - 20)*3);
 
+	m_xCameraOn = false;
+	m_yCameraOn = false;
+
 	return S_OK;
 }
 
@@ -62,10 +66,9 @@ void player::release()
 void player::update()
 {
 	// 플레이어 렉트 업데이트
-	if(m_fY <= 400)
-	{
-		m_fY += m_Gravity;
-	}
+
+	m_fY += m_Gravity;
+	
 	m_rc = RectMakeCenter(m_fX, m_fY, (m_pImg->getFrameWidth()*3)/2 , (m_pImg->getFrameHeight() * 3)/2);
 	
 	// 키입력시 플레이어의 행동
@@ -78,7 +81,7 @@ void player::update()
 		m_nRCurrFrameY = 3;
 		m_fX += m_Speed;
 
-		mapMove(m_Speed, 0);
+		
 
 		
 
@@ -94,7 +97,6 @@ void player::update()
 		m_PlayerSee = 0;
 		m_nLCurrFrameY = 3;
 		m_fX -= m_Speed;
-		mapMove(-m_Speed, 0);
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_LEFT) && m_PlayerDown == 0)
 	{
@@ -358,6 +360,11 @@ void player::update()
 			}
 		}
 	}
+
+	mapMove();
+
+	mapchackCollision();
+
 }
 
 void player::render(HDC hdc)
@@ -378,26 +385,81 @@ void player::render(HDC hdc)
 	}
 }
 
-void player::mapMove(float fx,float fy)
+void player::mapMove()
 {
 
-	
-	if (m_fX > (WINSIZEX / 2) - 15 && m_fX < (WINSIZEX / 2) + 15)
+	if (m_fX > (WINSIZEX / 2) - 3 && m_fX < (WINSIZEX / 2) + 3)
 	{
-		ROOMMANAGER->mapMove(fx, fy);
-		if (fx > 0&& m_fX>WINSIZEX/2)
+		m_xCameraOn = true;
+	}
+
+	if (m_fY > (WINSIZEY / 2) - 2 && m_fY < (WINSIZEY / 2) + 2)
+	{
+		m_yCameraOn = true;
+	}
+
+
+	if (m_xCameraOn)
+	{
+		if (m_fX < WINSIZEX / 2)
 		{
-			m_fX -= fx;
+			ROOMMANAGER->mapMove( m_fX- WINSIZEX / 2, 0);
+			m_fX = WINSIZEX / 2;
 		}
-		else if (fx < 0 && m_fX < WINSIZEX / 2)
+		else if (m_fX > WINSIZEX / 2)
 		{
-			m_fX -= fx;
+			ROOMMANAGER->mapMove(m_fX - WINSIZEX / 2, 0);
+			m_fX = WINSIZEX / 2;
+		}
+	}
+	if (m_yCameraOn)
+	{
+		if (m_fY < WINSIZEY / 2)
+		{
+			ROOMMANAGER->mapMove(0, m_fY - WINSIZEY / 2);
+			m_fY = WINSIZEY / 2;
+		}
+		else if (m_fY > WINSIZEY / 2)
+		{
+			ROOMMANAGER->mapMove(0,m_fY - WINSIZEY / 2);
+			m_fY = WINSIZEY / 2;
 		}
 	}
 
 
 }
 
+void player::mapchackCollision()
+{
+
+	for (int y= m_rc.top;y<m_rc.bottom; y++)
+	{
+
+
+		COLORREF color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
+			m_fX+ ROOMMANAGER->getCurrRoom()->getMap().x,
+			y + ROOMMANAGER->getCurrRoom()->getMap().y);
+
+			int r = GetRValue(color);
+			int g = GetGValue(color);
+			int b = GetBValue(color);
+
+
+			if (!(r == 0 && g == 88 && b == 24))
+			{
+				//(m_pImg->getFrameHeight() * 3) / 2
+				m_fY--;
+				//break;
+			}
+		
+
+	}
+	for (int x = m_rc.left; x < m_rc.right; x++)
+	{
+
+
+	}
+}
 
 
 player::player()

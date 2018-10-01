@@ -14,7 +14,7 @@ public:
 	virtual void update();
 	virtual void render(HDC hdc);
 
-	void colliderMake(int width, int height);
+	void colliderMake();
 
 	hallwayRoom1();
 	~hallwayRoom1();

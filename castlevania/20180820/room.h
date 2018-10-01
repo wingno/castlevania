@@ -3,7 +3,7 @@ class player;
 class enemyManager;
 class room
 {
-private:
+protected:
 	typedef struct tagMemDCInfo
 	{
 		HDC		hMemDC;	// 화면에 점, 선, 도형 등을 그릴 때 필요한 정보를 저장하는 객체

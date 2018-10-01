@@ -53,13 +53,17 @@ private:
 	// 플레이어의 백대쉬 모션
 	bool	m_PlayerBackDash;
 
+	SYNTHESIZE(bool,m_xCameraOn,XCameraOn);
+	SYNTHESIZE(bool, m_yCameraOn, YCameraOn);
 public:
 	HRESULT init();
 	void release();
 	void update();
 	void render(HDC hdc);
 
-	void mapMove(float fx, float fy);
+	void mapMove();
+
+	void mapchackCollision();
 
 	player();
 	~player();

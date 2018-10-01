@@ -12,7 +12,7 @@ private:
 	map<string, room*>::iterator	m_iter;
 
 
-	room*	m_pCurrRoom;	// 현재 씬
+	SYNTHESIZE(room*,m_pCurrRoom,CurrRoom);	// 현재 씬
 	room*	m_pNextRoom;	// 전환 대기 중인 씬
 
 	SYNTHESIZE( enemyManager*,	m_pEnemyMgr,EnemyMgr);

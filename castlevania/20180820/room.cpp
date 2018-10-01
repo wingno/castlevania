@@ -24,7 +24,7 @@ void room::MapMove(float fx, float fy)
 	m_posMap.x += fx;
 	m_posMap.y += fy;
 	m_posBG.x += fx;
-	m_posBG.x += fy;
+	m_posBG.y += fy;
 }
 
 room::room()
