@@ -16,7 +16,7 @@ HRESULT player::init()
 	m_nLCurrFrameY = 0;
 
 	
-	m_Speed = 2.0f;
+	m_Speed = 6.0f;
 
 	m_fX = 100;
 	m_fY = 400;
@@ -25,7 +25,7 @@ HRESULT player::init()
 
 	m_PlayerAttack = 0;
 
-	m_rc = RectMakeCenter(m_fX, m_fY, m_pImg->getFrameWidth()-20, m_pImg->getFrameHeight() - 20);
+	m_rc = RectMakeCenter(m_fX, m_fY, (m_pImg->getFrameWidth()-20)*3, (m_pImg->getFrameHeight() - 20)*3);
 
 	return S_OK;
 }
@@ -37,7 +37,7 @@ void player::release()
 void player::update()
 {
 	// 플레이어 렉트 업데이트
-	m_rc = RectMakeCenter(m_fX, m_fY, m_pImg->getFrameWidth() - 20, m_pImg->getFrameHeight() - 20);
+	m_rc = RectMakeCenter(m_fX, m_fY, (m_pImg->getFrameWidth()*3)/2 , (m_pImg->getFrameHeight() * 3)/2);
 	
 	// 키입력시 플레이어의 행동
 
@@ -48,6 +48,11 @@ void player::update()
 		m_PlayerSee = 1;
 		m_nRCurrFrameY = 3;
 		m_fX += m_Speed;
+
+		mapMove(m_Speed, 0);
+
+		
+
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_RIGHT))
 	{
@@ -60,6 +65,7 @@ void player::update()
 		m_PlayerSee = 0;
 		m_nLCurrFrameY = 3;
 		m_fX -= m_Speed;
+		mapMove(-m_Speed, 0);
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
 	{
@@ -102,7 +108,7 @@ void player::update()
 		}
 		else if (m_nRCurrFrameY == 3)
 		{
-			if (m_nCount % 10 == 0)
+			if (m_nCount % 5 == 0)
 			{
 				m_nRCurrFrameX++;
 				m_pImg->setFrameX(m_nRCurrFrameX);
@@ -170,16 +176,38 @@ void player::render(HDC hdc)
 		Rectangle(hdc, m_rc.left, m_rc.top, m_rc.right, m_rc.bottom);
 		if (m_PlayerSee == 1)
 		{
-			m_pImg->frameRender(hdc, m_fX - m_pImg->getFrameWidth() / 2, m_fY - m_pImg->getFrameHeight() / 2, m_nRCurrFrameX, m_nRCurrFrameY);
+			m_pImg->frameRender(hdc, m_fX - (m_pImg->getFrameWidth()*3) / 2, m_fY - (m_pImg->getFrameHeight()*3) / 2, m_nRCurrFrameX, m_nRCurrFrameY,3);
 		}
 		else if (m_PlayerSee == 0)
 		{
-			m_pImg2->frameRender(hdc, m_fX - m_pImg->getFrameWidth() / 2, m_fY - m_pImg->getFrameHeight() / 2, m_nLCurrFrameX, m_nLCurrFrameY);
+			m_pImg2->frameRender(hdc, m_fX - (m_pImg->getFrameWidth() * 3) / 2, m_fY - (m_pImg->getFrameHeight() * 3)/2, m_nLCurrFrameX, m_nLCurrFrameY,3);
 		}
 
 
 	}
 }
+
+void player::mapMove(float fx,float fy)
+{
+
+	
+	if (m_fX > (WINSIZEX / 2) - 15 && m_fX < (WINSIZEX / 2) + 15)
+	{
+		ROOMMANAGER->mapMove(fx, fy);
+		if (fx > 0&& m_fX>WINSIZEX/2)
+		{
+			m_fX -= fx;
+		}
+		else if (fx < 0 && m_fX < WINSIZEX / 2)
+		{
+			m_fX -= fx;
+		}
+	}
+
+
+}
+
+
 
 player::player()
 {

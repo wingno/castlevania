@@ -7,12 +7,12 @@ private:
 	image *	m_pImg2;
 	
 	// 플레이어 렉트
-	RECT m_rc;
+	SYNTHESIZE (RECT, m_rc,Rc);
 	
 	// 플레이어 속성 값
 	float m_Speed;
-	float m_fX;
-	float m_fY;
+	SYNTHESIZE( float, m_fX,Fx);
+	SYNTHESIZE(float, m_fY,FY);
 
 	// 플레이어 프레임설정 속성
 	int		m_nRCurrFrameX;
@@ -35,6 +35,8 @@ public:
 	void release();
 	void update();
 	void render(HDC hdc);
+
+	void mapMove(float fx, float fy);
 
 	player();
 	~player();

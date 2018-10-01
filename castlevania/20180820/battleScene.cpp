@@ -5,6 +5,7 @@
 #include "missileManager.h"
 #include "camel.h"
 #include "selectScene.h"
+#include "hallwayRoom1.h"
 #include "player.h"
 
 
@@ -17,6 +18,14 @@ HRESULT battleScene::init()
 
 	m_pPlayer = new player;
 	m_pPlayer->init();
+
+	ROOMMANAGER->setPlayer(m_pPlayer);
+
+	m_phallwayRoom1 = new hallwayRoom1;
+	ROOMMANAGER->addRoom("hallwayRoom1", m_phallwayRoom1);
+
+
+	ROOMMANAGER->changeRoom("hallwayRoom1");
 
 
 
@@ -35,13 +44,16 @@ void battleScene::update()
 
 	m_pPlayer->update();
 
+	ROOMMANAGER->update();
+
 }
 
 void battleScene::render(HDC hdc)
 {
-	IMAGEMANAGER->findImage("background")->render(hdc, 0, 0);
+	//IMAGEMANAGER->findImage("background")->render(hdc, 0, 0);
 
 
+	ROOMMANAGER->render(hdc);
 	m_pPlayer->render(hdc);
 
 

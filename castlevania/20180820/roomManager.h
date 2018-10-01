@@ -1,16 +1,25 @@
 #pragma once
 #include "singletonBase.h"
+
+class player;
+class enemyManager;
 class room;
 
 class roomManager :public singletonBase<roomManager>
 {
 private:
-	map<string, room*>	m_mapRooms;
+	map<string, room*>				m_mapRooms;
 	map<string, room*>::iterator	m_iter;
 
 
 	room*	m_pCurrRoom;	// 현재 씬
 	room*	m_pNextRoom;	// 전환 대기 중인 씬
+
+	SYNTHESIZE( enemyManager*,	m_pEnemyMgr,EnemyMgr);
+	SYNTHESIZE( player*	, m_pPlayer,Player);
+	
+
+
 
 
 										// 현재 씬					한번 실행이 되면 메모리에 올라가서 프로그램이 끝나기 전까지 안내려옴
@@ -26,6 +35,7 @@ public:
 	room* addRoom(string sceneName, room* pScene);
 	HRESULT changeRoom(string sceneName);
 
+	void mapMove(float fx,float fy);
 
 	//friend: 캡슐화 한것을 깨는 예외
 	roomManager();

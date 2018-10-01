@@ -6,7 +6,7 @@ class enemyManager;
 class camel;
 class player;
 class roomManager;
-class room;
+class hallwayRoom1;
 
 
 
@@ -18,7 +18,8 @@ private:
 	enemyManager*	m_pEnemyMgr;
 	camel*			m_pCamel;
 
-	room*			m_phallwayRoom1;
+	hallwayRoom1*	m_phallwayRoom1;
+	roomManager*	m_RoomMgr;
 
 
 

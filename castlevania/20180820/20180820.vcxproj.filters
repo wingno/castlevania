@@ -162,13 +162,13 @@
     <ClInclude Include="roomManager.h">
       <Filter>2DGameFramework\manager</Filter>
     </ClInclude>
-    <ClInclude Include="room.h">
-      <Filter>2DGameFramework</Filter>
-    </ClInclude>
     <ClInclude Include="gateRoom.h">
       <Filter>MainGame\room</Filter>
     </ClInclude>
     <ClInclude Include="hallwayRoom1.h">
+      <Filter>MainGame\room</Filter>
+    </ClInclude>
+    <ClInclude Include="room.h">
       <Filter>MainGame\room</Filter>
     </ClInclude>
   </ItemGroup>
@@ -263,13 +263,13 @@
     <ClCompile Include="roomManager.cpp">
       <Filter>2DGameFramework\manager</Filter>
     </ClCompile>
-    <ClCompile Include="room.cpp">
-      <Filter>2DGameFramework</Filter>
-    </ClCompile>
     <ClCompile Include="gateRoom.cpp">
       <Filter>MainGame\room</Filter>
     </ClCompile>
     <ClCompile Include="hallwayRoom1.cpp">
+      <Filter>MainGame\room</Filter>
+    </ClCompile>
+    <ClCompile Include="room.cpp">
       <Filter>MainGame\room</Filter>
     </ClCompile>
   </ItemGroup>
