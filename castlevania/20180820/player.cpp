@@ -30,7 +30,7 @@ HRESULT player::init()
 	m_BackC = 0;
 
 	// 플레이어의 초기 위치 값
-	m_fX = 100;
+	m_fX = 200;
 	m_fY = 400;
 
 	// 플레이어가 오른쪽 보고 있는 상태로 초기화
@@ -69,7 +69,7 @@ void player::update()
 
 	m_fY += m_Gravity;
 	
-	m_rc = RectMakeCenter(m_fX, m_fY, (m_pImg->getFrameWidth()*3)/2 , (m_pImg->getFrameHeight() * 3)/2);
+	
 	
 	// 키입력시 플레이어의 행동
 
@@ -365,6 +365,8 @@ void player::update()
 
 	mapchackCollision();
 
+	m_rc = RectMakeCenter(m_fX, m_fY, (m_pImg->getFrameWidth() * 3) / 2, (m_pImg->getFrameHeight() * 3) / 2);
+
 }
 
 void player::render(HDC hdc)
@@ -447,16 +449,47 @@ void player::mapchackCollision()
 
 			if (!(r == 0 && g == 88 && b == 24))
 			{
-				//(m_pImg->getFrameHeight() * 3) / 2
-				m_fY--;
-				//break;
+				if (y>m_fY)
+				{
+					m_fY--;
+
+				}
+				else if((y < m_fY))
+				{
+					m_fY++;
+				}
+			
+				
 			}
+
 		
 
 	}
 	for (int x = m_rc.left; x < m_rc.right; x++)
 	{
+		COLORREF color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
+			x + ROOMMANAGER->getCurrRoom()->getMap().x,
+			m_fY-20 + ROOMMANAGER->getCurrRoom()->getMap().y);
 
+		int r = GetRValue(color);
+		int g = GetGValue(color);
+		int b = GetBValue(color);
+
+
+		if (!(r == 0 && g == 88 && b == 24))
+		{
+			if (x > m_fX)
+			{
+				m_fX-=1;
+
+			}
+			else if ((x < m_fX))
+			{
+				m_fX+=1;
+			}
+
+
+		}
 
 	}
 }
