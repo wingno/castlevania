@@ -157,6 +157,7 @@
     <ClInclude Include="effectManager.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemyManager.h" />
+    <ClInclude Include="FountainRoom.h" />
     <ClInclude Include="gameNode.h" />
     <ClInclude Include="gateRoom.h" />
     <ClInclude Include="hallwayRoom1.h" />
@@ -196,6 +197,7 @@
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemyManager.cpp" />
+    <ClCompile Include="FountainRoom.cpp" />
     <ClCompile Include="gameNode.cpp" />
     <ClCompile Include="gateRoom.cpp" />
     <ClCompile Include="hallwayRoom1.cpp" />

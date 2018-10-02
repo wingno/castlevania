@@ -6,6 +6,7 @@
 #include "camel.h"
 #include "selectScene.h"
 #include "hallwayRoom1.h"
+#include "FountainRoom.h"
 #include "player.h"
 
 
@@ -18,14 +19,20 @@ HRESULT battleScene::init()
 
 	m_pPlayer = new player;
 	m_pPlayer->init();
+	m_pPlayer->setFY(78 * 3);
+	m_pPlayer->setFx(59 * 3);
+
 
 	ROOMMANAGER->setPlayer(m_pPlayer);
 
 	m_phallwayRoom1 = new hallwayRoom1;
 	ROOMMANAGER->addRoom("hallwayRoom1", m_phallwayRoom1);
 
+	m_pFountainRoom = new FountainRoom;
+	ROOMMANAGER->addRoom("FountainRoom", m_pFountainRoom);
 
-	ROOMMANAGER->changeRoom("hallwayRoom1");
+
+	ROOMMANAGER->changeRoom("FountainRoom");
 
 
 

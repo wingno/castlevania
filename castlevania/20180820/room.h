@@ -1,4 +1,6 @@
 #pragma once
+
+
 class player;
 class enemyManager;
 class room
@@ -33,6 +35,9 @@ protected:
 
 
 	SYNTHESIZE(LPMEM_INFO, m_pMemDCInfo, MemDCInfo);
+
+	SYNTHESIZE(RECT*, m_rectObj,RectObj);
+	SYNTHESIZE(RECT*, m_rectGate, RectGate);
 
 	image* m_imgBg;
 	image* m_imgMap;

@@ -15,9 +15,18 @@ HRESULT hallwayRoom1::init()
 
 
 
+	m_rectGate =rectGate;
+	m_rectObj = rectObj;
 
-	
-	
+
+	m_rectGate[0] = RectMake(0, 195, 30, 144);
+	m_rectGate[1] = RectMake(1273 * 3 -30, 195, 30, 144);
+	m_rectGate[2] = RectMake(353 * 3 , 0, 64*3, 30);
+
+
+	m_rectObj[0] = RectMake(386 * 3, 88 * 3, 32 * 3, 7 * 3);
+	m_rectObj[1] = RectMake(386 * 3, 47 * 3, 32 * 3, 7 * 3);
+
 
 
 
@@ -63,10 +72,22 @@ void hallwayRoom1::update()
 	m_posMap.y = 0;
 	m_posBG.y = 0;
 	m_pPlayer->setYCameraOn(false);
+
+	
+	m_rectGate[0] = RectMake(0 - m_posMap.x, 195, 30, 144);
+	m_rectGate[1] = RectMake(1273*3 - m_posMap.x, 195, 25, 144);
+	m_rectGate[2] = RectMake(353 * 3 - m_posMap.x, 0, 64 * 3, 30);
+
+	m_rectObj[0] = RectMake(384 * 3 - m_posMap.x, 80 * 3, 32 * 3, 7 * 3);
+	m_rectObj[1] = RectMake(384 * 3 - m_posMap.x, 24 * 3, 32 * 3, 7 * 3);
+
+	rectColider();
 }
 
 void hallwayRoom1::render(HDC hdc)
 {
+
+
 
 	m_imgBg->render(hdc, 0, 0, 542, 1839, 240, 160, 3);
 
@@ -77,7 +98,16 @@ void hallwayRoom1::render(HDC hdc)
 	
 	
 	
-	m_imgBg->render(hdc, 0,  0, 521+ m_posMap.x/3, 1551 + m_posBG.y / 3, 400, 160,3);
+	m_imgBg->render(hdc, 0,  0, 521+ m_posMap.x/3, 1551 + m_posMap.y / 3, 400, 160,3);
+
+	for (int i = 0; i < 3; i++)
+	{
+		Rectangle(hdc, m_rectGate[i].left, m_rectGate[i].top, m_rectGate[i].right, m_rectGate[i].bottom);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Rectangle(hdc, m_rectObj[i].left, m_rectObj[i].top, m_rectObj[i].right, m_rectObj[i].bottom);
+	}
 }
 
 void hallwayRoom1::colliderMake()
@@ -142,6 +172,41 @@ void hallwayRoom1::colliderMake()
 	DeleteObject(tempInfo.hBitmap);
 	DeleteDC(tempInfo.hMemDC);
 }
+
+void hallwayRoom1::rectColider()
+{
+
+
+
+	for (int i = 0; i < 3; i++)
+	{
+		RECT rc;
+		if (IntersectRect(&rc, &(m_pPlayer->getRc()), &(m_rectGate[i])))
+		{
+			switch (i)
+			{
+			case 0:
+				
+				break;
+			case 1:
+				m_pPlayer->setFY(78 * 3);
+				m_pPlayer->setFx(59 * 3);
+
+				ROOMMANAGER->changeRoom("FountainRoom");
+				break;
+			case 2:
+
+
+				break;
+
+
+			default:
+				break;
+			}
+		}
+	}
+}
+
 
 
 

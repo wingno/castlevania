@@ -171,6 +171,9 @@
     <ClInclude Include="room.h">
       <Filter>MainGame\room</Filter>
     </ClInclude>
+    <ClInclude Include="FountainRoom.h">
+      <Filter>MainGame\room</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -270,6 +273,9 @@
       <Filter>MainGame\room</Filter>
     </ClCompile>
     <ClCompile Include="room.cpp">
+      <Filter>MainGame\room</Filter>
+    </ClCompile>
+    <ClCompile Include="FountainRoom.cpp">
       <Filter>MainGame\room</Filter>
     </ClCompile>
   </ItemGroup>

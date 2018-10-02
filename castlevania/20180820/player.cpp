@@ -316,7 +316,7 @@ void player::update()
 		else if (m_nRCurrFrameY == 4 && m_PlayerBackDash == 1)
 		{
 			m_fX -= m_BackP;
-			m_BackP++;
+			//m_BackP++;
 			if (m_nCount % 5 == 0)
 			{
 				m_nRCurrFrameX++;
@@ -480,15 +480,16 @@ void player::update()
 					m_nLCurrFrameX = 18;
 					m_nLCurrFrameY = 0;
 					m_PlayerBackDash = 0;
-					m_BackP = 10.0f;
+
+
 				}
 			}
 		}
 	}
 
+	mapchackCollision();
 	mapMove();
 
-	mapchackCollision();
 
 	m_rc = RectMakeCenter(m_fX, m_fY, (m_pImg->getFrameWidth() * 3) / 2, (m_pImg->getFrameHeight() * 3) / 2);
 
@@ -502,13 +503,13 @@ void player::render(HDC hdc)
 		// 플레이어가 오른쪽을 보고 있을때 이미지 랜더
 		if (m_PlayerSee == 1)
 		{
-			m_pImg->frameRender(hdc, m_fX - (m_pImg->getFrameWidth()*3) / 2, m_fY - (m_pImg->getFrameHeight()*3) / 2, m_nRCurrFrameX, m_nRCurrFrameY,3);
+			m_pImg->frameRender(hdc, m_fX - (m_pImg->getFrameWidth()*3) / 2, m_fY - (m_pImg->getFrameHeight()*3) / 2-10, m_nRCurrFrameX, m_nRCurrFrameY,3);
 		}
 
 		// 플레이어가 왼쪽을 보고 있을때 이미지 랜더
 		else if (m_PlayerSee == 0)
 		{
-			m_pImg2->frameRender(hdc, m_fX - (m_pImg->getFrameWidth() * 3) / 2, m_fY - (m_pImg->getFrameHeight() * 3)/2, m_nLCurrFrameX, m_nLCurrFrameY,3);
+			m_pImg2->frameRender(hdc, m_fX - (m_pImg->getFrameWidth() * 3) / 2 , m_fY - (m_pImg->getFrameHeight() * 3)/2-10, m_nLCurrFrameX, m_nLCurrFrameY,3);
 		}
 	}
 }
@@ -516,12 +517,12 @@ void player::render(HDC hdc)
 void player::mapMove()
 {
 
-	if (m_fX > (WINSIZEX / 2) - 3 && m_fX < (WINSIZEX / 2) + 3)
+	if (m_fX > (WINSIZEX / 2) - 6 && m_fX < (WINSIZEX / 2) + 6)
 	{
 		m_xCameraOn = true;
 	}
 
-	if (m_fY > (WINSIZEY / 2) - 2 && m_fY < (WINSIZEY / 2) + 2)
+	if (m_fY > (WINSIZEY / 2) - 3 && m_fY < (WINSIZEY / 2) + 3)
 	{
 		m_yCameraOn = true;
 	}
@@ -544,12 +545,12 @@ void player::mapMove()
 	{
 		if (m_fY < WINSIZEY / 2)
 		{
-			ROOMMANAGER->mapMove(0, m_fY - WINSIZEY / 2);
+			ROOMMANAGER->mapMove(0, m_fY-WINSIZEY / 2);
 			m_fY = WINSIZEY / 2;
 		}
 		else if (m_fY > WINSIZEY / 2)
 		{
-			ROOMMANAGER->mapMove(0,m_fY - WINSIZEY / 2);
+			ROOMMANAGER->mapMove(0, m_fY - WINSIZEY /2);
 			m_fY = WINSIZEY / 2;
 		}
 	}
@@ -560,7 +561,7 @@ void player::mapMove()
 void player::mapchackCollision()
 {
 
-	for (int y= m_rc.top;y<m_rc.bottom; y++)
+	for (int y= m_rc.top;y<=m_rc.bottom; y++)
 	{
 
 
@@ -579,13 +580,40 @@ void player::mapchackCollision()
 				{
 					m_fY--;
 
+
 				}
 				else if((y < m_fY))
 				{
 					m_fY++;
 				}
-			
-				
+
+
+			}
+
+			if (y == m_rc.bottom)
+			{
+				y++;
+
+				color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
+					m_fX + ROOMMANAGER->getCurrRoom()->getMap().x,
+					y + ROOMMANAGER->getCurrRoom()->getMap().y);
+
+				r = GetRValue(color);
+				g = GetGValue(color);
+				b = GetBValue(color);
+
+				if (!(r == 0 && g == 88 && b == 24))
+				{
+					if (y > m_fY)
+					{
+						m_fY-=m_Gravity;
+
+
+					}
+
+
+				}
+
 			}
 
 		
@@ -595,7 +623,7 @@ void player::mapchackCollision()
 	{
 		COLORREF color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
 			x + ROOMMANAGER->getCurrRoom()->getMap().x,
-			m_fY-20 + ROOMMANAGER->getCurrRoom()->getMap().y);
+			m_fY + ROOMMANAGER->getCurrRoom()->getMap().y);
 
 		int r = GetRValue(color);
 		int g = GetGValue(color);
@@ -606,14 +634,16 @@ void player::mapchackCollision()
 		{
 			if (x > m_fX)
 			{
-				m_fX-=1;
+
+				m_fX--;
+
+
 
 			}
 			else if ((x < m_fX))
 			{
-				m_fX+=1;
+			m_fX++;
 			}
-
 
 		}
 

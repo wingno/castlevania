@@ -7,6 +7,7 @@ class camel;
 class player;
 class roomManager;
 class hallwayRoom1;
+class FountainRoom;
 
 
 
@@ -19,6 +20,8 @@ private:
 	camel*			m_pCamel;
 
 	hallwayRoom1*	m_phallwayRoom1;
+	FountainRoom*	m_pFountainRoom;
+	
 	roomManager*	m_RoomMgr;
 
 
