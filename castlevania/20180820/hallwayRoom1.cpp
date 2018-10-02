@@ -189,8 +189,8 @@ void hallwayRoom1::rectColider()
 				
 				break;
 			case 1:
-				m_pPlayer->setFY(78 * 3);
-				m_pPlayer->setFx(59 * 3);
+				m_pPlayer->setFY(293);
+				m_pPlayer->setFx(50 * 3);
 
 				ROOMMANAGER->changeRoom("FountainRoom");
 				break;
@@ -209,10 +209,11 @@ void hallwayRoom1::rectColider()
 
 	for (int i = 0; i < 2; i++)
 	{
-		if (m_rectObj[i].top + 7 > m_pPlayer->getRc().bottom && m_rectObj[i].top - 7 < m_pPlayer->getRc().bottom)
+		if (m_rectObj[i].top + 13 > m_pPlayer->getRc().bottom && m_rectObj[i].top - 7 < m_pPlayer->getRc().bottom  
+			 && (m_pPlayer->getRc().right > m_rectObj[i].left && m_pPlayer->getRc().left < m_rectObj[i].right))
 		{
 			
-			m_pPlayer->setFY(m_rectObj[i].top - 40);
+			m_pPlayer->setFY(m_rectObj[i].top - 50);
 
 		}
 

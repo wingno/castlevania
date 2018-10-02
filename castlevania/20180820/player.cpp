@@ -574,8 +574,8 @@ void player::mapchackCollision()
 
 
 		COLORREF color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
-			m_fX+ ROOMMANAGER->getCurrRoom()->getMap().x,
-			y + ROOMMANAGER->getCurrRoom()->getMap().y);
+			m_fX+ ROOMMANAGER->getCurrRoom()->getPosMap().x,
+			y + ROOMMANAGER->getCurrRoom()->getPosMap().y);
 
 			int r = GetRValue(color);
 			int g = GetGValue(color);
@@ -603,8 +603,8 @@ void player::mapchackCollision()
 				y++;
 
 				color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
-					m_fX + ROOMMANAGER->getCurrRoom()->getMap().x,
-					y + ROOMMANAGER->getCurrRoom()->getMap().y);
+					m_fX + ROOMMANAGER->getCurrRoom()->getPosMap().x,
+					y + ROOMMANAGER->getCurrRoom()->getPosMap().y);
 
 				r = GetRValue(color);
 				g = GetGValue(color);
@@ -630,8 +630,8 @@ void player::mapchackCollision()
 	for (int x = m_rc.left; x < m_rc.right; x++)
 	{
 		COLORREF color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
-			x + ROOMMANAGER->getCurrRoom()->getMap().x,
-			m_fY + ROOMMANAGER->getCurrRoom()->getMap().y);
+			x + ROOMMANAGER->getCurrRoom()->getPosMap().x,
+			m_fY + ROOMMANAGER->getCurrRoom()->getPosMap().y);
 
 		int r = GetRValue(color);
 		int g = GetGValue(color);

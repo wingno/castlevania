@@ -18,7 +18,7 @@ HRESULT FountainRoom::init()
 	m_rectGate = rectGate;
 	m_rectObj = rectObj;
 
-
+	m_rectGate[0] = RectMake(0 - m_posMap.x, 64 * 3, 30, 48 * 3);
 
 
 	return S_OK;
@@ -61,7 +61,7 @@ void FountainRoom::update()
 		m_pPlayer->setYCameraOn(false);
 	}
 
-
+	m_rectGate[0] = RectMake(0 - m_posMap.x, 64 * 3 - m_posMap.y, 30, 48 * 3);
 
 	rectColider();
 }
@@ -71,6 +71,8 @@ void FountainRoom::render(HDC hdc)
 
 
 	m_imgBg->render(hdc, 0, 0, 1801 + m_posMap.x / 3, 1551 + m_posMap.y / 3, 240, 160, 3);
+
+	Rectangle(hdc, m_rectGate[0].left, m_rectGate[0].top, m_rectGate[0].right, m_rectGate[0].bottom);
 
 	//for (int i = 0; i < 3; i++)
 	//{
@@ -138,7 +140,7 @@ void FountainRoom::colliderMake()
 
 void FountainRoom::rectColider()
 {
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		RECT rc;
 		if (IntersectRect(&rc, &(m_pPlayer->getRc()), &(m_rectGate[i])))
@@ -146,6 +148,16 @@ void FountainRoom::rectColider()
 			switch (i)
 			{
 			case 0:
+				m_pPlayer->setFY(293);
+				m_pPlayer->setFx(WINSIZEX - (20 * 3));
+
+				ROOMMANAGER->changeRoom("hallwayRoom1");
+
+				POINT point;
+				point.x = 1276 * 3 - WINSIZEX;
+				point.y = 0;
+
+				ROOMMANAGER->getCurrRoom()->setPosMap(point);
 
 				break;
 			case 1:
