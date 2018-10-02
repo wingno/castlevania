@@ -8,7 +8,7 @@ HRESULT player::init()
 	// 플레이어의 오른쪽 보고 있을떄의 이미지 0부터 프레임 시작
 	m_pImg = IMAGEMANAGER->addImage("player", "image/playerMotion.bmp", 855, 741, 19, 13, true, RGB(0, 64, 128));
 
-
+	//aaaaa
 	// 플레이어의 왼쪽 보고 있을떄의 이미지 18부터 프레임 시작
 	m_pImg2 = IMAGEMANAGER->addImage("player2", "image/playerMotion2.bmp", 855, 741, 19, 13, true, RGB(0, 64, 128));
 
