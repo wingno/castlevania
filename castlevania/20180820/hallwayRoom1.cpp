@@ -204,7 +204,21 @@ void hallwayRoom1::rectColider()
 				break;
 			}
 		}
+
 	}
+
+	for (int i = 0; i < 2; i++)
+	{
+		if (m_rectObj[i].top + 7 > m_pPlayer->getRc().bottom && m_rectObj[i].top - 7 < m_pPlayer->getRc().bottom)
+		{
+			
+			m_pPlayer->setFY(m_rectObj[i].top - 40);
+
+		}
+
+	}
+
+
 }
 
 
