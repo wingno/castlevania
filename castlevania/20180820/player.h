@@ -21,6 +21,8 @@ private:
 	int		m_SildeC;
 
 	int		m_BackC;
+
+	int		m_JumC;
 	float m_Speed;
 	SYNTHESIZE( float, m_fX,Fx);
 	SYNTHESIZE(float, m_fY,FY);
@@ -33,7 +35,7 @@ private:
 	int		m_nLCurrFrameY;
 	int		m_nCount;
 
-	int		m_Gravity;
+	float	m_Gravity;
 
 	// 플레이어가 보고 있는 방향 속성
 	bool	m_PlayerSee;
@@ -43,6 +45,7 @@ private:
 
 	// 플레이어의 점프 모션
 	int		m_PlayerJump;
+	bool	m_PlayerJumpDown;
 
 	// 플레이어의 앉기 모션
 	int		m_PlayerDown;
