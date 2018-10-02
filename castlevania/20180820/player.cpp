@@ -25,7 +25,7 @@ HRESULT player::init()
 	m_JumP = 14.0f;
 	m_Gravity = 10;
 	m_SildeP = 1.0f;
-	m_BackP = 10.0f;
+	m_BackP = 5.0f;
 	m_SildeC = 0;
 	m_BackC = 0;
 
@@ -74,24 +74,19 @@ void player::update()
 	// 키입력시 플레이어의 행동
 
 	// 플레이어 좌우 이동
-	if (KEYMANAGER->isStayKeyDown(VK_RIGHT) && m_PlayerDown == 0)
+	if (KEYMANAGER->isStayKeyDown(VK_RIGHT) && m_PlayerDown == 0 && m_PlayerBackDash == 0)
 	{
 		m_PlayerAttack = 0;
 		m_PlayerSee = 1;
 		m_nRCurrFrameY = 3;
 		m_fX += m_Speed;
-
-		
-
-		
-
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_RIGHT) && m_PlayerDown == 0)
 	{
 		m_nRCurrFrameX = 0;
 		m_nRCurrFrameY = 0;
 	}
-	if (KEYMANAGER->isStayKeyDown(VK_LEFT) && m_PlayerDown == 0)
+	if (KEYMANAGER->isStayKeyDown(VK_LEFT) && m_PlayerDown == 0 && m_PlayerBackDash == 0)
 	{
 		m_PlayerAttack = 0;
 		m_PlayerSee = 0;
@@ -173,7 +168,7 @@ void player::update()
 		}
 		else if (m_PlayerSee == 0)
 		{
-			m_nRCurrFrameX = 17;
+			m_nLCurrFrameX = 17;
 			m_nLCurrFrameY = 4;
 		}
 
@@ -326,7 +321,7 @@ void player::update()
 					m_nRCurrFrameX = 0;
 					m_nRCurrFrameY = 0;
 					m_PlayerBackDash = 0;
-					m_BackP = 10.0f;
+					m_BackP = 5.0f;
 				}
 			}
 		}
@@ -470,7 +465,7 @@ void player::update()
 		else if (m_nLCurrFrameY == 4 && m_PlayerBackDash == 1)
 		{
 			m_fX += m_BackP;
-			m_BackP++;
+			m_BackP--;
 			if (m_nCount % 5 == 0)
 			{
 				m_nLCurrFrameX--;
@@ -480,7 +475,7 @@ void player::update()
 					m_nLCurrFrameX = 18;
 					m_nLCurrFrameY = 0;
 					m_PlayerBackDash = 0;
-					m_BackP = 10.0f;
+					m_BackP = 5.0f;
 				}
 			}
 		}
