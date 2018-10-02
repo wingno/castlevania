@@ -50,7 +50,7 @@ void FountainRoom::update()
 		m_pPlayer->setXCameraOn(false);
 	}
 
-	if (m_posMap.y < 0)
+	if (m_posMap.y < -10)
 	{
 		m_posMap.y = 0;
 		m_pPlayer->setYCameraOn(false);

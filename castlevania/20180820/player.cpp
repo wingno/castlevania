@@ -526,11 +526,13 @@ void player::mapMove()
 	if (m_fX > (WINSIZEX / 2) - 6 && m_fX < (WINSIZEX / 2) + 6)
 	{
 		m_xCameraOn = true;
+		m_fX = WINSIZEX / 2;
 	}
 
-	if (m_fY > (WINSIZEY / 2) - 3 && m_fY < (WINSIZEY / 2) + 3)
+	if (m_fY > (WINSIZEY / 2)+ 75 - 10&& m_fY < (WINSIZEY / 2)+ 75 + 10)
 	{
 		m_yCameraOn = true;
+		m_fY = WINSIZEY / 2 + 75;
 	}
 
 
@@ -549,15 +551,15 @@ void player::mapMove()
 	}
 	if (m_yCameraOn)
 	{
-		if (m_fY < WINSIZEY / 2)
+		if (m_fY < WINSIZEY / 2+ 75)
 		{
-			ROOMMANAGER->mapMove(0, m_fY-WINSIZEY / 2);
-			m_fY = WINSIZEY / 2;
+			ROOMMANAGER->mapMove(0, m_fY- 75 -WINSIZEY / 2);
+			m_fY = WINSIZEY / 2+ 75;
 		}
-		else if (m_fY > WINSIZEY / 2)
+		else if (m_fY > WINSIZEY / 2 + 75)
 		{
-			ROOMMANAGER->mapMove(0, m_fY - WINSIZEY /2);
-			m_fY = WINSIZEY / 2;
+			ROOMMANAGER->mapMove(0, m_fY- 75 - WINSIZEY /2);
+			m_fY = WINSIZEY / 2+ 75;
 		}
 	}
 

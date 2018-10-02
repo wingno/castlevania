@@ -19,8 +19,6 @@ HRESULT battleScene::init()
 
 	m_pPlayer = new player;
 	m_pPlayer->init();
-	m_pPlayer->setFY(78 * 3);
-	m_pPlayer->setFx(59 * 3);
 
 
 	ROOMMANAGER->setPlayer(m_pPlayer);
@@ -32,7 +30,7 @@ HRESULT battleScene::init()
 	ROOMMANAGER->addRoom("FountainRoom", m_pFountainRoom);
 
 
-	ROOMMANAGER->changeRoom("FountainRoom");
+	ROOMMANAGER->changeRoom("hallwayRoom1");
 
 
 
