@@ -53,6 +53,9 @@ HRESULT player::init()
 	// 플레이어의 슬라이딩 모션 초기화
 	m_PlayerSilde = 0;
 
+	// 플레이어의 착지 모션 초기화
+	m_PlayerStand = 0;
+
 	m_rc = RectMakeCenter(m_fX, m_fY, (m_pImg->getFrameWidth()-20)*3, (m_pImg->getFrameHeight() - 20)*3);
 
 	m_xCameraOn = false;
@@ -67,7 +70,7 @@ void player::release()
 
 void player::update()
 {
-	// 플레이어 렉트 업데이트
+	// 중력 적용
 
 	m_fY += m_Gravity;
 	
@@ -105,13 +108,18 @@ void player::update()
 	if (KEYMANAGER->isStayKeyDown('Z') && m_PlayerJump < 3 && m_PlayerDown == 0 && m_PlayerAttack == 0)
 	{
 		m_JumC++;
-		if (m_JumC > 25)
+		m_fY -= m_JumP;
+		if (m_JumC < 25 && m_JumC > 15)
 		{
 			m_JumP = 10;
 		}
-		else
+		else if (m_JumC > 25)
 		{
-			m_fY -= m_JumP;
+			m_JumP--;
+			if (m_JumP <= 0)
+			{
+				m_JumP = 0;
+			}
 		}
 		m_nRCurrFrameY = 7;
 	}
