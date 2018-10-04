@@ -53,6 +53,9 @@ HRESULT player::init()
 	// 플레이어의 슬라이딩 모션 초기화
 	m_PlayerSilde = 0;
 
+	// 플레이어의 착지 모션 초기화
+	m_PlayerStand = 0;
+
 	m_rc = RectMakeCenter(m_fX, m_fY, (m_pImg->getFrameWidth()-20)*3, (m_pImg->getFrameHeight() - 20)*3);
 
 	m_xCameraOn = false;
@@ -67,7 +70,7 @@ void player::release()
 
 void player::update()
 {
-	// 플레이어 렉트 업데이트
+	// 중력 적용
 
 	m_fY += m_Gravity;
 	
@@ -80,7 +83,10 @@ void player::update()
 	{
 		m_PlayerAttack = 0;
 		m_PlayerSee = 1;
-		m_nRCurrFrameY = 3;
+		if (m_PlayerJump == 0)
+		{
+			m_nRCurrFrameY = 3;
+		}
 		m_fX += m_Speed;
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_RIGHT) && m_PlayerDown == 0 && m_PlayerBackDash == 0 && m_PlayerAttack == 0)
@@ -102,22 +108,29 @@ void player::update()
 	}
 
 	// 플레이어 점프
-	if (KEYMANAGER->isStayKeyDown('Z') && m_PlayerJump < 3 && m_PlayerDown == 0 && m_PlayerAttack == 0)
+	if (KEYMANAGER->isStayKeyDown('Z') && m_PlayerJump <= 2 && m_PlayerDown == 0 && m_PlayerAttack == 0)
 	{
 		m_JumC++;
-		if (m_JumC > 25)
+		m_fY -= m_JumP;
+		m_nRCurrFrameY = 6;
+		m_PlayerJump = 1;
+		if (m_JumC < 20 && m_JumC > 10)
 		{
 			m_JumP = 10;
 		}
-		else
+		else if (m_JumC > 20)
 		{
-			m_fY -= m_JumP;
+			m_JumP--;
+			if (m_JumP <= 0)
+			{
+				m_JumP = 0;
+			}
 		}
-		m_nRCurrFrameY = 7;
 	}
 
-	if (KEYMANAGER->isOnceKeyUp('Z') && m_PlayerJump <= 1)
+	if (KEYMANAGER->isOnceKeyUp('Z') && m_PlayerJump <= 2)
 	{
+		m_PlayerJump++;
 		m_PlayerJumpDown = 1;
 		m_JumC = 0;
 		m_JumP = 20.0f;
@@ -141,7 +154,7 @@ void player::update()
 	}
 
 	// 플레이어 앉기
-	if (KEYMANAGER->isStayKeyDown(VK_DOWN) && m_PlayerJump == 0 && m_PlayerAttack == 0)
+	if (KEYMANAGER->isStayKeyDown(VK_DOWN) && m_PlayerAttack == 0)
 	{
 		m_PlayerDown = 1;
 		if (m_PlayerSee == 1)
@@ -243,14 +256,17 @@ void player::update()
 		}
 
 		// 플레이어 점프 자세
-		else if (m_nRCurrFrameY == 7)
+		else if (m_nRCurrFrameY == 6 && m_PlayerJump <= 2)
 		{
 			if (m_nCount % 5 == 0)
 			{
 				m_nRCurrFrameX++;
-				if (m_nRCurrFrameX == 2)
+				if (m_JumC < 20)
 				{
-
+					if (m_nRCurrFrameX == 2)
+					{
+						m_nRCurrFrameX = 0;
+					}
 				}
 				m_pImg->setFrameX(m_nRCurrFrameX);
 				if (m_nRCurrFrameX > m_pImg->getMaxFrameX() - 7)
@@ -262,6 +278,18 @@ void player::update()
 				}
 			}
 		}
+
+		// 플레이어 떨어지는 자세
+		/*else if (m_PlayerStand == 0)
+		{
+			m_nRCurrFrameY = 6;
+			m_nRCurrFrameX = 7;
+			m_nRCurrFrameX++;
+			if (m_nRCurrFrameX == 8)
+			{
+				m_nRCurrFrameX = 7;
+			}
+		}*/
 
 		// 플레이어 앉기 자세
 		else if (m_nRCurrFrameY == 11 && m_PlayerDown == 1 && m_PlayerSilde == 0)
@@ -568,11 +596,11 @@ void player::mapMove()
 
 void player::mapchackCollision()
 {
-
 	for (int y= m_rc.top;y<=m_rc.bottom; y++)
 	{
 
 
+		m_PlayerStand = 0;
 		COLORREF color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
 			m_fX+ ROOMMANAGER->getCurrRoom()->getPosMap().x,
 			y + ROOMMANAGER->getCurrRoom()->getPosMap().y);
@@ -587,15 +615,14 @@ void player::mapchackCollision()
 				if (y>m_fY)
 				{
 					m_fY--;
-
+					m_PlayerStand = 1;
+					m_PlayerJump = 0;
 
 				}
 				else if((y < m_fY))
 				{
 					m_fY++;
 				}
-
-
 			}
 
 			if (y == m_rc.bottom)
@@ -615,13 +642,8 @@ void player::mapchackCollision()
 					if (y > m_fY)
 					{
 						m_fY-=m_Gravity;
-
-
 					}
-
-
 				}
-
 			}
 
 		

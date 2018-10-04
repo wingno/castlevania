@@ -42,7 +42,9 @@ private:
 	int		m_BackC;
 
 	int		m_JumC;
+	
 	float	m_Speed;
+
 	SYNTHESIZE( float, m_fX,Fx);
 	SYNTHESIZE(float, m_fY,FY);
 
@@ -74,6 +76,9 @@ private:
 
 	// 플레이어의 백대쉬 모션
 	bool	m_PlayerBackDash;
+
+	// 플레이어의 착지 모션
+	bool	m_PlayerStand;
 
 	SYNTHESIZE(bool,m_xCameraOn,XCameraOn);
 	SYNTHESIZE(bool, m_yCameraOn, YCameraOn);
