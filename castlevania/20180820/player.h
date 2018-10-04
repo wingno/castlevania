@@ -2,6 +2,23 @@
 class player
 {
 private:
+	struct Status
+	{
+		int str;
+		int con;
+		int intel;
+		int lck;
+
+		int Att;
+		int Def;
+
+		int HP;
+		int MP;
+
+		int exp;
+
+	};
+	
 	// 플레이어 이미지
 	image *	 m_pImg;
 	image *	 m_pImg2;
@@ -11,6 +28,8 @@ private:
 	
 	// 플레이어 속성 값
 
+	Status m_status;
+	int gold;
 
 	float	m_JumP;
 
@@ -23,7 +42,7 @@ private:
 	int		m_BackC;
 
 	int		m_JumC;
-	float m_Speed;
+	float	m_Speed;
 	SYNTHESIZE( float, m_fX,Fx);
 	SYNTHESIZE(float, m_fY,FY);
 
