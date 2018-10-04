@@ -56,6 +56,10 @@ HRESULT player::init()
 	// 플레이어의 착지 모션 초기화
 	m_PlayerStand = 0;
 
+	m_status = { 10,10,12,12,11,11,9,9, 10,10,11,11,320,320,80,80,0,84 };
+
+	gold = 0;
+
 	m_rc = RectMakeCenter(m_fX, m_fY, (m_pImg->getFrameWidth()-20)*3, (m_pImg->getFrameHeight() - 20)*3);
 
 	m_xCameraOn = false;

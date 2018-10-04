@@ -4,18 +4,29 @@ class player
 private:
 	struct Status
 	{
-		int str;
-		int con;
-		int intel;
-		int lck;
+		int curStr;
+		int originStr;
+		int curCon;
+		int originCon;
+		int curInt;
+		int originInt;
+		int currLck;
+		int originLck;
 
-		int Att;
-		int Def;
+		int currAtt;
+		int originAtt;
+		int currDef;
+		int originDef;
 
-		int HP;
-		int MP;
+		int fullHP;
+		int curHP;
+
+		int fullMP;
+		int curMP;
 
 		int exp;
+
+		int nextExp;
 
 	};
 	
