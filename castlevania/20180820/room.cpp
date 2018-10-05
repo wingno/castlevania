@@ -9,14 +9,18 @@ HRESULT room::init()
 
 void room::release()
 {
+	
 }
 
 void room::update()
 {
+	
 }
 
 void room::render(HDC hdc)
 {
+
+
 }
 
 void room::MapMove(float fx, float fy)

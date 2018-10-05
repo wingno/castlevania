@@ -4,6 +4,7 @@ class player
 private:
 	struct Status
 	{
+		
 		int curStr;
 		int originStr;
 		int curCon;
@@ -41,6 +42,7 @@ private:
 
 	Status m_status;
 	int gold;
+
 
 	float	m_JumP;
 

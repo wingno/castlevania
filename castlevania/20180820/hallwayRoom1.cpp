@@ -82,12 +82,16 @@ void hallwayRoom1::update()
 	m_rectObj[1] = RectMake(384 * 3 - m_posMap.x, 24 * 3, 32 * 3, 7 * 3);
 
 	rectColider();
+
+
 }
 
 void hallwayRoom1::render(HDC hdc)
 {
 
 
+	
+	
 
 	m_imgBg->render(hdc, 0, 0, 542, 1839, 240, 160, 3);
 
@@ -186,7 +190,16 @@ void hallwayRoom1::rectColider()
 			switch (i)
 			{
 			case 0:
-				
+				m_pPlayer->setFY(300); //플레이어의시작위치
+				m_pPlayer->setFx(WINSIZEX - (30 * 3));
+
+				ROOMMANAGER->changeRoom("gateroom");
+
+				POINT point;
+				point.x = 500 * 3 - WINSIZEX; //맵의 시작위치
+				point.y = 1500;
+
+				ROOMMANAGER->getCurrRoom()->setPosMap(point);
 				break;
 			case 1:
 				m_pPlayer->setFY(293);

@@ -21,7 +21,7 @@ HRESULT player::init()
 	m_nLCurrFrameY = 0;
 
 	// 플레이어의 속성 초기화
-	m_Speed = 6.0f;
+	m_Speed = 15.0f; //테스팅용으로 
 	m_JumP = 20.0f;
 	m_Gravity = 10.0f;
 	m_SildeP = 10.0f;
@@ -531,6 +531,7 @@ void player::update()
 
 	m_rc = RectMakeCenter(m_fX, m_fY, (m_pImg->getFrameWidth() * 3) / 2, (m_pImg->getFrameHeight() * 3) / 2);
 
+	
 }
 
 void player::render(HDC hdc)
@@ -550,6 +551,9 @@ void player::render(HDC hdc)
 			m_pImg2->frameRender(hdc, m_fX - (m_pImg->getFrameWidth() * 3) / 2 , m_fY - (m_pImg->getFrameHeight() * 3)/2-10, m_nLCurrFrameX, m_nLCurrFrameY,3);
 		}
 	}
+	
+	
+
 }
 
 void player::mapMove()

@@ -8,6 +8,7 @@ class player;
 class roomManager;
 class hallwayRoom1;
 class FountainRoom;
+class gateRoom;
 
 
 
@@ -19,9 +20,14 @@ private:
 	enemyManager*	m_pEnemyMgr;
 	camel*			m_pCamel;
 
+
+
+	//·Ò
 	hallwayRoom1*	m_phallwayRoom1;
 	FountainRoom*	m_pFountainRoom;
-	
+	gateRoom*		m_gateroom;
+
+
 	roomManager*	m_RoomMgr;
 
 

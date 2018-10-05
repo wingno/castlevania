@@ -8,6 +8,7 @@
 #include "hallwayRoom1.h"
 #include "FountainRoom.h"
 #include "player.h"
+#include"gateroom.h"
 
 
 HRESULT battleScene::init()
@@ -23,22 +24,31 @@ HRESULT battleScene::init()
 
 	ROOMMANAGER->setPlayer(m_pPlayer);
 
+
+
+	// ∑Î ¿Ã¥œº»∂Û¿Ã¡Ó
 	m_phallwayRoom1 = new hallwayRoom1;
 	ROOMMANAGER->addRoom("hallwayRoom1", m_phallwayRoom1);
 
 	m_pFountainRoom = new FountainRoom;
 	ROOMMANAGER->addRoom("FountainRoom", m_pFountainRoom);
 
+	m_gateroom = new gateRoom;
+	ROOMMANAGER->addRoom("gateroom", m_gateroom);
+
 
 	ROOMMANAGER->changeRoom("hallwayRoom1");
-
-
 
 	return S_OK;
 }
 
 void battleScene::release()
 {
+	//∑Î ªË¡¶
+	SAFE_DELETE(m_phallwayRoom1);
+	SAFE_DELETE(m_pFountainRoom);
+	SAFE_DELETE(m_gateroom);
+
 
 
 	SAFE_DELETE(m_pPlayer);

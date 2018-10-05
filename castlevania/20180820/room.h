@@ -46,6 +46,7 @@ protected:
 	POINT m_posBG;
 
 
+
 public:
 	virtual HRESULT init();
 	virtual void release();

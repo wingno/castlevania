@@ -10,6 +10,7 @@ private:
 
 	RECT rectGate[3];
 	RECT rectObj[2];
+	char str[128];
 
 public:
 	virtual HRESULT init();
