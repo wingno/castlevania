@@ -9,6 +9,7 @@ private:
 	
 	// 플레이어 렉트
 	SYNTHESIZE (RECT, m_rc,Rc);
+	SYNTHESIZE(RECT, m_Irc, IRC);
 	
 	// 플레이어 속성 값
 

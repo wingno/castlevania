@@ -63,6 +63,7 @@ HRESULT player::init()
 	m_PlayerStand = 0;
 
 	m_rc = RectMakeCenter(m_fX, m_fY, (m_pImg->getFrameWidth()-20)*3, (m_pImg->getFrameHeight() - 20)*3);
+	m_Irc = RectMakeCenter(0, 0, 0, 0);
 
 	m_xCameraOn = false;
 	m_yCameraOn = false;
@@ -156,7 +157,6 @@ void player::update()
 				m_nLCurrFrameX = 12;
 			}
 		}
-		
 	}
 
 	if (KEYMANAGER->isOnceKeyUp('Z') && m_PlayerJump <= 2)
@@ -165,6 +165,7 @@ void player::update()
 		m_PlayerJumpDown = 1;
 		m_PlayerJumpM = 0;
 		m_nRCurrFrameX = 0;
+		m_nRCurrFrameY = 6;
 		m_JumC = 0;
 		m_JumP = 20.0f;
 	}
@@ -281,6 +282,10 @@ void player::update()
 				{
 					m_Item = 1;
 					m_nNCurrFrameX++;
+					if (m_nNCurrFrameX > 3 && m_nNCurrFrameX < 5)
+					{
+						m_Irc = RectMakeCenter(m_fX + 120, m_fY - 40, m_pImg3->getFrameWidth() * 2, m_pImg3->getFrameHeight() * 2);
+					}
 				}
 				m_pImg->setFrameX(m_nRCurrFrameX);
 				m_pImg3->setFrameX(m_nRCurrFrameX);
@@ -307,11 +312,12 @@ void player::update()
 					m_nRCurrFrameX = 0;
 				}
 				m_pImg->setFrameX(m_nRCurrFrameX);
-				if (m_nRCurrFrameX > m_pImg->getMaxFrameX() - 7)
+				if (m_JumC >= 30)
 				{
+					m_JumC = 20;
 					m_nRCurrFrameX = 0;
 					m_PlayerAttack = 0;
-					m_nRCurrFrameY = 0;
+					m_nRCurrFrameY = 6;
 					m_nCount = 0;
 				}
 			}
@@ -582,6 +588,7 @@ void player::render(HDC hdc)
 			if (m_Item)
 			{
 				m_pImg3->frameRender(hdc, m_fX - 30, m_fY - 70, m_nNCurrFrameX, m_nNCurrFrameY, 3);
+				Rectangle(hdc, m_Irc.left, m_Irc.top, m_Irc.right, m_Irc.bottom);
 			}
 		}
 
@@ -635,17 +642,12 @@ void player::mapMove()
 			m_fY = WINSIZEY / 2+ 75;
 		}
 	}
-
-
 }
 
 void player::mapchackCollision()
 {
 	for (int y= m_rc.top;y<=m_rc.bottom; y++)
 	{
-
-
-		
 		COLORREF color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
 			m_fX+ ROOMMANAGER->getCurrRoom()->getMap().x,
 			y + ROOMMANAGER->getCurrRoom()->getMap().y);
@@ -685,23 +687,33 @@ void player::mapchackCollision()
 
 				if (!(r == 0 && g == 88 && b == 24))
 				{
-					if (y > m_fY)
-					{
-						m_PlayerStand = 1;
-						m_PlayerJump = 0;
-						if (m_nRCurrFrameY == 6)
-						{
-							m_nRCurrFrameY = 0;
-							m_nRCurrFrameX = 0;
-						}
+
 						m_fY-=m_Gravity;
+					
+				}
+
+				color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
+					m_fX + ROOMMANAGER->getCurrRoom()->getMap().x,
+					m_rc.bottom + 30 + ROOMMANAGER->getCurrRoom()->getMap().y);
+
+				r = GetRValue(color);
+				g = GetGValue(color);
+				b = GetBValue(color);
+
+				if (!(r == 0 && g == 88 && b == 24))
+				{
+					m_PlayerStand = 1;
+					m_PlayerJump = 0;
+					if (m_nRCurrFrameY == 6)
+					{
+						m_nRCurrFrameY = 0;
+						m_nRCurrFrameX = 0;
 					}
+
 				}
 			}
-
-		
-
 	}
+
 	for (int x = m_rc.left; x < m_rc.right; x++)
 	{
 		COLORREF color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
@@ -727,9 +739,7 @@ void player::mapchackCollision()
 			{
 			m_fX++;
 			}
-
 		}
-
 	}
 }
 
