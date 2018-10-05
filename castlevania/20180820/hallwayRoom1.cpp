@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "hallwayRoom1.h"
 #include "player.h"
+#include"zombi.h"
 
 
 HRESULT hallwayRoom1::init()
@@ -44,10 +45,13 @@ void hallwayRoom1::release()
 		delete m_pMemDCInfo;
 	}
 
+
+
 }
 
 void hallwayRoom1::update()
 {
+	
 
 	if (m_posBG.x >= (2280))
 	{
@@ -89,10 +93,8 @@ void hallwayRoom1::update()
 void hallwayRoom1::render(HDC hdc)
 {
 
-
 	
-	
-
+	//배경
 	m_imgBg->render(hdc, 0, 0, 542, 1839, 240, 160, 3);
 
 
@@ -100,9 +102,13 @@ void hallwayRoom1::render(HDC hdc)
 	
 	m_imgBg->render(hdc, 2280-m_posBG.x, 140, 542, 1725, 240, 100, 3);
 	
-	
-	
+
 	m_imgBg->render(hdc, 0,  0, 521+ m_posMap.x/3, 1551 + m_posMap.y / 3, 400, 160,3);
+
+
+	
+
+	//랙트
 
 	for (int i = 0; i < 3; i++)
 	{

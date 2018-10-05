@@ -9,7 +9,7 @@ class roomManager;
 class hallwayRoom1;
 class FountainRoom;
 class gateRoom;
-
+class zombi;
 
 
 class battleScene : public scene
@@ -21,6 +21,8 @@ private:
 	camel*			m_pCamel;
 
 
+	//Á»ºñ
+	zombi* m_zombi;
 
 	//·Ò
 	hallwayRoom1*	m_phallwayRoom1;

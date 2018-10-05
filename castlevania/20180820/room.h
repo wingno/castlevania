@@ -32,7 +32,7 @@ protected:
 
 	SYNTHESIZE(enemyManager*, m_pEnemyMgr, EnemyMgr);
 	SYNTHESIZE(player*, m_pPlayer, Player);
-
+	SYNTHESIZE(zombi*, m_zombi, zombi);
 
 	SYNTHESIZE(LPMEM_INFO, m_pMemDCInfo, MemDCInfo);
 
