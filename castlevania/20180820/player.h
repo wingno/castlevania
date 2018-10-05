@@ -39,7 +39,7 @@ private:
 	
 	// 플레이어 속성 값
 
-	Status m_status;
+	SYNTHESIZE(Status ,m_status,State);
 	int gold;
 
 	float	m_JumP;

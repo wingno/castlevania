@@ -5,6 +5,9 @@
 #include "scoreScene.h"
 #include "selectScene.h"
 #include "spaceShip.h"
+#include "menuScene.h"
+#include "player.h"
+
 
 /*
 	게임 window 창띄우기 (winmain () )
@@ -24,7 +27,8 @@ HRESULT mainGame::init()
 	//변수
 	m_nscore = 0;
 
-	
+	m_pPlayer = new player;
+	m_pPlayer->init();
 
 	//HANDLE hTimer = (HANDLE)SetTimer(g_hWnd, 1, 10, NULL);
 	KEYMANAGER->init();
@@ -36,7 +40,6 @@ HRESULT mainGame::init()
 
 	EFFECTMANAGER->addEffect("explosion1", "image/explosion.bmp", 832, 62, 32, 62, 30, 10);
 
-	m_pspaceShip =NULL;
 
 
 	/*m_pTitleScene = new titleScene;
@@ -45,6 +48,9 @@ HRESULT mainGame::init()
 	m_pBattleScene = new battleScene;
 	SCENEMANAGER->addScene("battle", m_pBattleScene);
 
+	m_pmenuScene = new menuScene;
+	SCENEMANAGER->addScene("menu", m_pmenuScene);
+
 	//m_pscoreScene = new scoreScene;
 	//SCENEMANAGER->addScene("score", m_pscoreScene);
 
@@ -52,7 +58,8 @@ HRESULT mainGame::init()
 	//SCENEMANAGER->addScene("select", m_pselectScene);
 
 
-	SCENEMANAGER->changeScene("battle");
+
+	SCENEMANAGER->changeScene("menu");
 	
 
 	//m_pBattleScene->setIsScore(&m_nscore);
@@ -108,7 +115,7 @@ void mainGame::release()
 	TIMEMANAGER->releaseSingleton();
 	SCENEMANAGER->releaseSingleton();
 
-	if (m_pspaceShip) delete m_pspaceShip;
+	SAFE_DELETE(m_pPlayer);
 }
 
 LRESULT mainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
@@ -150,7 +157,8 @@ void mainGame::render()
 
 
 	SCENEMANAGER->render(backDC);
-
+	
+	TIMEMANAGER->render(backDC);
 
 	m_pBackBuffer->render(hdc, 0, 0);
 }

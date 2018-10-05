@@ -3,7 +3,9 @@ class titleScene;
 class battleScene;
 class scoreScene;
 class selectScene;
+class menuScene;
 class spaceShip;
+class player;
 
 class mainGame
 {
@@ -19,7 +21,7 @@ private:
 
 	int m_nscore;
 
-	spaceShip* m_pspaceShip;
+	SYNTHESIZE( player*, m_pPlayer,Player);
 
 
 	// save load test
@@ -30,6 +32,7 @@ private:
 	battleScene*	m_pBattleScene;
 	scoreScene*		m_pscoreScene;
 	selectScene*	m_pselectScene;
+	menuScene*		m_pmenuScene;
 
 public:
 	HRESULT init();
@@ -37,8 +40,7 @@ public:
 	void update();
 	void render();
 
-	inline void setISpaceShip(spaceShip* SpaceShip) { m_pspaceShip = SpaceShip; }
-	inline spaceShip* getISpaceShip() { return m_pspaceShip; }
+
 
 
 	LRESULT MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam);

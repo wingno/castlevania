@@ -166,6 +166,7 @@
     <ClInclude Include="keyManager.h" />
     <ClInclude Include="loadingScene.h" />
     <ClInclude Include="mainGame.h" />
+    <ClInclude Include="menuScene.h" />
     <ClInclude Include="missile.h" />
     <ClInclude Include="missileManager.h" />
     <ClInclude Include="player.h" />
@@ -206,6 +207,7 @@
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="loadingScene.cpp" />
     <ClCompile Include="mainGame.cpp" />
+    <ClCompile Include="menuScene.cpp" />
     <ClCompile Include="missile.cpp" />
     <ClCompile Include="missileManager.cpp" />
     <ClCompile Include="player.cpp" />

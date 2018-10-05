@@ -15,10 +15,9 @@ HRESULT battleScene::init()
 	IMAGEMANAGER->addImage("background", "image/background.bmp", WINSIZEX, WINSIZEY, false, 0);
 
 	
+	m_pPlayer = g_mainGame.getPlayer();
 
 
-	m_pPlayer = new player;
-	m_pPlayer->init();
 
 
 	ROOMMANAGER->setPlayer(m_pPlayer);
@@ -41,7 +40,6 @@ void battleScene::release()
 {
 
 
-	SAFE_DELETE(m_pPlayer);
 }
 
 void battleScene::update()
