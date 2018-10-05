@@ -5,6 +5,7 @@ private:
 	// 플레이어 이미지
 	image *	 m_pImg;
 	image *	 m_pImg2;
+	image *	 m_pImg3;
 	
 	// 플레이어 렉트
 	SYNTHESIZE (RECT, m_rc,Rc);
@@ -39,6 +40,11 @@ private:
 
 	float	m_Gravity;
 
+	int		m_nNCurrFrameX;
+	int		m_nNCurrFrameY;
+
+	bool	m_Item;
+
 	// 플레이어가 보고 있는 방향 속성
 	bool	m_PlayerSee;
 
@@ -47,6 +53,7 @@ private:
 
 	// 플레이어의 점프 모션
 	int		m_PlayerJump;
+	bool	m_PlayerJumpM;
 	bool	m_PlayerJumpDown;
 
 	// 플레이어의 앉기 모션
