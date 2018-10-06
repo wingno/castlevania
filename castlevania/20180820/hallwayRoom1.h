@@ -2,6 +2,7 @@
 #include "room.h"
 
 class image;
+class zombie;
 
 
 class hallwayRoom1:public room
@@ -10,6 +11,8 @@ private:
 
 	RECT rectGate[3];
 	RECT rectObj[2];
+
+	zombie* m_Zombie;
 
 public:
 	virtual HRESULT init();
