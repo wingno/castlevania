@@ -23,11 +23,7 @@ HRESULT battleScene::init()
 	m_pPlayer->init();
 	ROOMMANAGER->setPlayer(m_pPlayer);
 
-	//Á»ºñ
-
-	m_zombi = new zombi;
-	m_zombi->init(500, 350);
-	ROOMMANAGER->setzombi(m_zombi);
+	
 
 
 	// ·ë ÀÌ´Ï¼È¶óÀÌÁî
@@ -54,9 +50,8 @@ void battleScene::release()
 	SAFE_DELETE(m_gateroom);
 
 
-
 	SAFE_DELETE(m_pPlayer);
-	SAFE_DELETE(m_zombi);
+
 
 }
 
@@ -65,10 +60,7 @@ void battleScene::update()
 
 	m_pPlayer->update();
 
-	m_zombi->update();
-
 	ROOMMANAGER->update();
-
 
 
 
@@ -81,8 +73,6 @@ void battleScene::render(HDC hdc)
 
 	ROOMMANAGER->render(hdc);
 	m_pPlayer->render(hdc);
-
-	m_zombi->render(hdc);
 
 	
 }

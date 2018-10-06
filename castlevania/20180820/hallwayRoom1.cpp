@@ -13,10 +13,10 @@ HRESULT hallwayRoom1::init()
 
 	m_posMap = PointMake(0, 0);
 	m_posBG = PointMake(0, 0);
+	m_zobiw = PointMake(450, 350);
 
 
-
-	m_rectGate =rectGate;
+	m_rectGate = rectGate;
 	m_rectObj = rectObj;
 
 
@@ -29,13 +29,15 @@ HRESULT hallwayRoom1::init()
 	m_rectObj[1] = RectMake(386 * 3, 47 * 3, 32 * 3, 7 * 3);
 
 
-
+	m_zombi = new zombi;
+	m_zombi->init(m_zobiw.x  , m_zobiw.y);
 
 	return S_OK;
 }
 
 void hallwayRoom1::release()
 {
+	
 	if (m_pMemDCInfo)
 	{
 		SelectObject(m_pMemDCInfo->hMemDC, m_pMemDCInfo->hOldBitmap);
@@ -45,13 +47,13 @@ void hallwayRoom1::release()
 		delete m_pMemDCInfo;
 	}
 
-
+	
 
 }
 
 void hallwayRoom1::update()
 {
-	
+	m_zombi->MOVE();
 
 	if (m_posBG.x >= (2280))
 	{
@@ -84,6 +86,9 @@ void hallwayRoom1::update()
 
 	m_rectObj[0] = RectMake(384 * 3 - m_posMap.x, 80 * 3, 32 * 3, 7 * 3);
 	m_rectObj[1] = RectMake(384 * 3 - m_posMap.x, 24 * 3, 32 * 3, 7 * 3);
+	
+
+
 
 	rectColider();
 
@@ -106,7 +111,7 @@ void hallwayRoom1::render(HDC hdc)
 	m_imgBg->render(hdc, 0,  0, 521+ m_posMap.x/3, 1551 + m_posMap.y / 3, 400, 160,3);
 
 
-	
+	m_zombi->render(hdc);
 
 	//·¢Æ®
 

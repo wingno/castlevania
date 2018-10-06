@@ -1,16 +1,15 @@
 #pragma once
 
 class image;
-
+class room;
 
 class zombi
 {
 
 	image* m_zombi;
 	RECT	m_rc;
-	SYNTHESIZE(POINT, m_posMap, PosMap);
-
-
+	
+	room* m_rom;
 
 	//¾Ö³Ê¹Ì 1
 	float zombiX, zombiy;
@@ -21,17 +20,19 @@ class zombi
 	bool Alive;
 
 public:
-	zombi();
-	~zombi();
-
-	inline bool getlive() { return Alive; }
-	inline void setlive(bool live) { Alive = live; }
 	
-
-
 	HRESULT init(int startX, int startY);
 	void release();
 	void update();
 	void render(HDC hdc);
+	void MOVE();
+
+	inline bool getlive() { return Alive; }
+	inline void setlive(bool live) { Alive = live; }
+	
+	zombi();
+	~zombi();
+
+
 };
 

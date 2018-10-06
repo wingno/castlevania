@@ -19,7 +19,7 @@ private:
 	SYNTHESIZE( enemyManager*,	m_pEnemyMgr,EnemyMgr);
 	SYNTHESIZE( player*	, m_pPlayer,Player);
 
-	SYNTHESIZE(zombi*, m_zombi, zombi);
+	
 	
 
 
