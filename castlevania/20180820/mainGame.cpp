@@ -59,7 +59,7 @@ HRESULT mainGame::init()
 
 
 
-	SCENEMANAGER->changeScene("menu");
+	SCENEMANAGER->changeScene("battle");
 	
 
 	//m_pBattleScene->setIsScore(&m_nscore);

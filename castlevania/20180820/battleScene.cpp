@@ -12,7 +12,7 @@
 
 HRESULT battleScene::init()
 {
-	IMAGEMANAGER->addImage("background", "image/background.bmp", WINSIZEX, WINSIZEY, false, 0);
+	IMAGEMANAGER->addImage("background", "image/mapImage.bmp", WINSIZEX, WINSIZEY, false, 0);
 
 	
 	m_pPlayer = g_mainGame.getPlayer();
@@ -48,6 +48,11 @@ void battleScene::update()
 	m_pPlayer->update();
 
 	ROOMMANAGER->update();
+
+	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+	{
+		SCENEMANAGER->changeScene("menu");
+	}
 
 }
 

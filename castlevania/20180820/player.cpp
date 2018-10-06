@@ -58,7 +58,7 @@ HRESULT player::init()
 
 	m_status = { 10,10,12,12,11,11,9,9, 10,10,11,11,320,320,80,80,0,84 };
 
-	gold = 0;
+	m_nGold = 0;
 
 	m_rc = RectMakeCenter(m_fX, m_fY, (m_pImg->getFrameWidth()-20)*3, (m_pImg->getFrameHeight() - 20)*3);
 
@@ -207,6 +207,7 @@ void player::update()
 		}
 
 	}
+
 
 	// 플레이어가 우측 방향을 보고 있을 떄 프레임 모션 지정
 	if (m_PlayerSee == 1)

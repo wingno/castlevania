@@ -177,6 +177,9 @@
     <ClInclude Include="menuScene.h">
       <Filter>MainGame\scene</Filter>
     </ClInclude>
+    <ClInclude Include="menuProgressBar.h">
+      <Filter>2DGameFramework\progressBar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -283,6 +286,9 @@
     </ClCompile>
     <ClCompile Include="menuScene.cpp">
       <Filter>MainGame\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="menuProgressBar.cpp">
+      <Filter>2DGameFramework\progressBar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

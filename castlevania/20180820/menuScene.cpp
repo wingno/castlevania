@@ -1,24 +1,78 @@
 #include "stdafx.h"
 #include "menuScene.h"
 #include "player.h"
+#include "menuProgressBar.h"
+
 
 
 HRESULT menuScene::init()
 {
 	m_imgMenu = IMAGEMANAGER->addImage("image/menu.bmp", "image/menu.bmp", WINSIZEX, WINSIZEY, false, 0);
 
+	m_imgSeleter = IMAGEMANAGER->addImage("image/seleter.bmp", "image/seleter.bmp", 16, 16, true, RGB(255,0,255));
+
 	m_pPlayer = g_mainGame.getPlayer();
 
+	m_pHpBar = new menuProgressBar;
+
+	m_pMpBar = new menuProgressBar;
+
+	m_pHpBar->init(WINSIZEX / 2 + 100, 50, 190, 24, true);
+
+	m_pMpBar->init(WINSIZEX / 2 + 100, 80, 190, 24, false);
+
+	m_pHpBar->setGauge(m_pPlayer->getState().curHP, m_pPlayer->getState().fullHP);
+	m_pMpBar->setGauge(m_pPlayer->getState().curMP, m_pPlayer->getState().fullMP);
+
+	m_seleter = {0,0,true,2.5f};
+
+	m_state = MENU;
+
+	m_bIsChangeScene = false;
+
+	m_nAlphaNum = 0;
 
 	return S_OK;
 }
 
 void menuScene::release()
 {
+
+	SAFE_DELETE(m_pHpBar);
+	SAFE_DELETE(m_pMpBar);
 }
 
 void menuScene::update()
 {
+	switch (m_state)
+	{
+	case MENU:
+		menuUpdate();
+		break;
+	case EQUIT:
+		break;
+	case ITEM:
+		break;
+
+	default:
+		break;
+	}
+
+
+	if (m_bIsChangeScene)
+	{
+		
+		
+		if (m_nAlphaNum < 200)
+		{
+			m_nAlphaNum+=50;
+		}
+		else
+		{
+			SCENEMANAGER->changeScene("battle");
+		}
+
+	}
 }
 
 void menuScene::render(HDC hdc)
@@ -26,8 +80,23 @@ void menuScene::render(HDC hdc)
 	HFONT hFont= CreateFont(30, 0, 0, 0, 0, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, "Slabberton");;
 	HFONT oldFont = (HFONT)SelectObject(hdc, hFont);
 
+	switch (m_state)
+	{
+	case MENU:
+		menuRander(hdc, hFont, oldFont);
+		break;
+	case EQUIT:
+		break;
+	case ITEM:
+		break;
 
-	menuRander(hdc, hFont, oldFont);
+	default:
+		break;
+	}
+
+	
+
+	IMAGEMANAGER->findImage("background")->alphaRender(hdc, m_nAlphaNum);
 
 	SelectObject(hdc, oldFont);
 	DeleteObject(hFont);
@@ -40,6 +109,7 @@ void menuScene::menuRander(HDC hdc,HFONT hFont, HFONT oldFont)
 	char str[300];
 
 	m_imgMenu->render(hdc, 0, 0);
+
 
 
 	// 1. 폰트 추가하기. 
@@ -93,8 +163,134 @@ void menuScene::menuRander(HDC hdc,HFONT hFont, HFONT oldFont)
 	TextOut(hdc, WINSIZEX / 2 - 120, 210, str, lstrlen(str));
 
 
+	//경험치
+	sprintf_s(str, "EXP           %d", m_pPlayer->getState().exp);
+	TextOut(hdc, WINSIZEX / 2 - 40, 290, str, lstrlen(str));
+
+	sprintf_s(str, "NEXT         %d", m_pPlayer->getState().nextExp- m_pPlayer->getState().exp);
+	TextOut(hdc, WINSIZEX / 2 - 40, 310, str, lstrlen(str));
+
+	//돈
+	SetTextColor(hdc, RGB(243, 206, 91));
+	sprintf_s(str, "GOLD : %d   ",m_pPlayer->getGold());
+	TextOut(hdc, WINSIZEX / 2+50, 210, str, lstrlen(str));
 
 
+	//메뉴바
+	SetTextColor(hdc, RGB(158, 159, 153));
+
+	sprintf_s(str, "SOUL SET");
+	TextOut(hdc, 40, 290, str, lstrlen(str));
+
+	sprintf_s(str, "EQUIP");
+	TextOut(hdc, 40, 330, str, lstrlen(str));
+
+	sprintf_s(str, "ITEM USE");
+	TextOut(hdc, 40, 370, str, lstrlen(str));
+
+	sprintf_s(str, "EXIT");
+	TextOut(hdc, 40, 410, str, lstrlen(str));
+
+
+
+
+	SetTextColor(hdc, RGB(255, 255, 255));
+	switch (m_seleter.Select)
+	{
+		case 0:
+			sprintf_s(str, "SOUL SET");
+			TextOut(hdc, 40, 290, str, lstrlen(str));
+			break;
+		case 1:
+			sprintf_s(str, "EQUIP");
+			TextOut(hdc, 40, 330, str, lstrlen(str));
+			break;
+		case 2:
+			sprintf_s(str, "ITEM USE");
+			TextOut(hdc, 40, 370, str, lstrlen(str));
+			break;
+		case 3:
+			sprintf_s(str, "EXIT");
+			TextOut(hdc, 40, 410, str, lstrlen(str));
+			break;
+		default:
+			break;
+	}
+
+
+	m_imgSeleter->render(hdc, -5- m_seleter.SelectMover, 270 + (40*m_seleter.Select), 3);
+
+
+	m_pHpBar->render(hdc);
+	m_pMpBar->render(hdc);
+
+
+}
+
+void menuScene::menuUpdate()
+{
+	if (KEYMANAGER->isOnceKeyDown(VK_UP))
+	{
+		if (m_seleter.Select > 0)
+		{
+			m_seleter.Select--;
+
+		}
+		else
+		{
+			m_seleter.Select = 3;
+		}
+
+	}
+	else if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+	{
+
+		if (m_seleter.Select < 3)
+		{
+			m_seleter.Select++;
+
+		}
+		else
+		{
+			m_seleter.Select = 0;
+		}
+		
+	}
+
+	if (KEYMANAGER->isOnceKeyDown('Z'))
+	{
+		switch (m_seleter.Select)
+		{
+		case 0:
+			m_state = EQUIT;
+			break;
+		case 1:
+			m_state = EQUIT;
+			break;
+		case 2:
+			m_state = ITEM;
+			break;
+		case 3:
+			m_bIsChangeScene = true;
+			break;
+		default:
+			break;
+		}
+	}
+
+	if (m_seleter.SelectMover <= 0)
+	{
+		m_seleter.isLeft = true;
+	}
+	else if (m_seleter.SelectMover >= 30)
+	{
+		m_seleter.isLeft = false;
+	}
+
+	if (m_seleter.isLeft)
+		m_seleter.SelectMover+= m_seleter.speed;
+	else
+		m_seleter.SelectMover-= m_seleter.speed;
 
 }
 

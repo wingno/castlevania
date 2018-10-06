@@ -40,7 +40,7 @@ private:
 	// 플레이어 속성 값
 
 	SYNTHESIZE(Status ,m_status,State);
-	int gold;
+	SYNTHESIZE(int, m_nGold, Gold);;
 
 	float	m_JumP;
 
@@ -90,6 +90,7 @@ private:
 
 	// 플레이어의 착지 모션
 	bool	m_PlayerStand;
+
 
 	SYNTHESIZE(bool,m_xCameraOn,XCameraOn);
 	SYNTHESIZE(bool, m_yCameraOn, YCameraOn);
