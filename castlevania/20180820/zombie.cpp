@@ -111,8 +111,6 @@ void zombie::update()
 					zombidead = false;
 
 				}
-
-
 			}
 			if (zombidead == false)
 			{
@@ -120,10 +118,6 @@ void zombie::update()
 				zombiFY = 0;
 				zombiFX = 0;
 			}
-
-
-
-
 		}
 	}
 }
