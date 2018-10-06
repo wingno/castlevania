@@ -225,7 +225,7 @@ void hallwayRoom1::rectColider()
 void hallwayRoom1::checkCollision()
 {
 	RECT rc;
-	if (m_Zombie->getAlive() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_Zombie->getrc()));
+	if (m_Zombie->getAlive() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_Zombie->getrc()))
 	{
 		m_Zombie->setAlive(false);
 	}

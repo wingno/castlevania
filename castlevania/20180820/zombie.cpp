@@ -9,7 +9,7 @@ HRESULT zombie::init(int startX, int startY)
 	m_zombi = IMAGEMANAGER->addImage("M1", "MONSTER/NEWZOMBI.bmp", 140, 80, 7, 2, true, RGB(84, 109, 142));
 
 
-
+	
 
 	zombiX = startX;
 	//350
