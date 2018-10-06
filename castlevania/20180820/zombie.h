@@ -7,7 +7,7 @@ class zombie
 {
 
 	image* m_zombi;
-	RECT	m_rc;
+	SYNTHESIZE(RECT, m_rc, rc);
 	SYNTHESIZE(POINT, m_posMap, PosMap);
 
 
@@ -18,7 +18,7 @@ class zombie
 	int zombiIDX;
 	int  zombicount;
 	bool  zombimove, zombistand, zombidead;
-	SYNTHESIZE(bool, m_Alive, Avlie);
+	SYNTHESIZE(bool, m_Alive, Alive);
 
 public:
 	zombie();

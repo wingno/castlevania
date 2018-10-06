@@ -22,6 +22,7 @@ public:
 
 	void colliderMake();
 	void rectColider();
+	void checkCollision();
 
 	hallwayRoom1();
 	~hallwayRoom1();

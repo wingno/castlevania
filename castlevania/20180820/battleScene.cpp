@@ -51,6 +51,7 @@ void battleScene::update()
 
 	ROOMMANAGER->update();
 
+	//m_phallwayRoom1->checkCollision();
 }
 
 void battleScene::render(HDC hdc)

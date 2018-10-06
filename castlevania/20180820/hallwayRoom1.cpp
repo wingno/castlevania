@@ -15,7 +15,7 @@ HRESULT hallwayRoom1::init()
 	m_posBG = PointMake(0, 0);
 
 	m_Zombie = new zombie;
-	m_Zombie->init(350, 310);
+	m_Zombie->init(500, 350);
 
 	m_rectGate =rectGate;
 	m_rectObj = rectObj;
@@ -86,6 +86,7 @@ void hallwayRoom1::update()
 	m_rectObj[1] = RectMake(384 * 3 - m_posMap.x, 24 * 3, 32 * 3, 7 * 3);
 
 	rectColider();
+	checkCollision();
 }
 
 void hallwayRoom1::render(HDC hdc)
@@ -180,9 +181,6 @@ void hallwayRoom1::colliderMake()
 
 void hallwayRoom1::rectColider()
 {
-
-
-
 	for (int i = 0; i < 3; i++)
 	{
 		RECT rc;
@@ -222,10 +220,16 @@ void hallwayRoom1::rectColider()
 		}
 
 	}
-
-
 }
 
+void hallwayRoom1::checkCollision()
+{
+	RECT rc;
+	if (m_Zombie->getAlive() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_Zombie->getrc()));
+	{
+		m_Zombie->setAlive(false);
+	}
+}
 
 
 
