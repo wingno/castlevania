@@ -2,7 +2,7 @@
 #include "hallwayRoom1.h"
 #include "player.h"
 #include"zombi.h"
-
+#include "SkeletonArcher.h"
 
 HRESULT hallwayRoom1::init()
 {
@@ -13,8 +13,8 @@ HRESULT hallwayRoom1::init()
 
 	m_posMap = PointMake(0, 0);
 	m_posBG = PointMake(0, 0);
-	m_zobiw = PointMake(450, 350);
-
+	m_zobiw = PointMake(300, 350);
+	m_Archerw = PointMake(500, 360);
 
 	m_rectGate = rectGate;
 	m_rectObj = rectObj;
@@ -30,8 +30,11 @@ HRESULT hallwayRoom1::init()
 
 
 	m_zombi = new zombi;
-	m_zombi->init(m_zobiw.x  , m_zobiw.y);
+	m_zombi->init(m_zobiw.x, m_zobiw.y);
 
+	m_Archer = new SkeletonArcher;
+	m_Archer->init(m_Archerw.x, m_Archerw.y);
+	
 	return S_OK;
 }
 
@@ -53,7 +56,9 @@ void hallwayRoom1::release()
 
 void hallwayRoom1::update()
 {
-	m_zombi->MOVE();
+	m_zombi->update();
+	m_Archer->update();
+
 
 	if (m_posBG.x >= (2280))
 	{
@@ -112,7 +117,7 @@ void hallwayRoom1::render(HDC hdc)
 
 
 	m_zombi->render(hdc);
-
+	m_Archer->render(hdc);
 	//·¢Æ®
 
 	for (int i = 0; i < 3; i++)

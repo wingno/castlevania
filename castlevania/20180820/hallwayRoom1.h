@@ -3,6 +3,7 @@
 
 class image;
 class zombi;
+class SkeletonArcher;
 
 class hallwayRoom1:public room
 {
@@ -12,6 +13,10 @@ private:
 	RECT rectObj[2];
 
 	zombi* m_zombi;
+	SkeletonArcher* m_Archer;
+
+
+
 
 public:
 	virtual HRESULT init();

@@ -31,6 +31,7 @@ HRESULT zombi::init(int startX, int startY)
 
 void zombi::release()
 {
+	//얼라이브를 추가할예정이였고 얼라이브가 false가되면 릴리즈해주는형식으로 만들려고했음
 
 }
 

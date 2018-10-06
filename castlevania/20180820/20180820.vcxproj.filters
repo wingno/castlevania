@@ -177,6 +177,9 @@
     <ClInclude Include="zombi.h">
       <Filter>MainGame\enemy</Filter>
     </ClInclude>
+    <ClInclude Include="SkeletonArcher.h">
+      <Filter>MainGame\enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -282,6 +285,9 @@
       <Filter>MainGame\room</Filter>
     </ClCompile>
     <ClCompile Include="zombi.cpp">
+      <Filter>MainGame\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="SkeletonArcher.cpp">
       <Filter>MainGame\enemy</Filter>
     </ClCompile>
   </ItemGroup>
