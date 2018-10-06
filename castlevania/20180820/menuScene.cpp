@@ -9,6 +9,10 @@ HRESULT menuScene::init()
 {
 	m_imgMenu = IMAGEMANAGER->addImage("image/menu.bmp", "image/menu.bmp", WINSIZEX, WINSIZEY, false, 0);
 
+	m_imgSoulSet = IMAGEMANAGER->addImage("image/soul.bmp", "image/soul.bmp", WINSIZEX, WINSIZEY, false, 0);
+
+	m_imgEquit= IMAGEMANAGER->addImage("image/arms.bmp", "image/arms.bmp", WINSIZEX, WINSIZEY, false, 0);
+
 	m_imgSeleter = IMAGEMANAGER->addImage("image/seleter.bmp", "image/seleter.bmp", 16, 16, true, RGB(255,0,255));
 
 	m_pPlayer = g_mainGame.getPlayer();
@@ -49,7 +53,11 @@ void menuScene::update()
 	case MENU:
 		menuUpdate();
 		break;
+	case SOUL_SET:
+		sourSetupdate();
+		break;
 	case EQUIT:
+		equitupdate();
 		break;
 	case ITEM:
 		break;
@@ -57,6 +65,24 @@ void menuScene::update()
 	default:
 		break;
 	}
+
+	if (m_state != MENU)
+	{
+		if (KEYMANAGER->isOnceKeyDown('X'))
+		{
+			m_state = MENU;
+		}
+
+		
+	}
+	else
+	{
+		if (KEYMANAGER->isOnceKeyDown('X'))
+		{
+			m_bIsChangeScene = true;
+		}
+	}
+
 
 
 	if (m_bIsChangeScene)
@@ -77,15 +103,22 @@ void menuScene::update()
 
 void menuScene::render(HDC hdc)
 {
+	AddFontResourceA("font/Slabberton.ttf");
+
 	HFONT hFont= CreateFont(30, 0, 0, 0, 0, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, "Slabberton");;
 	HFONT oldFont = (HFONT)SelectObject(hdc, hFont);
+
 
 	switch (m_state)
 	{
 	case MENU:
 		menuRander(hdc, hFont, oldFont);
 		break;
+	case SOUL_SET:
+		sourSetRander(hdc, hFont, oldFont);
+		break;
 	case EQUIT:
+		equitRander(hdc, hFont, oldFont);
 		break;
 	case ITEM:
 		break;
@@ -96,7 +129,11 @@ void menuScene::render(HDC hdc)
 
 	
 
-	IMAGEMANAGER->findImage("background")->alphaRender(hdc, m_nAlphaNum);
+	if (m_bIsChangeScene)
+	{
+		IMAGEMANAGER->findImage("background")->alphaRender(hdc, m_nAlphaNum);
+
+	}
 
 	SelectObject(hdc, oldFont);
 	DeleteObject(hFont);
@@ -113,7 +150,7 @@ void menuScene::menuRander(HDC hdc,HFONT hFont, HFONT oldFont)
 
 
 	// 1. 폰트 추가하기. 
-	AddFontResourceA("font/Slabberton.ttf");
+
 
 
 	SetTextColor(hdc, RGB(243, 122, 40));
@@ -262,7 +299,7 @@ void menuScene::menuUpdate()
 		switch (m_seleter.Select)
 		{
 		case 0:
-			m_state = EQUIT;
+			m_state = SOUL_SET;
 			break;
 		case 1:
 			m_state = EQUIT;
@@ -291,6 +328,25 @@ void menuScene::menuUpdate()
 		m_seleter.SelectMover+= m_seleter.speed;
 	else
 		m_seleter.SelectMover-= m_seleter.speed;
+
+}
+
+void menuScene::sourSetRander(HDC hdc, HFONT hFont, HFONT oldFont)
+{
+	m_imgSoulSet->render(hdc, 0, 0);
+}
+
+void menuScene::sourSetupdate()
+{
+}
+
+void menuScene::equitRander(HDC hdc, HFONT hFont, HFONT oldFont)
+{
+	m_imgEquit->render(hdc, 0, 0);
+}
+
+void menuScene::equitupdate()
+{
 
 }
 

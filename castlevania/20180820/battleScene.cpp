@@ -31,6 +31,9 @@ HRESULT battleScene::init()
 
 	ROOMMANAGER->changeRoom("hallwayRoom1");
 
+	m_bIsChangeScene = false;
+
+	m_nAlphaNum = 0;
 
 
 	return S_OK;
@@ -51,7 +54,23 @@ void battleScene::update()
 
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 	{
-		SCENEMANAGER->changeScene("menu");
+		m_bIsChangeScene = true;
+
+	}
+
+	if (m_bIsChangeScene)
+	{
+
+
+		if (m_nAlphaNum < 200)
+		{
+			m_nAlphaNum += 50;
+		}
+		else
+		{
+			SCENEMANAGER->changeScene("menu");
+		}
+
 	}
 
 }
@@ -63,6 +82,12 @@ void battleScene::render(HDC hdc)
 
 	ROOMMANAGER->render(hdc);
 	m_pPlayer->render(hdc);
+
+	if (m_bIsChangeScene)
+	{
+		IMAGEMANAGER->findImage("background")->alphaRender(hdc, m_nAlphaNum);
+
+	}
 
 
 	

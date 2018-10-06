@@ -25,7 +25,6 @@ private:
 	roomManager*	m_RoomMgr;
 
 
-
 	player*			m_pPlayer;
 
 	int m_nstage;
@@ -35,6 +34,12 @@ private:
 	int m_nselectNum;
 
 	bool m_benemyIsSetting;
+
+	bool m_bIsChangeScene;
+
+
+
+	int m_nAlphaNum;
 
 	
 

@@ -8,7 +8,7 @@ class menuScene :public scene
 private:
 	enum SceneState
 	{
-		MENU, EQUIT, ITEM,
+		MENU,SOUL_SET, EQUIT, ITEM,
 	};
 	struct seleter
 	{
@@ -20,6 +20,9 @@ private:
 
 
 	image*	m_imgMenu;
+	image*	m_imgEquit;
+	image*	m_imgSoulSet;
+
 
 	image*	m_imgSeleter;
 
@@ -44,6 +47,10 @@ public:
 
 	void menuRander(HDC hdc ,HFONT hFont ,HFONT oldFont);
 	void menuUpdate();
+	void sourSetRander(HDC hdc, HFONT hFont, HFONT oldFont);
+	void sourSetupdate();
+	void equitRander(HDC hdc, HFONT hFont, HFONT oldFont);
+	void equitupdate();
 
 	menuScene();
 	~menuScene();
