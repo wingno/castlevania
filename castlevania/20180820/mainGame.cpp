@@ -45,14 +45,14 @@ HRESULT mainGame::init()
 	m_pBattleScene = new battleScene;
 	SCENEMANAGER->addScene("battle", m_pBattleScene);
 
-	//m_pscoreScene = new scoreScene;
-	//SCENEMANAGER->addScene("score", m_pscoreScene);
 
-	//m_pselectScene = new selectScene;
-	//SCENEMANAGER->addScene("select", m_pselectScene);
+	m_pTitleScene = new titleScene;
+	SCENEMANAGER->addScene("titleScene", m_pTitleScene);
 
 
-	SCENEMANAGER->changeScene("battle");
+
+
+	SCENEMANAGER->changeScene("titleScene");
 	
 
 	//m_pBattleScene->setIsScore(&m_nscore);

@@ -93,6 +93,9 @@ public:
 
 	void frameRender(HDC hdc, int destX, int destY, int currFrameX, int currFrameY, float scale);
 
+	void frameRender(HDC hdc, int destX, int destY,
+		int currFrameX, int currFrameY, int sourWidth, int sourHeight);
+
 	// ¾ËÆÄ ºí·»µå ·»´õ
 	void alphaRender(HDC hdc, BYTE alpha);
 	void alphaRender(HDC hdc, int destX, int destY, BYTE alpha);
