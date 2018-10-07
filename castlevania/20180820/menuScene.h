@@ -23,12 +23,21 @@ private:
 	image*	m_imgEquit;
 	image*	m_imgSoulSet;
 
+	image*	m_imgRArrow;
+	image*	m_imgLArrow;
+
+	image*	m_imgEmptySoul;
 
 	image*	m_imgSeleter;
 
 	bool	m_bIsChangeScene;
 
 	int m_nAlphaNum;
+
+	int m_nSetStep;
+
+	int m_nTypeSelet;
+
 
 	seleter m_seleter;
 
@@ -51,6 +60,9 @@ public:
 	void sourSetupdate();
 	void equitRander(HDC hdc, HFONT hFont, HFONT oldFont);
 	void equitupdate();
+
+
+	void fontPrint(HDC hdc);
 
 	menuScene();
 	~menuScene();

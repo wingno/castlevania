@@ -91,6 +91,8 @@ private:
 	// 플레이어의 착지 모션
 	bool	m_PlayerStand;
 
+	SYNTHESIZE(bool, m_bIsJump, IsJump);
+
 
 	SYNTHESIZE(bool,m_xCameraOn,XCameraOn);
 	SYNTHESIZE(bool, m_yCameraOn, YCameraOn);

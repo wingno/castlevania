@@ -18,6 +18,7 @@ public:
 	void release();
 
 	bool isOnceKeyDown(int key);	// 키를 한번만 눌렀을 때
+	bool isOnceKeyDownNotuch(int key);	// 키를 한번만 눌렀을 때
 	bool isOnceKeyUp(int key);		// 키를 눌렀다 뗐을 때
 	bool isStayKeyDown(int key);	// 키를 누르고 있을 때
 	bool isToggleKey(int key);		// 연타

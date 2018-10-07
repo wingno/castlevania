@@ -38,6 +38,25 @@ bool keyManager::isOnceKeyDown(int key)
 	return false;
 }
 
+bool keyManager::isOnceKeyDownNotuch(int key)
+{
+	// 함수 호출 시점에 가상키가 어떤 상태인지 확인이 가능하다
+	// 1. 0x0000 => 이전에 누른 적이 없고 호출시점에도 눌려있지 않음
+	// 2. 0x0001 => 이전에 누른 적이 있고 호출시점에는 눌려있지 않음
+	// 3. 0x8000 => 이전에 누른 적이 없고 호출시점에는 눌려있는 상태
+	// 4. 0x8001 => 이전에 누른 적이 있고 호출시점에도 눌려있는 상태
+	if (GetAsyncKeyState(key) & 0x8000)
+	{
+		if (!this->getKeyDown()[key])
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
 bool keyManager::isOnceKeyUp(int key)
 {
 	if (GetAsyncKeyState(key) & 0x8000)

@@ -55,6 +55,12 @@
     <Filter Include="MainGame\room">
       <UniqueIdentifier>{86f2e741-8fe9-417b-b91a-f34072d8a745}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\item">
+      <UniqueIdentifier>{39fe94ef-9d06-4090-891a-9b8118036d6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\soul">
+      <UniqueIdentifier>{99cfb976-0273-4ec2-9f60-588242f73363}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -180,6 +186,12 @@
     <ClInclude Include="menuProgressBar.h">
       <Filter>2DGameFramework\progressBar</Filter>
     </ClInclude>
+    <ClInclude Include="item.h">
+      <Filter>MainGame\item</Filter>
+    </ClInclude>
+    <ClInclude Include="soul.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -289,6 +301,12 @@
     </ClCompile>
     <ClCompile Include="menuProgressBar.cpp">
       <Filter>2DGameFramework\progressBar</Filter>
+    </ClCompile>
+    <ClCompile Include="item.cpp">
+      <Filter>MainGame\item</Filter>
+    </ClCompile>
+    <ClCompile Include="soul.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

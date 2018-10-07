@@ -65,6 +65,8 @@ HRESULT player::init()
 	m_xCameraOn = false;
 	m_yCameraOn = false;
 
+	m_bIsJump = false;
+
 	return S_OK;
 }
 
@@ -111,24 +113,33 @@ void player::update()
 		m_nLCurrFrameY = 0;
 	}
 
+	if (KEYMANAGER->isOnceKeyDownNotuch('Z'))
+	{
+		m_bIsJump = true;
+	}
+
 	// 플레이어 점프
 	if (KEYMANAGER->isStayKeyDown('Z') && m_PlayerJump <= 2 && m_PlayerDown == 0 && m_PlayerAttack == 0)
 	{
-		m_JumC++;
-		m_fY -= m_JumP;
-		m_nRCurrFrameY = 6;
-		m_PlayerJump = 1;
-		if (m_JumC < 20 && m_JumC > 10)
+		if (m_bIsJump)
 		{
-			m_JumP = 10;
-		}
-		else if (m_JumC > 20)
-		{
-			m_JumP--;
-			if (m_JumP <= 0)
+			m_JumC++;
+			m_fY -= m_JumP;
+			m_nRCurrFrameY = 6;
+			m_PlayerJump = 1;
+			if (m_JumC < 20 && m_JumC > 10)
 			{
-				m_JumP = 0;
+				m_JumP = 10;
 			}
+			else if (m_JumC > 20)
+			{
+				m_JumP--;
+				if (m_JumP <= 0)
+				{
+					m_JumP = 0;
+				}
+			}
+
 		}
 	}
 
