@@ -203,25 +203,26 @@ void hallwayRoom1::rectColider()
 		RECT rc;
 		if (IntersectRect(&rc, &(m_pPlayer->getRc()), &(m_rectGate[i])))
 		{
+			POINT point;
 			switch (i)
 			{
 			case 0:
-				m_pPlayer->setFY(300); //플레이어의시작위치
-				m_pPlayer->setFx(WINSIZEX - (30 * 3));
+				m_pPlayer->setFY(293);
+				m_pPlayer->setFx(50 * 3);
 
 				ROOMMANAGER->changeRoom("gateroom");
 
-				POINT point;
+				
 				point.x = 500 * 3 - WINSIZEX; //맵의 시작위치
 				point.y = 1500;
 
 				ROOMMANAGER->getCurrRoom()->setPosMap(point);
 				break;
 			case 1:
+			
 				m_pPlayer->setFY(293);
 				m_pPlayer->setFx(50 * 3);
-
-				ROOMMANAGER->changeRoom("FountainRoom");
+				ROOMMANAGER->changeRoom("FountainRoom");//원본
 				break;
 			case 2:
 

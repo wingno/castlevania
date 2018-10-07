@@ -2,24 +2,25 @@
 #include "room.h"
 class image;
 
-
-class gateRoom :public room
+class hallwayRoom2: public room
 {
-	
-	RECT rectGate[1];
-	RECT rectObj[6];
-	
+private:
+
+	RECT rectGate[3];
+	RECT rectObj[2];
 
 public:
+
 	virtual HRESULT init();
 	virtual void release();
 	virtual void update();
 	virtual void render(HDC hdc);
-	void colliderMake();
 	void rectColider();
+	void colliderMake();
 
 
-	gateRoom();
-	~gateRoom();
+
+	hallwayRoom2();
+	~hallwayRoom2();
 };
 

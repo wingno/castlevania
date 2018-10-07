@@ -151,7 +151,9 @@
     <ClInclude Include="20180820.h" />
     <ClInclude Include="animation.h" />
     <ClInclude Include="battleScene.h" />
+    <ClInclude Include="BrickStaircaseroom.h" />
     <ClInclude Include="camel.h" />
+    <ClInclude Include="CastleHallway.h" />
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
@@ -161,6 +163,8 @@
     <ClInclude Include="gameNode.h" />
     <ClInclude Include="gateRoom.h" />
     <ClInclude Include="hallwayRoom1.h" />
+    <ClInclude Include="hallwayRoom2.h" />
+    <ClInclude Include="hallwayRoom3.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
     <ClInclude Include="keyManager.h" />
@@ -174,6 +178,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="room.h" />
     <ClInclude Include="roomManager.h" />
+    <ClInclude Include="SaveRoom.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="scoreScene.h" />
@@ -194,7 +199,9 @@
     <ClCompile Include="20180820.cpp" />
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="battleScene.cpp" />
+    <ClCompile Include="BrickStaircaseroom.cpp" />
     <ClCompile Include="camel.cpp" />
+    <ClCompile Include="CastleHallway.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="enemy.cpp" />
@@ -203,6 +210,8 @@
     <ClCompile Include="gameNode.cpp" />
     <ClCompile Include="gateRoom.cpp" />
     <ClCompile Include="hallwayRoom1.cpp" />
+    <ClCompile Include="hallwayRoom2.cpp" />
+    <ClCompile Include="hallwayRoom3.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
     <ClCompile Include="keyManager.cpp" />
@@ -214,6 +223,7 @@
     <ClCompile Include="progressBar.cpp" />
     <ClCompile Include="room.cpp" />
     <ClCompile Include="roomManager.cpp" />
+    <ClCompile Include="SaveRoom.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="scoreScene.cpp" />
