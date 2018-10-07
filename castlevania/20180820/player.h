@@ -1,4 +1,7 @@
 #pragma once
+
+class zombie;
+
 class player
 {
 private:
@@ -6,6 +9,8 @@ private:
 	image *	 m_pImg;
 	image *	 m_pImg2;
 	image *	 m_pImg3;
+
+	zombie* m_Zombie;
 	
 	// 플레이어 렉트
 	SYNTHESIZE (RECT, m_rc,Rc);
@@ -25,8 +30,11 @@ private:
 	int		m_BackC;
 
 	int		m_JumC;
+
+	int		m_JumMC;
 	
 	float	m_Speed;
+
 
 	SYNTHESIZE( float, m_fX,Fx);
 	SYNTHESIZE(float, m_fY,FY);

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "player.h"
 #include "room.h"
+#include "zombie.h"
 
 
 HRESULT player::init()
@@ -13,6 +14,8 @@ HRESULT player::init()
 
 	// 칼
 	m_pImg3 = IMAGEMANAGER->addImage("발뭉", "image/발뭉.bmp", 720, 24, 9, 1, true, RGB(255, 0, 255));
+
+	m_Zombie = new zombie;
 
 	// 플레이어의 동작 프레임 값
 	m_nCount = 0;
@@ -34,6 +37,7 @@ HRESULT player::init()
 	m_SildeC = 0;
 	m_BackC = 0;
 	m_JumC = 0;
+	m_JumMC = 0;
 
 	// 플레이어의 초기 위치 값
 	m_fX = 200;
@@ -97,6 +101,7 @@ void player::update()
 			m_nRCurrFrameY = 3;
 		}
 		m_fX += m_Speed;
+		m_Zombie->setzomX(-1);
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_RIGHT) && m_PlayerDown == 0 && m_PlayerBackDash == 0 && m_PlayerAttack == 0)
 	{
@@ -109,6 +114,7 @@ void player::update()
 		m_PlayerSee = 0;
 		m_nLCurrFrameY = 3;
 		m_fX -= m_Speed;
+		m_Zombie->setzomX(+1);
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_LEFT) && m_PlayerDown == 0 && m_PlayerBackDash == 0 && m_PlayerAttack == 0)
 	{
@@ -117,10 +123,15 @@ void player::update()
 	}
 
 	// 플레이어 점프
-	if (KEYMANAGER->isStayKeyDown('Z') && m_PlayerJump <= 2 && m_PlayerAttack == 0)
+	if (KEYMANAGER->isStayKeyDown('Z') && m_PlayerAttack == 0)
 	{
-		if (m_PlayerDown == 0)
+		if (m_PlayerDown == 0 && m_PlayerJump <= 2)
 		{
+			m_JumMC++;
+			if (m_JumMC < 2)
+			{
+				m_nRCurrFrameX = 2;
+			}
 			m_PlayerJumpM = 1;
 			m_nRCurrFrameY = 6;
 			if (m_PlayerJump == 0)
@@ -147,6 +158,7 @@ void player::update()
 		// 플레이어 슬라이딩
 		if (m_PlayerDown == 1 && m_PlayerJump == 0)
 		{
+			m_PlayerJump = 3;
 			m_PlayerSilde = 1;
 			if (m_PlayerSee == 1)
 			{
@@ -164,10 +176,11 @@ void player::update()
 		m_PlayerJump++;
 		m_PlayerJumpDown = 1;
 		m_PlayerJumpM = 0;
-		m_nRCurrFrameX = 0;
 		m_nRCurrFrameY = 6;
+		m_nRCurrFrameX = 0;
 		m_JumC = 0;
 		m_JumP = 20.0f;
+		m_JumMC = 0;
 	}
 
 	// 플레이어 공격
@@ -312,19 +325,11 @@ void player::update()
 					m_nRCurrFrameX = 0;
 				}
 				m_pImg->setFrameX(m_nRCurrFrameX);
-				if (m_JumC >= 30)
-				{
-					m_JumC = 20;
-					m_nRCurrFrameX = 0;
-					m_PlayerAttack = 0;
-					m_nRCurrFrameY = 6;
-					m_nCount = 0;
-				}
 			}
 		}
 
 		// 플레이어 떨어지는 자세
-		else if (m_PlayerStand == 0 && m_PlayerJumpM == 0)
+		else if (m_PlayerStand == 0 && m_PlayerJumpM == 0 || m_JumC >= 30)
 		{
 			m_nRCurrFrameY = 6;
 			m_nRCurrFrameX = 7;
@@ -588,7 +593,7 @@ void player::render(HDC hdc)
 			if (m_Item)
 			{
 				m_pImg3->frameRender(hdc, m_fX - 30, m_fY - 70, m_nNCurrFrameX, m_nNCurrFrameY, 3);
-				Rectangle(hdc, m_Irc.left, m_Irc.top, m_Irc.right, m_Irc.bottom);
+				//Rectangle(hdc, m_Irc.left, m_Irc.top, m_Irc.right, m_Irc.bottom);
 			}
 		}
 

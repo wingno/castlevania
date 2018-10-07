@@ -13,8 +13,10 @@ class zombie
 
 
 	//¾Ö³Ê¹Ì 1
-	float zombiX, zombiy;
-	int zombiFX, zombiFY;
+	SYNTHESIZE(float, zombiX, zomX);
+	SYNTHESIZE(float, zombiy, zomY);
+	int zombiFX;
+	int zombiFY;
 	int zombiIDX;
 	int  zombicount;
 	bool  zombimove, zombistand, zombidead;
