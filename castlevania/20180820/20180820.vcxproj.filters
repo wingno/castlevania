@@ -190,7 +190,19 @@
       <Filter>MainGame\item</Filter>
     </ClInclude>
     <ClInclude Include="soul.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>MainGame\soul</Filter>
+    </ClInclude>
+    <ClInclude Include="bulletSoul.h">
+      <Filter>MainGame\soul</Filter>
+    </ClInclude>
+    <ClInclude Include="guardianSoul.h">
+      <Filter>MainGame\soul</Filter>
+    </ClInclude>
+    <ClInclude Include="abilitySoul.h">
+      <Filter>MainGame\soul</Filter>
+    </ClInclude>
+    <ClInclude Include="enchantSoul.h">
+      <Filter>MainGame\soul</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -306,7 +318,19 @@
       <Filter>MainGame\item</Filter>
     </ClCompile>
     <ClCompile Include="soul.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>MainGame\soul</Filter>
+    </ClCompile>
+    <ClCompile Include="bulletSoul.cpp">
+      <Filter>MainGame\soul</Filter>
+    </ClCompile>
+    <ClCompile Include="guardianSoul.cpp">
+      <Filter>MainGame\soul</Filter>
+    </ClCompile>
+    <ClCompile Include="abilitySoul.cpp">
+      <Filter>MainGame\soul</Filter>
+    </ClCompile>
+    <ClCompile Include="enchantSoul.cpp">
+      <Filter>MainGame\soul</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

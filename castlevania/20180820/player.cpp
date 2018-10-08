@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "player.h"
 #include "room.h"
+#include "bulletSoul.h"
+#include "guardianSoul.h"
+#include "enchantSoul.h"
 
 
 HRESULT player::init()
@@ -66,6 +69,41 @@ HRESULT player::init()
 	m_yCameraOn = false;
 
 	m_bIsJump = false;
+
+	bulletSoul* baseBSoul = new bulletSoul;
+	baseBSoul->init(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "------", "---");
+
+	bulletSoul* testBSoul = new bulletSoul;
+	testBSoul->init(0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, "해골사수", "마법의 활을 쏜다");
+
+	m_soulInven.vecBulletSoul.push_back(baseBSoul);
+	m_soulInven.vecBulletSoul.push_back(testBSoul);
+
+	guardianSoul* baseGSoul = new guardianSoul;
+	baseGSoul->init(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "------", "---");
+
+	guardianSoul* testGSoul = new guardianSoul;
+	testGSoul->init(0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, "메두사 헤드", "공중에서 정지가 가능하다.");
+
+	m_soulInven.vecGuardianSoul.push_back(baseGSoul);
+	m_soulInven.vecGuardianSoul.push_back(testGSoul);
+
+	enchantSoul* baseESoul = new enchantSoul;
+	baseESoul->init(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "------", "---");
+
+	enchantSoul* testESoul = new enchantSoul;
+	testESoul->init(0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, "좀비", "CON +1");
+
+	m_soulInven.vecEnchantSoul.push_back(baseESoul);
+	m_soulInven.vecEnchantSoul.push_back(testESoul);
+
+
+	m_soulSet.bS = baseBSoul;
+	m_soulSet.gS = baseGSoul;
+	m_soulSet.eS = baseESoul;
+
+
+	
 
 	return S_OK;
 }

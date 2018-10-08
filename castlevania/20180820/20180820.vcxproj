@@ -149,17 +149,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="20180820.h" />
+    <ClInclude Include="abilitySoul.h" />
     <ClInclude Include="animation.h" />
     <ClInclude Include="battleScene.h" />
+    <ClInclude Include="bulletSoul.h" />
     <ClInclude Include="camel.h" />
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
+    <ClInclude Include="enchantSoul.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemyManager.h" />
     <ClInclude Include="FountainRoom.h" />
     <ClInclude Include="gameNode.h" />
     <ClInclude Include="gateRoom.h" />
+    <ClInclude Include="guardianSoul.h" />
     <ClInclude Include="hallwayRoom1.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
@@ -194,16 +198,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="20180820.cpp" />
+    <ClCompile Include="abilitySoul.cpp" />
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="battleScene.cpp" />
+    <ClCompile Include="bulletSoul.cpp" />
     <ClCompile Include="camel.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
+    <ClCompile Include="enchantSoul.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="FountainRoom.cpp" />
     <ClCompile Include="gameNode.cpp" />
     <ClCompile Include="gateRoom.cpp" />
+    <ClCompile Include="guardianSoul.cpp" />
     <ClCompile Include="hallwayRoom1.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />

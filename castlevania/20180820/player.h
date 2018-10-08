@@ -1,4 +1,9 @@
 #pragma once
+
+class bulletSoul;
+class guardianSoul;
+class enchantSoul;
+
 class player
 {
 private:
@@ -29,6 +34,26 @@ private:
 		int nextExp;
 
 	};
+
+	struct SoulSet
+	{
+		bulletSoul* bS;
+		guardianSoul* gS;
+		enchantSoul* eS;
+	};
+
+	struct soulInven
+	{
+		std::vector<bulletSoul*>	vecBulletSoul;
+		std::vector<bulletSoul*>::iterator	biter;
+
+		std::vector<guardianSoul*>	vecGuardianSoul;
+		std::vector<guardianSoul*>::iterator	giter;
+
+		std::vector<enchantSoul*>	vecEnchantSoul;
+		std::vector<enchantSoul*>::iterator	eiter;
+	};
+
 	
 	// 플레이어 이미지
 	image *	 m_pImg;
@@ -96,6 +121,10 @@ private:
 
 	SYNTHESIZE(bool,m_xCameraOn,XCameraOn);
 	SYNTHESIZE(bool, m_yCameraOn, YCameraOn);
+
+	soulInven	m_soulInven;
+	SoulSet		m_soulSet;
+
 public:
 	HRESULT init();
 	void release();

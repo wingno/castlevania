@@ -2,6 +2,9 @@
 #include "menuScene.h"
 #include "player.h"
 #include "menuProgressBar.h"
+#include "bulletSoul.h"
+#include "enchantSoul.h"
+#include "guardianSoul.h"
 
 
 
@@ -19,7 +22,7 @@ HRESULT menuScene::init()
 	
 	m_imgRArrow = IMAGEMANAGER->addImage("image/rightArrow.bmp", "image/rightArrow.bmp", 17, 21, true, RGB(255, 0, 255));
 
-	m_imgEmptySoul= IMAGEMANAGER->addImage("image/4303.bmp", "image/4303.bmp", 16, 16, true, RGB(255, 0, 255));
+	m_imgEmptySoul= IMAGEMANAGER->addImage("image/4303.bmp", "image/4303.bmp", 222, 439, true, RGB(84, 109, 142));
 
 	m_pPlayer = g_mainGame.getPlayer();
 
@@ -366,6 +369,32 @@ void menuScene::sourSetRander(HDC hdc, HFONT hFont, HFONT oldFont)
 	if(m_nSetStep==1)
 		m_imgSeleter->render(hdc, -m_seleter.SelectMover, WINSIZEY/2-10, 3);
 
+	if (m_pPlayer->m_soulSet.bS->getImgIcon())
+	{
+
+	}
+	else
+	{
+		m_imgEmptySoul->render(hdc, 50, 90, 116, 40, 13, 13, 3);
+	}
+
+	if (m_pPlayer->m_soulSet.bS->getImgIcon())
+	{
+
+	}
+	else
+	{
+		m_imgEmptySoul->render(hdc, 50, 130, 116, 4, 13, 13, 3);
+	}
+
+	if (m_pPlayer->m_soulSet.bS->getImgIcon())
+	{
+
+	}
+	else
+	{
+		m_imgEmptySoul->render(hdc, 50, 170, 116, 76, 13, 13, 3);
+	}
 
 	fontPrint(hdc);
 
@@ -532,6 +561,7 @@ void menuScene::fontPrint(HDC hdc)
 {
 
 	char str[300];
+	
 
 	SetTextColor(hdc, RGB(243, 122, 40));
 
@@ -585,24 +615,117 @@ void menuScene::fontPrint(HDC hdc)
 	}
 	else
 	{
+		//¸Þ´º¹Ù
+		SetTextColor(hdc, RGB(158, 159, 153));
+
+		sprintf_s(str, "%s", m_pPlayer->m_soulSet.bS->m_sName.c_str());
+		TextOut(hdc, 120, 95, str, lstrlen(str));
+
+		sprintf_s(str, "%s", m_pPlayer->m_soulSet.gS->m_sName.c_str());
+		TextOut(hdc, 120, 135, str, lstrlen(str));
+
+		sprintf_s(str, "%s", m_pPlayer->m_soulSet.eS->m_sName.c_str());
+		TextOut(hdc, 120, 175, str, lstrlen(str));
+
+
+
+
+
+
+		SetTextColor(hdc, RGB(255, 255, 255));
+
 		switch (m_nTypeSelet)
 		{
 		case 0:
+			sprintf_s(str, "%s", m_pPlayer->m_soulSet.bS->m_sName.c_str());
+			TextOut(hdc, 120, 95, str, lstrlen(str));
+
+			sprintf_s(str, "%s", m_pPlayer->m_soulSet.bS->m_sExplanation.c_str());
+			TextOut(hdc, 100, 360, str, lstrlen(str));
+
 			sprintf_s(str, "BULLET", m_pPlayer->getState().currLck);
 			TextOut(hdc, WINSIZEX / 2 - 190, WINSIZEY / 2 - 33, str, lstrlen(str));
+
+			for (int i = 0; i < m_pPlayer->m_soulInven.vecBulletSoul.size(); i++)
+			{
+				if (i % 2==0)
+				{
+					sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecBulletSoul[i]->m_sName.c_str());
+					TextOut(hdc, 60, 250+ ((i/2)*40), str, lstrlen(str));
+				}
+				else
+				{
+					sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecBulletSoul[i]->m_sName.c_str());
+					TextOut(hdc, 330,250+ ((i/2)*40), str, lstrlen(str));
+				}
+
+			}
+			
+
+
 			break;
 		case 1:
+
+			sprintf_s(str, "%s", m_pPlayer->m_soulSet.gS->m_sName.c_str());
+			TextOut(hdc, 120, 135, str, lstrlen(str));
+
+			sprintf_s(str, "%s", m_pPlayer->m_soulSet.gS->m_sExplanation.c_str());
+			TextOut(hdc, 100, 360, str, lstrlen(str));
+
 			sprintf_s(str, "GUARDIAN", m_pPlayer->getState().currLck);
 			TextOut(hdc, WINSIZEX / 2 - 210, WINSIZEY / 2 - 33, str, lstrlen(str));
+
+			for (int i = 0; i < m_pPlayer->m_soulInven.vecGuardianSoul.size(); i++)
+			{
+				if (i % 2 == 0)
+				{
+					sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecGuardianSoul[i]->m_sName.c_str());
+					TextOut(hdc, 60, 250 + ((i / 2) * 40), str, lstrlen(str));
+				}
+				else
+				{
+					sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecGuardianSoul[i]->m_sName.c_str());
+					TextOut(hdc, 330, 250 + ((i / 2) * 40), str, lstrlen(str));
+				}
+
+			}
 			break;
 		case 2:
+
+			sprintf_s(str, "%s", m_pPlayer->m_soulSet.eS->m_sName.c_str());
+			TextOut(hdc, 120, 175, str, lstrlen(str));
+
+			sprintf_s(str, "%s", m_pPlayer->m_soulSet.eS->m_sExplanation.c_str());
+			TextOut(hdc, 100, 360, str, lstrlen(str));
+
 			sprintf_s(str, "ENCHANT", m_pPlayer->getState().currLck);
 			TextOut(hdc, WINSIZEX / 2 - 200, WINSIZEY / 2 - 33, str, lstrlen(str));
+
+			for (int i = 0; i < m_pPlayer->m_soulInven.vecEnchantSoul.size(); i++)
+			{
+				if (i % 2 == 0)
+				{
+					sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecEnchantSoul[i]->m_sName.c_str());
+					TextOut(hdc, 60, 250 + ((i / 2) * 40), str, lstrlen(str));
+				}
+				else
+				{
+					sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecEnchantSoul[i]->m_sName.c_str());
+					TextOut(hdc, 330, 250 + ((i / 2) * 40), str, lstrlen(str));
+				}
+
+			}
 			break;
 		default:
 			break;
 		}
+
+
+
 	}
+
+	
+
 
 }
 

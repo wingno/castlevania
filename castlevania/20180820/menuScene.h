@@ -37,6 +37,9 @@ private:
 	int m_nSetStep;
 
 	int m_nTypeSelet;
+	
+
+
 
 
 	seleter m_seleter;
