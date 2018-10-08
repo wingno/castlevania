@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "zombie.h"
+#include "room.h"
 
 
 
@@ -15,7 +16,11 @@ HRESULT zombie::init(int startX, int startY)
 	//350
 	zombiy = startY;
 	//310;
-	zombiFX, zombiFY = 0;
+
+
+	zombiFX= zombiFY = 0;
+
+	zombiIDX = 0;
 
 	zombistand = true;
 	zombimove = false;
@@ -36,6 +41,8 @@ void zombie::release()
 
 void zombie::update()
 {
+
+	
 
 	if (m_Alive)
 	{
@@ -62,8 +69,7 @@ void zombie::update()
 		{
 
 			zombiX -= 1;
-			m_rc.right -= 0.5;
-			m_rc.left -= 0.5;
+			
 
 			zombiIDX++;
 			zombicount += 1;
@@ -81,7 +87,7 @@ void zombie::update()
 				}
 			}
 
-			if (zombicount == 500 || m_rc.left < 170) //이동도중 카운트를 주어서 일정 카운트가되면 데드로 해당하는 모션행동
+			if (zombicount == 500|| m_rc.left < 170-ROOMMANAGER->getCurrRoom()->getPosMap().x) //이동도중 카운트를 주어서 일정 카운트가되면 데드로 해당하는 모션행동
 			{
 				zombimove = false;
 				zombistand = false;
@@ -105,8 +111,7 @@ void zombie::update()
 				{
 					zombiFX = 6;
 					zombiX = zombiX + 200;
-					m_rc.left = m_rc.left + 200;
-					m_rc.right = m_rc.right + 200;
+
 
 					zombidead = false;
 
@@ -119,6 +124,8 @@ void zombie::update()
 				zombiFX = 0;
 			}
 		}
+
+		m_rc = RectMakeCenter(zombiX - ROOMMANAGER->getCurrRoom()->getPosMap().x, zombiy + 30, m_zombi->getWidth() - 85, m_zombi->getHeight() + 35);
 	}
 }
 
@@ -128,7 +135,7 @@ void zombie::render(HDC hdc)
 	{
 		Rectangle(hdc, m_rc.left, m_rc.top, m_rc.right, m_rc.bottom);
 
-		m_zombi->frameRender(hdc, zombiX + 40 - m_zombi->getWidth() / 2, zombiy - m_zombi->getHeight() / 2, zombiFX, zombiFY, 3);
+		m_zombi->frameRender(hdc, zombiX + 40 - m_zombi->getWidth() / 2  - ROOMMANAGER->getCurrRoom()->getPosMap().x, zombiy - m_zombi->getHeight() / 2, zombiFX, zombiFY, 3);
 	}
 }
 

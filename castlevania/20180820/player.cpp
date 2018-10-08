@@ -32,7 +32,7 @@ HRESULT player::init()
 	m_nNCurrFrameY = 0;
 
 	// 플레이어의 속성 초기화
-	m_Speed = 15.0f; //테스팅용으로 
+	m_Speed = 6.0f; //테스팅용으로 
 	m_JumP = 20.0f;
 	m_Gravity = 10.0f;
 	m_SildeP = 10.0f;
@@ -364,7 +364,9 @@ void player::update()
 				{
 					m_Item = 1;
 					m_nNCurrFrameX++;
-					if (m_nNCurrFrameX > 3 && m_nNCurrFrameX < 5)
+
+
+					if (m_nNCurrFrameX > 0 && m_nNCurrFrameX < 5)
 					{
 						m_Irc = RectMakeCenter(m_fX + 120, m_fY - 40, m_pImg3->getFrameWidth() * 2, m_pImg3->getFrameHeight() * 2);
 					}
@@ -379,6 +381,7 @@ void player::update()
 					m_nNCurrFrameX = 0;
 					m_Item = 0;
 					m_nCount = 0;
+					m_Irc = RectMakeCenter(-10, -10, 1, 1);
 				}
 			}
 		}
@@ -720,7 +723,7 @@ void player::render(HDC hdc)
 					m_pImg3->frameRender(hdc, m_fX - 30, m_fY - 35, m_nNCurrFrameX, m_nNCurrFrameY, 3);
 				}
 
-				//Rectangle(hdc, m_Irc.left, m_Irc.top, m_Irc.right, m_Irc.bottom);
+				Rectangle(hdc, m_Irc.left, m_Irc.top, m_Irc.right, m_Irc.bottom);
 			}
 		}
 
@@ -732,7 +735,7 @@ void player::render(HDC hdc)
 	}
 	
 	
-
+	Rectangle(hdc, m_Irc.left, m_Irc.top, m_Irc.right, m_Irc.bottom);
 }
 
 void player::mapMove()

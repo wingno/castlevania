@@ -6,6 +6,7 @@
 
 HRESULT hallwayRoom1::init()
 {
+
 	m_imgBg = IMAGEMANAGER->addImage("image/MAP1.bmp", "image/MAP1.bmp", 5784, 2012, true, RGB(0, 88, 24));
 	//m_imgMap= IMAGEMANAGER->addImage("image/MAP1PIX.bmp", "image/MAP1PIX.bmp", 5784, 2012, true, RGB(255, 0, 255));
 
@@ -14,8 +15,14 @@ HRESULT hallwayRoom1::init()
 	m_posMap = PointMake(0, 0);
 	m_posBG = PointMake(0, 0);
 
-	m_Zombie = new zombie;
+	m_Zombie = new zombie[10];
+
 	m_Zombie->init(500, 350);
+
+	for (int i = 1; i < 10; i++)
+	{
+		m_Zombie[i].init(700 + (i * 200), 350);
+	}
 
 	m_rectGate =rectGate;
 	m_rectObj = rectObj;
@@ -47,13 +54,17 @@ void hallwayRoom1::release()
 		delete m_pMemDCInfo;
 	}
 
-	SAFE_DELETE(m_Zombie);
+	//SAFE_DELETE(m_Zombie);
 
 }
 
 void hallwayRoom1::update()
 {
 	m_Zombie->update();
+	for (int i = 1; i < 10; i++)
+	{
+		m_Zombie[i].update();
+	}
 
 	if (m_posBG.x >= (2280))
 	{
@@ -87,8 +98,8 @@ void hallwayRoom1::update()
 	m_rectObj[0] = RectMake(384 * 3 - m_posMap.x, 80 * 3, 32 * 3, 7 * 3);
 	m_rectObj[1] = RectMake(384 * 3 - m_posMap.x, 24 * 3, 32 * 3, 7 * 3);
 
-	checkCollision();
 	rectColider();
+	checkCollision();
 
 
 }
@@ -108,9 +119,6 @@ void hallwayRoom1::render(HDC hdc)
 
 	m_imgBg->render(hdc, 0,  0, 521+ m_posMap.x/3, 1551 + m_posMap.y / 3, 400, 160,3);
 
-
-	m_zombi->render(hdc);
-	m_Archer->render(hdc);
 	//·¢Æ®
 
 	for (int i = 0; i < 3; i++)
@@ -123,6 +131,11 @@ void hallwayRoom1::render(HDC hdc)
 	}
 	
 	m_Zombie->render(hdc);
+	for (int i = 1; i < 10; i++)
+	{
+		m_Zombie[i].render(hdc);
+	}
+
 }
 
 void hallwayRoom1::colliderMake()
@@ -244,10 +257,15 @@ void hallwayRoom1::rectColider()
 
 void hallwayRoom1::checkCollision()
 {
-	RECT rc;
-	if (m_Zombie->getAlive() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_Zombie->getrc()))
+	for (int i = 0; i < 10; i++)
 	{
-		m_Zombie->setAlive(false);
+		RECT rc;
+
+		if (m_Zombie[i].getAlive() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_Zombie[i].getrc()))
+		{
+			m_Zombie[i].setAlive(false);
+		}
+
 	}
 }
 

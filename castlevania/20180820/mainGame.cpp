@@ -30,6 +30,8 @@ HRESULT mainGame::init()
 	m_pPlayer = new player;
 	m_pPlayer->init();
 
+	ROOMMANAGER->setPlayer(m_pPlayer);
+
 	//HANDLE hTimer = (HANDLE)SetTimer(g_hWnd, 1, 10, NULL);
 	KEYMANAGER->init();
 	IMAGEMANAGER->init();

@@ -42,10 +42,7 @@ protected:
 	image* m_imgBg;
 	image* m_imgMap;
 
-	SYNTHESIZE(POINT, m_Archerw, Archerw)
-
-	SYNTHESIZE(POINT, m_zobiw,zombiw)
-   SYNTHESIZE(POINT, m_posMap, PosMap)
+	SYNTHESIZE(POINT, m_posMap, PosMap);
 	POINT m_posBG;
 
 

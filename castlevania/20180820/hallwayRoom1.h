@@ -11,7 +11,6 @@ private:
 
 	RECT rectGate[3];
 	RECT rectObj[2];
-	zombi* m_zombi;
 	SkeletonArcher* m_Archer;
 
 

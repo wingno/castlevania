@@ -51,10 +51,15 @@ HRESULT battleScene::init()
 
 	m_CastleHallway = new CastleHallway;
 	ROOMMANAGER->addRoom("CastleHallwayy", m_CastleHallway);
-	m_bIsChangeScene = false;
+	
 
 	m_BrickStaircaseroom = new BrickStaircaseroom;
 	ROOMMANAGER->addRoom("BrickStaircaseroom", m_BrickStaircaseroom);
+
+	ROOMMANAGER->changeRoom("hallwayRoom1");
+
+	
+	m_bIsChangeScene = false;
 	m_nAlphaNum = 0;
 
 
