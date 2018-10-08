@@ -226,14 +226,17 @@ void player::update()
 
 	if (KEYMANAGER->isOnceKeyUp('Z') && m_PlayerJump <= 3)
 	{
-		m_PlayerJump++;
-		m_PlayerJumpDown = 1;
-		m_PlayerJumpM = 0;
-		m_nRCurrFrameY = 6;
-		m_nRCurrFrameX = 0;
-		m_JumC = 0;
-		m_JumP = 20.0f;
-		m_JumMC = 0;
+		if (m_bIsJump)
+		{
+			m_PlayerJump++;
+			m_PlayerJumpDown = 1;
+			m_PlayerJumpM = 0;
+			m_nRCurrFrameY = 6;
+			m_nRCurrFrameX = 0;
+			m_JumC = 0;
+			m_JumP = 20.0f;
+			m_JumMC = 0;
+		}
 	}
 
 	// 플레이어 공격
