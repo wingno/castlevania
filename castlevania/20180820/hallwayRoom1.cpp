@@ -2,7 +2,7 @@
 #include "hallwayRoom1.h"
 #include "player.h"
 #include "zombie.h"
-
+#include "SkeletonArcher.h"
 
 HRESULT hallwayRoom1::init()
 {
@@ -37,6 +37,7 @@ HRESULT hallwayRoom1::init()
 
 void hallwayRoom1::release()
 {
+	
 	if (m_pMemDCInfo)
 	{
 		SelectObject(m_pMemDCInfo->hMemDC, m_pMemDCInfo->hOldBitmap);
@@ -53,6 +54,7 @@ void hallwayRoom1::release()
 void hallwayRoom1::update()
 {
 	m_Zombie->update();
+
 	if (m_posBG.x >= (2280))
 	{
 		m_posBG.x = 0;
@@ -87,12 +89,15 @@ void hallwayRoom1::update()
 
 	checkCollision();
 	rectColider();
+
+
 }
 
 void hallwayRoom1::render(HDC hdc)
 {
 
-
+	
+	//배경
 	m_imgBg->render(hdc, 0, 0, 542, 1839, 240, 160, 3);
 
 
@@ -100,9 +105,13 @@ void hallwayRoom1::render(HDC hdc)
 	
 	m_imgBg->render(hdc, 2280-m_posBG.x, 140, 542, 1725, 240, 100, 3);
 	
-	
-	
+
 	m_imgBg->render(hdc, 0,  0, 521+ m_posMap.x/3, 1551 + m_posMap.y / 3, 400, 160,3);
+
+
+	m_zombi->render(hdc);
+	m_Archer->render(hdc);
+	//랙트
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -186,16 +195,26 @@ void hallwayRoom1::rectColider()
 		RECT rc;
 		if (IntersectRect(&rc, &(m_pPlayer->getRc()), &(m_rectGate[i])))
 		{
+			POINT point;
 			switch (i)
 			{
 			case 0:
-				
-				break;
-			case 1:
 				m_pPlayer->setFY(293);
 				m_pPlayer->setFx(50 * 3);
 
-				ROOMMANAGER->changeRoom("FountainRoom");
+				ROOMMANAGER->changeRoom("gateroom");
+
+				
+				point.x = 500 * 3 - WINSIZEX; //맵의 시작위치
+				point.y = 1500;
+
+				ROOMMANAGER->getCurrRoom()->setPosMap(point);
+				break;
+			case 1:
+			
+				m_pPlayer->setFY(293);
+				m_pPlayer->setFx(50 * 3);
+				ROOMMANAGER->changeRoom("FountainRoom");//원본
 				break;
 			case 2:
 

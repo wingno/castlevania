@@ -5,9 +5,16 @@ class spaceShip;
 class enemyManager;
 class camel;
 class player;
+//·ë
 class roomManager;
 class hallwayRoom1;
+class hallwayRoom2;
+class hallwayRoom3;
 class FountainRoom;
+class gateRoom;
+class SaveRoom;
+class CastleHallway;
+class BrickStaircaseroom;
 
 
 
@@ -19,11 +26,20 @@ private:
 	enemyManager*	m_pEnemyMgr;
 	camel*			m_pCamel;
 
-	hallwayRoom1*	m_phallwayRoom1;
-	FountainRoom*	m_pFountainRoom;
-	
-	roomManager*	m_RoomMgr;
 
+	//Á»ºñ
+	zombi* m_zombi;
+
+	//·Ò
+	hallwayRoom1*	m_phallwayRoom1;
+	hallwayRoom2*	m_phallwayRoom2;
+	hallwayRoom3*	m_phallwayRoom3;
+	FountainRoom*	m_pFountainRoom;
+	gateRoom*		m_gateroom;
+	SaveRoom*		m_SaveRoom;
+	roomManager*	m_RoomMgr;
+	CastleHallway*  m_CastleHallway;
+	BrickStaircaseroom* m_BrickStaircaseroom;
 
 	player*			m_pPlayer;
 

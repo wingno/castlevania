@@ -12,6 +12,7 @@ class player
 private:
 	struct Status
 	{
+		
 		int curStr;
 		int originStr;
 		int curCon;
@@ -73,6 +74,7 @@ private:
 
 	SYNTHESIZE(Status ,m_status,State);
 	SYNTHESIZE(int, m_nGold, Gold);;
+
 
 	float	m_JumP;
 

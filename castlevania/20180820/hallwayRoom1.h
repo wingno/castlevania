@@ -2,8 +2,8 @@
 #include "room.h"
 
 class image;
+class SkeletonArcher;
 class zombie;
-
 
 class hallwayRoom1:public room
 {
@@ -11,6 +11,11 @@ private:
 
 	RECT rectGate[3];
 	RECT rectObj[2];
+	zombi* m_zombi;
+	SkeletonArcher* m_Archer;
+
+
+
 
 	zombie* m_Zombie;
 
@@ -19,6 +24,8 @@ public:
 	virtual void release();
 	virtual void update();
 	virtual void render(HDC hdc);
+
+
 
 	void colliderMake();
 	void rectColider();

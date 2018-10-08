@@ -5,10 +5,18 @@
 #include "missileManager.h"
 #include "camel.h"
 #include "selectScene.h"
-#include "hallwayRoom1.h"
-#include "FountainRoom.h"
 #include "player.h"
+#include"zombi.h"
 
+//·ë
+#include "hallwayRoom1.h"
+#include "hallwayRoom2.h"
+#include "hallwayRoom3.h"
+#include "FountainRoom.h"
+#include"gateroom.h"
+#include "SaveRoom.h"
+#include "CastleHallway.h"
+#include "BrickStaircaseroom.h"
 
 HRESULT battleScene::init()
 {
@@ -19,20 +27,34 @@ HRESULT battleScene::init()
 
 
 
+	
 
-	ROOMMANAGER->setPlayer(m_pPlayer);
 
+	// ·ë ÀÌ´Ï¼È¶óÀÌÁî
 	m_phallwayRoom1 = new hallwayRoom1;
 	ROOMMANAGER->addRoom("hallwayRoom1", m_phallwayRoom1);
+
+	m_phallwayRoom2 = new hallwayRoom2;
+	ROOMMANAGER->addRoom("hallwayRoom2", m_phallwayRoom2);
+
+	m_phallwayRoom3 = new hallwayRoom3;
+	ROOMMANAGER->addRoom("hallwayRoom3", m_phallwayRoom3);
 
 	m_pFountainRoom = new FountainRoom;
 	ROOMMANAGER->addRoom("FountainRoom", m_pFountainRoom);
 
+	m_gateroom = new gateRoom;
+	ROOMMANAGER->addRoom("gateroom", m_gateroom);
 
-	ROOMMANAGER->changeRoom("hallwayRoom1");
+	m_SaveRoom = new SaveRoom;
+	ROOMMANAGER->addRoom("saveroom", m_SaveRoom);
 
+	m_CastleHallway = new CastleHallway;
+	ROOMMANAGER->addRoom("CastleHallwayy", m_CastleHallway);
 	m_bIsChangeScene = false;
 
+	m_BrickStaircaseroom = new BrickStaircaseroom;
+	ROOMMANAGER->addRoom("BrickStaircaseroom", m_BrickStaircaseroom);
 	m_nAlphaNum = 0;
 
 

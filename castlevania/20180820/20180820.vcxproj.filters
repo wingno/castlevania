@@ -180,6 +180,25 @@
     <ClInclude Include="FountainRoom.h">
       <Filter>MainGame\room</Filter>
     </ClInclude>
+
+    <ClInclude Include="SkeletonArcher.h">
+      <Filter>MainGame\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveRoom.h">
+      <Filter>MainGame\room</Filter>
+    </ClInclude>
+    <ClInclude Include="hallwayRoom2.h">
+      <Filter>MainGame\room</Filter>
+    </ClInclude>
+    <ClInclude Include="CastleHallway.h">
+      <Filter>MainGame\room</Filter>
+    </ClInclude>
+    <ClInclude Include="hallwayRoom3.h">
+      <Filter>MainGame\room</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickStaircaseroom.h">
+      <Filter>MainGame\room</Filter>
+    </ClInclude>
     <ClInclude Include="menuScene.h">
       <Filter>MainGame\scene</Filter>
     </ClInclude>
@@ -337,6 +356,25 @@
     </ClCompile>
     <ClCompile Include="zombie.cpp">
       <Filter>MainGame\enemy</Filter>
+    </ClCompile>
+
+    <ClCompile Include="SkeletonArcher.cpp">
+      <Filter>MainGame\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveRoom.cpp">
+      <Filter>MainGame\room</Filter>
+    </ClCompile>
+    <ClCompile Include="hallwayRoom2.cpp">
+      <Filter>MainGame\room</Filter>
+    </ClCompile>
+    <ClCompile Include="CastleHallway.cpp">
+      <Filter>MainGame\room</Filter>
+    </ClCompile>
+    <ClCompile Include="hallwayRoom3.cpp">
+      <Filter>MainGame\room</Filter>
+    </ClCompile>
+    <ClCompile Include="BrickStaircaseroom.cpp">
+      <Filter>MainGame\room</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
