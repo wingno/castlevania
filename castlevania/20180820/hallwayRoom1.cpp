@@ -249,6 +249,7 @@ void hallwayRoom1::rectColider()
 		{
 			
 			m_pPlayer->setFY(m_rectObj[i].top - 50);
+			
 
 		}
 

@@ -47,7 +47,7 @@ bool keyManager::isOnceKeyDownNotuch(int key)
 	// 4. 0x8001 => 이전에 누른 적이 있고 호출시점에도 눌려있는 상태
 	if (GetAsyncKeyState(key) & 0x8000)
 	{
-		if (!this->getKeyDown()[key])
+ 		if (!this->getKeyDown()[key])
 		{
 			return true;
 		}

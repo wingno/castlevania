@@ -166,7 +166,7 @@ void player::update()
 		m_nLCurrFrameY = 0;
 	}
 
-	if (KEYMANAGER->isOnceKeyDownNotuch('Z'))
+	if (KEYMANAGER->isOnceKeyDown('Z'))
 	{
 		m_bIsJump = true;
 	}
