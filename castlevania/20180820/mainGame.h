@@ -3,7 +3,21 @@ class titleScene;
 class battleScene;
 class scoreScene;
 class selectScene;
+class menuScene;
 class spaceShip;
+class player;
+
+class roomManager;
+class hallwayRoom1;
+class hallwayRoom2;
+class hallwayRoom3;
+class FountainRoom;
+class gateRoom;
+class SaveRoom;
+class CastleHallway;
+class BrickStaircaseroom;
+
+
 
 class mainGame
 {
@@ -19,7 +33,7 @@ private:
 
 	int m_nscore;
 
-	spaceShip* m_pspaceShip;
+	SYNTHESIZE( player*, m_pPlayer,Player);
 
 
 	// save load test
@@ -30,6 +44,17 @@ private:
 	battleScene*	m_pBattleScene;
 	scoreScene*		m_pscoreScene;
 	selectScene*	m_pselectScene;
+	menuScene*		m_pmenuScene;
+
+	hallwayRoom1*	m_phallwayRoom1;
+	hallwayRoom2*	m_phallwayRoom2;
+	hallwayRoom3*	m_phallwayRoom3;
+	FountainRoom*	m_pFountainRoom;
+	gateRoom*		m_gateroom;
+	SaveRoom*		m_SaveRoom;
+	roomManager*	m_RoomMgr;
+	CastleHallway*  m_CastleHallway;
+	BrickStaircaseroom* m_BrickStaircaseroom;
 
 public:
 	HRESULT init();
@@ -37,8 +62,7 @@ public:
 	void update();
 	void render();
 
-	inline void setISpaceShip(spaceShip* SpaceShip) { m_pspaceShip = SpaceShip; }
-	inline spaceShip* getISpaceShip() { return m_pspaceShip; }
+
 
 
 	LRESULT MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam);

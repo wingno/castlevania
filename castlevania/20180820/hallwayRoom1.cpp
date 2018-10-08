@@ -1,10 +1,12 @@
 #include "stdafx.h"
 #include "hallwayRoom1.h"
 #include "player.h"
-
+#include "zombie.h"
+#include "SkeletonArcher.h"
 
 HRESULT hallwayRoom1::init()
 {
+
 	m_imgBg = IMAGEMANAGER->addImage("image/MAP1.bmp", "image/MAP1.bmp", 5784, 2012, true, RGB(0, 88, 24));
 	//m_imgMap= IMAGEMANAGER->addImage("image/MAP1PIX.bmp", "image/MAP1PIX.bmp", 5784, 2012, true, RGB(255, 0, 255));
 
@@ -13,11 +15,27 @@ HRESULT hallwayRoom1::init()
 	m_posMap = PointMake(0, 0);
 	m_posBG = PointMake(0, 0);
 
+	m_Zombie = new zombie[10];
+
+	m_Zombie->init(500, 350);
+
+	for (int i = 1; i < 10; i++)
+	{
+		m_Zombie[i].init(700 + (i * 200), 350);
+	}
+
+	m_rectGate =rectGate;
+	m_rectObj = rectObj;
 
 
+	m_rectGate[0] = RectMake(0, 195, 30, 144);
+	m_rectGate[1] = RectMake(1273 * 3 -30, 195, 30, 144);
+	m_rectGate[2] = RectMake(353 * 3 , 0, 64*3, 30);
 
-	
-	
+
+	m_rectObj[0] = RectMake(386 * 3, 88 * 3, 32 * 3, 7 * 3);
+	m_rectObj[1] = RectMake(386 * 3, 47 * 3, 32 * 3, 7 * 3);
+
 
 
 
@@ -26,6 +44,7 @@ HRESULT hallwayRoom1::init()
 
 void hallwayRoom1::release()
 {
+	
 	if (m_pMemDCInfo)
 	{
 		SelectObject(m_pMemDCInfo->hMemDC, m_pMemDCInfo->hOldBitmap);
@@ -35,10 +54,17 @@ void hallwayRoom1::release()
 		delete m_pMemDCInfo;
 	}
 
+	//SAFE_DELETE(m_Zombie);
+
 }
 
 void hallwayRoom1::update()
 {
+	m_Zombie->update();
+	for (int i = 1; i < 10; i++)
+	{
+		m_Zombie[i].update();
+	}
 
 	if (m_posBG.x >= (2280))
 	{
@@ -63,11 +89,26 @@ void hallwayRoom1::update()
 	m_posMap.y = 0;
 	m_posBG.y = 0;
 	m_pPlayer->setYCameraOn(false);
+
+	
+	m_rectGate[0] = RectMake(0 - m_posMap.x, 195, 30, 144);
+	m_rectGate[1] = RectMake(1273*3 - m_posMap.x, 195, 25, 144);
+	m_rectGate[2] = RectMake(353 * 3 - m_posMap.x, 0, 64 * 3, 30);
+
+	m_rectObj[0] = RectMake(384 * 3 - m_posMap.x, 80 * 3, 32 * 3, 7 * 3);
+	m_rectObj[1] = RectMake(384 * 3 - m_posMap.x, 24 * 3, 32 * 3, 7 * 3);
+
+	rectColider();
+	checkCollision();
+
+
 }
 
 void hallwayRoom1::render(HDC hdc)
 {
 
+	
+	//배경
 	m_imgBg->render(hdc, 0, 0, 542, 1839, 240, 160, 3);
 
 
@@ -75,9 +116,26 @@ void hallwayRoom1::render(HDC hdc)
 	
 	m_imgBg->render(hdc, 2280-m_posBG.x, 140, 542, 1725, 240, 100, 3);
 	
+
+	m_imgBg->render(hdc, 0,  0, 521+ m_posMap.x/3, 1551 + m_posMap.y / 3, 400, 160,3);
+
+	//랙트
+
+	for (int i = 0; i < 3; i++)
+	{
+		Rectangle(hdc, m_rectGate[i].left, m_rectGate[i].top, m_rectGate[i].right, m_rectGate[i].bottom);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Rectangle(hdc, m_rectObj[i].left, m_rectObj[i].top, m_rectObj[i].right, m_rectObj[i].bottom);
+	}
 	
-	
-	m_imgBg->render(hdc, 0,  0, 521+ m_posMap.x/3, 1551 + m_posBG.y / 3, 400, 160,3);
+	m_Zombie->render(hdc);
+	for (int i = 1; i < 10; i++)
+	{
+		m_Zombie[i].render(hdc);
+	}
+
 }
 
 void hallwayRoom1::colliderMake()
@@ -141,6 +199,75 @@ void hallwayRoom1::colliderMake()
 	SelectObject(tempInfo.hMemDC, tempInfo.hOldBitmap);
 	DeleteObject(tempInfo.hBitmap);
 	DeleteDC(tempInfo.hMemDC);
+}
+
+void hallwayRoom1::rectColider()
+{
+	for (int i = 0; i < 3; i++)
+	{
+		RECT rc;
+		if (IntersectRect(&rc, &(m_pPlayer->getRc()), &(m_rectGate[i])))
+		{
+			POINT point;
+			switch (i)
+			{
+			case 0:
+				m_pPlayer->setFY(293);
+				m_pPlayer->setFx(50 * 3);
+
+				ROOMMANAGER->changeRoom("gateroom");
+
+				
+				point.x = 500 * 3 - WINSIZEX; //맵의 시작위치
+				point.y = 1500;
+
+				ROOMMANAGER->getCurrRoom()->setPosMap(point);
+				break;
+			case 1:
+			
+				m_pPlayer->setFY(293);
+				m_pPlayer->setFx(50 * 3);
+				ROOMMANAGER->changeRoom("FountainRoom");//원본
+				break;
+			case 2:
+
+
+				break;
+
+
+			default:
+				break;
+			}
+		}
+
+	}
+
+	for (int i = 0; i < 2; i++)
+	{
+		if (m_rectObj[i].top + 13 > m_pPlayer->getRc().bottom && m_rectObj[i].top - 7 < m_pPlayer->getRc().bottom  
+			 && (m_pPlayer->getRc().right > m_rectObj[i].left && m_pPlayer->getRc().left < m_rectObj[i].right))
+		{
+			
+			m_pPlayer->setFY(m_rectObj[i].top - 50);
+			
+
+		}
+
+	}
+}
+
+void hallwayRoom1::checkCollision()
+{
+	for (int i = 0; i < 10; i++)
+	{
+		RECT rc;
+
+		if (m_Zombie[i].getAlive() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_Zombie[i].getrc()))
+		{
+			m_Zombie[i].setAlive(false);
+		}
+
+	}
 }
 
 

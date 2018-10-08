@@ -55,6 +55,12 @@
     <Filter Include="MainGame\room">
       <UniqueIdentifier>{86f2e741-8fe9-417b-b91a-f34072d8a745}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\item">
+      <UniqueIdentifier>{39fe94ef-9d06-4090-891a-9b8118036d6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\soul">
+      <UniqueIdentifier>{99cfb976-0273-4ec2-9f60-588242f73363}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -171,6 +177,55 @@
     <ClInclude Include="room.h">
       <Filter>MainGame\room</Filter>
     </ClInclude>
+    <ClInclude Include="FountainRoom.h">
+      <Filter>MainGame\room</Filter>
+    </ClInclude>
+
+    <ClInclude Include="SkeletonArcher.h">
+      <Filter>MainGame\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveRoom.h">
+      <Filter>MainGame\room</Filter>
+    </ClInclude>
+    <ClInclude Include="hallwayRoom2.h">
+      <Filter>MainGame\room</Filter>
+    </ClInclude>
+    <ClInclude Include="CastleHallway.h">
+      <Filter>MainGame\room</Filter>
+    </ClInclude>
+    <ClInclude Include="hallwayRoom3.h">
+      <Filter>MainGame\room</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickStaircaseroom.h">
+      <Filter>MainGame\room</Filter>
+    </ClInclude>
+    <ClInclude Include="menuScene.h">
+      <Filter>MainGame\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="menuProgressBar.h">
+      <Filter>2DGameFramework\progressBar</Filter>
+    </ClInclude>
+    <ClInclude Include="item.h">
+      <Filter>MainGame\item</Filter>
+    </ClInclude>
+    <ClInclude Include="soul.h">
+      <Filter>MainGame\soul</Filter>
+    </ClInclude>
+    <ClInclude Include="bulletSoul.h">
+      <Filter>MainGame\soul</Filter>
+    </ClInclude>
+    <ClInclude Include="guardianSoul.h">
+      <Filter>MainGame\soul</Filter>
+    </ClInclude>
+    <ClInclude Include="abilitySoul.h">
+      <Filter>MainGame\soul</Filter>
+    </ClInclude>
+    <ClInclude Include="enchantSoul.h">
+      <Filter>MainGame\soul</Filter>
+    </ClInclude>
+    <ClInclude Include="zombie.h">
+      <Filter>MainGame\enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -270,6 +325,55 @@
       <Filter>MainGame\room</Filter>
     </ClCompile>
     <ClCompile Include="room.cpp">
+      <Filter>MainGame\room</Filter>
+    </ClCompile>
+    <ClCompile Include="FountainRoom.cpp">
+      <Filter>MainGame\room</Filter>
+    </ClCompile>
+    <ClCompile Include="menuScene.cpp">
+      <Filter>MainGame\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="menuProgressBar.cpp">
+      <Filter>2DGameFramework\progressBar</Filter>
+    </ClCompile>
+    <ClCompile Include="item.cpp">
+      <Filter>MainGame\item</Filter>
+    </ClCompile>
+    <ClCompile Include="soul.cpp">
+      <Filter>MainGame\soul</Filter>
+    </ClCompile>
+    <ClCompile Include="bulletSoul.cpp">
+      <Filter>MainGame\soul</Filter>
+    </ClCompile>
+    <ClCompile Include="guardianSoul.cpp">
+      <Filter>MainGame\soul</Filter>
+    </ClCompile>
+    <ClCompile Include="abilitySoul.cpp">
+      <Filter>MainGame\soul</Filter>
+    </ClCompile>
+    <ClCompile Include="enchantSoul.cpp">
+      <Filter>MainGame\soul</Filter>
+    </ClCompile>
+    <ClCompile Include="zombie.cpp">
+      <Filter>MainGame\enemy</Filter>
+    </ClCompile>
+
+    <ClCompile Include="SkeletonArcher.cpp">
+      <Filter>MainGame\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveRoom.cpp">
+      <Filter>MainGame\room</Filter>
+    </ClCompile>
+    <ClCompile Include="hallwayRoom2.cpp">
+      <Filter>MainGame\room</Filter>
+    </ClCompile>
+    <ClCompile Include="CastleHallway.cpp">
+      <Filter>MainGame\room</Filter>
+    </ClCompile>
+    <ClCompile Include="hallwayRoom3.cpp">
+      <Filter>MainGame\room</Filter>
+    </ClCompile>
+    <ClCompile Include="BrickStaircaseroom.cpp">
       <Filter>MainGame\room</Filter>
     </ClCompile>
   </ItemGroup>

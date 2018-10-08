@@ -4,6 +4,7 @@
 class player;
 class enemyManager;
 class room;
+class zombi;
 
 class roomManager :public singletonBase<roomManager>
 {
@@ -17,6 +18,8 @@ private:
 
 	SYNTHESIZE( enemyManager*,	m_pEnemyMgr,EnemyMgr);
 	SYNTHESIZE( player*	, m_pPlayer,Player);
+
+	
 	
 
 

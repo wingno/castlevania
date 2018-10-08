@@ -5,8 +5,9 @@ class spaceShip;
 class enemyManager;
 class camel;
 class player;
-class roomManager;
-class hallwayRoom1;
+//·ë
+
+
 
 
 
@@ -18,9 +19,11 @@ private:
 	enemyManager*	m_pEnemyMgr;
 	camel*			m_pCamel;
 
-	hallwayRoom1*	m_phallwayRoom1;
-	roomManager*	m_RoomMgr;
 
+	//Á»ºñ
+	zombi* m_zombi;
+
+	//·Ò
 
 
 	player*			m_pPlayer;
@@ -32,6 +35,12 @@ private:
 	int m_nselectNum;
 
 	bool m_benemyIsSetting;
+
+	bool m_bIsChangeScene;
+
+
+
+	int m_nAlphaNum;
 
 	
 

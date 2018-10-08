@@ -1,4 +1,6 @@
 #pragma once
+
+
 class player;
 class enemyManager;
 class room
@@ -30,15 +32,19 @@ protected:
 
 	SYNTHESIZE(enemyManager*, m_pEnemyMgr, EnemyMgr);
 	SYNTHESIZE(player*, m_pPlayer, Player);
-
+	
 
 	SYNTHESIZE(LPMEM_INFO, m_pMemDCInfo, MemDCInfo);
+
+	SYNTHESIZE(RECT*, m_rectObj,RectObj);
+	SYNTHESIZE(RECT*, m_rectGate, RectGate);
 
 	image* m_imgBg;
 	image* m_imgMap;
 
-	SYNTHESIZE(POINT, m_posMap, Map)
+	SYNTHESIZE(POINT, m_posMap, PosMap);
 	POINT m_posBG;
+
 
 
 public:
@@ -47,6 +53,9 @@ public:
 	virtual void update();
 	virtual void render(HDC hdc);
 
+	
+	inline float getX() { return m_posMap.x; }
+	inline float getY() { return m_posMap.y; }
 	void MapMove(float fx,float fy);
 
 
