@@ -147,7 +147,6 @@ void player::update()
 			m_nRCurrFrameY = 3;
 		}
 		m_fX += m_Speed;
-		m_Zombie->setzomX(-1);
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_RIGHT) && m_PlayerDown == 0 && m_PlayerBackDash == 0 && m_PlayerAttack == 0)
 	{
@@ -160,7 +159,6 @@ void player::update()
 		m_PlayerSee = 0;
 		m_nLCurrFrameY = 3;
 		m_fX -= m_Speed;
-		m_Zombie->setzomX(+1);
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_LEFT) && m_PlayerDown == 0 && m_PlayerBackDash == 0 && m_PlayerAttack == 0)
 	{
@@ -826,8 +824,8 @@ void player::mapchackCollision()
 				}
 
 				color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
-					m_fX + ROOMMANAGER->getCurrRoom()->getMap().x,
-					m_rc.bottom + 30 + ROOMMANAGER->getCurrRoom()->getMap().y);
+					m_fX + ROOMMANAGER->getCurrRoom()->getPosMap().x,
+					m_rc.bottom + 30 + ROOMMANAGER->getCurrRoom()->getPosMap().y);
 
 				r = GetRValue(color);
 				g = GetGValue(color);

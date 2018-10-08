@@ -85,8 +85,8 @@ void hallwayRoom1::update()
 	m_rectObj[0] = RectMake(384 * 3 - m_posMap.x, 80 * 3, 32 * 3, 7 * 3);
 	m_rectObj[1] = RectMake(384 * 3 - m_posMap.x, 24 * 3, 32 * 3, 7 * 3);
 
-	rectColider();
 	checkCollision();
+	rectColider();
 }
 
 void hallwayRoom1::render(HDC hdc)
