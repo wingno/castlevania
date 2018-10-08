@@ -35,6 +35,8 @@ private:
 	
 	float	m_Speed;
 
+	int		m_motionC;
+
 
 	SYNTHESIZE( float, m_fX,Fx);
 	SYNTHESIZE(float, m_fY,FY);
@@ -64,9 +66,11 @@ private:
 	int		m_PlayerJump;
 	bool	m_PlayerJumpM;
 	bool	m_PlayerJumpDown;
+	bool	m_PlayerJumpAttack;
 
 	// 플레이어의 앉기 모션
 	int		m_PlayerDown;
+	bool	m_PlayerDownAt;
 
 	// 플레이어의 슬라이딩 모션
 	bool	m_PlayerSilde;

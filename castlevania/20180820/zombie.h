@@ -20,7 +20,7 @@ class zombie
 	int zombiIDX;
 	int  zombicount;
 	bool  zombimove, zombistand, zombidead;
-	SYNTHESIZE(bool, m_Alive, Alive);
+ 	SYNTHESIZE(bool, m_Alive, Alive);
 
 public:
 	zombie();

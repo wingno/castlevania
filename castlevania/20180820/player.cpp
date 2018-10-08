@@ -38,7 +38,7 @@ HRESULT player::init()
 	m_BackC = 0;
 	m_JumC = 0;
 	m_JumMC = 0;
-
+	m_motionC = 0;
 	// 플레이어의 초기 위치 값
 	m_fX = 200;
 	m_fY = 400;
@@ -53,9 +53,11 @@ HRESULT player::init()
 	m_PlayerJump = 0;
 	m_PlayerJumpDown = 0;
 	m_PlayerJumpM = 0;
+	m_PlayerJumpAttack = 0;
 
 	// 플레이어의 앉기 모션 초기화
 	m_PlayerDown = 0;
+	m_PlayerDownAt = 0;
 
 	// 플레이어의 백대쉬 모션 초기화
 	m_PlayerBackDash = 0;
@@ -156,7 +158,7 @@ void player::update()
 		}
 
 		// 플레이어 슬라이딩
-		if (m_PlayerDown == 1 && m_PlayerJump == 0)
+		else if (m_PlayerDown == 1 && m_PlayerJump == 0)
 		{
 			m_PlayerJump = 3;
 			m_PlayerSilde = 1;
@@ -171,7 +173,7 @@ void player::update()
 		}
 	}
 
-	if (KEYMANAGER->isOnceKeyUp('Z') && m_PlayerJump <= 2)
+	if (KEYMANAGER->isOnceKeyUp('Z') && m_PlayerJump <= 3)
 	{
 		m_PlayerJump++;
 		m_PlayerJumpDown = 1;
@@ -186,17 +188,32 @@ void player::update()
 	// 플레이어 공격
 	if (KEYMANAGER->isOnceKeyDown('X') && m_PlayerAttack == 0 && m_PlayerSilde == 0 && m_PlayerJumpM == 0)
 	{
-		m_PlayerAttack = 1;
-		m_PlayerBackDash = 0;
-		if (m_PlayerSee == 1)
+		if (m_PlayerDown == 0 && m_PlayerStand == 1)
 		{
-			m_nRCurrFrameX = 0;
-			m_nRCurrFrameY = 1;
+			m_PlayerAttack = 1;
+			m_PlayerBackDash = 0;
+			if (m_PlayerSee == 1)
+			{
+				m_nRCurrFrameX = 0;
+				m_nRCurrFrameY = 1;
+			}
+			else if (m_PlayerSee == 0)
+			{
+				m_nLCurrFrameX = 18;
+				m_nLCurrFrameY = 1;
+			}
 		}
-		else if (m_PlayerSee == 0)
+		else if (m_PlayerDown == 1 && m_PlayerAttack == 0 && m_PlayerDownAt == 0)
 		{
-			m_nLCurrFrameX = 18;
-			m_nLCurrFrameY = 1;
+			m_PlayerDownAt = 1;
+			m_nRCurrFrameX = 10;
+			m_nRCurrFrameY = 11;
+		}
+		else if (m_PlayerStand == 0)
+		{
+			m_PlayerJumpAttack = 1;
+			m_nRCurrFrameY = 6;
+			m_nRCurrFrameX = 4;
 		}
 	}
 
@@ -214,7 +231,7 @@ void player::update()
 		}
 	}
 
-	if(KEYMANAGER->isOnceKeyUp(VK_DOWN) && m_PlayerSilde == 0)
+	if(KEYMANAGER->isOnceKeyUp(VK_DOWN) && m_PlayerSilde == 0 && m_PlayerDownAt == 0)
 	{
 		m_PlayerDown = 2;
 	}
@@ -328,6 +345,20 @@ void player::update()
 			}
 		}
 
+		else if (m_nRCurrFrameY == 6 && m_PlayerJumpAttack == 1)
+		{
+			if (m_nCount % 5 == 0)
+			{
+				m_nRCurrFrameX++;
+				m_pImg->setFrameX(m_nRCurrFrameX);
+				if (m_nRCurrFrameX > 9)
+				{
+					m_nRCurrFrameX;
+				}
+			}
+
+		}
+
 		// 플레이어 떨어지는 자세
 		else if (m_PlayerStand == 0 && m_PlayerJumpM == 0 || m_JumC >= 30)
 		{
@@ -344,7 +375,7 @@ void player::update()
 		}
 
 		// 플레이어 앉기 자세
-		else if (m_nRCurrFrameY == 11 && m_PlayerDown == 1 && m_PlayerSilde == 0)
+		else if (m_nRCurrFrameY == 11 && m_PlayerDown == 1 && m_PlayerSilde == 0 && m_PlayerDownAt == 0)
 		{
 			if (m_nCount % 10 == 0)
 			{
@@ -370,6 +401,41 @@ void player::update()
 					m_nCount = 0;
 					m_nRCurrFrameX = 0;
 					m_nRCurrFrameY = 0;
+				}
+			}
+		}
+
+		// 플레이어 앉아 공격 자세
+		else if (m_PlayerDownAt == 1 && m_nRCurrFrameY == 11)
+		{
+			if (m_nCount % 5 == 0)
+			{
+				m_motionC++;
+				if (m_motionC < 3 || m_motionC > 5)
+				{
+					m_nRCurrFrameX++;
+				}
+
+				if (m_nRCurrFrameX < 14)
+				{
+					m_Item = 1;
+					m_nNCurrFrameX++;
+					if (m_nNCurrFrameX > 3 && m_nNCurrFrameX < 5)
+					{
+						m_Irc = RectMakeCenter(m_fX + 120, m_fY - 10, m_pImg3->getFrameWidth() * 2, m_pImg3->getFrameHeight() * 2);
+					}
+				}
+
+				m_pImg->setFrameX(m_nRCurrFrameX);
+				if (m_nRCurrFrameX > 14)
+				{
+					m_nCount = 0;
+					m_nRCurrFrameX = 10;
+					m_nNCurrFrameX = 0;
+					m_PlayerDownAt = 0;
+					m_PlayerDown = 2;
+					m_motionC = 0;
+					m_Item = 0;
 				}
 			}
 		}
@@ -592,7 +658,15 @@ void player::render(HDC hdc)
 			m_pImg->frameRender(hdc, m_fX - (m_pImg->getFrameWidth()*3) / 2, m_fY - (m_pImg->getFrameHeight()*3) / 2-10, m_nRCurrFrameX, m_nRCurrFrameY,3);
 			if (m_Item)
 			{
-				m_pImg3->frameRender(hdc, m_fX - 30, m_fY - 70, m_nNCurrFrameX, m_nNCurrFrameY, 3);
+				if (m_PlayerAttack)
+				{
+					m_pImg3->frameRender(hdc, m_fX - 30, m_fY - 70, m_nNCurrFrameX, m_nNCurrFrameY, 3);
+				}
+				else if (m_PlayerDownAt)
+				{
+					m_pImg3->frameRender(hdc, m_fX - 30, m_fY - 35, m_nNCurrFrameX, m_nNCurrFrameY, 3);
+				}
+
 				//Rectangle(hdc, m_Irc.left, m_Irc.top, m_Irc.right, m_Irc.bottom);
 			}
 		}
