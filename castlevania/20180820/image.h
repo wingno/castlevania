@@ -84,6 +84,7 @@ public:
 
 	// ·»´õ
 	void render(HDC hdc, int destX, int destY);
+	void render(HDC hdc, int destX, int destY, int scalar);
 	void render(HDC hdc, int destX, int destY,
 		int sourX, int sourY, int sourWidth, int sourHeight, int scalar = 1);
 
@@ -92,6 +93,9 @@ public:
 		int currFrameX, int currFrameY);
 
 	void frameRender(HDC hdc, int destX, int destY, int currFrameX, int currFrameY, float scale);
+
+	void frameRender(HDC hdc, int destX, int destY,
+		int currFrameX, int currFrameY, int sourWidth, int sourHeight);
 
 	// ¾ËÆÄ ºí·»µå ·»´õ
 	void alphaRender(HDC hdc, BYTE alpha);

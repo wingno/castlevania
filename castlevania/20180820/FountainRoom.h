@@ -6,8 +6,8 @@ class FountainRoom:public room
 {
 private:
 
-	RECT rectGate[4];
-	RECT rectObj[1];
+	RECT rectGate[3];
+	RECT rectObj[2];
 
 public:
 	virtual HRESULT init();
@@ -16,9 +16,9 @@ public:
 	virtual void render(HDC hdc);
 
 	void colliderMake();
-	void rectColider();	FountainRoom();
+	void rectColider();	
 
-
+	FountainRoom();
 	~FountainRoom();
 };
 

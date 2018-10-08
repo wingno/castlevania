@@ -18,10 +18,6 @@ HRESULT selectScene::init()
 	selecterPos[0] = { WINSIZEX / 2 - 59,WINSIZEY / 2 - 64 };
 	selecterPos[1] = {WINSIZEX / 2 + 41, WINSIZEY / 2 - 64};
 
-  	if (g_mainGame.getISpaceShip() ==NULL)
-	{
-		g_mainGame.setISpaceShip(new spaceShip);
-	}
 	
 	m_seletNum = 0;
 
@@ -46,7 +42,6 @@ void selectScene::update()
 
 	if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
 	{
-		g_mainGame.getISpaceShip()->init(m_seletNum);
 
 		SCENEMANAGER->changeScene("battle");
 	}

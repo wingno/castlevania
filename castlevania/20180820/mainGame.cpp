@@ -5,6 +5,19 @@
 #include "scoreScene.h"
 #include "selectScene.h"
 #include "spaceShip.h"
+#include "menuScene.h"
+#include "player.h"
+
+//·ë
+#include "hallwayRoom1.h"
+#include "hallwayRoom2.h"
+#include "hallwayRoom3.h"
+#include "FountainRoom.h"
+#include"gateroom.h"
+#include "SaveRoom.h"
+#include "CastleHallway.h"
+#include "BrickStaircaseroom.h"
+
 
 /*
 	°ÔÀÓ window Ã¢¶ç¿ì±â (winmain () )
@@ -24,7 +37,10 @@ HRESULT mainGame::init()
 	//º¯¼ö
 	m_nscore = 0;
 
-	
+	m_pPlayer = new player;
+	m_pPlayer->init();
+
+	ROOMMANAGER->setPlayer(m_pPlayer);
 
 	//HANDLE hTimer = (HANDLE)SetTimer(g_hWnd, 1, 10, NULL);
 	KEYMANAGER->init();
@@ -36,7 +52,33 @@ HRESULT mainGame::init()
 
 	EFFECTMANAGER->addEffect("explosion1", "image/explosion.bmp", 832, 62, 32, 62, 30, 10);
 
-	m_pspaceShip =NULL;
+	// ·ë ÀÌ´Ï¼È¶óÀÌÁî
+	m_phallwayRoom1 = new hallwayRoom1;
+	ROOMMANAGER->addRoom("hallwayRoom1", m_phallwayRoom1);
+
+	m_phallwayRoom2 = new hallwayRoom2;
+	ROOMMANAGER->addRoom("hallwayRoom2", m_phallwayRoom2);
+
+	m_phallwayRoom3 = new hallwayRoom3;
+	ROOMMANAGER->addRoom("hallwayRoom3", m_phallwayRoom3);
+
+	m_pFountainRoom = new FountainRoom;
+	ROOMMANAGER->addRoom("FountainRoom", m_pFountainRoom);
+
+	m_gateroom = new gateRoom;
+	ROOMMANAGER->addRoom("gateroom", m_gateroom);
+
+	m_SaveRoom = new SaveRoom;
+	ROOMMANAGER->addRoom("saveroom", m_SaveRoom);
+
+	m_CastleHallway = new CastleHallway;
+	ROOMMANAGER->addRoom("CastleHallwayy", m_CastleHallway);
+
+
+	m_BrickStaircaseroom = new BrickStaircaseroom;
+	ROOMMANAGER->addRoom("BrickStaircaseroom", m_BrickStaircaseroom);
+
+	ROOMMANAGER->changeRoom("hallwayRoom1");
 
 
 	/*m_pTitleScene = new titleScene;
@@ -45,11 +87,17 @@ HRESULT mainGame::init()
 	m_pBattleScene = new battleScene;
 	SCENEMANAGER->addScene("battle", m_pBattleScene);
 
+
+	m_pTitleScene = new titleScene;
+	SCENEMANAGER->addScene("titleScene", m_pTitleScene);
+
+	m_pmenuScene = new menuScene;
+	SCENEMANAGER->addScene("menu", m_pmenuScene);
+
 	//m_pscoreScene = new scoreScene;
 	//SCENEMANAGER->addScene("score", m_pscoreScene);
 
-	//m_pselectScene = new selectScene;
-	//SCENEMANAGER->addScene("select", m_pselectScene);
+
 
 
 	SCENEMANAGER->changeScene("battle");
@@ -108,7 +156,7 @@ void mainGame::release()
 	TIMEMANAGER->releaseSingleton();
 	SCENEMANAGER->releaseSingleton();
 
-	if (m_pspaceShip) delete m_pspaceShip;
+	SAFE_DELETE(m_pPlayer);
 }
 
 LRESULT mainGame::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
@@ -150,7 +198,8 @@ void mainGame::render()
 
 
 	SCENEMANAGER->render(backDC);
-
+	
+	TIMEMANAGER->render(backDC);
 
 	m_pBackBuffer->render(hdc, 0, 0);
 }

@@ -18,7 +18,10 @@ HRESULT FountainRoom::init()
 	m_rectGate = rectGate;
 	m_rectObj = rectObj;
 
-	m_rectGate[0] = RectMake(0 - m_posMap.x, 64 * 3, 30, 48 * 3);
+	
+	
+
+
 
 
 	return S_OK;
@@ -48,6 +51,8 @@ void FountainRoom::update()
 	{
 		m_posMap.x = 512 * 3 - WINSIZEX;
 		m_pPlayer->setXCameraOn(false);
+
+
 	}
 
 	if (m_posMap.y < -10)
@@ -61,9 +66,19 @@ void FountainRoom::update()
 		m_pPlayer->setYCameraOn(false);
 	}
 
-	m_rectGate[0] = RectMake(0 - m_posMap.x, 64 * 3 - m_posMap.y, 30, 48 * 3);
+	
+	m_rectGate[0] = RectMake(-30 - m_posMap.x, 193 - m_posMap.y, 30, 144);
+	//- 30 안보이는 상태에서 충돌시 맵이동
+	m_rectGate[1] = RectMake(1520 - m_posMap.x, 193 - m_posMap.y, 30, 144);
+	m_rectGate[2] = RectMake(1520 - m_posMap.x, 960 - m_posMap.y, 30, 144);
+
+	//2번게이트 옆 랙트
+	rectObj[0]= RectMake(1345 - m_posMap.x, 864 - m_posMap.y, 100, 30);
+	//분수대 렉트
+	rectObj[1] = RectMake(590 - m_posMap.x, 1000 - m_posMap.y, 350, 50);
 
 	rectColider();
+	
 }
 
 void FountainRoom::render(HDC hdc)
@@ -72,16 +87,16 @@ void FountainRoom::render(HDC hdc)
 
 	m_imgBg->render(hdc, 0, 0, 1801 + m_posMap.x / 3, 1551 + m_posMap.y / 3, 240, 160, 3);
 
-	Rectangle(hdc, m_rectGate[0].left, m_rectGate[0].top, m_rectGate[0].right, m_rectGate[0].bottom);
+	
+	for (int i = 0; i < 3; i++)
+	{
+		Rectangle(hdc, m_rectGate[i].left, m_rectGate[i].top, m_rectGate[i].right, m_rectGate[i].bottom);
+	}
 
-	//for (int i = 0; i < 3; i++)
-	//{
-	//	Rectangle(hdc, m_rectGate[i].left, m_rectGate[i].top, m_rectGate[i].right, m_rectGate[i].bottom);
-	//}
-	//for (int i = 0; i < 2; i++)
-	//{
-	//	Rectangle(hdc, m_rectObj[i].left, m_rectObj[i].top, m_rectObj[i].right, m_rectObj[i].bottom);
-	//}
+	for (int i = 0; i < 2; i++)
+	{
+		Rectangle(hdc, m_rectObj[i].left, m_rectObj[i].top, m_rectObj[i].right, m_rectObj[i].bottom);
+	}
 }
 
 void FountainRoom::colliderMake()
@@ -140,20 +155,21 @@ void FountainRoom::colliderMake()
 
 void FountainRoom::rectColider()
 {
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		RECT rc;
+		POINT point;
 		if (IntersectRect(&rc, &(m_pPlayer->getRc()), &(m_rectGate[i])))
 		{
 			switch (i)
 			{
 			case 0:
 				m_pPlayer->setFY(293);
-				m_pPlayer->setFx(WINSIZEX - (20 * 3));
+				m_pPlayer->setFx(WINSIZEX - (30 * 3));
 
 				ROOMMANAGER->changeRoom("hallwayRoom1");
 
-				POINT point;
+				
 				point.x = 1276 * 3 - WINSIZEX;
 				point.y = 0;
 
@@ -161,12 +177,29 @@ void FountainRoom::rectColider()
 
 				break;
 			case 1:
+				m_pPlayer->setFY(300);
+				m_pPlayer->setFx(30 * 3);
 
+				ROOMMANAGER->changeRoom("hallwayRoom2");
+
+				
+	
 				break;
+
 			case 2:
+				m_pPlayer->setFY(330);
+				m_pPlayer->setFx(40 * 3);
 
 
+				ROOMMANAGER->changeRoom("saveroom");
+
+
+		
+
+				
 				break;
+
+				
 
 
 			default:
@@ -174,6 +207,20 @@ void FountainRoom::rectColider()
 			}
 		}
 	}
+
+
+	for (int i = 0; i < 2; i++)
+	{
+		if (m_rectObj[i].top + 13 > m_pPlayer->getRc().bottom && m_rectObj[i].top - 7 < m_pPlayer->getRc().bottom
+			&& (m_pPlayer->getRc().right > m_rectObj[i].left && m_pPlayer->getRc().left < m_rectObj[i].right))
+		{
+
+			m_pPlayer->setFY(m_rectObj[i].top - 50);
+		}
+	}
+
+
+
 }
 
 FountainRoom::FountainRoom()

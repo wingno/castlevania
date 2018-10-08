@@ -262,6 +262,45 @@ void image::render(HDC hdc, int destX, int destY)
 	}
 }
 
+void image::render(HDC hdc, int destX, int destY, int scalar)
+{
+	if (m_isTransparent)
+	{
+		GdiTransparentBlt(
+			// 목적지
+			hdc,	// 복사될 목적지 DC
+			destX, destY,		// 복사될 좌표 시작점
+			m_pImageInfo->nWidth*scalar,
+			m_pImageInfo->nHeight*scalar,	// 복사될 크기
+
+			// 대상
+			m_pImageInfo->hMemDC,	// 복사할 대상 DC
+			0, 0,					// 복사될 영역 시작좌표
+			m_pImageInfo->nWidth,
+			m_pImageInfo->nHeight,	// 복사될 영역지정 좌표
+
+			m_transColor);			// 복사에서 제외할 색상
+	}
+	else
+	{
+		// hdc : 복사될 목적지 DC
+		// destX : 출력을 시작할 x 좌표
+		// destY : 출력을 시작할 y 좌표
+		// cx : 출력할 이미지를 어느정도까지 출력할 것인가의 가로값
+		// cy : 출력할 이미지를 어느정도까지 출력할 것인가의 세로값
+		// hdcSrc : 복사할 정보를 제공하는 DC
+		// x1 : 이미지의 시작점을 잘라낼 것인가의 가로값
+		// y1 : 이미지의 시작점을 잘라낼 것인가의 세로값
+		// rop : 복사하는 옵션 (SRCCOPY)
+		BitBlt(
+			hdc,
+			destX, destY,
+			m_pImageInfo->nWidth, m_pImageInfo->nHeight,
+			m_pImageInfo->hMemDC,
+			0, 0, SRCCOPY);
+	}
+}
+
 void image::render(HDC hdc, int destX, int destY, 
 	int sourX, int sourY, int sourWidth, int sourHeight, int scalar)
 {
@@ -308,6 +347,44 @@ void image::frameRender(HDC hdc, int destX, int destY, int currFrameX, int currF
 			destX, destY,		// 복사될 좌표 시작점
 			m_pImageInfo->nFrameWidth,
 			m_pImageInfo->nFrameHeight,	// 복사될 크기
+
+									// 대상
+			m_pImageInfo->hMemDC,	// 복사할 대상 DC
+			m_pImageInfo->nFrameWidth * m_pImageInfo->nCurrFrameX,
+			m_pImageInfo->nFrameHeight * m_pImageInfo->nCurrFrameY,					// 복사될 영역 시작좌표
+			m_pImageInfo->nFrameWidth,
+			m_pImageInfo->nFrameHeight,	// 복사될 영역지정 좌표
+
+			m_transColor);			// 복사에서 제외할 색상
+	}
+	else
+	{
+		BitBlt(
+			hdc,
+			destX, destY,
+			m_pImageInfo->nWidth, m_pImageInfo->nHeight,
+			m_pImageInfo->hMemDC,
+			0, 0, SRCCOPY);
+	}
+}
+
+void image::frameRender(HDC hdc, int destX, int destY, int currFrameX, int currFrameY, int sourWidth, int sourHeight)
+{
+	m_pImageInfo->nCurrFrameX = currFrameX;
+	m_pImageInfo->nCurrFrameY = currFrameY;
+
+	if (currFrameX > m_pImageInfo->nMaxFrameX)
+		m_pImageInfo->nCurrFrameX = m_pImageInfo->nMaxFrameX;
+	if (currFrameY > m_pImageInfo->nMaxFrameY)
+		m_pImageInfo->nCurrFrameY = m_pImageInfo->nMaxFrameY;
+
+	if (m_isTransparent)
+	{
+		GdiTransparentBlt(
+			hdc,	// 복사될 목적지 DC
+			destX, destY,		// 복사될 좌표 시작점
+			sourWidth,
+			sourHeight,	// 복사될 크기
 
 									// 대상
 			m_pImageInfo->hMemDC,	// 복사할 대상 DC
