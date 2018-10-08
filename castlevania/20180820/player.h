@@ -1,5 +1,8 @@
 #pragma once
 
+class zombie;
+
+
 class bulletSoul;
 class guardianSoul;
 class enchantSoul;
@@ -58,9 +61,13 @@ private:
 	// 플레이어 이미지
 	image *	 m_pImg;
 	image *	 m_pImg2;
+	image *	 m_pImg3;
+
+	zombie* m_Zombie;
 	
 	// 플레이어 렉트
 	SYNTHESIZE (RECT, m_rc,Rc);
+	SYNTHESIZE(RECT, m_Irc, IRC);
 	
 	// 플레이어 속성 값
 
@@ -78,8 +85,13 @@ private:
 	int		m_BackC;
 
 	int		m_JumC;
+
+	int		m_JumMC;
 	
 	float	m_Speed;
+
+	int		m_motionC;
+
 
 	SYNTHESIZE( float, m_fX,Fx);
 	SYNTHESIZE(float, m_fY,FY);
@@ -94,6 +106,11 @@ private:
 
 	float	m_Gravity;
 
+	int		m_nNCurrFrameX;
+	int		m_nNCurrFrameY;
+
+	bool	m_Item;
+
 	// 플레이어가 보고 있는 방향 속성
 	bool	m_PlayerSee;
 
@@ -102,10 +119,13 @@ private:
 
 	// 플레이어의 점프 모션
 	int		m_PlayerJump;
+	bool	m_PlayerJumpM;
 	bool	m_PlayerJumpDown;
+	bool	m_PlayerJumpAttack;
 
 	// 플레이어의 앉기 모션
 	int		m_PlayerDown;
+	bool	m_PlayerDownAt;
 
 	// 플레이어의 슬라이딩 모션
 	bool	m_PlayerSilde;

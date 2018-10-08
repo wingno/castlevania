@@ -195,6 +195,7 @@
     <ClInclude Include="titleScene.h" />
     <ClInclude Include="txtData.h" />
     <ClInclude Include="utils.h" />
+    <ClInclude Include="zombie.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="20180820.cpp" />
@@ -244,6 +245,7 @@
     <ClCompile Include="titleScene.cpp" />
     <ClCompile Include="txtData.cpp" />
     <ClCompile Include="utils.cpp" />
+    <ClCompile Include="zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="20180820.ico" />

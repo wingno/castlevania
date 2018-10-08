@@ -204,6 +204,9 @@
     <ClInclude Include="enchantSoul.h">
       <Filter>MainGame\soul</Filter>
     </ClInclude>
+    <ClInclude Include="zombie.h">
+      <Filter>MainGame\enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -331,6 +334,9 @@
     </ClCompile>
     <ClCompile Include="enchantSoul.cpp">
       <Filter>MainGame\soul</Filter>
+    </ClCompile>
+    <ClCompile Include="zombie.cpp">
+      <Filter>MainGame\enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

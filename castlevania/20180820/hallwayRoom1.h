@@ -2,6 +2,7 @@
 #include "room.h"
 
 class image;
+class zombie;
 
 
 class hallwayRoom1:public room
@@ -11,6 +12,8 @@ private:
 	RECT rectGate[3];
 	RECT rectObj[2];
 
+	zombie* m_Zombie;
+
 public:
 	virtual HRESULT init();
 	virtual void release();
@@ -19,6 +22,7 @@ public:
 
 	void colliderMake();
 	void rectColider();
+	void checkCollision();
 
 	hallwayRoom1();
 	~hallwayRoom1();

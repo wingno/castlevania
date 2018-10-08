@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "hallwayRoom1.h"
 #include "player.h"
+#include "zombie.h"
 
 
 HRESULT hallwayRoom1::init()
@@ -13,7 +14,8 @@ HRESULT hallwayRoom1::init()
 	m_posMap = PointMake(0, 0);
 	m_posBG = PointMake(0, 0);
 
-
+	m_Zombie = new zombie;
+	m_Zombie->init(500, 350);
 
 	m_rectGate =rectGate;
 	m_rectObj = rectObj;
@@ -44,11 +46,13 @@ void hallwayRoom1::release()
 		delete m_pMemDCInfo;
 	}
 
+	SAFE_DELETE(m_Zombie);
+
 }
 
 void hallwayRoom1::update()
 {
-
+	m_Zombie->update();
 	if (m_posBG.x >= (2280))
 	{
 		m_posBG.x = 0;
@@ -82,11 +86,11 @@ void hallwayRoom1::update()
 	m_rectObj[1] = RectMake(384 * 3 - m_posMap.x, 24 * 3, 32 * 3, 7 * 3);
 
 	rectColider();
+	checkCollision();
 }
 
 void hallwayRoom1::render(HDC hdc)
 {
-
 
 
 	m_imgBg->render(hdc, 0, 0, 542, 1839, 240, 160, 3);
@@ -108,6 +112,8 @@ void hallwayRoom1::render(HDC hdc)
 	{
 		Rectangle(hdc, m_rectObj[i].left, m_rectObj[i].top, m_rectObj[i].right, m_rectObj[i].bottom);
 	}
+	
+	m_Zombie->render(hdc);
 }
 
 void hallwayRoom1::colliderMake()
@@ -175,9 +181,6 @@ void hallwayRoom1::colliderMake()
 
 void hallwayRoom1::rectColider()
 {
-
-
-
 	for (int i = 0; i < 3; i++)
 	{
 		RECT rc;
@@ -218,10 +221,16 @@ void hallwayRoom1::rectColider()
 		}
 
 	}
-
-
 }
 
+void hallwayRoom1::checkCollision()
+{
+	RECT rc;
+	if (m_Zombie->getAlive() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_Zombie->getrc()))
+	{
+		m_Zombie->setAlive(false);
+	}
+}
 
 
 
