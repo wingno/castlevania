@@ -49,6 +49,12 @@ HRESULT menuScene::init()
 
 	m_nTypeSelet = 0;
 
+	m_nFinalSelectNum = 0;
+
+	m_nShowStarNum = 0;
+
+	m_nShowEndChacker = 0;
+
 	return S_OK;
 }
 
@@ -120,20 +126,20 @@ void menuScene::render(HDC hdc)
 {
 	AddFontResourceA("font/Slabberton.ttf");
 
-	HFONT hFont= CreateFont(30, 0, 0, 0, 0, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, "Slabberton");;
+	HFONT hFont= CreateFont(30, 0, 0, 0, 0, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, "Slabberton");
 	HFONT oldFont = (HFONT)SelectObject(hdc, hFont);
 
 
 	switch (m_state)
 	{
 	case MENU:
-		menuRander(hdc, hFont, oldFont);
+		menuRander(hdc);
 		break;
 	case SOUL_SET:
-		sourSetRander(hdc, hFont, oldFont);
+		sourSetRander(hdc);
 		break;
 	case EQUIT:
-		equitRander(hdc, hFont, oldFont);
+		equitRander(hdc);
 		break;
 	case ITEM:
 		break;
@@ -168,7 +174,7 @@ void menuScene::render(HDC hdc)
 	DeleteObject(hFont);
 }
 
-void menuScene::menuRander(HDC hdc,HFONT hFont, HFONT oldFont)
+void menuScene::menuRander(HDC hdc)
 {
 
 
@@ -349,7 +355,7 @@ void menuScene::menuUpdate()
 
 }
 
-void menuScene::sourSetRander(HDC hdc, HFONT hFont, HFONT oldFont)
+void menuScene::sourSetRander(HDC hdc)
 {
 
 
@@ -366,8 +372,9 @@ void menuScene::sourSetRander(HDC hdc, HFONT hFont, HFONT oldFont)
 
 	}
 
-	if(m_nSetStep==1)
-		m_imgSeleter->render(hdc, -m_seleter.SelectMover, WINSIZEY/2-10, 3);
+	if (m_nSetStep == 1)
+		m_imgSeleter->render(hdc, -m_seleter.SelectMover/3 +
+		(m_nFinalSelectNum % 2 == 0 ? 10:330), WINSIZEY / 2-20 +(20* (m_nFinalSelectNum/2)), 3);
 
 	if (m_pPlayer->m_soulSet.bS->getImgIcon())
 	{
@@ -448,6 +455,70 @@ void menuScene::sourSetupdate()
 		}
 		break;
 	case 1:
+
+		if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
+		{
+			if (m_nFinalSelectNum % 2 == 0)
+			{
+				if(m_nFinalSelectNum<m_pPlayer->m_soulInven.vecBulletSoul.size())
+					m_nFinalSelectNum++;
+			}
+			else
+			{
+				m_nFinalSelectNum--;
+
+			}
+			
+		}
+
+		if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
+		{
+			if (m_nFinalSelectNum % 2 == 1)
+			{
+				m_nFinalSelectNum--;
+			}
+			else
+			{
+				if (m_nFinalSelectNum == 0)
+					m_nFinalSelectNum = 0;
+				m_nFinalSelectNum++;
+			}
+
+		}
+
+		if (KEYMANAGER->isOnceKeyDown(VK_UP))
+		{
+			if (m_nFinalSelectNum>=2)
+			{
+				m_nFinalSelectNum -= 2;
+			}
+			else
+			{
+				if (m_nShowStarNum >= 2)
+				{
+					m_nShowStarNum -= 2;
+					m_nShowEndChacker = 0;
+
+				}
+			}
+
+		}
+
+		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+		{
+			if(m_nFinalSelectNum+2< 8)
+				m_nFinalSelectNum += 2;
+			else
+			{
+				if(m_nShowStarNum +6 < m_pPlayer->m_soulInven.vecBulletSoul.size())
+					m_nShowStarNum += 2;
+				if (m_nShowStarNum + 8 < m_pPlayer->m_soulInven.vecBulletSoul.size())
+					m_nShowEndChacker = 1;
+			}
+
+		}
+
+
 		if (KEYMANAGER->isOnceKeyDown('Z'))
 		{
 			m_nSetStep--;
@@ -465,7 +536,7 @@ void menuScene::sourSetupdate()
 
 }
 
-void menuScene::equitRander(HDC hdc, HFONT hFont, HFONT oldFont)
+void menuScene::equitRander(HDC hdc)
 {
 	m_imgEquit->render(hdc, 0, 0);
 
@@ -560,6 +631,7 @@ void menuScene::equitupdate()
 void menuScene::fontPrint(HDC hdc)
 {
 
+
 	char str[300];
 	
 
@@ -629,7 +701,8 @@ void menuScene::fontPrint(HDC hdc)
 
 
 
-
+		HFONT hFont;
+		HFONT oldFont;
 
 
 		SetTextColor(hdc, RGB(255, 255, 255));
@@ -646,21 +719,28 @@ void menuScene::fontPrint(HDC hdc)
 			sprintf_s(str, "BULLET", m_pPlayer->getState().currLck);
 			TextOut(hdc, WINSIZEX / 2 - 190, WINSIZEY / 2 - 33, str, lstrlen(str));
 
-			for (int i = 0; i < m_pPlayer->m_soulInven.vecBulletSoul.size(); i++)
+			hFont = CreateFont(25, 0, 0, 0, 0, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, "Slabberton");
+			oldFont = (HFONT)SelectObject(hdc, hFont);
+			for (int i = m_nShowStarNum;
+				i <( m_pPlayer->m_soulInven.vecBulletSoul.size() < 9
+				? m_pPlayer->m_soulInven.vecBulletSoul.size() : 8+ m_nShowStarNum- m_nShowEndChacker); i++)
+			
 			{
+
 				if (i % 2==0)
 				{
 					sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecBulletSoul[i]->m_sName.c_str());
-					TextOut(hdc, 60, 250+ ((i/2)*40), str, lstrlen(str));
+					TextOut(hdc, 60, 240 + (((i - m_nShowStarNum) / 2) * 20), str, lstrlen(str));
 				}
 				else
 				{
 					sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecBulletSoul[i]->m_sName.c_str());
-					TextOut(hdc, 330,250+ ((i/2)*40), str, lstrlen(str));
+					TextOut(hdc, 380, 240 + (((i - m_nShowStarNum) / 2) * 20), str, lstrlen(str));
 				}
 
 			}
-			
+			SelectObject(hdc, oldFont);
+			DeleteObject(hFont);
 
 
 			break;
@@ -674,21 +754,26 @@ void menuScene::fontPrint(HDC hdc)
 
 			sprintf_s(str, "GUARDIAN", m_pPlayer->getState().currLck);
 			TextOut(hdc, WINSIZEX / 2 - 210, WINSIZEY / 2 - 33, str, lstrlen(str));
-
-			for (int i = 0; i < m_pPlayer->m_soulInven.vecGuardianSoul.size(); i++)
+			hFont = CreateFont(25, 0, 0, 0, 0, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, "Slabberton");
+			oldFont = (HFONT)SelectObject(hdc, hFont);
+			for (int i = m_nShowStarNum;
+				i < (m_pPlayer->m_soulInven.vecGuardianSoul.size() < 9
+				? m_pPlayer->m_soulInven.vecGuardianSoul.size() : 8+ m_nShowStarNum- m_nShowEndChacker); i++)
 			{
 				if (i % 2 == 0)
 				{
 					sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecGuardianSoul[i]->m_sName.c_str());
-					TextOut(hdc, 60, 250 + ((i / 2) * 40), str, lstrlen(str));
+					TextOut(hdc, 60, 240 + (((i- m_nShowStarNum) / 2) * 20), str, lstrlen(str));
 				}
 				else
 				{
 					sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecGuardianSoul[i]->m_sName.c_str());
-					TextOut(hdc, 330, 250 + ((i / 2) * 40), str, lstrlen(str));
+					TextOut(hdc, 380, 240 + (((i-m_nShowStarNum) / 2) * 20), str, lstrlen(str));
 				}
 
 			}
+			SelectObject(hdc, oldFont);
+			DeleteObject(hFont);
 			break;
 		case 2:
 
@@ -700,21 +785,26 @@ void menuScene::fontPrint(HDC hdc)
 
 			sprintf_s(str, "ENCHANT", m_pPlayer->getState().currLck);
 			TextOut(hdc, WINSIZEX / 2 - 200, WINSIZEY / 2 - 33, str, lstrlen(str));
-
-			for (int i = 0; i < m_pPlayer->m_soulInven.vecEnchantSoul.size(); i++)
+			hFont = CreateFont(25, 0, 0, 0, 0, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, "Slabberton");
+			oldFont = (HFONT)SelectObject(hdc, hFont);
+			for (int i = m_nShowStarNum;
+				i < (m_pPlayer->m_soulInven.vecEnchantSoul.size()<9
+				? m_pPlayer->m_soulInven.vecEnchantSoul.size():8+ m_nShowStarNum- m_nShowEndChacker); i++)
 			{
 				if (i % 2 == 0)
 				{
 					sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecEnchantSoul[i]->m_sName.c_str());
-					TextOut(hdc, 60, 250 + ((i / 2) * 40), str, lstrlen(str));
+					TextOut(hdc, 60, 240 + (((i - m_nShowStarNum) / 2) * 20), str, lstrlen(str));
 				}
 				else
 				{
 					sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecEnchantSoul[i]->m_sName.c_str());
-					TextOut(hdc, 330, 250 + ((i / 2) * 40), str, lstrlen(str));
+					TextOut(hdc, 380, 240 + (((i - m_nShowStarNum) / 2) * 20), str, lstrlen(str));
 				}
 
 			}
+			SelectObject(hdc, oldFont);
+			DeleteObject(hFont);
 			break;
 		default:
 			break;

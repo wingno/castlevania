@@ -38,8 +38,11 @@ private:
 
 	int m_nTypeSelet;
 	
+	int m_nFinalSelectNum;
 
+	int m_nShowStarNum;
 
+	int m_nShowEndChacker;
 
 
 	seleter m_seleter;
@@ -57,11 +60,11 @@ public:
 	virtual void update();
 	virtual void render(HDC hdc);
 
-	void menuRander(HDC hdc ,HFONT hFont ,HFONT oldFont);
+	void menuRander(HDC hdc );
 	void menuUpdate();
-	void sourSetRander(HDC hdc, HFONT hFont, HFONT oldFont);
+	void sourSetRander(HDC hdc);
 	void sourSetupdate();
-	void equitRander(HDC hdc, HFONT hFont, HFONT oldFont);
+	void equitRander(HDC hdc);
 	void equitupdate();
 
 

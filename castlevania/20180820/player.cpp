@@ -89,7 +89,17 @@ HRESULT player::init()
 	bulletSoul* testBSoul = new bulletSoul;
 	testBSoul->init(0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, "해골사수", "마법의 활을 쏜다");
 
+
 	m_soulInven.vecBulletSoul.push_back(baseBSoul);
+	m_soulInven.vecBulletSoul.push_back(testBSoul);
+	m_soulInven.vecBulletSoul.push_back(testBSoul);
+	m_soulInven.vecBulletSoul.push_back(testBSoul);
+	m_soulInven.vecBulletSoul.push_back(testBSoul);
+	m_soulInven.vecBulletSoul.push_back(testBSoul);
+	m_soulInven.vecBulletSoul.push_back(testBSoul);
+	m_soulInven.vecBulletSoul.push_back(testBSoul);
+	m_soulInven.vecBulletSoul.push_back(testBSoul);
+	m_soulInven.vecBulletSoul.push_back(testBSoul);
 	m_soulInven.vecBulletSoul.push_back(testBSoul);
 
 	guardianSoul* baseGSoul = new guardianSoul;
