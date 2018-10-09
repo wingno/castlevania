@@ -7,9 +7,10 @@ class image;
 class CastleHallway : public room
 {
 private:
-
+	//¹®
 	RECT rectGate[3];
-	RECT rectObj[2];
+	//¹ßÆÇ
+	RECT rectObj[12];
 
 public:
 	virtual HRESULT init();

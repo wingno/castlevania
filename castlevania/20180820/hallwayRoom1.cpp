@@ -3,6 +3,7 @@
 #include "player.h"
 #include "zombie.h"
 #include "SkeletonArcher.h"
+#include "RoomObject.h"
 
 HRESULT hallwayRoom1::init()
 {
@@ -16,13 +17,25 @@ HRESULT hallwayRoom1::init()
 	m_posBG = PointMake(0, 0);
 
 	m_Zombie = new zombie[10];
-
 	m_Zombie->init(500, 350);
+
+
 
 	for (int i = 1; i < 10; i++)
 	{
 		m_Zombie[i].init(700 + (i * 200), 350);
 	}
+	//ระบา
+	m_candle = new RoomObject[2];
+
+	for (int i = 0; i < 2; i++)
+	{
+		m_candle[0].init(500, 300, 0);
+		m_candle[1].init(200, 200, 0);
+
+	}
+	
+
 
 	m_rectGate =rectGate;
 	m_rectObj = rectObj;
@@ -54,13 +67,21 @@ void hallwayRoom1::release()
 		delete m_pMemDCInfo;
 	}
 
-	//SAFE_DELETE(m_Zombie);
+	
 
 }
 
 void hallwayRoom1::update()
 {
 	m_Zombie->update();
+	//ระบา
+	for (int i = 0; i < 2; i++)
+	{
+		m_candle[0].update();
+		m_candle[1].update();
+
+	}
+		
 	for (int i = 1; i < 10; i++)
 	{
 		m_Zombie[i].update();
@@ -134,6 +155,10 @@ void hallwayRoom1::render(HDC hdc)
 	for (int i = 1; i < 10; i++)
 	{
 		m_Zombie[i].render(hdc);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		m_candle[i].render(hdc);
 	}
 
 }
@@ -224,10 +249,15 @@ void hallwayRoom1::rectColider()
 				ROOMMANAGER->getCurrRoom()->setPosMap(point);
 				break;
 			case 1:
-			
-				m_pPlayer->setFY(293);
-				m_pPlayer->setFx(50 * 3);
-				ROOMMANAGER->changeRoom("FountainRoom");//ฟ๘บป
+				m_pPlayer->setFY(330);
+				m_pPlayer->setFx(40 * 3);
+
+
+				ROOMMANAGER->changeRoom("saveroom");
+
+				//m_pPlayer->setFY(293);
+				//m_pPlayer->setFx(50 * 3);
+				//ROOMMANAGER->changeRoom("FountainRoom");//ฟ๘บป
 				break;
 			case 2:
 
@@ -258,9 +288,11 @@ void hallwayRoom1::rectColider()
 
 void hallwayRoom1::checkCollision()
 {
+	RECT rc;
+
 	for (int i = 0; i < 10; i++)
 	{
-		RECT rc;
+	
 
 		if (m_Zombie[i].getAlive() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_Zombie[i].getrc()))
 		{
@@ -268,6 +300,18 @@ void hallwayRoom1::checkCollision()
 		}
 
 	}
+	for (int i = 0; i < 3; i++)
+	{
+
+
+		if (m_candle[i].getAlive() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_candle[i].getrc()))
+		{
+			m_candle[i].setDestruction(true);
+		}
+
+	}
+
+
 }
 
 

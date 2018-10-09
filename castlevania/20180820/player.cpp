@@ -32,7 +32,7 @@ HRESULT player::init()
 	m_nNCurrFrameY = 0;
 
 	// 플레이어의 속성 초기화
-	m_Speed = 6.0f; //테스팅용으로 
+	m_Speed = 15.0f; //테스팅용으로 
 	m_JumP = 20.0f;
 	m_Gravity = 10.0f;
 	m_SildeP = 10.0f;
@@ -194,7 +194,7 @@ void player::update()
 
 				if (m_JumC < 30 && m_JumC > 10)
 				{
-					m_JumP = 10;
+					m_JumP = 30; //test용 점프
 				}
 				else if (m_JumC > 30)
 				{

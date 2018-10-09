@@ -73,6 +73,24 @@ void CastleHallway::update()
 	m_rectGate[0] = RectMake(-20 - m_posMap.x, 4032 - m_posMap.y, 30, 144);
 	m_rectGate[1] = RectMake(1530 - m_posMap.x, 4032 - m_posMap.y, 30, 144);
 
+	//발판 오브잭트
+	//오른쪽
+
+	m_rectObj[0] = RectMake(1250 - m_posMap.x, 4078 - m_posMap.y, 100, 30);
+	m_rectObj[1] = RectMake(1342 - m_posMap.x, 2203 - m_posMap.y, 100, 30);
+	m_rectObj[2] = RectMake(1342 - m_posMap.x, 2400 - m_posMap.y, 100, 30);
+	m_rectObj[3] = RectMake(1249 - m_posMap.x, 2584 - m_posMap.y, 100, 30);
+	m_rectObj[4] = RectMake(1342 - m_posMap.x, 2732 - m_posMap.y, 100, 30);
+	m_rectObj[5] = RectMake(1249 - m_posMap.x, 2875 - m_posMap.y, 100, 30);
+	m_rectObj[6] = RectMake(1342 - m_posMap.x, 3211 - m_posMap.y, 100, 30);
+	m_rectObj[10] = RectMake(1342 - m_posMap.x, 1051 - m_posMap.y, 100, 30);
+
+	//왼쪽
+	m_rectObj[9] = RectMake(96 - m_posMap.x, 1778 - m_posMap.y, 97, 30);
+	m_rectObj[8] = RectMake(96 - m_posMap.x, 2593 - m_posMap.y, 97, 30);
+	m_rectObj[7] = RectMake(96 - m_posMap.x, 3505 - m_posMap.y, 242, 25);
+
+
 	rectColider();
 }
 
@@ -83,10 +101,18 @@ void CastleHallway::render(HDC hdc)
 
 	m_imgBg->render(hdc, 0, 0, 3081 + m_posMap.x / 3, 271 + m_posMap.y / 3, 300, 160, 3);
 
+	//게이트 오브젝트
 	for (int i = 0; i < 3; i++)
 	{
 		Rectangle(hdc, m_rectGate[i].left, m_rectGate[i].top, m_rectGate[i].right, m_rectGate[i].bottom);
+
 	}
+	//발판 오브젝트
+	for (int i = 0; i < 12; i++)
+	{
+		Rectangle(hdc, m_rectObj[i].left, m_rectObj[i].top, m_rectObj[i].right, m_rectObj[i].bottom);
+	}
+
 }
 
 void CastleHallway::rectColider()
@@ -132,7 +158,7 @@ void CastleHallway::rectColider()
 		}
 	}
 
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 12; i++)
 	{
 		if (m_rectObj[i].top + 13 > m_pPlayer->getRc().bottom && m_rectObj[i].top - 7 < m_pPlayer->getRc().bottom
 			&& (m_pPlayer->getRc().right > m_rectObj[i].left && m_pPlayer->getRc().left < m_rectObj[i].right))
@@ -140,8 +166,20 @@ void CastleHallway::rectColider()
 
 			m_pPlayer->setFY(m_rectObj[i].top - 50);
 
+
+			//맵에걸릴경우 내려가는거 임시방편 나중에 수정해야함 !!!
+			if (m_rectObj[i].top - 50)
+			{
+				if (KEYMANAGER->isOnceKeyDown('C'))
+				{
+					m_pPlayer->setFY(m_rectObj[i].top - 10);
+				}
+			}
+
+
 		}
 	}
+
 }
 
 void CastleHallway::colliderMake()

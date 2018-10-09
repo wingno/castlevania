@@ -180,7 +180,6 @@
     <ClInclude Include="FountainRoom.h">
       <Filter>MainGame\room</Filter>
     </ClInclude>
-
     <ClInclude Include="SkeletonArcher.h">
       <Filter>MainGame\enemy</Filter>
     </ClInclude>
@@ -225,6 +224,9 @@
     </ClInclude>
     <ClInclude Include="zombie.h">
       <Filter>MainGame\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomObject.h">
+      <Filter>MainGame\room</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -357,7 +359,6 @@
     <ClCompile Include="zombie.cpp">
       <Filter>MainGame\enemy</Filter>
     </ClCompile>
-
     <ClCompile Include="SkeletonArcher.cpp">
       <Filter>MainGame\enemy</Filter>
     </ClCompile>
@@ -374,6 +375,9 @@
       <Filter>MainGame\room</Filter>
     </ClCompile>
     <ClCompile Include="BrickStaircaseroom.cpp">
+      <Filter>MainGame\room</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomObject.cpp">
       <Filter>MainGame\room</Filter>
     </ClCompile>
   </ItemGroup>
