@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "FountainRoom.h"
 #include "player.h"
+#include "RoomObject.h"
 
 HRESULT FountainRoom::init()
 {
@@ -19,6 +20,17 @@ HRESULT FountainRoom::init()
 	m_rectObj = rectObj;
 
 	
+	m_OBJ = new RoomObject[4];
+	for (int i = 0; i < 4; i++)
+	{
+		// 캔들
+		m_OBJ[0].init(311, 630, 0);
+		m_OBJ[1].init(1178, 630, 0);
+		// 작은 불
+		m_OBJ[2].init(605, 836, 1);
+		m_OBJ[3].init(891, 836, 1);
+		
+	}
 	
 
 
@@ -41,6 +53,13 @@ void FountainRoom::release()
 
 void FountainRoom::update()
 {
+	//촛불
+	for (int i = 0; i < 4; i++)
+	{
+		m_OBJ[i].update();
+
+
+	}
 
 	if (m_posMap.x < 0)
 	{
@@ -77,6 +96,7 @@ void FountainRoom::update()
 	//분수대 렉트
 	rectObj[1] = RectMake(590 - m_posMap.x, 1000 - m_posMap.y, 350, 50);
 
+	
 	rectColider();
 	
 }
@@ -97,6 +117,13 @@ void FountainRoom::render(HDC hdc)
 	{
 		Rectangle(hdc, m_rectObj[i].left, m_rectObj[i].top, m_rectObj[i].right, m_rectObj[i].bottom);
 	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		m_OBJ[i].render(hdc);
+	}
+
+
 }
 
 void FountainRoom::colliderMake()
@@ -155,9 +182,10 @@ void FountainRoom::colliderMake()
 
 void FountainRoom::rectColider()
 {
+	RECT rc;
 	for (int i = 0; i < 3; i++)
 	{
-		RECT rc;
+	
 		POINT point;
 		if (IntersectRect(&rc, &(m_pPlayer->getRc()), &(m_rectGate[i])))
 		{
@@ -193,15 +221,7 @@ void FountainRoom::rectColider()
 
 				ROOMMANAGER->changeRoom("saveroom");
 
-
-		
-
-				
 				break;
-
-				
-
-
 			default:
 				break;
 			}
@@ -218,10 +238,22 @@ void FountainRoom::rectColider()
 			m_pPlayer->setFY(m_rectObj[i].top - 50);
 		}
 	}
+	for (int i = 0; i < 4; i++)
+	{
 
+
+		if (m_OBJ[i].getAlive() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_OBJ[i].getrc()))
+		{
+			m_OBJ[i].setAlive(false);
+
+			m_OBJ[i].setDestruction(true);
+		}
+
+	}
 
 
 }
+
 
 FountainRoom::FountainRoom()
 {

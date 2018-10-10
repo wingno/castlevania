@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "gateRoom.h"
 #include "player.h"
+#include "RoomObject.h"
 
 HRESULT gateRoom::init()
 {
@@ -17,7 +18,17 @@ HRESULT gateRoom::init()
 	m_rectGate = rectGate;
 	m_rectObj = rectObj;
 
+	m_OBJ = new RoomObject[4];
 
+	for (int i = 0; i < 4; i++)
+	{
+		//작은불
+		m_OBJ[0].init(334, 1137, 1);
+		m_OBJ[1].init(334, 890, 1);
+		m_OBJ[2].init(867, 800, 1);
+		m_OBJ[3].init(1343, 224, 1);
+
+	}
 
 
 	return S_OK;
@@ -27,6 +38,7 @@ void gateRoom::release()
 {
 	if (m_pMemDCInfo)
 	{
+
 		SelectObject(m_pMemDCInfo->hMemDC, m_pMemDCInfo->hOldBitmap);
 		DeleteObject(m_pMemDCInfo->hBitmap);
 		DeleteDC(m_pMemDCInfo->hMemDC);
@@ -37,6 +49,11 @@ void gateRoom::release()
 
 void gateRoom::update()
 {
+	//작은불
+	for (int i = 0; i < 4; i++)
+	{
+		m_OBJ[i].update();
+	}
 	if (m_posMap.x < 0)
 	{
 		m_posMap.x = 0;
@@ -91,6 +108,11 @@ void gateRoom::render(HDC hdc)
 	for (int i = 0; i < 6; i++)
 	{
 		Rectangle(hdc, m_rectObj[i].left, m_rectObj[i].top, m_rectObj[i].right, m_rectObj[i].bottom);
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		m_OBJ[i].render(hdc);
 	}
 
 }
@@ -206,6 +228,10 @@ void gateRoom::rectColider()
 
 		}
 	}
+}
+
+void gateRoom::checkCollision()
+{
 }
 
 

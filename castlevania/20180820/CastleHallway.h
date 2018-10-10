@@ -2,7 +2,7 @@
 #include "room.h"
 
 class image;
-
+class RoomObject;
 
 class CastleHallway : public room
 {
@@ -11,6 +11,8 @@ private:
 	RECT rectGate[3];
 	//¹ßÆÇ
 	RECT rectObj[12];
+	RoomObject* m_OBJ;
+
 
 public:
 	virtual HRESULT init();
@@ -20,7 +22,7 @@ public:
 
 	void colliderMake();
 	void rectColider();
-
+	void checkCollision();
 	
 	CastleHallway();
 	~CastleHallway();

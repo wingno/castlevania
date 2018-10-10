@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CastleHallway.h"
 #include "player.h"
-
+#include "RoomObject.h"
 
 HRESULT CastleHallway::init()
 {
@@ -20,10 +20,37 @@ HRESULT CastleHallway::init()
 	m_rectObj = rectObj;
 
 
+	m_OBJ = new RoomObject[14];
+
+	for (int i = 0; i < 14; i++)
+	{
+		//ระบา
+		m_OBJ[0].init(361, 4058, 0);
+		m_OBJ[1].init(650, 4058, 0);
+		m_OBJ[2].init(937, 4058, 0);
+
+
+
+		//ศฝบา
+		m_OBJ[3].init(772, 3450, 1);
+		m_OBJ[4].init(339, 3162, 1);
+		m_OBJ[5].init(630, 2301, 1);
+		m_OBJ[6].init(868, 2301, 1);
+		m_OBJ[7].init(1397, 2010, 1);
+		
+		m_OBJ[8].init(868, 1819, 1);
+		m_OBJ[9].init(628, 1725, 1);
+
+		m_OBJ[10].init(628, 1244, 1);
+		m_OBJ[11].init(868, 1147, 1);
+		m_OBJ[12].init(628, 572, 1);
+		m_OBJ[13].init(868, 572, 1);
+		
+
+	}
 	return S_OK;
 }
-
-void CastleHallway::release()
+ void CastleHallway::release()
 {
 	if (m_pMemDCInfo)
 	{
@@ -37,6 +64,12 @@ void CastleHallway::release()
 
 void CastleHallway::update()
 {
+
+	//ระบา
+	for (int i = 0; i < 14; i++)
+	{
+		m_OBJ[i].update();
+	}
 	if (m_posMap.x < 0)
 	{
 		m_posMap.x = 0;
@@ -113,6 +146,11 @@ void CastleHallway::render(HDC hdc)
 		Rectangle(hdc, m_rectObj[i].left, m_rectObj[i].top, m_rectObj[i].right, m_rectObj[i].bottom);
 	}
 
+
+	for (int i = 0; i < 14; i++)
+	{
+		m_OBJ[i].render(hdc);
+	}
 }
 
 void CastleHallway::rectColider()
@@ -180,6 +218,25 @@ void CastleHallway::rectColider()
 		}
 	}
 
+}
+
+void CastleHallway::checkCollision()
+{
+	RECT rc;
+
+
+	for (int i = 0; i < 14; i++)
+	{
+
+
+		if (m_OBJ[i].getAlive() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_OBJ[i].getrc()))
+		{
+			m_OBJ[i].setAlive(false);
+
+			m_OBJ[i].setDestruction(true);
+		}
+
+	}
 }
 
 void CastleHallway::colliderMake()

@@ -1,19 +1,20 @@
 #pragma once
-#include"room.h"
+
 
 class image;
 
+class CoinObject;
 
 
-class RoomObject : public room
+class RoomObject 
 {
 private:
 	
 	//파괴 여부를 채크
 	bool DestructionMove;
-
+	//@@@@@@@@@@@@@@@@@@@@@@@@오브잭트@@@@@@@@@@@@@@@@@@
 	//위치
-	int FX, FY;
+
 	//프레임 
 	int FrameX, FrameY;
 	//인덱스
@@ -23,8 +24,13 @@ private:
 	//오브잭트 번호
 	int OBnum;
 
-	
+	CoinObject* m_coin;
+
+	//오브잭트이미지
 	image* m_Candlelight;
+	
+	SYNTHESIZE(int, FX, FX);
+	SYNTHESIZE(int, FY, FY);
 	SYNTHESIZE(bool, Alive, Alive);
 	SYNTHESIZE(bool, Destruction, Destruction);
 	SYNTHESIZE(RECT, m_rc, rc);
@@ -36,6 +42,8 @@ public:
 	virtual void release();
 	virtual void update();
 	virtual void render(HDC hdc);
+	virtual void ObjectCode();
+	
 
 
 	RoomObject();

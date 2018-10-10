@@ -13,7 +13,7 @@ private:
 	RECT rectGate[3];
 	RECT rectObj[2];
 	SkeletonArcher* m_Archer;
-	RoomObject* m_candle;
+	RoomObject* m_OBJ;
 
 
 

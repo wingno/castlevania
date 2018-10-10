@@ -25,13 +25,16 @@ HRESULT hallwayRoom1::init()
 	{
 		m_Zombie[i].init(700 + (i * 200), 350);
 	}
-	//ระบา
-	m_candle = new RoomObject[2];
 
-	for (int i = 0; i < 2; i++)
+	m_OBJ = new RoomObject[4];
+
+	for (int i = 0; i < 4; i++)
 	{
-		m_candle[0].init(500, 300, 0);
-		m_candle[1].init(200, 200, 0);
+		//ระบา
+		m_OBJ[0].init(742, 300, 0);
+		m_OBJ[1].init(1513, 300, 0);
+		m_OBJ[2].init(2279, 300, 0);
+		m_OBJ[3].init(3045, 300, 0);
 
 	}
 	
@@ -75,11 +78,9 @@ void hallwayRoom1::update()
 {
 	m_Zombie->update();
 	//ระบา
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 4; i++)
 	{
-		m_candle[0].update();
-		m_candle[1].update();
-
+		m_OBJ[i].update();
 	}
 		
 	for (int i = 1; i < 10; i++)
@@ -119,8 +120,8 @@ void hallwayRoom1::update()
 	m_rectObj[0] = RectMake(384 * 3 - m_posMap.x, 80 * 3, 32 * 3, 7 * 3);
 	m_rectObj[1] = RectMake(384 * 3 - m_posMap.x, 24 * 3, 32 * 3, 7 * 3);
 
-	rectColider();
 	checkCollision();
+	rectColider();
 
 
 }
@@ -156,9 +157,9 @@ void hallwayRoom1::render(HDC hdc)
 	{
 		m_Zombie[i].render(hdc);
 	}
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 4; i++)
 	{
-		m_candle[i].render(hdc);
+		m_OBJ[i].render(hdc);
 	}
 
 }
@@ -238,7 +239,7 @@ void hallwayRoom1::rectColider()
 			{
 			case 0:
 				m_pPlayer->setFY(293);
-				m_pPlayer->setFx(50 * 3);
+				m_pPlayer->setFx(200 * 3);
 
 				ROOMMANAGER->changeRoom("gateroom");
 
@@ -249,12 +250,13 @@ void hallwayRoom1::rectColider()
 				ROOMMANAGER->getCurrRoom()->setPosMap(point);
 				break;
 			case 1:
-				m_pPlayer->setFY(330);
-				m_pPlayer->setFx(40 * 3);
+				m_pPlayer->setFY(300);
+				m_pPlayer->setFx(20 * 3);
+				ROOMMANAGER->changeRoom("CastleHallwayy");
+				point.x = 0;
+				point.y = 3850;
 
-
-				ROOMMANAGER->changeRoom("saveroom");
-
+				ROOMMANAGER->getCurrRoom()->setPosMap(point);
 				//m_pPlayer->setFY(293);
 				//m_pPlayer->setFx(50 * 3);
 				//ROOMMANAGER->changeRoom("FountainRoom");//ฟ๘บป
@@ -300,13 +302,15 @@ void hallwayRoom1::checkCollision()
 		}
 
 	}
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 4; i++)
 	{
 
 
-		if (m_candle[i].getAlive() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_candle[i].getrc()))
+		if (m_OBJ[i].getAlive() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_OBJ[i].getrc()))
 		{
-			m_candle[i].setDestruction(true);
+			m_OBJ[i].setAlive(false);
+		
+			m_OBJ[i].setDestruction(true);
 		}
 
 	}

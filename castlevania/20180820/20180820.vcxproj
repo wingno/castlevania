@@ -156,6 +156,7 @@
     <ClInclude Include="bulletSoul.h" />
     <ClInclude Include="camel.h" />
     <ClInclude Include="CastleHallway.h" />
+    <ClInclude Include="CoinObject.h" />
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
@@ -213,6 +214,7 @@
     <ClCompile Include="bulletSoul.cpp" />
     <ClCompile Include="camel.cpp" />
     <ClCompile Include="CastleHallway.cpp" />
+    <ClCompile Include="CoinObject.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="enchantSoul.cpp" />
