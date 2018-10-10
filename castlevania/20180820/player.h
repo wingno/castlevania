@@ -94,6 +94,8 @@ private:
 
 	int		m_motionC;
 
+	int		m_SkReadyC;
+
 
 	SYNTHESIZE( float, m_fX,Fx);
 	SYNTHESIZE(float, m_fY,FY);
@@ -137,6 +139,8 @@ private:
 
 	// 플레이어의 착지 모션
 	bool	m_PlayerStand;
+
+	bool	m_PlayerSkReady;
 
 	SYNTHESIZE(bool, m_bIsJump, IsJump);
 

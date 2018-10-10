@@ -110,7 +110,7 @@ void BrickStaircaseroom::rectColider()
 			
 				break;
 			case 2:
-
+				
 
 				break;
 

@@ -16,7 +16,7 @@ HRESULT player::init()
 	m_pImg2 = IMAGEMANAGER->addImage("player2", "image/playerMotion2.bmp", 855, 741, 19, 13, true, RGB(0, 64, 128));
 
 	// 칼
-	m_pImg3 = IMAGEMANAGER->addImage("발뭉", "image/발뭉.bmp", 720, 24, 9, 1, true, RGB(255, 0, 255));
+	m_pImg3 = IMAGEMANAGER->addImage("발뭉", "image/발뭉.bmp", 720, 48, 9, 2, true, RGB(255, 0, 255));
 
 	m_Zombie = new zombie;
 
@@ -42,6 +42,7 @@ HRESULT player::init()
 	m_JumC = 0;
 	m_JumMC = 0;
 	m_motionC = 0;
+	m_SkReadyC = 0;
 	// 플레이어의 초기 위치 값
 	m_fX = 200;
 	m_fY = 400;
@@ -70,6 +71,9 @@ HRESULT player::init()
 
 	// 플레이어의 착지 모션 초기화
 	m_PlayerStand = 0;
+
+	// 플레이어의 스킬대기 모션 초기화
+	m_PlayerSkReady = 0;
 
 	m_status = { 10,10,12,12,11,11,9,9, 10,10,11,11,320,320,80,80,0,84 };
 
@@ -137,11 +141,35 @@ void player::update()
 	
 	// 키입력시 플레이어의 행동
 
+	// 플레이어 스킬 준비 모션
+	if (KEYMANAGER->isStayKeyDown(VK_UP) && m_PlayerAttack == 0)
+	{
+		m_PlayerSkReady = 1;
+		m_SkReadyC++;
+		if (m_PlayerSee == 1)
+		{
+			m_nRCurrFrameY = 1;
+			if (m_SkReadyC < 1)
+			{
+				m_nRCurrFrameX = 1;
+			}
+		}
+		else if (m_PlayerSee == 0)
+		{
+			m_nLCurrFrameY = 1;
+			if (m_SkReadyC < 1)
+			{
+				m_nLCurrFrameX = 17;
+			}
+		}
+	}
+
 	// 플레이어 좌우 이동
 	if (KEYMANAGER->isStayKeyDown(VK_RIGHT) && m_PlayerDown == 0 && m_PlayerBackDash == 0 && m_PlayerAttack == 0)
 	{
 		m_PlayerAttack = 0;
 		m_PlayerSee = 1;
+		m_PlayerSkReady = 0;
 		if (m_PlayerJump == 0)
 		{
 			m_nRCurrFrameY = 3;
@@ -157,6 +185,7 @@ void player::update()
 	{
 		m_PlayerAttack = 0;
 		m_PlayerSee = 0;
+		m_PlayerSkReady = 0;
 		m_nLCurrFrameY = 3;
 		m_fX -= m_Speed;
 	}
@@ -171,54 +200,106 @@ void player::update()
 		m_bIsJump = true;
 	}
 
+	
+
+	if (KEYMANAGER->isOnceKeyUp(VK_UP))
+	{
+		m_PlayerSkReady = 0;
+		if (m_PlayerSee == 1)
+		{
+			m_nRCurrFrameY = 0;
+			m_nRCurrFrameX = 0;
+		}
+		else if (m_PlayerSee == 0)
+		{
+			m_nLCurrFrameY = 0;
+			m_nLCurrFrameX = 18;
+		}
+
+	}
+
 	// 플레이어 점프
 	if (KEYMANAGER->isStayKeyDown('Z') && m_PlayerAttack == 0)
 	{
 		if (m_bIsJump)
 		{
-			if (m_PlayerDown == 0 && m_PlayerJump <= 2)
+			if (m_PlayerSee == 1)
 			{
-				m_JumMC++;
-				if (m_JumMC < 2)
+				if (m_PlayerDown == 0 && m_PlayerJump <= 2)
 				{
-					m_nRCurrFrameX = 2;
-				}
-				m_PlayerJumpM = 1;
-				m_nRCurrFrameY = 6;
-				if (m_PlayerJump == 0)
-				{
-					m_PlayerJump = 1;
-				}
-				m_JumC++;
-				m_fY -= m_JumP;
-
-				if (m_JumC < 30 && m_JumC > 10)
-				{
-					m_JumP = 10;
-				}
-				else if (m_JumC > 30)
-				{
-					m_JumP--;
-					if (m_JumP <= 0)
+					m_JumMC++;
+					if (m_JumMC < 2)
 					{
-						m_JumP = 0;
+						m_nRCurrFrameX = 2;
+					}
+					m_PlayerJumpM = 1;
+					m_nRCurrFrameY = 6;
+					if (m_PlayerJump == 0)
+					{
+						m_PlayerJump = 1;
+					}
+					m_JumC++;
+					m_fY -= m_JumP;
+
+					if (m_JumC < 30 && m_JumC > 10)
+					{
+						m_JumP = 10;
+					}
+					else if (m_JumC > 30)
+					{
+						m_JumP--;
+						if (m_JumP <= 0)
+						{
+							m_JumP = 0;
+						}
+					}
+				}
+
+				else if (m_PlayerDown == 1 && m_PlayerJump == 0)
+				{
+					m_PlayerJump = 3;
+					m_PlayerSilde = 1;
+					if (m_PlayerSee == 1)
+					{
+						m_nRCurrFrameX = 7;
+					}
+					else if (m_PlayerSee == 0)
+					{
+						m_nLCurrFrameX = 12;
 					}
 				}
 			}
 
-
-			// 플레이어 슬라이딩
-			else if (m_PlayerDown == 1 && m_PlayerJump == 0)
+			else if (m_PlayerSee == 0)
 			{
-				m_PlayerJump = 3;
-				m_PlayerSilde = 1;
-				if (m_PlayerSee == 1)
+				if (m_PlayerDown == 0 && m_PlayerJump <= 2)
 				{
-					m_nRCurrFrameX = 7;
-				}
-				else if (m_PlayerSee == 0)
-				{
-					m_nLCurrFrameX = 12;
+					m_JumMC++;
+					if (m_JumMC < 2)
+					{
+						m_nLCurrFrameX = 16;
+					}
+					m_PlayerJumpM = 1;
+					m_nLCurrFrameY = 6;
+					if (m_PlayerJump == 0)
+					{
+						m_PlayerJump = 1;
+					}
+					m_JumC++;
+					m_fY -= m_JumP;
+
+					if (m_JumC < 30 && m_JumC > 10)
+					{
+						m_JumP = 10;
+					}
+					else if (m_JumC > 30)
+					{
+						m_JumP--;
+						if (m_JumP <= 0)
+						{
+							m_JumP = 0;
+						}
+					}
 				}
 			}
 		}
@@ -228,11 +309,19 @@ void player::update()
 	{
 		if (m_bIsJump)
 		{
+			if (m_PlayerSee == 1)
+			{
+				m_nRCurrFrameY = 6;
+				m_nRCurrFrameX = 0;
+			}
+			else if (m_PlayerSee == 0)
+			{
+				m_nLCurrFrameY = 6;
+				m_nLCurrFrameY = 18;
+			}
 			m_PlayerJump++;
 			m_PlayerJumpDown = 1;
 			m_PlayerJumpM = 0;
-			m_nRCurrFrameY = 6;
-			m_nRCurrFrameX = 0;
 			m_JumC = 0;
 			m_JumP = 20.0f;
 			m_JumMC = 0;
@@ -250,18 +339,30 @@ void player::update()
 			{
 				m_nRCurrFrameX = 0;
 				m_nRCurrFrameY = 1;
+				m_nNCurrFrameY = 0;
 			}
 			else if (m_PlayerSee == 0)
 			{
 				m_nLCurrFrameX = 18;
 				m_nLCurrFrameY = 1;
+				m_nNCurrFrameY = 1;
 			}
 		}
 		else if (m_PlayerDown == 1 && m_PlayerAttack == 0 && m_PlayerDownAt == 0)
 		{
 			m_PlayerDownAt = 1;
-			m_nRCurrFrameX = 10;
-			m_nRCurrFrameY = 11;
+			if (m_PlayerSee == 1)
+			{
+				m_nRCurrFrameX = 10;
+				m_nRCurrFrameY = 11;
+				m_nNCurrFrameY = 0;
+			}
+			else if (m_PlayerSee == 0)
+			{
+				m_nLCurrFrameX = 7;
+				m_nLCurrFrameY = 11;
+				m_nNCurrFrameY = 1;
+			}
 		}
 		else if (m_PlayerStand == 0)
 		{
@@ -309,6 +410,8 @@ void player::update()
 	{
 		m_PlayerBackDash = 1;
 		m_PlayerAttack = 0;
+		m_nNCurrFrameX = 0;
+		m_Irc = RectMakeCenter(-10, -10, 1, 1);
 		if (m_PlayerSee == 1)
 		{
 			m_nRCurrFrameX = 2;
@@ -319,7 +422,6 @@ void player::update()
 			m_nLCurrFrameX = 17;
 			m_nLCurrFrameY = 4;
 		}
-
 	}
 
 
@@ -358,7 +460,7 @@ void player::update()
 		}
 		
 		// 플레이어 공격자세
-		else if (m_nRCurrFrameY == 1 && m_PlayerAttack == 1)
+		else if (m_nRCurrFrameY == 1 && m_PlayerAttack == 1 && m_PlayerStand == 1)
 		{
 			if (m_nCount % 4 == 0)
 			{
@@ -411,7 +513,7 @@ void player::update()
 				m_pImg->setFrameX(m_nRCurrFrameX);
 				if (m_nRCurrFrameX > 9)
 				{
-					m_nRCurrFrameX;
+					m_nRCurrFrameX = 0;
 				}
 			}
 
@@ -494,6 +596,7 @@ void player::update()
 					m_PlayerDown = 2;
 					m_motionC = 0;
 					m_Item = 0;
+					m_Irc = RectMakeCenter(-10, -10, 1, 1);
 				}
 			}
 		}
@@ -547,6 +650,18 @@ void player::update()
 				}
 			}
 		}
+		// 플레이어 스킬모션 대기 자세
+		else if (m_PlayerSkReady == 1 && m_nRCurrFrameY != 3)
+		{
+			if (m_nCount % 5 == 0)
+			{
+				if (m_nRCurrFrameX < 3)
+				{
+					m_nRCurrFrameX++;
+					m_pImg->setFrameX(m_nRCurrFrameX);
+				}
+			}
+		}
 	}
 
 
@@ -556,7 +671,7 @@ void player::update()
 		m_nCount++;
 
 		// 플레이어 왼쪽 기본자세
-		if (m_nLCurrFrameY == 0)
+		if (m_nLCurrFrameY == 0 && m_PlayerStand == 1)
 		{
 			if (m_nCount % 20 == 0)
 			{
@@ -570,7 +685,7 @@ void player::update()
 		}
 
 		// 플레이어 왼쪽 이동자세
-		else if (m_nLCurrFrameY == 3)
+		else if (m_nLCurrFrameY == 3 && m_PlayerStand == 1)
 		{
 			if (m_nCount % 5 == 0)
 			{
@@ -584,40 +699,79 @@ void player::update()
 		}
 
 		// 플레이어 왼쪽 공격자세
-		else if (m_nLCurrFrameY == 1 && m_PlayerAttack == 1)
+		else if (m_nLCurrFrameY == 1 && m_PlayerAttack == 1 && m_PlayerStand == 1)
 		{
-			if (m_nCount % 5 == 0)
+			if (m_nCount % 4 == 0)
 			{
+				if (m_nLCurrFrameX < 17)
+				{
+					m_Item = 1;
+					m_nNCurrFrameX++;
+					if (m_nNCurrFrameX > 0 && m_nNCurrFrameX < 5)
+					{
+						m_Irc = RectMakeCenter(m_fX - 110, m_fY - 40, m_pImg3->getFrameWidth() * 2, m_pImg3->getFrameHeight() * 2);
+					}
+				}
 				m_nLCurrFrameX--;
+				m_pImg3->setFrameX(m_nRCurrFrameX);
 				m_pImg2->setFrameX(m_nLCurrFrameX);
 				if (m_nLCurrFrameX < 7)
 				{
 					m_nLCurrFrameX = 18;
 					m_PlayerAttack = 0;
 					m_nLCurrFrameY = 0;
+					m_nNCurrFrameX = 0;
+					m_Irc = RectMakeCenter(-10, -10, 1, 1);
 				}
 			}
 		}
 
-		// 플레이어 점프 자세
-		/*else if (m_nRCurrFrameY == 7)
+		// 플레이어 점프자세
+
+		else if (m_nLCurrFrameY == 6 && m_PlayerJumpM == 1 && m_PlayerStand == 0 && m_JumC < 30)
 		{
-		if (m_nCount % 5 == 0)
-		{
-		m_nRCurrFrameX++;
-		m_pImg->setFrameX(m_nRCurrFrameX);
-		if (m_nRCurrFrameX > m_pImg->getMaxFrameX() - 7)
-		{
-		m_nRCurrFrameX = 0;
-		m_PlayerAttack = 0;
-		m_nRCurrFrameY = 0;
-		m_nCount = 0;
+			if (m_nCount % 5 == 0)
+			{
+				m_nLCurrFrameX--;
+				if (m_nRCurrFrameX == 16)
+				{
+					m_nLCurrFrameX = 17;
+				}
+				m_pImg2->setFrameX(m_nLCurrFrameX);
+			}
 		}
+
+		else if (m_nLCurrFrameY == 6 && m_PlayerJumpAttack == 1)
+		{
+			if (m_nCount % 5 == 0)
+			{
+				m_nRCurrFrameX--;
+				m_pImg2->setFrameX(m_nLCurrFrameX);
+				if (m_nLCurrFrameX < 9)
+				{
+					m_nLCurrFrameX = 18;
+				}
+			}
+
 		}
-		}*/
+
+		// 플레이어 떨어지는 자세
+		else if (m_PlayerStand == 0 && m_PlayerJumpM == 0 || m_JumC >= 30)
+		{
+			m_nLCurrFrameY = 6;
+			m_nLCurrFrameX = 11;
+			if (m_nCount % 5 == 0)
+			{
+				m_nLCurrFrameX--;
+				if (m_nLCurrFrameX == 10)
+				{
+					m_nLCurrFrameX = 11;
+				}
+			}
+		}
 
 		// 플레이어 왼쪽 앉기 자세
-		else if (m_nLCurrFrameY == 11 && m_PlayerDown == 1 && m_PlayerSilde == 0)
+		else if (m_nLCurrFrameY == 11 && m_PlayerDown == 1 && m_PlayerSilde == 0 && m_PlayerDownAt == 0)
 		{
 			if (m_nCount % 10 == 0)
 			{
@@ -646,6 +800,42 @@ void player::update()
 					m_nCount = 0;
 				}
 			}
+		}
+
+
+		// 플레이어 앉아 공격 자세
+		else if (m_PlayerDownAt == 1 && m_nLCurrFrameY == 11)
+		{
+		if (m_nCount % 5 == 0)
+		{
+			m_motionC++;
+			if (m_motionC < 3 || m_motionC > 5)
+			{
+				m_nLCurrFrameX--;
+			}
+
+			if (m_nLCurrFrameX > 4)
+			{
+				m_Item = 1;
+				m_nNCurrFrameX++;
+				if (m_nNCurrFrameX > 3 && m_nNCurrFrameX < 5)
+				{
+					m_Irc = RectMakeCenter(m_fX - 110, m_fY - 10, m_pImg3->getFrameWidth() * 2, m_pImg3->getFrameHeight() * 2);
+				}
+			}
+			m_pImg2->setFrameX(m_nLCurrFrameX);
+			if (m_nLCurrFrameX < 4)
+			{
+				m_nCount = 0;
+				m_nLCurrFrameX = 8;
+				m_nNCurrFrameX = 0;
+				m_PlayerDownAt = 0;
+				m_PlayerDown = 2;
+				m_motionC = 0;
+				m_Item = 0;
+				m_Irc = RectMakeCenter(-10, -10, 1, 1);
+			}
+		}
 		}
 
 		// 플레이어 슬라이딩 자세
@@ -695,6 +885,18 @@ void player::update()
 				}
 			}
 		}
+		// 플레이어 스킬 대기 자세
+		else if (m_PlayerSkReady == 1 && m_nLCurrFrameY != 3)
+		{
+		if (m_nCount % 5 == 0)
+		{
+			if (m_nLCurrFrameX > 15)
+			{
+				m_nLCurrFrameX--;
+				m_pImg2->setFrameX(m_nLCurrFrameX);
+			}
+		}
+		}
 	}
 
 	mapchackCollision();
@@ -725,8 +927,6 @@ void player::render(HDC hdc)
 				{
 					m_pImg3->frameRender(hdc, m_fX - 30, m_fY - 35, m_nNCurrFrameX, m_nNCurrFrameY, 3);
 				}
-
-				Rectangle(hdc, m_Irc.left, m_Irc.top, m_Irc.right, m_Irc.bottom);
 			}
 		}
 
@@ -734,6 +934,18 @@ void player::render(HDC hdc)
 		else if (m_PlayerSee == 0)
 		{
 			m_pImg2->frameRender(hdc, m_fX - (m_pImg->getFrameWidth() * 3) / 2 , m_fY - (m_pImg->getFrameHeight() * 3)/2-10, m_nLCurrFrameX, m_nLCurrFrameY,3);
+
+			if (m_Item)
+			{
+				if (m_PlayerAttack)
+				{
+					m_pImg3->frameRender(hdc, m_fX - 200, m_fY - 70, m_nNCurrFrameX, m_nNCurrFrameY, 3);
+				}
+				else if (m_PlayerDownAt)
+				{
+					m_pImg3->frameRender(hdc, m_fX - 200, m_fY - 35, m_nNCurrFrameX, m_nNCurrFrameY, 3);
+				}
+			}
 		}
 	}
 	
@@ -850,6 +1062,11 @@ void player::mapchackCollision()
 						m_nRCurrFrameY = 0;
 						m_nRCurrFrameX = 0;
 					}
+					else if (m_nLCurrFrameY == 6)
+					{
+						m_nLCurrFrameY = 0;
+						m_nLCurrFrameX = 18;
+					}
 
 				}
 			}
@@ -870,15 +1087,11 @@ void player::mapchackCollision()
 		{
 			if (x > m_fX)
 			{
-
 				m_fX--;
-
-
-
 			}
 			else if ((x < m_fX))
 			{
-			m_fX++;
+				m_fX++;
 			}
 		}
 	}
