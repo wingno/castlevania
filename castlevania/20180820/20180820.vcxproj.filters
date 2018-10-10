@@ -129,9 +129,6 @@
     <ClInclude Include="animation.h">
       <Filter>2DGameFramework\animation</Filter>
     </ClInclude>
-    <ClInclude Include="camel.h">
-      <Filter>MainGame</Filter>
-    </ClInclude>
     <ClInclude Include="txtData.h">
       <Filter>2DGameFramework\txtData</Filter>
     </ClInclude>
@@ -162,9 +159,6 @@
     <ClInclude Include="loadingScene.h">
       <Filter>MainGame\scene</Filter>
     </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>MainGame</Filter>
-    </ClInclude>
     <ClInclude Include="roomManager.h">
       <Filter>2DGameFramework\manager</Filter>
     </ClInclude>
@@ -180,7 +174,6 @@
     <ClInclude Include="FountainRoom.h">
       <Filter>MainGame\room</Filter>
     </ClInclude>
-
     <ClInclude Include="SkeletonArcher.h">
       <Filter>MainGame\enemy</Filter>
     </ClInclude>
@@ -226,6 +219,24 @@
     <ClInclude Include="zombie.h">
       <Filter>MainGame\enemy</Filter>
     </ClInclude>
+    <ClInclude Include="accessoryItem.h">
+      <Filter>MainGame\item</Filter>
+    </ClInclude>
+    <ClInclude Include="bodyItem.h">
+      <Filter>MainGame\item</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemUse.h">
+      <Filter>MainGame\item</Filter>
+    </ClInclude>
+    <ClInclude Include="camel.h">
+      <Filter>MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="handItem.h">
+      <Filter>MainGame\item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -239,9 +250,6 @@
     </ClCompile>
     <ClCompile Include="mainGame.cpp">
       <Filter>MainGame</Filter>
-    </ClCompile>
-    <ClCompile Include="20180820.cpp">
-      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="image.cpp">
       <Filter>2DGameFramework\image</Filter>
@@ -260,9 +268,6 @@
     </ClCompile>
     <ClCompile Include="enemyManager.cpp">
       <Filter>MainGame\enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="missile.cpp">
-      <Filter>MainGame\missile</Filter>
     </ClCompile>
     <ClCompile Include="missileManager.cpp">
       <Filter>MainGame\missile</Filter>
@@ -357,7 +362,6 @@
     <ClCompile Include="zombie.cpp">
       <Filter>MainGame\enemy</Filter>
     </ClCompile>
-
     <ClCompile Include="SkeletonArcher.cpp">
       <Filter>MainGame\enemy</Filter>
     </ClCompile>
@@ -375,6 +379,24 @@
     </ClCompile>
     <ClCompile Include="BrickStaircaseroom.cpp">
       <Filter>MainGame\room</Filter>
+    </ClCompile>
+    <ClCompile Include="accessoryItem.cpp">
+      <Filter>MainGame\item</Filter>
+    </ClCompile>
+    <ClCompile Include="bodyItem.cpp">
+      <Filter>MainGame\item</Filter>
+    </ClCompile>
+    <ClCompile Include="handItem.cpp">
+      <Filter>MainGame\item</Filter>
+    </ClCompile>
+    <ClCompile Include="20180820.cpp">
+      <Filter>MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemUse.cpp">
+      <Filter>MainGame\item</Filter>
+    </ClCompile>
+    <ClCompile Include="missile.cpp">
+      <Filter>MainGame\missile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

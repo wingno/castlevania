@@ -5,6 +5,7 @@
 #include "bulletSoul.h"
 #include "enchantSoul.h"
 #include "guardianSoul.h"
+#include "animation.h"
 
 
 
@@ -55,6 +56,30 @@ HRESULT menuScene::init()
 
 	m_nShowEndChacker = 0;
 
+	m_ChangeStatus = m_pPlayer->getState();
+
+	m_imgBSoul = IMAGEMANAGER->addImage("image/bSoul.bmp", "image/bSoul.bmp", 144, 18, 18, 18, true, RGB(84, 109, 142));
+	m_imgGSoul = IMAGEMANAGER->addImage("image/gSoul.bmp", "image/gSoul.bmp", 144, 18, 18, 18, true, RGB(84, 109, 142));
+	m_imgESoul = IMAGEMANAGER->addImage("image/eSoul.bmp", "image/eSoul.bmp", 144, 18, 18, 18, true, RGB(84, 109, 142));
+
+
+
+	m_pBSoulAni = new animation;
+	m_pBSoulAni->init(m_imgBSoul->getWidth(), m_imgBSoul->getHeight(),18,18);
+	m_pBSoulAni->setPlayFrame(0, 7,false,true);
+	m_pBSoulAni->setFPS(10);
+
+	m_pGSoulAni = new animation;
+	m_pGSoulAni->init(m_imgGSoul->getWidth(), m_imgGSoul->getHeight(), 18, 18);
+	m_pGSoulAni->setPlayFrame(0, 7, false, true);
+	m_pGSoulAni->setFPS(10);
+
+	m_pESoulAni = new animation;
+	m_pESoulAni->init(m_imgESoul->getWidth(), m_imgESoul->getHeight(), 18, 18);
+	m_pESoulAni->setPlayFrame(0, 7, false, true);
+	m_pESoulAni->setFPS(10);
+
+
 	return S_OK;
 }
 
@@ -63,6 +88,9 @@ void menuScene::release()
 
 	SAFE_DELETE(m_pHpBar);
 	SAFE_DELETE(m_pMpBar);
+	SAFE_DELETE(m_pBSoulAni);
+	SAFE_DELETE(m_pGSoulAni);
+	SAFE_DELETE(m_pESoulAni);
 }
 
 void menuScene::update()
@@ -192,7 +220,7 @@ void menuScene::menuRander(HDC hdc)
 	sprintf_s(str, "HP   ");
 	TextOut(hdc, WINSIZEX / 2 - 120, 50, str, lstrlen(str));
 
-	sprintf_s(str, "ATT   %d", m_pPlayer->getState().currAtt);
+	sprintf_s(str, "ATT   %d", m_pPlayer->getState().curAtt);
 	TextOut(hdc, WINSIZEX / 2 + 80, 120, str, lstrlen(str));
 
 	SetTextColor(hdc, RGB(126, 117, 255));
@@ -200,7 +228,7 @@ void menuScene::menuRander(HDC hdc)
 	sprintf_s(str, "MP   ");
 	TextOut(hdc, WINSIZEX / 2 - 120, 80, str, lstrlen(str));
 
-	sprintf_s(str, "DEF   %d", m_pPlayer->getState().currDef);
+	sprintf_s(str, "DEF   %d", m_pPlayer->getState().curDef);
 	TextOut(hdc, WINSIZEX / 2 + 80, 150, str, lstrlen(str));
 
 
@@ -231,7 +259,7 @@ void menuScene::menuRander(HDC hdc)
 	sprintf_s(str, "INT   %d", m_pPlayer->getState().curCon);
 	TextOut(hdc, WINSIZEX / 2 - 120, 180, str, lstrlen(str));
 
-	sprintf_s(str, "LCK   %d", m_pPlayer->getState().currLck);
+	sprintf_s(str, "LCK   %d", m_pPlayer->getState().curLck);
 	TextOut(hdc, WINSIZEX / 2 - 120, 210, str, lstrlen(str));
 
 
@@ -302,6 +330,10 @@ void menuScene::menuRander(HDC hdc)
 
 void menuScene::menuUpdate()
 {
+	m_nFinalSelectNum = 0;
+	m_nShowStarNum = 0;
+	m_nShowEndChacker = 0;
+
 	if (KEYMANAGER->isOnceKeyDown(VK_UP))
 	{
 		if (m_seleter.Select > 0)
@@ -376,27 +408,28 @@ void menuScene::sourSetRander(HDC hdc)
 		m_imgSeleter->render(hdc, -m_seleter.SelectMover/3 +
 		(m_nFinalSelectNum % 2 == 0 ? 10:330), WINSIZEY / 2-20 +(20* (m_nFinalSelectNum/2)), 3);
 
-	if (m_pPlayer->m_soulSet.bS->getImgIcon())
+	if (m_pPlayer->m_soulSet.bS->m_nIdx!=0)
 	{
-
+		m_imgBSoul->aniRender(hdc, 40, 80,m_pBSoulAni,3);
+		//m_imgBSoul->aniRender(hdc, m_fX - m_img->getWidth() / 2, m_fY - m_img->getHeight() / 2, m_pAni_1);
 	}
 	else
 	{
 		m_imgEmptySoul->render(hdc, 50, 90, 116, 40, 13, 13, 3);
 	}
 
-	if (m_pPlayer->m_soulSet.bS->getImgIcon())
+	if (m_pPlayer->m_soulSet.gS->m_nIdx != 0)
 	{
-
+		m_imgGSoul->aniRender(hdc, 40, 120, m_pGSoulAni, 3);
 	}
 	else
 	{
 		m_imgEmptySoul->render(hdc, 50, 130, 116, 4, 13, 13, 3);
 	}
 
-	if (m_pPlayer->m_soulSet.bS->getImgIcon())
+	if (m_pPlayer->m_soulSet.eS-> m_nIdx != 0)
 	{
-
+		m_imgESoul->aniRender(hdc, 40, 160, m_pESoulAni, 3);
 	}
 	else
 	{
@@ -410,15 +443,50 @@ void menuScene::sourSetRander(HDC hdc)
 
 void menuScene::sourSetupdate()
 {
+	m_pBSoulAni->frameUpdate(TIMEMANAGER->getElapsedTime());
+	m_pGSoulAni->frameUpdate(TIMEMANAGER->getElapsedTime());
+	m_pESoulAni->frameUpdate(TIMEMANAGER->getElapsedTime());
+
+	switch (m_nTypeSelet)
+	{
+	case 0:
+		if(!m_pBSoulAni->getIsPlaying())
+			m_pBSoulAni->start();
+		m_pGSoulAni->stop();
+		m_pESoulAni->stop();
+		break;
+	case 1:
+		m_pBSoulAni->stop();
+		if (!m_pGSoulAni->getIsPlaying())
+			m_pGSoulAni->start();
+		m_pESoulAni->stop();
+		break;
+	case 2:
+		m_pBSoulAni->stop();
+		m_pGSoulAni->stop();
+		if (!m_pESoulAni->getIsPlaying())
+			m_pESoulAni->start();
+		break;
+	default:
+		break;
+	}
+
+
+
 
 	switch (m_nSetStep)
 	{
 	case 0:
+
 		if (m_nSetStep == 0 && (KEYMANAGER->isOnceKeyDown(VK_LEFT) || KEYMANAGER->isOnceKeyDown(VK_RIGHT)))
 		{
 			m_state = EQUIT;
 			m_seleter.Select = 1;
 			m_nTypeSelet = 0;
+
+			m_nFinalSelectNum = 0;
+			m_nShowStarNum = 0;
+			m_nShowEndChacker = 0;
 		}
 
 		if (KEYMANAGER->isOnceKeyDown(VK_UP))
@@ -432,6 +500,9 @@ void menuScene::sourSetupdate()
 			{
 				m_nTypeSelet = 2;
 			}
+			m_nFinalSelectNum = 0;
+			m_nShowStarNum = 0;
+			m_nShowEndChacker = 0;
 
 		}
 		else if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
@@ -446,7 +517,9 @@ void menuScene::sourSetupdate()
 			{
 				m_nTypeSelet = 0;
 			}
-
+			m_nFinalSelectNum = 0;
+			m_nShowStarNum = 0;
+			m_nShowEndChacker = 0;
 		}
 
 		if (KEYMANAGER->isOnceKeyDown('Z'))
@@ -456,77 +529,23 @@ void menuScene::sourSetupdate()
 		break;
 	case 1:
 
-		if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
+		switch (m_nTypeSelet)
 		{
-			if (m_nFinalSelectNum % 2 == 0)
-			{
-				if(m_nFinalSelectNum<m_pPlayer->m_soulInven.vecBulletSoul.size())
-					m_nFinalSelectNum++;
-			}
-			else
-			{
-				m_nFinalSelectNum--;
+		case 0:
+			bsUpDate();
+			break;
+		case 1:
+			gsUpDate();
+			break;
+		case 2:
+			esUpDate();
+			break;
 
-			}
-			
-		}
-
-		if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
-		{
-			if (m_nFinalSelectNum % 2 == 1)
-			{
-				m_nFinalSelectNum--;
-			}
-			else
-			{
-				if (m_nFinalSelectNum == 0)
-					m_nFinalSelectNum = 0;
-				m_nFinalSelectNum++;
-			}
-
-		}
-
-		if (KEYMANAGER->isOnceKeyDown(VK_UP))
-		{
-			if (m_nFinalSelectNum>=2)
-			{
-				m_nFinalSelectNum -= 2;
-			}
-			else
-			{
-				if (m_nShowStarNum >= 2)
-				{
-					m_nShowStarNum -= 2;
-					m_nShowEndChacker = 0;
-
-				}
-			}
-
-		}
-
-		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
-		{
-			if(m_nFinalSelectNum+2< 8)
-				m_nFinalSelectNum += 2;
-			else
-			{
-				if(m_nShowStarNum +6 < m_pPlayer->m_soulInven.vecBulletSoul.size())
-					m_nShowStarNum += 2;
-				if (m_nShowStarNum + 8 < m_pPlayer->m_soulInven.vecBulletSoul.size())
-					m_nShowEndChacker = 1;
-			}
-
+		default:
+			break;
 		}
 
 
-		if (KEYMANAGER->isOnceKeyDown('Z'))
-		{
-			m_nSetStep--;
-		}
-		if (KEYMANAGER->isOnceKeyDown('X'))
-		{
-			m_nSetStep--;
-		}
 		break;
 	default:
 		break;
@@ -628,6 +647,429 @@ void menuScene::equitupdate()
 	}
 }
 
+void menuScene::bsUpDate()
+{
+
+	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
+	{
+		if (m_nFinalSelectNum % 2 == 0)
+		{
+			if (m_nFinalSelectNum < m_pPlayer->m_soulInven.vecBulletSoul.size())
+				m_nFinalSelectNum++;
+
+			if (m_nShowStarNum + m_nFinalSelectNum >= m_pPlayer->m_soulInven.vecBulletSoul.size())
+			{
+
+				m_nFinalSelectNum--;
+
+			}
+
+
+		}
+		else
+		{
+			m_nFinalSelectNum--;
+
+		}
+
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
+	{
+		if (m_nFinalSelectNum % 2 == 1)
+		{
+			m_nFinalSelectNum--;
+		}
+		else
+		{
+			if (m_nFinalSelectNum == 0)
+				m_nFinalSelectNum = 0;
+			m_nFinalSelectNum++;
+
+			if (m_nShowStarNum + m_nFinalSelectNum >= m_pPlayer->m_soulInven.vecBulletSoul.size())
+			{
+
+				m_nFinalSelectNum--;
+
+			}
+		}
+
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_UP))
+	{
+		if (m_nFinalSelectNum >= 2)
+		{
+			m_nFinalSelectNum -= 2;
+		}
+		else
+		{
+			if (m_nShowStarNum >= 2)
+			{
+				m_nShowStarNum -= 2;
+				if (m_nShowStarNum < 0)
+				{
+					m_nShowStarNum = 0;
+				}
+				m_nShowEndChacker = 0;
+
+			}
+		}
+
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+	{
+
+
+		if (m_nFinalSelectNum + 2 < 8)
+		{
+			m_nFinalSelectNum += 2;
+			if (m_nFinalSelectNum + m_nShowStarNum + 2 > m_pPlayer->m_soulInven.vecBulletSoul.size())
+				m_nFinalSelectNum = 6;
+		}
+		else
+		{
+			if (m_nShowStarNum + 8 < m_pPlayer->m_soulInven.vecBulletSoul.size())
+				m_nShowStarNum += 2;
+
+			if (m_nShowStarNum + 8 > m_pPlayer->m_soulInven.vecBulletSoul.size())
+			{
+				m_nShowEndChacker = 1;
+
+				m_nFinalSelectNum = 6;
+
+			}
+
+		}
+
+		if (m_nFinalSelectNum == m_pPlayer->m_soulInven.vecBulletSoul.size())
+		{
+			if (m_nFinalSelectNum % 2 == 0)
+			{
+				m_nFinalSelectNum = m_pPlayer->m_soulInven.vecBulletSoul.size() - 2;
+			}
+			else
+			{
+				m_nFinalSelectNum = m_pPlayer->m_soulInven.vecBulletSoul.size() - 1;
+			}
+		}
+
+
+		if (m_nFinalSelectNum > m_pPlayer->m_soulInven.vecBulletSoul.size())
+		{
+			if (m_nFinalSelectNum % 2 == 1)
+			{
+				m_nFinalSelectNum = m_pPlayer->m_soulInven.vecBulletSoul.size() - 2;
+			}
+			else
+			{
+				m_nFinalSelectNum = m_pPlayer->m_soulInven.vecBulletSoul.size() - 1;
+			}
+		}
+
+	}
+	SoulSet tempSoulSet = { m_pPlayer->m_soulInven.vecBulletSoul[m_nFinalSelectNum + m_nShowStarNum] ,
+							m_pPlayer->m_soulSet.gS,m_pPlayer->m_soulSet.eS};
+
+	m_ChangeStatus=changeStatus(m_ChangeStatus, tempSoulSet);
+
+	if (KEYMANAGER->isOnceKeyDown('Z'))
+	{
+		m_pPlayer->m_soulSet.bS = m_pPlayer->m_soulInven.vecBulletSoul[m_nFinalSelectNum + m_nShowStarNum];
+		m_pPlayer->setState(changeStatus(m_pPlayer->getState(), m_pPlayer->m_soulSet));
+		m_nSetStep--;
+	}
+	if (KEYMANAGER->isOnceKeyDown('X'))
+	{
+		m_nSetStep--;
+	}
+
+}
+
+void menuScene::gsUpDate()
+{
+
+	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
+	{
+		if (m_nFinalSelectNum % 2 == 0)
+		{
+			if (m_nFinalSelectNum < m_pPlayer->m_soulInven.vecGuardianSoul.size())
+				m_nFinalSelectNum++;
+
+			if (m_nShowStarNum + m_nFinalSelectNum >= m_pPlayer->m_soulInven.vecGuardianSoul.size())
+			{
+
+				m_nFinalSelectNum--;
+
+			}
+
+
+		}
+		else
+		{
+			m_nFinalSelectNum--;
+
+		}
+
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
+	{
+		if (m_nFinalSelectNum % 2 == 1)
+		{
+			m_nFinalSelectNum--;
+		}
+		else
+		{
+			if (m_nFinalSelectNum == 0)
+				m_nFinalSelectNum = 0;
+			m_nFinalSelectNum++;
+
+			if (m_nShowStarNum + m_nFinalSelectNum >= m_pPlayer->m_soulInven.vecGuardianSoul.size())
+			{
+
+				m_nFinalSelectNum--;
+
+			}
+		}
+
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_UP))
+	{
+		if (m_nFinalSelectNum >= 2)
+		{
+			m_nFinalSelectNum -= 2;
+		}
+		else
+		{
+			if (m_nShowStarNum >= 2)
+			{
+				m_nShowStarNum -= 2;
+				if (m_nShowStarNum < 0)
+				{
+					m_nShowStarNum = 0;
+				}
+				m_nShowEndChacker = 0;
+
+			}
+		}
+
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+	{
+		if (m_nFinalSelectNum + 2 < 8)
+		{
+			m_nFinalSelectNum += 2;
+			if (m_nFinalSelectNum + m_nShowStarNum + 2 > m_pPlayer->m_soulInven.vecGuardianSoul.size() && m_pPlayer->m_soulInven.vecGuardianSoul.size() >= 8)
+				m_nFinalSelectNum = 6;
+		}
+		else
+		{
+			if (m_nShowStarNum + 8 < m_pPlayer->m_soulInven.vecGuardianSoul.size())
+				m_nShowStarNum += 2;
+
+			if (m_nShowStarNum + 8 > m_pPlayer->m_soulInven.vecGuardianSoul.size() && m_pPlayer->m_soulInven.vecGuardianSoul.size() >= 8)
+			{
+				m_nShowEndChacker = 1;
+
+				m_nFinalSelectNum = 6;
+
+			}
+
+		}
+		if (m_nFinalSelectNum == m_pPlayer->m_soulInven.vecGuardianSoul.size())
+		{
+			if (m_nFinalSelectNum % 2 == 0)
+			{
+				m_nFinalSelectNum = m_pPlayer->m_soulInven.vecGuardianSoul.size() - 2;
+			}
+			else
+			{
+				m_nFinalSelectNum = m_pPlayer->m_soulInven.vecGuardianSoul.size() - 1;
+			}
+		}
+
+
+		if (m_nFinalSelectNum > m_pPlayer->m_soulInven.vecGuardianSoul.size())
+		{
+			if (m_nFinalSelectNum % 2 == 1)
+			{
+				m_nFinalSelectNum = m_pPlayer->m_soulInven.vecGuardianSoul.size() - 2;
+			}
+			else
+			{
+				m_nFinalSelectNum = m_pPlayer->m_soulInven.vecGuardianSoul.size() - 1;
+			}
+		}
+
+	}
+
+	SoulSet tempSoulSet = { m_pPlayer->m_soulSet.bS ,
+							m_pPlayer->m_soulInven.vecGuardianSoul[m_nFinalSelectNum + m_nShowStarNum],m_pPlayer->m_soulSet.eS };
+
+	m_ChangeStatus = changeStatus(m_ChangeStatus, tempSoulSet);
+
+
+	if (KEYMANAGER->isOnceKeyDown('Z'))
+	{
+		m_pPlayer->m_soulSet.gS = m_pPlayer->m_soulInven.vecGuardianSoul[m_nFinalSelectNum + m_nShowStarNum];
+		m_pPlayer->setState(changeStatus(m_pPlayer->getState(), m_pPlayer->m_soulSet));
+		m_nSetStep--;
+	}
+	if (KEYMANAGER->isOnceKeyDown('X'))
+	{
+		m_nSetStep--;
+	}
+}
+
+void menuScene::esUpDate()
+{
+	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
+	{
+		if (m_nFinalSelectNum % 2 == 0)
+		{
+			if (m_nFinalSelectNum < m_pPlayer->m_soulInven.vecEnchantSoul.size())
+				m_nFinalSelectNum++;
+
+			if (m_nShowStarNum + m_nFinalSelectNum >= m_pPlayer->m_soulInven.vecEnchantSoul.size())
+			{
+
+				m_nFinalSelectNum--;
+
+			}
+
+
+		}
+		else
+		{
+			m_nFinalSelectNum--;
+
+		}
+
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
+	{
+		if (m_nFinalSelectNum % 2 == 1)
+		{
+			m_nFinalSelectNum--;
+		}
+		else
+		{
+			if (m_nFinalSelectNum == 0)
+				m_nFinalSelectNum = 0;
+			m_nFinalSelectNum++;
+
+			if (m_nShowStarNum + m_nFinalSelectNum >= m_pPlayer->m_soulInven.vecEnchantSoul.size())
+			{
+
+				m_nFinalSelectNum--;
+
+			}
+		}
+
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_UP))
+	{
+		if (m_nFinalSelectNum >= 2)
+		{
+			m_nFinalSelectNum -= 2;
+		}
+		else
+		{
+			if (m_nShowStarNum >= 2)
+			{
+				m_nShowStarNum -= 2;
+				if (m_nShowStarNum < 0)
+				{
+					m_nShowStarNum = 0;
+				}
+				m_nShowEndChacker = 0;
+
+			}
+		}
+
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+	{
+		if (m_nFinalSelectNum + 2 < 8)
+		{
+			m_nFinalSelectNum += 2;
+			if (m_nFinalSelectNum + m_nShowStarNum + 2 > m_pPlayer->m_soulInven.vecEnchantSoul.size() && m_pPlayer->m_soulInven.vecEnchantSoul.size() >= 8)
+				m_nFinalSelectNum = 6;
+		}
+		else
+		{
+			if (m_nShowStarNum + 8 < m_pPlayer->m_soulInven.vecEnchantSoul.size())
+				m_nShowStarNum += 2;
+
+			if (m_nShowStarNum + 8 > m_pPlayer->m_soulInven.vecEnchantSoul.size()&& m_pPlayer->m_soulInven.vecEnchantSoul.size()>=8)
+			{
+				m_nShowEndChacker = 1;
+
+				m_nFinalSelectNum = 6;
+
+			}
+
+		}
+
+		if (m_pPlayer->m_soulInven.vecEnchantSoul.size() >= 2)
+		{
+			if (m_nFinalSelectNum == m_pPlayer->m_soulInven.vecEnchantSoul.size())
+			{
+				if (m_nFinalSelectNum % 2 == 0)
+				{
+					m_nFinalSelectNum = m_pPlayer->m_soulInven.vecEnchantSoul.size() - 2;
+				}
+				else
+				{
+					m_nFinalSelectNum = m_pPlayer->m_soulInven.vecEnchantSoul.size() - 1;
+				}
+			}
+
+
+			if (m_nFinalSelectNum > m_pPlayer->m_soulInven.vecEnchantSoul.size())
+			{
+				if (m_nFinalSelectNum % 2 == 0)
+				{
+					m_nFinalSelectNum = m_pPlayer->m_soulInven.vecEnchantSoul.size() - 2;
+				}
+				else
+				{
+					m_nFinalSelectNum = m_pPlayer->m_soulInven.vecEnchantSoul.size() - 1;
+				}
+			}
+		}
+		else
+		{
+			m_nFinalSelectNum -= 2;
+		}
+
+
+
+	}
+	SoulSet tempSoulSet = { m_pPlayer->m_soulSet.bS ,m_pPlayer->m_soulSet.gS,
+		 m_pPlayer->m_soulInven.vecEnchantSoul[m_nFinalSelectNum + m_nShowStarNum] };
+
+	m_ChangeStatus = changeStatus(m_ChangeStatus, tempSoulSet);
+
+	if (KEYMANAGER->isOnceKeyDown('Z'))
+	{
+		m_pPlayer->m_soulSet.eS = m_pPlayer->m_soulInven.vecEnchantSoul[m_nFinalSelectNum + m_nShowStarNum];
+		m_pPlayer->setState(changeStatus(m_pPlayer->getState(), m_pPlayer->m_soulSet));
+		m_nSetStep--;
+	}
+	if (KEYMANAGER->isOnceKeyDown('X'))
+	{
+		m_nSetStep--;
+	}
+}
+
 void menuScene::fontPrint(HDC hdc)
 {
 
@@ -638,14 +1080,61 @@ void menuScene::fontPrint(HDC hdc)
 	SetTextColor(hdc, RGB(243, 122, 40));
 
 
-	sprintf_s(str, "ATT      %d", m_pPlayer->getState().currAtt);
+	sprintf_s(str, "ATT      %d", m_pPlayer->getState().curAtt);
 	TextOut(hdc, WINSIZEX / 2 + 60, 80, str, lstrlen(str));
+
+	if (m_nSetStep == 1)
+	{
+		if (m_pPlayer->getState().curAtt < m_ChangeStatus.curAtt)
+		{
+			SetTextColor(hdc, RGB(0, 216, 248));
+			sprintf_s(str, "¢Ö   %d", m_ChangeStatus.curAtt);
+			TextOut(hdc, WINSIZEX / 2 + 200, 80, str, lstrlen(str));
+		}
+		else if (m_pPlayer->getState().curAtt == m_ChangeStatus.curAtt)
+		{
+			SetTextColor(hdc, RGB(255, 255, 255));
+			sprintf_s(str, "¡æ   %d", m_ChangeStatus.curAtt);
+			TextOut(hdc, WINSIZEX / 2 + 200, 80, str, lstrlen(str));
+		}
+		else
+		{
+			SetTextColor(hdc, RGB(230, 237, 274));
+			sprintf_s(str, "¢Ù   %d", m_ChangeStatus.curAtt);
+			TextOut(hdc, WINSIZEX / 2 + 200, 80, str, lstrlen(str));
+		}
+
+
+	}
 
 	SetTextColor(hdc, RGB(126, 117, 255));
 
-	sprintf_s(str, "DEF      %d", m_pPlayer->getState().currDef);
+	sprintf_s(str, "DEF      %d", m_pPlayer->getState().curDef);
 	TextOut(hdc, WINSIZEX / 2 + 60, 100, str, lstrlen(str));
 
+	if (m_nSetStep == 1)
+	{
+
+		if (m_pPlayer->getState().curDef < m_ChangeStatus.curDef)
+		{
+			SetTextColor(hdc, RGB(0, 216, 248));
+			sprintf_s(str, "¢Ö   %d", m_ChangeStatus.curDef);
+			TextOut(hdc, WINSIZEX / 2 + 200, 100, str, lstrlen(str));
+		}
+		else if (m_pPlayer->getState().curDef == m_ChangeStatus.curDef)
+		{
+			SetTextColor(hdc, RGB(255, 255, 255));
+			sprintf_s(str, "¡æ   %d", m_ChangeStatus.curDef);
+			TextOut(hdc, WINSIZEX / 2 + 200, 100, str, lstrlen(str));
+		}
+		else
+		{
+			SetTextColor(hdc, RGB(230, 37, 74));
+			sprintf_s(str, "¢Ù   %d", m_ChangeStatus.curDef);
+			TextOut(hdc, WINSIZEX / 2 + 200, 100, str, lstrlen(str));
+		}
+
+	}
 
 
 
@@ -656,11 +1145,94 @@ void menuScene::fontPrint(HDC hdc)
 	sprintf_s(str, "CON      %d", m_pPlayer->getState().curCon);
 	TextOut(hdc, WINSIZEX / 2 + 60, 140, str, lstrlen(str));
 
-	sprintf_s(str, "INT      %d", m_pPlayer->getState().curCon);
+	sprintf_s(str, "INT      %d", m_pPlayer->getState().curInt);
 	TextOut(hdc, WINSIZEX / 2 + 60, 160, str, lstrlen(str));
 
-	sprintf_s(str, "LCK      %d", m_pPlayer->getState().currLck);
+	sprintf_s(str, "LCK      %d", m_pPlayer->getState().curLck);
 	TextOut(hdc, WINSIZEX / 2 + 60, 180, str, lstrlen(str));
+
+
+	if (m_nSetStep == 1)
+	{
+		if (m_pPlayer->getState().curStr < m_ChangeStatus.curStr)
+		{
+			SetTextColor(hdc, RGB(0, 216, 248));
+			sprintf_s(str, "¢Ö   %d", m_ChangeStatus.curStr);
+			TextOut(hdc, WINSIZEX / 2 + 200, 120, str, lstrlen(str));
+		}
+		else if (m_pPlayer->getState().curStr == m_ChangeStatus.curStr)
+		{
+			SetTextColor(hdc, RGB(255, 255, 255));
+			sprintf_s(str, "¡æ   %d", m_ChangeStatus.curStr);
+			TextOut(hdc, WINSIZEX / 2 + 200, 120, str, lstrlen(str));
+		}
+		else
+		{
+			SetTextColor(hdc, RGB(230, 37, 74));
+			sprintf_s(str, "¢Ù   %d", m_ChangeStatus.curStr);
+			TextOut(hdc, WINSIZEX / 2 + 200, 120, str, lstrlen(str));
+		}
+
+		if (m_pPlayer->getState().curCon < m_ChangeStatus.curCon)
+		{
+			SetTextColor(hdc, RGB(0, 216, 248));
+			sprintf_s(str, "¢Ö   %d", m_ChangeStatus.curCon);
+			TextOut(hdc, WINSIZEX / 2 + 200, 140, str, lstrlen(str));
+		}
+		else if (m_pPlayer->getState().curCon == m_ChangeStatus.curCon)
+		{
+			SetTextColor(hdc, RGB(255, 255, 255));
+			sprintf_s(str, "¡æ   %d", m_ChangeStatus.curCon);
+			TextOut(hdc, WINSIZEX / 2 + 200, 140, str, lstrlen(str));
+		}
+		else
+		{
+			SetTextColor(hdc, RGB(230, 37, 74));
+			sprintf_s(str, "¢Ù   %d", m_ChangeStatus.curCon);
+			TextOut(hdc, WINSIZEX / 2 + 200, 140, str, lstrlen(str));
+		}
+
+		if (m_pPlayer->getState().curInt < m_ChangeStatus.curInt)
+		{
+			SetTextColor(hdc, RGB(0, 216, 248));
+			sprintf_s(str, "¢Ö   %d", m_ChangeStatus.curInt);
+			TextOut(hdc, WINSIZEX / 2 + 200, 160, str, lstrlen(str));
+		}
+		else if (m_pPlayer->getState().curInt == m_ChangeStatus.curInt)
+		{
+			SetTextColor(hdc, RGB(255, 255, 255));
+			sprintf_s(str, "¡æ   %d", m_ChangeStatus.curInt);
+			TextOut(hdc, WINSIZEX / 2 + 200, 160, str, lstrlen(str));
+		}
+		else
+		{
+			SetTextColor(hdc, RGB(230, 37, 74));
+			sprintf_s(str, "¢Ù   %d", m_ChangeStatus.curInt);
+			TextOut(hdc, WINSIZEX / 2 + 200, 160, str, lstrlen(str));
+		}
+
+		if (m_pPlayer->getState().curLck < m_ChangeStatus.curLck)
+		{
+			SetTextColor(hdc, RGB(0, 216, 248));
+			sprintf_s(str, "¢Ö   %d", m_ChangeStatus.curLck);
+			TextOut(hdc, WINSIZEX / 2 + 200, 180, str, lstrlen(str));
+		}
+		else if (m_pPlayer->getState().curLck == m_ChangeStatus.curLck)
+		{
+			SetTextColor(hdc, RGB(255, 255, 255));
+			sprintf_s(str, "¡æ   %d", m_ChangeStatus.curLck);
+			TextOut(hdc, WINSIZEX / 2 + 200, 180, str, lstrlen(str));
+		}
+		else
+		{
+			SetTextColor(hdc, RGB(230, 37, 74));
+			sprintf_s(str, "¢Ù   %d", m_ChangeStatus.curLck);
+			TextOut(hdc, WINSIZEX / 2 + 200, 180, str, lstrlen(str));
+		}
+
+
+	}
+
 
 
 
@@ -670,22 +1242,22 @@ void menuScene::fontPrint(HDC hdc)
 		{
 		case 0:
 
-			sprintf_s(str, "HAND", m_pPlayer->getState().currLck);
+			sprintf_s(str, "HAND", m_pPlayer->getState().curLck);
 			TextOut(hdc, WINSIZEX / 2 -180,WINSIZEY/2-33, str, lstrlen(str));
 			break;
 		case 1:
-			sprintf_s(str, "BODY", m_pPlayer->getState().currLck);
+			sprintf_s(str, "BODY", m_pPlayer->getState().curLck);
 			TextOut(hdc, WINSIZEX / 2 - 180, WINSIZEY / 2 - 33, str, lstrlen(str));
 			break;
 		case 2:
-			sprintf_s(str, "ACCESSORY", m_pPlayer->getState().currLck);
+			sprintf_s(str, "ACCESSORY", m_pPlayer->getState().curLck);
 			TextOut(hdc, WINSIZEX / 2 - 210, WINSIZEY / 2 - 33, str, lstrlen(str));
 			break;
 		default:
 			break;
 		}
 	}
-	else
+	else if (m_state == SOUL_SET)
 	{
 		//¸Þ´º¹Ù
 		SetTextColor(hdc, RGB(158, 159, 153));
@@ -713,10 +1285,18 @@ void menuScene::fontPrint(HDC hdc)
 			sprintf_s(str, "%s", m_pPlayer->m_soulSet.bS->m_sName.c_str());
 			TextOut(hdc, 120, 95, str, lstrlen(str));
 
-			sprintf_s(str, "%s", m_pPlayer->m_soulSet.bS->m_sExplanation.c_str());
-			TextOut(hdc, 100, 360, str, lstrlen(str));
+			if (m_nSetStep < 1)
+			{
+				sprintf_s(str, "%s", m_pPlayer->m_soulSet.bS->m_sExplanation.c_str());
+				TextOut(hdc, 100, 360, str, lstrlen(str));
+			}
+			else
+			{
+				sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecBulletSoul[m_nShowStarNum+ m_nFinalSelectNum]->m_sExplanation.c_str());
+				TextOut(hdc, 100, 360, str, lstrlen(str));
+			}
 
-			sprintf_s(str, "BULLET", m_pPlayer->getState().currLck);
+			sprintf_s(str, "BULLET", m_pPlayer->getState().curLck);
 			TextOut(hdc, WINSIZEX / 2 - 190, WINSIZEY / 2 - 33, str, lstrlen(str));
 
 			hFont = CreateFont(25, 0, 0, 0, 0, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, "Slabberton");
@@ -749,10 +1329,18 @@ void menuScene::fontPrint(HDC hdc)
 			sprintf_s(str, "%s", m_pPlayer->m_soulSet.gS->m_sName.c_str());
 			TextOut(hdc, 120, 135, str, lstrlen(str));
 
-			sprintf_s(str, "%s", m_pPlayer->m_soulSet.gS->m_sExplanation.c_str());
-			TextOut(hdc, 100, 360, str, lstrlen(str));
+			if (m_nSetStep < 1)
+			{
+				sprintf_s(str, "%s", m_pPlayer->m_soulSet.gS->m_sExplanation.c_str());
+				TextOut(hdc, 100, 360, str, lstrlen(str));
+			}
+			else
+			{
+				sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecGuardianSoul[m_nShowStarNum + m_nFinalSelectNum]->m_sExplanation.c_str());
+				TextOut(hdc, 100, 360, str, lstrlen(str));
+			}
 
-			sprintf_s(str, "GUARDIAN", m_pPlayer->getState().currLck);
+			sprintf_s(str, "GUARDIAN", m_pPlayer->getState().curLck);
 			TextOut(hdc, WINSIZEX / 2 - 210, WINSIZEY / 2 - 33, str, lstrlen(str));
 			hFont = CreateFont(25, 0, 0, 0, 0, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, "Slabberton");
 			oldFont = (HFONT)SelectObject(hdc, hFont);
@@ -780,10 +1368,18 @@ void menuScene::fontPrint(HDC hdc)
 			sprintf_s(str, "%s", m_pPlayer->m_soulSet.eS->m_sName.c_str());
 			TextOut(hdc, 120, 175, str, lstrlen(str));
 
-			sprintf_s(str, "%s", m_pPlayer->m_soulSet.eS->m_sExplanation.c_str());
-			TextOut(hdc, 100, 360, str, lstrlen(str));
+			if (m_nSetStep < 1)
+			{
+				sprintf_s(str, "%s", m_pPlayer->m_soulSet.eS->m_sExplanation.c_str());
+				TextOut(hdc, 100, 360, str, lstrlen(str));
+			}
+			else
+			{
+				sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecEnchantSoul[m_nShowStarNum + m_nFinalSelectNum]->m_sExplanation.c_str());
+				TextOut(hdc, 100, 360, str, lstrlen(str));
+			}
 
-			sprintf_s(str, "ENCHANT", m_pPlayer->getState().currLck);
+			sprintf_s(str, "ENCHANT", m_pPlayer->getState().curLck);
 			TextOut(hdc, WINSIZEX / 2 - 200, WINSIZEY / 2 - 33, str, lstrlen(str));
 			hFont = CreateFont(25, 0, 0, 0, 0, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, "Slabberton");
 			oldFont = (HFONT)SelectObject(hdc, hFont);
@@ -817,6 +1413,22 @@ void menuScene::fontPrint(HDC hdc)
 	
 
 
+}
+
+Status menuScene::changeStatus(Status status , SoulSet soulSet)
+{
+	status.curStr = status.originStr + soulSet.eS->m_nChangeStr + soulSet.gS->m_nChangeStr+ soulSet.bS->m_nChangeStr+0;
+	status.curCon = status.originCon + soulSet.eS->m_nChangeCon + soulSet.gS->m_nChangeCon + soulSet.bS->m_nChangeCon + 0;
+	status.curInt = status.originInt + soulSet.eS->m_nChangeInt + soulSet.gS->m_nChangeInt + soulSet.bS->m_nChangeInt + 0;
+	status.curLck = status.originLck + soulSet.eS->m_nChangeLck + soulSet.gS->m_nChangeLck + soulSet.bS->m_nChangeLck + 0;
+
+	status.originAtt = status.curStr ;
+	status.originDef = status.curCon/2;
+
+	status.curAtt = status.originAtt + soulSet.eS->m_nChangeAtt + soulSet.gS->m_nChangeAtt + soulSet.bS->m_nChangeAtt + 0;
+	status.curDef = status.originDef + soulSet.eS->m_nChangeDef + soulSet.gS->m_nChangeDef + soulSet.bS->m_nChangeDef + 0;
+
+	return status;
 }
 
 menuScene::menuScene()

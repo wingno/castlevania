@@ -150,8 +150,10 @@
   <ItemGroup>
     <ClInclude Include="20180820.h" />
     <ClInclude Include="abilitySoul.h" />
+    <ClInclude Include="accessoryItem.h" />
     <ClInclude Include="animation.h" />
     <ClInclude Include="battleScene.h" />
+    <ClInclude Include="bodyItem.h" />
     <ClInclude Include="BrickStaircaseroom.h" />
     <ClInclude Include="bulletSoul.h" />
     <ClInclude Include="camel.h" />
@@ -169,9 +171,11 @@
     <ClInclude Include="hallwayRoom1.h" />
     <ClInclude Include="hallwayRoom2.h" />
     <ClInclude Include="hallwayRoom3.h" />
+    <ClInclude Include="handItem.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
     <ClInclude Include="item.h" />
+    <ClInclude Include="ItemUse.h" />
     <ClInclude Include="keyManager.h" />
     <ClInclude Include="loadingScene.h" />
     <ClInclude Include="mainGame.h" />
@@ -206,8 +210,10 @@
   <ItemGroup>
     <ClCompile Include="20180820.cpp" />
     <ClCompile Include="abilitySoul.cpp" />
+    <ClCompile Include="accessoryItem.cpp" />
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="battleScene.cpp" />
+    <ClCompile Include="bodyItem.cpp" />
     <ClCompile Include="BrickStaircaseroom.cpp" />
     <ClCompile Include="bulletSoul.cpp" />
     <ClCompile Include="camel.cpp" />
@@ -224,9 +230,11 @@
     <ClCompile Include="hallwayRoom1.cpp" />
     <ClCompile Include="hallwayRoom2.cpp" />
     <ClCompile Include="hallwayRoom3.cpp" />
+    <ClCompile Include="handItem.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
     <ClCompile Include="item.cpp" />
+    <ClCompile Include="ItemUse.cpp" />
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="loadingScene.cpp" />
     <ClCompile Include="mainGame.cpp" />

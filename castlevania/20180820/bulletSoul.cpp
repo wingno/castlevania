@@ -6,6 +6,8 @@ void bulletSoul::init(int cType, int cCount, int cIdx, int cAtt, int cDef, int c
 {
 	soul::init(cType, cCount, cIdx, cAtt, cDef, cStr, cInt, cCon, cLuc, cHp, cMp, cName, cExplanation);
 
+
+
 }
 
 void bulletSoul::release()

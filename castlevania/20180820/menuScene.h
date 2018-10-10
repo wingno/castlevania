@@ -2,6 +2,7 @@
 #include "scene.h"
 
 class menuProgressBar;
+class soul;
 
 class menuScene :public scene
 {
@@ -28,6 +29,15 @@ private:
 
 	image*	m_imgEmptySoul;
 
+	image*	m_imgBSoul;
+	image*	m_imgGSoul;
+	image*	m_imgESoul;
+
+	animation * m_pBSoulAni;
+	animation * m_pGSoulAni;
+	animation * m_pESoulAni;
+
+
 	image*	m_imgSeleter;
 
 	bool	m_bIsChangeScene;
@@ -43,6 +53,8 @@ private:
 	int m_nShowStarNum;
 
 	int m_nShowEndChacker;
+
+	Status m_ChangeStatus;
 
 
 	seleter m_seleter;
@@ -68,7 +80,13 @@ public:
 	void equitupdate();
 
 
+	void bsUpDate();
+	void gsUpDate();
+	void esUpDate();
+
 	void fontPrint(HDC hdc);
+
+	Status changeStatus(Status status, SoulSet soulSet);
 
 	menuScene();
 	~menuScene();

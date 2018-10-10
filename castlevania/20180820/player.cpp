@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "player.h"
 #include "room.h"
-#include "zombie.h"
 #include "bulletSoul.h"
 #include "guardianSoul.h"
 #include "enchantSoul.h"
@@ -17,8 +16,6 @@ HRESULT player::init()
 
 	// 칼
 	m_pImg3 = IMAGEMANAGER->addImage("발뭉", "image/발뭉.bmp", 720, 24, 9, 1, true, RGB(255, 0, 255));
-
-	m_Zombie = new zombie;
 
 	// 플레이어의 동작 프레임 값
 	m_nCount = 0;
@@ -71,7 +68,7 @@ HRESULT player::init()
 	// 플레이어의 착지 모션 초기화
 	m_PlayerStand = 0;
 
-	m_status = { 10,10,12,12,11,11,9,9, 10,10,11,11,320,320,80,80,0,84 };
+	m_status = { 10,10,12,12,11,11,9,9, 10,10,6,6,320,320,80,80,0,84 };
 
 	m_nGold = 0;
 
@@ -92,15 +89,7 @@ HRESULT player::init()
 
 	m_soulInven.vecBulletSoul.push_back(baseBSoul);
 	m_soulInven.vecBulletSoul.push_back(testBSoul);
-	m_soulInven.vecBulletSoul.push_back(testBSoul);
-	m_soulInven.vecBulletSoul.push_back(testBSoul);
-	m_soulInven.vecBulletSoul.push_back(testBSoul);
-	m_soulInven.vecBulletSoul.push_back(testBSoul);
-	m_soulInven.vecBulletSoul.push_back(testBSoul);
-	m_soulInven.vecBulletSoul.push_back(testBSoul);
-	m_soulInven.vecBulletSoul.push_back(testBSoul);
-	m_soulInven.vecBulletSoul.push_back(testBSoul);
-	m_soulInven.vecBulletSoul.push_back(testBSoul);
+
 
 	guardianSoul* baseGSoul = new guardianSoul;
 	baseGSoul->init(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "------", "---");
@@ -115,7 +104,7 @@ HRESULT player::init()
 	baseESoul->init(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "------", "---");
 
 	enchantSoul* testESoul = new enchantSoul;
-	testESoul->init(0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, "좀비", "CON +1");
+	testESoul->init(0, 1, 1, 0, 0, 0, 0, 2, 0, 0, 0, "좀비", "CON +2");
 
 	m_soulInven.vecEnchantSoul.push_back(baseESoul);
 	m_soulInven.vecEnchantSoul.push_back(testESoul);
@@ -124,6 +113,8 @@ HRESULT player::init()
 	m_soulSet.bS = baseBSoul;
 	m_soulSet.gS = baseGSoul;
 	m_soulSet.eS = baseESoul;
+
+
 
 
 	

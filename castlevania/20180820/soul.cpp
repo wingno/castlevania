@@ -19,7 +19,9 @@ void soul::init(int cType, int cCount, int cIdx, int cAtt, int cDef, int cStr,
 	m_nChangeMP = cMp;
 	m_nChangeHP = cHp;
 
+
 	m_imgIcon = NULL;
+
 }
 
 void soul::release()

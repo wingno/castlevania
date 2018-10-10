@@ -1,50 +1,37 @@
 #pragma once
 
-class zombie;
-
 
 class bulletSoul;
 class guardianSoul;
 class enchantSoul;
+class handItem;
+class bodyItem;
+class accessoryItem;
+class ItemUse;
+
+class ItemUse;
 
 class player
 {
 private:
-	struct Status
+
+
+	struct itemInven
 	{
-		
-		int curStr;
-		int originStr;
-		int curCon;
-		int originCon;
-		int curInt;
-		int originInt;
-		int currLck;
-		int originLck;
+		std::vector<handItem*>	vecHandItem;
+		std::vector<handItem*>::iterator	hiter;
 
-		int currAtt;
-		int originAtt;
-		int currDef;
-		int originDef;
+		std::vector<bodyItem*>	vecBodyItem;
+		std::vector<bodyItem*>::iterator	biter;
 
-		int fullHP;
-		int curHP;
+		std::vector<accessoryItem*>	vecAccessoryItem;
+		std::vector<accessoryItem*>::iterator	aiter;
 
-		int fullMP;
-		int curMP;
-
-		int exp;
-
-		int nextExp;
-
+		std::vector<ItemUse*>	vecItemUse;
+		std::vector<ItemUse*>::iterator	iiter;
 	};
 
-	struct SoulSet
-	{
-		bulletSoul* bS;
-		guardianSoul* gS;
-		enchantSoul* eS;
-	};
+
 
 	struct soulInven
 	{
@@ -64,7 +51,6 @@ private:
 	image *	 m_pImg2;
 	image *	 m_pImg3;
 
-	zombie* m_Zombie;
 	
 	// 플레이어 렉트
 	SYNTHESIZE (RECT, m_rc,Rc);
