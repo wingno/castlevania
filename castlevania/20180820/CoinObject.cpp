@@ -38,7 +38,7 @@ void CoinObject::update()
 	
 		if (Alive)
 		{
-			speed+=1.4f;
+			speed+=2.4f;
 			FY -= 1 * speed;
 			MyIdx++;
 			MYCount++;
@@ -66,7 +66,7 @@ void CoinObject::update()
 
 		if (Down)
 		{
-			speed += 0.2f;
+			speed += 0.4f;
 			FY += 0.5f * speed;
 			MyIdx++;
 			if (MyIdx % 3 == 0)
