@@ -38,6 +38,7 @@ protected:
 
 	SYNTHESIZE(RECT*, m_rectObj,RectObj);
 	SYNTHESIZE(RECT*, m_rectGate, RectGate);
+	SYNTHESIZE(int, m_rectNum, RectNum);
 
 	image* m_imgBg;
 	image* m_imgMap;

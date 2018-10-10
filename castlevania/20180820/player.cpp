@@ -806,36 +806,36 @@ void player::update()
 		// 플레이어 앉아 공격 자세
 		else if (m_PlayerDownAt == 1 && m_nLCurrFrameY == 11)
 		{
-		if (m_nCount % 5 == 0)
-		{
-			m_motionC++;
-			if (m_motionC < 3 || m_motionC > 5)
+			if (m_nCount % 5 == 0)
 			{
-				m_nLCurrFrameX--;
-			}
-
-			if (m_nLCurrFrameX > 4)
-			{
-				m_Item = 1;
-				m_nNCurrFrameX++;
-				if (m_nNCurrFrameX > 3 && m_nNCurrFrameX < 5)
+				m_motionC++;
+				if (m_motionC < 3 || m_motionC > 5)
 				{
-					m_Irc = RectMakeCenter(m_fX - 110, m_fY - 10, m_pImg3->getFrameWidth() * 2, m_pImg3->getFrameHeight() * 2);
+					m_nLCurrFrameX--;
+				}
+
+				if (m_nLCurrFrameX > 4)
+				{
+					m_Item = 1;
+					m_nNCurrFrameX++;
+					if (m_nNCurrFrameX > 3 && m_nNCurrFrameX < 5)
+					{
+						m_Irc = RectMakeCenter(m_fX - 110, m_fY - 10, m_pImg3->getFrameWidth() * 2, m_pImg3->getFrameHeight() * 2);
+					}
+				}
+				m_pImg2->setFrameX(m_nLCurrFrameX);
+				if (m_nLCurrFrameX < 4)
+				{
+					m_nCount = 0;
+					m_nLCurrFrameX = 8;
+					m_nNCurrFrameX = 0;
+					m_PlayerDownAt = 0;
+					m_PlayerDown = 2;
+					m_motionC = 0;
+					m_Item = 0;
+					m_Irc = RectMakeCenter(-10, -10, 1, 1);
 				}
 			}
-			m_pImg2->setFrameX(m_nLCurrFrameX);
-			if (m_nLCurrFrameX < 4)
-			{
-				m_nCount = 0;
-				m_nLCurrFrameX = 8;
-				m_nNCurrFrameX = 0;
-				m_PlayerDownAt = 0;
-				m_PlayerDown = 2;
-				m_motionC = 0;
-				m_Item = 0;
-				m_Irc = RectMakeCenter(-10, -10, 1, 1);
-			}
-		}
 		}
 
 		// 플레이어 슬라이딩 자세
@@ -901,6 +901,7 @@ void player::update()
 
 	mapchackCollision();
 	mapMove();
+	mapRectCollision();
 
 
 	m_rc = RectMakeCenter(m_fX, m_fY, (m_pImg->getFrameWidth() * 3) / 2, (m_pImg->getFrameHeight() * 3) / 2);
@@ -1095,6 +1096,32 @@ void player::mapchackCollision()
 			}
 		}
 	}
+}
+
+void player::mapRectCollision()
+{
+	for (int i = 0; i < ROOMMANAGER->getCurrRoom()->getRectNum(); i++)
+	{
+
+		RECT rc;
+
+		if (IntersectRect(&rc, &m_rc, &(ROOMMANAGER->getCurrRoom()->getRectObj()[i])))
+		{
+			m_PlayerStand = 1;
+			m_PlayerJump = 0;
+			if (m_nRCurrFrameY == 6)
+			{
+				m_nRCurrFrameY = 0;
+				m_nRCurrFrameX = 0;
+			}
+			else if (m_nLCurrFrameY == 6)
+			{
+				m_nLCurrFrameY = 0;
+				m_nLCurrFrameX = 18;
+			}
+		}
+	}
+
 }
 
 

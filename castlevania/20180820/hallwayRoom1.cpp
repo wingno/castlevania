@@ -26,7 +26,7 @@ HRESULT hallwayRoom1::init()
 
 	m_rectGate =rectGate;
 	m_rectObj = rectObj;
-
+	m_rectNum = 2;
 
 	m_rectGate[0] = RectMake(0, 195, 30, 144);
 	m_rectGate[1] = RectMake(1273 * 3 -30, 195, 30, 144);

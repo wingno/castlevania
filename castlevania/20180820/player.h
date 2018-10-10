@@ -138,7 +138,7 @@ private:
 	bool	m_PlayerBackDash;
 
 	// 플레이어의 착지 모션
-	bool	m_PlayerStand;
+	SYNTHESIZE(bool, m_PlayerStand, PlayerStand);
 
 	bool	m_PlayerSkReady;
 
@@ -160,6 +160,8 @@ public:
 	void mapMove();
 
 	void mapchackCollision();
+
+	void mapRectCollision();
 
 	player();
 	~player();

@@ -16,7 +16,7 @@ HRESULT gateRoom::init()
 
 	m_rectGate = rectGate;
 	m_rectObj = rectObj;
-
+	m_rectNum = 6;
 
 
 
