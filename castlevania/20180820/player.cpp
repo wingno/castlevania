@@ -903,7 +903,7 @@ void player::update()
 	mapchackCollision();
 	mapMove();
 	mapRectCollision();
-
+	
 
 	m_rc = RectMakeCenter(m_fX, m_fY, (m_pImg->getFrameWidth() * 3) / 2, (m_pImg->getFrameHeight() * 3) / 2);
 
@@ -1120,8 +1120,22 @@ void player::mapRectCollision()
 				m_nLCurrFrameY = 0;
 				m_nLCurrFrameX = 18;
 			}
+
+
+
+			
+
+
+			
 		}
+
+
+
+
+		
 	}
+
+
 
 }
 

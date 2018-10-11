@@ -28,20 +28,20 @@ HRESULT hallwayRoom1::init()
 
 	m_OBJ = new RoomObject[4];
 
-	for (int i = 0; i < 4; i++)
-	{
-		//ระบา
-		m_OBJ[0].init(742, 300, 0);
-		m_OBJ[1].init(1513, 300, 0);
-		m_OBJ[2].init(2279, 300, 0);
-		m_OBJ[3].init(3045, 300, 0);
 
-	}
+	//ระบา
+	m_OBJ[0].init(742, 300, 0);
+	m_OBJ[1].init(1513, 300, 0);
+	m_OBJ[2].init(2279, 300, 0);
+	m_OBJ[3].init(3045, 300, 0);
+
+	
 	
 
 
 	m_rectGate =rectGate;
 	m_rectObj = rectObj;
+
 	m_rectNum = 2;
 
 	m_rectGate[0] = RectMake(0, 195, 30, 144);
@@ -250,16 +250,10 @@ void hallwayRoom1::rectColider()
 				ROOMMANAGER->getCurrRoom()->setPosMap(point);
 				break;
 			case 1:
-				m_pPlayer->setFY(300);
-				m_pPlayer->setFx(20 * 3);
-				ROOMMANAGER->changeRoom("CastleHallwayy");
-				point.x = 0;
-				point.y = 3850;
 
-				ROOMMANAGER->getCurrRoom()->setPosMap(point);
-				//m_pPlayer->setFY(293);
-				//m_pPlayer->setFx(50 * 3);
-				//ROOMMANAGER->changeRoom("FountainRoom");//ฟ๘บป
+				m_pPlayer->setFY(293);
+				m_pPlayer->setFx(50 * 3);
+				ROOMMANAGER->changeRoom("FountainRoom");//ฟ๘บป
 				break;
 			case 2:
 
