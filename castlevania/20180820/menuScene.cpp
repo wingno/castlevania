@@ -20,6 +20,8 @@ HRESULT menuScene::init()
 
 	m_imgEquit= IMAGEMANAGER->addImage("image/arms.bmp", "image/arms.bmp", WINSIZEX, WINSIZEY, false, 0);
 
+	m_imgUseItem = IMAGEMANAGER->addImage("image/itemUse.bmp", "image/itemUse.bmp", WINSIZEX, WINSIZEY, false, 0);
+
 	m_imgSeleter = IMAGEMANAGER->addImage("image/seleter.bmp", "image/seleter.bmp", 16, 16, true, RGB(255,0,255));
 
 	m_imgLArrow = IMAGEMANAGER->addImage("image/leftArrow.bmp", "image/leftArrow.bmp", 17, 21, true, RGB(255, 0, 255));
@@ -27,6 +29,7 @@ HRESULT menuScene::init()
 	m_imgRArrow = IMAGEMANAGER->addImage("image/rightArrow.bmp", "image/rightArrow.bmp", 17, 21, true, RGB(255, 0, 255));
 
 	m_imgEmptySoul= IMAGEMANAGER->addImage("image/4303.bmp", "image/4303.bmp", 222, 439, true, RGB(84, 109, 142));
+
 
 	m_pPlayer = g_mainGame.getPlayer();
 
@@ -110,6 +113,7 @@ void menuScene::update()
 		equitupdate();
 		break;
 	case ITEM:
+		useItemupdate();
 		break;
 
 	default:
@@ -173,6 +177,7 @@ void menuScene::render(HDC hdc)
 		equitRander(hdc);
 		break;
 	case ITEM:
+		useItemRander(hdc);
 		break;
 
 	default:
@@ -570,11 +575,73 @@ void menuScene::equitRander(HDC hdc)
 		m_imgLArrow->render(hdc, 20 - m_seleter.SelectMover / 3, 60);
 		m_imgRArrow->render(hdc, 325 + m_seleter.SelectMover / 3, 60);
 
+		switch (m_nTypeSelcet)
+		{
+		case 0:
+			if (m_pPlayer->m_ItemSet.hI->m_nIdx != 0)
+			{
+
+				m_pPlayer->m_ItemSet.hI->getImgIcon()->frameRender(hdc, 60, 365, m_pPlayer->m_ItemSet.hI->m_nIdx - 1, 0, 3);
+			}
+			break;
+		case 1:
+			if (m_pPlayer->m_ItemSet.bI->m_nIdx != 0)
+			{
+
+				m_pPlayer->m_ItemSet.bI->getImgIcon()->frameRender(hdc, 60, 365, m_pPlayer->m_ItemSet.bI->m_nIdx + 2, 0, 3);
+			}
+			break;
+		case 2:
+			if (m_pPlayer->m_ItemSet.aI->m_nIdx != 0)
+			{
+
+				m_pPlayer->m_ItemSet.aI->getImgIcon()->frameRender(hdc, 60, 365, m_pPlayer->m_ItemSet.aI->m_nIdx + 7, 0, 3);
+			}
+			break;
+
+		default:
+			break;
+		}
+
 	}
 
 	if (m_nSetStep == 1)
+	{
 		m_imgSeleter->render(hdc, -m_seleter.SelectMover / 3 +
-		(m_nFinalSelectNum % 2 == 0 ? 10 : 330), WINSIZEY / 2 - 20 + (20 * (m_nFinalSelectNum / 2)), 3);
+			(m_nFinalSelectNum % 2 == 0 ? 10 : 330), WINSIZEY / 2 - 20 + (20 * (m_nFinalSelectNum / 2)), 3);
+
+		switch (m_nTypeSelcet)
+		{
+		case 0:
+			if (m_pPlayer->m_ItemInven.vecHandItem[m_nShowStartNum + m_nFinalSelectNum]->m_nIdx != 0)
+			{
+
+				m_pPlayer->m_ItemInven.vecHandItem[m_nShowStartNum + m_nFinalSelectNum]->getImgIcon()->frameRender(hdc, 60, 365, m_pPlayer->m_ItemInven.vecHandItem[m_nShowStartNum + m_nFinalSelectNum]->m_nIdx - 1, 0, 3);
+
+				
+			}
+			break;
+		case 1:
+			if (m_pPlayer->m_ItemInven.vecBodyItem[m_nShowStartNum + m_nFinalSelectNum]->m_nIdx != 0)
+			{
+
+				m_pPlayer->m_ItemInven.vecBodyItem[m_nShowStartNum + m_nFinalSelectNum]->getImgIcon()->frameRender(hdc, 60, 365, m_pPlayer->m_ItemInven.vecBodyItem[m_nShowStartNum + m_nFinalSelectNum]->m_nIdx + 2, 0, 3);
+			}
+			break;
+		case 2:
+			if (m_pPlayer->m_ItemInven.vecAccessoryItem[m_nShowStartNum + m_nFinalSelectNum]->m_nIdx != 0)
+			{
+
+				m_pPlayer->m_ItemInven.vecAccessoryItem[m_nShowStartNum + m_nFinalSelectNum]->getImgIcon()->frameRender(hdc, 60, 365, m_pPlayer->m_ItemInven.vecAccessoryItem[m_nShowStartNum + m_nFinalSelectNum]->m_nIdx + 7, 0, 3);
+			}
+			break;
+
+		default:
+			break;
+		}
+
+	}
+
 
 	if (m_pPlayer->m_ItemSet.hI->m_nIdx != 0)
 	{
@@ -693,6 +760,17 @@ void menuScene::equitupdate()
 	default:
 		break;
 	}
+}
+
+void menuScene::useItemRander(HDC hdc)
+{
+	m_imgUseItem->render(hdc, 0, 0);
+
+	m_imgSeleter->render(hdc, 30 -m_seleter.SelectMover , 250, 3);
+}
+
+void menuScene::useItemupdate()
+{
 }
 
 void menuScene::bsUpDate()
@@ -1787,6 +1865,8 @@ void menuScene::fontPrint(HDC hdc)
 		HFONT hFont;
 		HFONT oldFont;
 
+		SetTextColor(hdc, RGB(255, 255, 255));
+
 		switch (m_nTypeSelcet)
 		{
 		case 0:
@@ -1796,12 +1876,12 @@ void menuScene::fontPrint(HDC hdc)
 			if (m_nSetStep < 1)
 			{
 				sprintf_s(str, "%s", m_pPlayer->m_ItemSet.hI->m_sExplanation.c_str());
-				TextOut(hdc, 100, 360, str, lstrlen(str));
+				TextOut(hdc, 140, 370, str, lstrlen(str));
 			}
 			else
 			{
 				sprintf_s(str, "%s", m_pPlayer->m_ItemInven.vecHandItem[m_nShowStartNum + m_nFinalSelectNum]->m_sExplanation.c_str());
-				TextOut(hdc, 100, 360, str, lstrlen(str));
+				TextOut(hdc, 140, 370, str, lstrlen(str));
 			}
 
 			sprintf_s(str, "HAND");
@@ -1839,12 +1919,12 @@ void menuScene::fontPrint(HDC hdc)
 			if (m_nSetStep < 1)
 			{
 				sprintf_s(str, "%s", m_pPlayer->m_ItemSet.bI->m_sExplanation.c_str());
-				TextOut(hdc, 100, 360, str, lstrlen(str));
+				TextOut(hdc, 140, 370, str, lstrlen(str));
 			}
 			else
 			{
 				sprintf_s(str, "%s", m_pPlayer->m_ItemInven.vecBodyItem[m_nShowStartNum + m_nFinalSelectNum]->m_sExplanation.c_str());
-				TextOut(hdc, 100, 360, str, lstrlen(str));
+				TextOut(hdc, 140, 370, str, lstrlen(str));
 			}
 			sprintf_s(str, "BODY");
 			TextOut(hdc, WINSIZEX / 2 - 180, WINSIZEY / 2 - 33, str, lstrlen(str));
@@ -1878,12 +1958,12 @@ void menuScene::fontPrint(HDC hdc)
 			if (m_nSetStep < 1)
 			{
 				sprintf_s(str, "%s", m_pPlayer->m_ItemSet.aI->m_sExplanation.c_str());
-				TextOut(hdc, 100, 360, str, lstrlen(str));
+				TextOut(hdc, 140, 370, str, lstrlen(str));
 			}
 			else
 			{
 				sprintf_s(str, "%s", m_pPlayer->m_ItemInven.vecAccessoryItem[m_nShowStartNum + m_nFinalSelectNum]->m_sExplanation.c_str());
-				TextOut(hdc, 100, 360, str, lstrlen(str));
+				TextOut(hdc, 140, 370, str, lstrlen(str));
 			}
 
 			sprintf_s(str, "ACCESSORY");
@@ -1947,12 +2027,41 @@ void menuScene::fontPrint(HDC hdc)
 			if (m_nSetStep < 1)
 			{
 				sprintf_s(str, "%s", m_pPlayer->m_soulSet.bS->m_sExplanation.c_str());
-				TextOut(hdc, 100, 360, str, lstrlen(str));
+				TextOut(hdc, 140, 370, str, lstrlen(str));
+
+
+				if (m_pPlayer->m_soulSet.bS->m_nIdx != 0)
+				{
+					hFont = CreateFont(15, 0, 0, 0, 0, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, "Slabberton");
+					oldFont = (HFONT)SelectObject(hdc, hFont);
+
+					sprintf_s(str, "%d / use", m_pPlayer->m_soulSet.bS->m_nUseMp);
+					TextOut(hdc, 520, 410 , str, lstrlen(str));
+
+					SelectObject(hdc, oldFont);
+					DeleteObject(hFont);
+
+
+				}
 			}
 			else
 			{
 				sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecBulletSoul[m_nShowStartNum+ m_nFinalSelectNum]->m_sExplanation.c_str());
-				TextOut(hdc, 100, 360, str, lstrlen(str));
+				TextOut(hdc, 140, 370, str, lstrlen(str));
+
+				if (m_pPlayer->m_soulInven.vecBulletSoul[m_nShowStartNum + m_nFinalSelectNum]->m_nIdx != 0)
+				{
+					hFont = CreateFont(15, 0, 0, 0, 0, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, "Slabberton");
+					oldFont = (HFONT)SelectObject(hdc, hFont);
+
+					sprintf_s(str, "%d / use", m_pPlayer->m_soulInven.vecBulletSoul[m_nShowStartNum + m_nFinalSelectNum]->m_nUseMp);
+					TextOut(hdc, 520, 410, str, lstrlen(str));
+
+					SelectObject(hdc, oldFont);
+					DeleteObject(hFont);
+
+
+				}
 			}
 
 			sprintf_s(str, "BULLET");
@@ -1982,6 +2091,8 @@ void menuScene::fontPrint(HDC hdc)
 			DeleteObject(hFont);
 
 
+
+
 			break;
 		case 1:
 
@@ -1991,12 +2102,40 @@ void menuScene::fontPrint(HDC hdc)
 			if (m_nSetStep < 1)
 			{
 				sprintf_s(str, "%s", m_pPlayer->m_soulSet.gS->m_sExplanation.c_str());
-				TextOut(hdc, 100, 360, str, lstrlen(str));
+				TextOut(hdc, 140, 370, str, lstrlen(str));
+
+				if (m_pPlayer->m_soulSet.gS->m_nIdx != 0)
+				{
+					hFont = CreateFont(15, 0, 0, 0, 0, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, "Slabberton");
+					oldFont = (HFONT)SelectObject(hdc, hFont);
+
+					sprintf_s(str, "%d / time", m_pPlayer->m_soulSet.gS->m_nUseMp);
+					TextOut(hdc, 520, 410, str, lstrlen(str));
+
+					SelectObject(hdc, oldFont);
+					DeleteObject(hFont);
+
+
+				}
 			}
 			else
 			{
 				sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecGuardianSoul[m_nShowStartNum + m_nFinalSelectNum]->m_sExplanation.c_str());
-				TextOut(hdc, 100, 360, str, lstrlen(str));
+				TextOut(hdc, 140, 370, str, lstrlen(str));
+
+				if (m_pPlayer->m_soulInven.vecGuardianSoul[m_nShowStartNum + m_nFinalSelectNum]->m_nIdx != 0)
+				{
+					hFont = CreateFont(15, 0, 0, 0, 0, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, "Slabberton");
+					oldFont = (HFONT)SelectObject(hdc, hFont);
+
+					sprintf_s(str, "%d / time", m_pPlayer->m_soulInven.vecGuardianSoul[m_nShowStartNum + m_nFinalSelectNum]->m_nUseMp);
+					TextOut(hdc, 520, 410, str, lstrlen(str));
+
+					SelectObject(hdc, oldFont);
+					DeleteObject(hFont);
+
+
+				}
 			}
 
 			sprintf_s(str, "GUARDIAN");
@@ -2030,12 +2169,12 @@ void menuScene::fontPrint(HDC hdc)
 			if (m_nSetStep < 1)
 			{
 				sprintf_s(str, "%s", m_pPlayer->m_soulSet.eS->m_sExplanation.c_str());
-				TextOut(hdc, 100, 360, str, lstrlen(str));
+				TextOut(hdc, 140, 370, str, lstrlen(str));
 			}
 			else
 			{
 				sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecEnchantSoul[m_nShowStartNum + m_nFinalSelectNum]->m_sExplanation.c_str());
-				TextOut(hdc, 100, 360, str, lstrlen(str));
+				TextOut(hdc, 140, 370, str, lstrlen(str));
 			}
 
 			sprintf_s(str, "ENCHANT");

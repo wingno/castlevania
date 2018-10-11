@@ -23,6 +23,7 @@ private:
 	image*	m_imgMenu;
 	image*	m_imgEquit;
 	image*	m_imgSoulSet;
+	image*	m_imgUseItem;
 
 	image*	m_imgRArrow;
 	image*	m_imgLArrow;
@@ -83,6 +84,8 @@ public:
 	void sourSetupdate();
 	void equitRander(HDC hdc);
 	void equitupdate();
+	void useItemRander(HDC hdc);
+	void useItemupdate();
 
 
 	void bsUpDate();

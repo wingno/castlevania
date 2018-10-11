@@ -89,10 +89,10 @@ HRESULT player::init()
 	m_bIsJump = false;
 
 	bulletSoul* baseBSoul = new bulletSoul;
-	baseBSoul->init(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "------", "---");
+	baseBSoul->init(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, "------", "---");
 
 	bulletSoul* testBSoul = new bulletSoul;
-	testBSoul->init(0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, "해골사수", "마법의 활을 쏜다");
+	testBSoul->init(0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,8, "해골사수", "마법의 활을 쏜다");
 
 
 	m_soulInven.vecBulletSoul.push_back(baseBSoul);
@@ -101,20 +101,20 @@ HRESULT player::init()
 
 
 	guardianSoul* baseGSoul = new guardianSoul;
-	baseGSoul->init(1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "------", "---");
+	baseGSoul->init(1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, "------", "---");
 
 	guardianSoul* testGSoul = new guardianSoul;
-	testGSoul->init(1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, "메두사 헤드", "공중에서 정지가 가능하다.");
+	testGSoul->init(1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,10, "메두사 헤드", "공중에서 정지가 가능하다.");
 
 	m_soulInven.vecGuardianSoul.push_back(baseGSoul);
 	m_soulInven.vecGuardianSoul.push_back(testGSoul);
 
 
 	enchantSoul* baseESoul = new enchantSoul;
-	baseESoul->init(2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "------", "---");
+	baseESoul->init(2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, "------", "---");
 
 	enchantSoul* testESoul = new enchantSoul;
-	testESoul->init(2, 1, 1, 0, 0, 0, 0, 2, 0, 0, 0, "좀비", "CON +2");
+	testESoul->init(2, 1, 1, 0, 0, 0, 0, 2, 0, 0, 0,0, "좀비", "CON +2");
 
 	m_soulInven.vecEnchantSoul.push_back(baseESoul);
 	m_soulInven.vecEnchantSoul.push_back(testESoul);

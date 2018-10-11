@@ -3,7 +3,7 @@
 
 
 void soul::init(int cType, int cCount, int cIdx, int cAtt, int cDef, int cStr,
-	int cInt, int cCon, int cLuc, int cHp, int cMp, string cName, string cExplanation)
+	int cInt, int cCon, int cLuc, int cHp, int cMp,int UseMp, string cName, string cExplanation)
 {
 	m_sName = cName;
 	m_sExplanation = cExplanation;
@@ -18,6 +18,7 @@ void soul::init(int cType, int cCount, int cIdx, int cAtt, int cDef, int cStr,
 	m_nChangeLck = cLuc;
 	m_nChangeMP = cMp;
 	m_nChangeHP = cHp;
+	m_nUseMp = UseMp;
 
 
 	m_imgIcon = NULL;
