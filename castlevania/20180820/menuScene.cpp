@@ -578,8 +578,20 @@ void menuScene::equitRander(HDC hdc)
 
 	if (m_pPlayer->m_ItemSet.hI->m_nIdx != 0)
 	{
-		
-		m_pPlayer->m_ItemSet.hI->getImgIcon()->frameRender(hdc, 50, 90, m_pPlayer->m_ItemSet.hI->m_nIdx - 1,0,3);
+
+		m_pPlayer->m_ItemSet.hI->getImgIcon()->frameRender(hdc, 60, 90, m_pPlayer->m_ItemSet.hI->m_nIdx - 1, 0, 2);
+	}
+
+	if (m_pPlayer->m_ItemSet.bI->m_nIdx != 0)
+	{
+
+		m_pPlayer->m_ItemSet.bI->getImgIcon()->frameRender(hdc, 60, 130, m_pPlayer->m_ItemSet.bI->m_nIdx +2, 0, 2);
+	}
+
+	if (m_pPlayer->m_ItemSet.aI->m_nIdx != 0)
+	{
+
+		m_pPlayer->m_ItemSet.aI->getImgIcon()->frameRender(hdc, 60, 170, m_pPlayer->m_ItemSet.aI->m_nIdx +7, 0, 2);
 	}
 
 
@@ -591,23 +603,7 @@ void menuScene::equitRander(HDC hdc)
 
 
 
-	if (m_pPlayer->m_soulSet.gS->m_nIdx != 0)
-	{
-		m_imgGSoul->aniRender(hdc, 40, 120, m_pGSoulAni, 3);
-	}
-	else
-	{
-		m_imgEmptySoul->render(hdc, 50, 130, 116, 4, 13, 13, 3);
-	}
 
-	if (m_pPlayer->m_soulSet.eS->m_nIdx != 0)
-	{
-		m_imgESoul->aniRender(hdc, 40, 160, m_pESoulAni, 3);
-	}
-	else
-	{
-		m_imgEmptySoul->render(hdc, 50, 170, 116, 76, 13, 13, 3);
-	}
 
 
 }
@@ -1617,7 +1613,7 @@ void menuScene::fontPrint(HDC hdc)
 	SetTextColor(hdc, RGB(243, 122, 40));
 
 
-	sprintf_s(str, "ATT      %d", m_pPlayer->getState().curAtt);
+	sprintf_s(str, "ATT    %d", m_pPlayer->getState().curAtt);
 	TextOut(hdc, WINSIZEX / 2 + 60, 80, str, lstrlen(str));
 
 	if (m_nSetStep == 1)
@@ -1636,7 +1632,7 @@ void menuScene::fontPrint(HDC hdc)
 		}
 		else
 		{
-			SetTextColor(hdc, RGB(230, 237, 274));
+			SetTextColor(hdc, RGB(230, 37, 74));
 			sprintf_s(str, "¢Ù   %d", m_ChangeStatus.curAtt);
 			TextOut(hdc, WINSIZEX / 2 + 200, 80, str, lstrlen(str));
 		}
@@ -1646,7 +1642,7 @@ void menuScene::fontPrint(HDC hdc)
 
 	SetTextColor(hdc, RGB(126, 117, 255));
 
-	sprintf_s(str, "DEF      %d", m_pPlayer->getState().curDef);
+	sprintf_s(str, "DEF    %d", m_pPlayer->getState().curDef);
 	TextOut(hdc, WINSIZEX / 2 + 60, 100, str, lstrlen(str));
 
 	if (m_nSetStep == 1)
@@ -1676,16 +1672,16 @@ void menuScene::fontPrint(HDC hdc)
 
 
 	SetTextColor(hdc, RGB(255, 255, 255));
-	sprintf_s(str, "STR      %d", m_pPlayer->getState().curStr);
+	sprintf_s(str, "STR    %d", m_pPlayer->getState().curStr);
 	TextOut(hdc, WINSIZEX / 2 + 60, 120, str, lstrlen(str));
 
-	sprintf_s(str, "CON      %d", m_pPlayer->getState().curCon);
+	sprintf_s(str, "CON    %d", m_pPlayer->getState().curCon);
 	TextOut(hdc, WINSIZEX / 2 + 60, 140, str, lstrlen(str));
 
-	sprintf_s(str, "INT      %d", m_pPlayer->getState().curInt);
+	sprintf_s(str, "INT    %d", m_pPlayer->getState().curInt);
 	TextOut(hdc, WINSIZEX / 2 + 60, 160, str, lstrlen(str));
 
-	sprintf_s(str, "LCK      %d", m_pPlayer->getState().curLck);
+	sprintf_s(str, "LCK    %d", m_pPlayer->getState().curLck);
 	TextOut(hdc, WINSIZEX / 2 + 60, 180, str, lstrlen(str));
 
 
