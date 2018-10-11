@@ -21,20 +21,18 @@ HRESULT FountainRoom::init()
 
 	
 	m_OBJ = new RoomObject[4];
-	for (int i = 0; i < 4; i++)
-	{
+
 		// Äµµé
 		m_OBJ[0].init(311, 630, 0);
 		m_OBJ[1].init(1178, 630, 0);
 		// ÀÛÀº ºÒ
 		m_OBJ[2].init(605, 836, 1);
 		m_OBJ[3].init(891, 836, 1);
-		
-	}
+
 	
 
 
-
+	m_nRectNum = 2;
 
 	return S_OK;
 }
@@ -229,15 +227,7 @@ void FountainRoom::rectColider()
 	}
 
 
-	for (int i = 0; i < 2; i++)
-	{
-		if (m_rectObj[i].top + 13 > m_pPlayer->getRc().bottom && m_rectObj[i].top - 7 < m_pPlayer->getRc().bottom
-			&& (m_pPlayer->getRc().right > m_rectObj[i].left && m_pPlayer->getRc().left < m_rectObj[i].right))
-		{
 
-			m_pPlayer->setFY(m_rectObj[i].top - 50);
-		}
-	}
 	for (int i = 0; i < 4; i++)
 	{
 

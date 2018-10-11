@@ -19,17 +19,16 @@ HRESULT gateRoom::init()
 	m_rectObj = rectObj;
 
 	m_OBJ = new RoomObject[4];
-	m_rectNum = 6;
+	m_nRectNum = 6;
 
-	for (int i = 0; i < 4; i++)
-	{
-		//작은불
-		m_OBJ[0].init(334, 1137, 1);
-		m_OBJ[1].init(334, 890, 1);
-		m_OBJ[2].init(867, 800, 1);
-		m_OBJ[3].init(1343, 224, 1);
 
-	}
+	//작은불
+	m_OBJ[0].init(334, 1137, 1);
+	m_OBJ[1].init(334, 890, 1);
+	m_OBJ[2].init(867, 800, 1);
+	m_OBJ[3].init(1343, 224, 1);
+
+
 
 
 	return S_OK;

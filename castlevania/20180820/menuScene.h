@@ -9,7 +9,7 @@ class menuScene :public scene
 private:
 	enum SceneState
 	{
-		MENU,SOUL_SET, EQUIT, ITEM,
+		MENU,SOUL_SET, EQUIT, ITEM
 	};
 	struct seleter
 	{
@@ -46,13 +46,16 @@ private:
 
 	int m_nSetStep;
 
-	int m_nTypeSelet;
+	int m_nTypeSelcet;
 	
 	int m_nFinalSelectNum;
 
-	int m_nShowStarNum;
+	int m_nShowStartNum;
 
 	int m_nShowEndChacker;
+
+
+
 
 	Status m_ChangeStatus;
 

@@ -48,11 +48,11 @@ HRESULT menuScene::init()
 
 	m_nSetStep = 0;
 
-	m_nTypeSelet = 0;
+	m_nTypeSelcet = 0;
 
 	m_nFinalSelectNum = 0;
 
-	m_nShowStarNum = 0;
+	m_nShowStartNum = 0;
 
 	m_nShowEndChacker = 0;
 
@@ -118,7 +118,7 @@ void menuScene::update()
 		if (KEYMANAGER->isOnceKeyDown('X')&& m_nSetStep==0)
 		{
 			m_state = MENU;
-			m_nTypeSelet = 0;
+			m_nTypeSelcet = 0;
 		}
 
 		
@@ -331,7 +331,7 @@ void menuScene::menuRander(HDC hdc)
 void menuScene::menuUpdate()
 {
 	m_nFinalSelectNum = 0;
-	m_nShowStarNum = 0;
+	m_nShowStartNum = 0;
 	m_nShowEndChacker = 0;
 
 	if (KEYMANAGER->isOnceKeyDown(VK_UP))
@@ -394,7 +394,7 @@ void menuScene::sourSetRander(HDC hdc)
 
 	m_imgSoulSet->render(hdc, 0, 0);
 
-	m_imgSeleter->render(hdc, m_nSetStep==0? - m_seleter.SelectMover:0, 80 + (40 * m_nTypeSelet), 3);
+	m_imgSeleter->render(hdc, m_nSetStep==0? - m_seleter.SelectMover:0, 80 + (40 * m_nTypeSelcet), 3);
 
 	//m_imgSeleter->render(hdc, 0 , 80 + (40 * m_TypeSelet), 3);
 	if (m_nSetStep == 0)
@@ -447,7 +447,7 @@ void menuScene::sourSetupdate()
 	m_pGSoulAni->frameUpdate(TIMEMANAGER->getElapsedTime());
 	m_pESoulAni->frameUpdate(TIMEMANAGER->getElapsedTime());
 
-	switch (m_nTypeSelet)
+	switch (m_nTypeSelcet)
 	{
 	case 0:
 		if(!m_pBSoulAni->getIsPlaying())
@@ -482,43 +482,43 @@ void menuScene::sourSetupdate()
 		{
 			m_state = EQUIT;
 			m_seleter.Select = 1;
-			m_nTypeSelet = 0;
+			m_nTypeSelcet = 0;
 
 			m_nFinalSelectNum = 0;
-			m_nShowStarNum = 0;
+			m_nShowStartNum = 0;
 			m_nShowEndChacker = 0;
 		}
 
 		if (KEYMANAGER->isOnceKeyDown(VK_UP))
 		{
-			if (m_nTypeSelet > 0)
+			if (m_nTypeSelcet > 0)
 			{
-				m_nTypeSelet--;
+				m_nTypeSelcet--;
 
 			}
 			else
 			{
-				m_nTypeSelet = 2;
+				m_nTypeSelcet = 2;
 			}
 			m_nFinalSelectNum = 0;
-			m_nShowStarNum = 0;
+			m_nShowStartNum = 0;
 			m_nShowEndChacker = 0;
 
 		}
 		else if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 		{
 
-			if (m_nTypeSelet < 2)
+			if (m_nTypeSelcet < 2)
 			{
-				m_nTypeSelet++;
+				m_nTypeSelcet++;
 
 			}
 			else
 			{
-				m_nTypeSelet = 0;
+				m_nTypeSelcet = 0;
 			}
 			m_nFinalSelectNum = 0;
-			m_nShowStarNum = 0;
+			m_nShowStartNum = 0;
 			m_nShowEndChacker = 0;
 		}
 
@@ -529,7 +529,7 @@ void menuScene::sourSetupdate()
 		break;
 	case 1:
 
-		switch (m_nTypeSelet)
+		switch (m_nTypeSelcet)
 		{
 		case 0:
 			bsUpDate();
@@ -559,7 +559,7 @@ void menuScene::equitRander(HDC hdc)
 {
 	m_imgEquit->render(hdc, 0, 0);
 
-	m_imgSeleter->render(hdc, m_nSetStep == 0 ? -m_seleter.SelectMover : 0, 80 + (40 * m_nTypeSelet), 3);
+	m_imgSeleter->render(hdc, m_nSetStep == 0 ? -m_seleter.SelectMover : 0, 80 + (40 * m_nTypeSelcet), 3);
 
 
 	//m_imgSeleter->render(hdc, 0 , 80 + (40 * m_TypeSelet), 3);
@@ -586,7 +586,7 @@ void menuScene::equitupdate()
 	{
 		m_state = SOUL_SET;
 		m_seleter.Select = 0;
-		m_nTypeSelet = 0;
+		m_nTypeSelcet = 0;
 	}
 
 	switch (m_nSetStep)
@@ -600,28 +600,28 @@ void menuScene::equitupdate()
 
 		if (KEYMANAGER->isOnceKeyDown(VK_UP))
 		{
-			if (m_nTypeSelet > 0)
+			if (m_nTypeSelcet > 0)
 			{
-				m_nTypeSelet--;
+				m_nTypeSelcet--;
 
 			}
 			else
 			{
-				m_nTypeSelet = 2;
+				m_nTypeSelcet = 2;
 			}
 
 		}
 		else if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 		{
 
-			if (m_nTypeSelet < 2)
+			if (m_nTypeSelcet < 2)
 			{
-				m_nTypeSelet++;
+				m_nTypeSelcet++;
 
 			}
 			else
 			{
-				m_nTypeSelet = 0;
+				m_nTypeSelcet = 0;
 			}
 
 		}
@@ -657,7 +657,7 @@ void menuScene::bsUpDate()
 			if (m_nFinalSelectNum < m_pPlayer->m_soulInven.vecBulletSoul.size())
 				m_nFinalSelectNum++;
 
-			if (m_nShowStarNum + m_nFinalSelectNum >= m_pPlayer->m_soulInven.vecBulletSoul.size())
+			if (m_nShowStartNum + m_nFinalSelectNum >= m_pPlayer->m_soulInven.vecBulletSoul.size())
 			{
 
 				m_nFinalSelectNum--;
@@ -686,7 +686,7 @@ void menuScene::bsUpDate()
 				m_nFinalSelectNum = 0;
 			m_nFinalSelectNum++;
 
-			if (m_nShowStarNum + m_nFinalSelectNum >= m_pPlayer->m_soulInven.vecBulletSoul.size())
+			if (m_nShowStartNum + m_nFinalSelectNum >= m_pPlayer->m_soulInven.vecBulletSoul.size())
 			{
 
 				m_nFinalSelectNum--;
@@ -704,12 +704,12 @@ void menuScene::bsUpDate()
 		}
 		else
 		{
-			if (m_nShowStarNum >= 2)
+			if (m_nShowStartNum >= 2)
 			{
-				m_nShowStarNum -= 2;
-				if (m_nShowStarNum < 0)
+				m_nShowStartNum -= 2;
+				if (m_nShowStartNum < 0)
 				{
-					m_nShowStarNum = 0;
+					m_nShowStartNum = 0;
 				}
 				m_nShowEndChacker = 0;
 
@@ -720,20 +720,18 @@ void menuScene::bsUpDate()
 
 	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 	{
-
-
 		if (m_nFinalSelectNum + 2 < 8)
 		{
 			m_nFinalSelectNum += 2;
-			if (m_nFinalSelectNum + m_nShowStarNum + 2 > m_pPlayer->m_soulInven.vecBulletSoul.size())
+			if (m_nFinalSelectNum + m_nShowStartNum + 2 > m_pPlayer->m_soulInven.vecBulletSoul.size() && m_pPlayer->m_soulInven.vecBulletSoul.size() >= 8)
 				m_nFinalSelectNum = 6;
 		}
 		else
 		{
-			if (m_nShowStarNum + 8 < m_pPlayer->m_soulInven.vecBulletSoul.size())
-				m_nShowStarNum += 2;
+			if (m_nShowStartNum + 8 < m_pPlayer->m_soulInven.vecBulletSoul.size())
+				m_nShowStartNum += 2;
 
-			if (m_nShowStarNum + 8 > m_pPlayer->m_soulInven.vecBulletSoul.size())
+			if (m_nShowStartNum + 8 > m_pPlayer->m_soulInven.vecBulletSoul.size() && m_pPlayer->m_soulInven.vecBulletSoul.size() >= 8)
 			{
 				m_nShowEndChacker = 1;
 
@@ -743,40 +741,65 @@ void menuScene::bsUpDate()
 
 		}
 
-		if (m_nFinalSelectNum == m_pPlayer->m_soulInven.vecBulletSoul.size())
+		if (m_pPlayer->m_soulInven.vecBulletSoul.size() >= 2)
 		{
-			if (m_nFinalSelectNum % 2 == 0)
+			//if (m_nFinalSelectNum == m_pPlayer->m_soulInven.vecBulletSoul.size())
+			//{
+			//	if (m_nFinalSelectNum % 2 == 0)
+			//	{
+			//		m_nFinalSelectNum = m_pPlayer->m_soulInven.vecBulletSoul.size() - 2;
+			//	}
+			//	else
+			//	{
+			//		m_nFinalSelectNum = m_pPlayer->m_soulInven.vecBulletSoul.size() - 1;
+			//	}
+			//}
+
+
+			if (m_nFinalSelectNum >= m_pPlayer->m_soulInven.vecBulletSoul.size())
 			{
-				m_nFinalSelectNum = m_pPlayer->m_soulInven.vecBulletSoul.size() - 2;
+				if (m_pPlayer->m_soulInven.vecBulletSoul.size() % 2 == 0)
+				{
+					if (m_nFinalSelectNum % 2 == 0)
+					{
+						m_nFinalSelectNum = m_pPlayer->m_soulInven.vecBulletSoul.size() - 2;
+					}
+					else
+					{
+						m_nFinalSelectNum = m_pPlayer->m_soulInven.vecBulletSoul.size() - 1;
+					}
+				}
+				else
+				{
+					if (m_nFinalSelectNum % 2 == 0)
+					{
+						m_nFinalSelectNum = m_pPlayer->m_soulInven.vecBulletSoul.size() - 2;
+					}
+					else
+					{
+						m_nFinalSelectNum = m_pPlayer->m_soulInven.vecBulletSoul.size() - 1;
+					}
+				}
+
+
 			}
-			else
-			{
-				m_nFinalSelectNum = m_pPlayer->m_soulInven.vecBulletSoul.size() - 1;
-			}
+		}
+		else
+		{
+			m_nFinalSelectNum -= 2;
 		}
 
 
-		if (m_nFinalSelectNum > m_pPlayer->m_soulInven.vecBulletSoul.size())
-		{
-			if (m_nFinalSelectNum % 2 == 1)
-			{
-				m_nFinalSelectNum = m_pPlayer->m_soulInven.vecBulletSoul.size() - 2;
-			}
-			else
-			{
-				m_nFinalSelectNum = m_pPlayer->m_soulInven.vecBulletSoul.size() - 1;
-			}
-		}
 
 	}
-	SoulSet tempSoulSet = { m_pPlayer->m_soulInven.vecBulletSoul[m_nFinalSelectNum + m_nShowStarNum] ,
+	SoulSet tempSoulSet = { m_pPlayer->m_soulInven.vecBulletSoul[m_nFinalSelectNum + m_nShowStartNum] ,
 							m_pPlayer->m_soulSet.gS,m_pPlayer->m_soulSet.eS};
 
 	m_ChangeStatus=changeStatus(m_ChangeStatus, tempSoulSet);
 
 	if (KEYMANAGER->isOnceKeyDown('Z'))
 	{
-		m_pPlayer->m_soulSet.bS = m_pPlayer->m_soulInven.vecBulletSoul[m_nFinalSelectNum + m_nShowStarNum];
+		m_pPlayer->m_soulSet.bS = m_pPlayer->m_soulInven.vecBulletSoul[m_nFinalSelectNum + m_nShowStartNum];
 		m_pPlayer->setState(changeStatus(m_pPlayer->getState(), m_pPlayer->m_soulSet));
 		m_nSetStep--;
 	}
@@ -797,7 +820,7 @@ void menuScene::gsUpDate()
 			if (m_nFinalSelectNum < m_pPlayer->m_soulInven.vecGuardianSoul.size())
 				m_nFinalSelectNum++;
 
-			if (m_nShowStarNum + m_nFinalSelectNum >= m_pPlayer->m_soulInven.vecGuardianSoul.size())
+			if (m_nShowStartNum + m_nFinalSelectNum >= m_pPlayer->m_soulInven.vecGuardianSoul.size())
 			{
 
 				m_nFinalSelectNum--;
@@ -826,7 +849,7 @@ void menuScene::gsUpDate()
 				m_nFinalSelectNum = 0;
 			m_nFinalSelectNum++;
 
-			if (m_nShowStarNum + m_nFinalSelectNum >= m_pPlayer->m_soulInven.vecGuardianSoul.size())
+			if (m_nShowStartNum + m_nFinalSelectNum >= m_pPlayer->m_soulInven.vecGuardianSoul.size())
 			{
 
 				m_nFinalSelectNum--;
@@ -844,12 +867,12 @@ void menuScene::gsUpDate()
 		}
 		else
 		{
-			if (m_nShowStarNum >= 2)
+			if (m_nShowStartNum >= 2)
 			{
-				m_nShowStarNum -= 2;
-				if (m_nShowStarNum < 0)
+				m_nShowStartNum -= 2;
+				if (m_nShowStartNum < 0)
 				{
-					m_nShowStarNum = 0;
+					m_nShowStartNum = 0;
 				}
 				m_nShowEndChacker = 0;
 
@@ -863,15 +886,15 @@ void menuScene::gsUpDate()
 		if (m_nFinalSelectNum + 2 < 8)
 		{
 			m_nFinalSelectNum += 2;
-			if (m_nFinalSelectNum + m_nShowStarNum + 2 > m_pPlayer->m_soulInven.vecGuardianSoul.size() && m_pPlayer->m_soulInven.vecGuardianSoul.size() >= 8)
+			if (m_nFinalSelectNum + m_nShowStartNum + 2 > m_pPlayer->m_soulInven.vecGuardianSoul.size() && m_pPlayer->m_soulInven.vecGuardianSoul.size() >= 8)
 				m_nFinalSelectNum = 6;
 		}
 		else
 		{
-			if (m_nShowStarNum + 8 < m_pPlayer->m_soulInven.vecGuardianSoul.size())
-				m_nShowStarNum += 2;
+			if (m_nShowStartNum + 8 < m_pPlayer->m_soulInven.vecGuardianSoul.size())
+				m_nShowStartNum += 2;
 
-			if (m_nShowStarNum + 8 > m_pPlayer->m_soulInven.vecGuardianSoul.size() && m_pPlayer->m_soulInven.vecGuardianSoul.size() >= 8)
+			if (m_nShowStartNum + 8 > m_pPlayer->m_soulInven.vecGuardianSoul.size() && m_pPlayer->m_soulInven.vecGuardianSoul.size() >= 8)
 			{
 				m_nShowEndChacker = 1;
 
@@ -880,42 +903,54 @@ void menuScene::gsUpDate()
 			}
 
 		}
-		if (m_nFinalSelectNum == m_pPlayer->m_soulInven.vecGuardianSoul.size())
+
+		if (m_pPlayer->m_soulInven.vecGuardianSoul.size() >= 2)
 		{
-			if (m_nFinalSelectNum % 2 == 0)
+			if (m_nFinalSelectNum >= m_pPlayer->m_soulInven.vecGuardianSoul.size())
 			{
-				m_nFinalSelectNum = m_pPlayer->m_soulInven.vecGuardianSoul.size() - 2;
+				if (m_pPlayer->m_soulInven.vecGuardianSoul.size() % 2 == 0)
+				{
+					if (m_nFinalSelectNum % 2 == 0)
+					{
+						m_nFinalSelectNum = m_pPlayer->m_soulInven.vecGuardianSoul.size() - 2;
+					}
+					else
+					{
+						m_nFinalSelectNum = m_pPlayer->m_soulInven.vecGuardianSoul.size() - 1;
+					}
+				}
+				else
+				{
+					if (m_nFinalSelectNum % 2 == 1)
+					{
+						m_nFinalSelectNum = m_pPlayer->m_soulInven.vecGuardianSoul.size() - 2;
+					}
+					else
+					{
+						m_nFinalSelectNum = m_pPlayer->m_soulInven.vecGuardianSoul.size() - 1;
+					}
+				}
+
+
 			}
-			else
-			{
-				m_nFinalSelectNum = m_pPlayer->m_soulInven.vecGuardianSoul.size() - 1;
-			}
+		}
+		else
+		{
+			m_nFinalSelectNum -= 2;
 		}
 
 
-		if (m_nFinalSelectNum > m_pPlayer->m_soulInven.vecGuardianSoul.size())
-		{
-			if (m_nFinalSelectNum % 2 == 1)
-			{
-				m_nFinalSelectNum = m_pPlayer->m_soulInven.vecGuardianSoul.size() - 2;
-			}
-			else
-			{
-				m_nFinalSelectNum = m_pPlayer->m_soulInven.vecGuardianSoul.size() - 1;
-			}
-		}
 
 	}
-
 	SoulSet tempSoulSet = { m_pPlayer->m_soulSet.bS ,
-							m_pPlayer->m_soulInven.vecGuardianSoul[m_nFinalSelectNum + m_nShowStarNum],m_pPlayer->m_soulSet.eS };
+							m_pPlayer->m_soulInven.vecGuardianSoul[m_nFinalSelectNum + m_nShowStartNum],m_pPlayer->m_soulSet.eS };
 
 	m_ChangeStatus = changeStatus(m_ChangeStatus, tempSoulSet);
 
 
 	if (KEYMANAGER->isOnceKeyDown('Z'))
 	{
-		m_pPlayer->m_soulSet.gS = m_pPlayer->m_soulInven.vecGuardianSoul[m_nFinalSelectNum + m_nShowStarNum];
+		m_pPlayer->m_soulSet.gS = m_pPlayer->m_soulInven.vecGuardianSoul[m_nFinalSelectNum + m_nShowStartNum];
 		m_pPlayer->setState(changeStatus(m_pPlayer->getState(), m_pPlayer->m_soulSet));
 		m_nSetStep--;
 	}
@@ -934,7 +969,7 @@ void menuScene::esUpDate()
 			if (m_nFinalSelectNum < m_pPlayer->m_soulInven.vecEnchantSoul.size())
 				m_nFinalSelectNum++;
 
-			if (m_nShowStarNum + m_nFinalSelectNum >= m_pPlayer->m_soulInven.vecEnchantSoul.size())
+			if (m_nShowStartNum + m_nFinalSelectNum >= m_pPlayer->m_soulInven.vecEnchantSoul.size())
 			{
 
 				m_nFinalSelectNum--;
@@ -963,7 +998,7 @@ void menuScene::esUpDate()
 				m_nFinalSelectNum = 0;
 			m_nFinalSelectNum++;
 
-			if (m_nShowStarNum + m_nFinalSelectNum >= m_pPlayer->m_soulInven.vecEnchantSoul.size())
+			if (m_nShowStartNum + m_nFinalSelectNum >= m_pPlayer->m_soulInven.vecEnchantSoul.size())
 			{
 
 				m_nFinalSelectNum--;
@@ -981,12 +1016,12 @@ void menuScene::esUpDate()
 		}
 		else
 		{
-			if (m_nShowStarNum >= 2)
+			if (m_nShowStartNum >= 2)
 			{
-				m_nShowStarNum -= 2;
-				if (m_nShowStarNum < 0)
+				m_nShowStartNum -= 2;
+				if (m_nShowStartNum < 0)
 				{
-					m_nShowStarNum = 0;
+					m_nShowStartNum = 0;
 				}
 				m_nShowEndChacker = 0;
 
@@ -1000,15 +1035,15 @@ void menuScene::esUpDate()
 		if (m_nFinalSelectNum + 2 < 8)
 		{
 			m_nFinalSelectNum += 2;
-			if (m_nFinalSelectNum + m_nShowStarNum + 2 > m_pPlayer->m_soulInven.vecEnchantSoul.size() && m_pPlayer->m_soulInven.vecEnchantSoul.size() >= 8)
+			if (m_nFinalSelectNum + m_nShowStartNum + 2 > m_pPlayer->m_soulInven.vecEnchantSoul.size() && m_pPlayer->m_soulInven.vecEnchantSoul.size() >= 8)
 				m_nFinalSelectNum = 6;
 		}
 		else
 		{
-			if (m_nShowStarNum + 8 < m_pPlayer->m_soulInven.vecEnchantSoul.size())
-				m_nShowStarNum += 2;
+			if (m_nShowStartNum + 8 < m_pPlayer->m_soulInven.vecEnchantSoul.size())
+				m_nShowStartNum += 2;
 
-			if (m_nShowStarNum + 8 > m_pPlayer->m_soulInven.vecEnchantSoul.size()&& m_pPlayer->m_soulInven.vecEnchantSoul.size()>=8)
+			if (m_nShowStartNum + 8 > m_pPlayer->m_soulInven.vecEnchantSoul.size()&& m_pPlayer->m_soulInven.vecEnchantSoul.size()>=8)
 			{
 				m_nShowEndChacker = 1;
 
@@ -1035,7 +1070,7 @@ void menuScene::esUpDate()
 
 			if (m_nFinalSelectNum > m_pPlayer->m_soulInven.vecEnchantSoul.size())
 			{
-				if (m_nFinalSelectNum % 2 == 0)
+				if (m_nFinalSelectNum % 2 == 1)
 				{
 					m_nFinalSelectNum = m_pPlayer->m_soulInven.vecEnchantSoul.size() - 2;
 				}
@@ -1054,13 +1089,13 @@ void menuScene::esUpDate()
 
 	}
 	SoulSet tempSoulSet = { m_pPlayer->m_soulSet.bS ,m_pPlayer->m_soulSet.gS,
-		 m_pPlayer->m_soulInven.vecEnchantSoul[m_nFinalSelectNum + m_nShowStarNum] };
+		 m_pPlayer->m_soulInven.vecEnchantSoul[m_nFinalSelectNum + m_nShowStartNum] };
 
 	m_ChangeStatus = changeStatus(m_ChangeStatus, tempSoulSet);
 
 	if (KEYMANAGER->isOnceKeyDown('Z'))
 	{
-		m_pPlayer->m_soulSet.eS = m_pPlayer->m_soulInven.vecEnchantSoul[m_nFinalSelectNum + m_nShowStarNum];
+		m_pPlayer->m_soulSet.eS = m_pPlayer->m_soulInven.vecEnchantSoul[m_nFinalSelectNum + m_nShowStartNum];
 		m_pPlayer->setState(changeStatus(m_pPlayer->getState(), m_pPlayer->m_soulSet));
 		m_nSetStep--;
 	}
@@ -1238,7 +1273,7 @@ void menuScene::fontPrint(HDC hdc)
 
 	if (m_state == EQUIT)
 	{
-		switch (m_nTypeSelet)
+		switch (m_nTypeSelcet)
 		{
 		case 0:
 
@@ -1279,7 +1314,7 @@ void menuScene::fontPrint(HDC hdc)
 
 		SetTextColor(hdc, RGB(255, 255, 255));
 
-		switch (m_nTypeSelet)
+		switch (m_nTypeSelcet)
 		{
 		case 0:
 			sprintf_s(str, "%s", m_pPlayer->m_soulSet.bS->m_sName.c_str());
@@ -1292,7 +1327,7 @@ void menuScene::fontPrint(HDC hdc)
 			}
 			else
 			{
-				sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecBulletSoul[m_nShowStarNum+ m_nFinalSelectNum]->m_sExplanation.c_str());
+				sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecBulletSoul[m_nShowStartNum+ m_nFinalSelectNum]->m_sExplanation.c_str());
 				TextOut(hdc, 100, 360, str, lstrlen(str));
 			}
 
@@ -1301,21 +1336,21 @@ void menuScene::fontPrint(HDC hdc)
 
 			hFont = CreateFont(25, 0, 0, 0, 0, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, "Slabberton");
 			oldFont = (HFONT)SelectObject(hdc, hFont);
-			for (int i = m_nShowStarNum;
+			for (int i = m_nShowStartNum;
 				i <( m_pPlayer->m_soulInven.vecBulletSoul.size() < 9
-				? m_pPlayer->m_soulInven.vecBulletSoul.size() : 8+ m_nShowStarNum- m_nShowEndChacker); i++)
+				? m_pPlayer->m_soulInven.vecBulletSoul.size() : 8+ m_nShowStartNum- m_nShowEndChacker); i++)
 			
 			{
 
 				if (i % 2==0)
 				{
 					sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecBulletSoul[i]->m_sName.c_str());
-					TextOut(hdc, 60, 240 + (((i - m_nShowStarNum) / 2) * 20), str, lstrlen(str));
+					TextOut(hdc, 60, 240 + (((i - m_nShowStartNum) / 2) * 20), str, lstrlen(str));
 				}
 				else
 				{
 					sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecBulletSoul[i]->m_sName.c_str());
-					TextOut(hdc, 380, 240 + (((i - m_nShowStarNum) / 2) * 20), str, lstrlen(str));
+					TextOut(hdc, 380, 240 + (((i - m_nShowStartNum) / 2) * 20), str, lstrlen(str));
 				}
 
 			}
@@ -1336,7 +1371,7 @@ void menuScene::fontPrint(HDC hdc)
 			}
 			else
 			{
-				sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecGuardianSoul[m_nShowStarNum + m_nFinalSelectNum]->m_sExplanation.c_str());
+				sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecGuardianSoul[m_nShowStartNum + m_nFinalSelectNum]->m_sExplanation.c_str());
 				TextOut(hdc, 100, 360, str, lstrlen(str));
 			}
 
@@ -1344,19 +1379,19 @@ void menuScene::fontPrint(HDC hdc)
 			TextOut(hdc, WINSIZEX / 2 - 210, WINSIZEY / 2 - 33, str, lstrlen(str));
 			hFont = CreateFont(25, 0, 0, 0, 0, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, "Slabberton");
 			oldFont = (HFONT)SelectObject(hdc, hFont);
-			for (int i = m_nShowStarNum;
+			for (int i = m_nShowStartNum;
 				i < (m_pPlayer->m_soulInven.vecGuardianSoul.size() < 9
-				? m_pPlayer->m_soulInven.vecGuardianSoul.size() : 8+ m_nShowStarNum- m_nShowEndChacker); i++)
+				? m_pPlayer->m_soulInven.vecGuardianSoul.size() : 8+ m_nShowStartNum- m_nShowEndChacker); i++)
 			{
 				if (i % 2 == 0)
 				{
 					sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecGuardianSoul[i]->m_sName.c_str());
-					TextOut(hdc, 60, 240 + (((i- m_nShowStarNum) / 2) * 20), str, lstrlen(str));
+					TextOut(hdc, 60, 240 + (((i- m_nShowStartNum) / 2) * 20), str, lstrlen(str));
 				}
 				else
 				{
 					sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecGuardianSoul[i]->m_sName.c_str());
-					TextOut(hdc, 380, 240 + (((i-m_nShowStarNum) / 2) * 20), str, lstrlen(str));
+					TextOut(hdc, 380, 240 + (((i-m_nShowStartNum) / 2) * 20), str, lstrlen(str));
 				}
 
 			}
@@ -1375,7 +1410,7 @@ void menuScene::fontPrint(HDC hdc)
 			}
 			else
 			{
-				sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecEnchantSoul[m_nShowStarNum + m_nFinalSelectNum]->m_sExplanation.c_str());
+				sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecEnchantSoul[m_nShowStartNum + m_nFinalSelectNum]->m_sExplanation.c_str());
 				TextOut(hdc, 100, 360, str, lstrlen(str));
 			}
 
@@ -1383,19 +1418,19 @@ void menuScene::fontPrint(HDC hdc)
 			TextOut(hdc, WINSIZEX / 2 - 200, WINSIZEY / 2 - 33, str, lstrlen(str));
 			hFont = CreateFont(25, 0, 0, 0, 0, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, "Slabberton");
 			oldFont = (HFONT)SelectObject(hdc, hFont);
-			for (int i = m_nShowStarNum;
+			for (int i = m_nShowStartNum;
 				i < (m_pPlayer->m_soulInven.vecEnchantSoul.size()<9
-				? m_pPlayer->m_soulInven.vecEnchantSoul.size():8+ m_nShowStarNum- m_nShowEndChacker); i++)
+				? m_pPlayer->m_soulInven.vecEnchantSoul.size():8+ m_nShowStartNum- m_nShowEndChacker); i++)
 			{
 				if (i % 2 == 0)
 				{
 					sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecEnchantSoul[i]->m_sName.c_str());
-					TextOut(hdc, 60, 240 + (((i - m_nShowStarNum) / 2) * 20), str, lstrlen(str));
+					TextOut(hdc, 60, 240 + (((i - m_nShowStartNum) / 2) * 20), str, lstrlen(str));
 				}
 				else
 				{
 					sprintf_s(str, "%s", m_pPlayer->m_soulInven.vecEnchantSoul[i]->m_sName.c_str());
-					TextOut(hdc, 380, 240 + (((i - m_nShowStarNum) / 2) * 20), str, lstrlen(str));
+					TextOut(hdc, 380, 240 + (((i - m_nShowStartNum) / 2) * 20), str, lstrlen(str));
 				}
 
 			}

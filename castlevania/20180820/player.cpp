@@ -93,6 +93,7 @@ HRESULT player::init()
 
 	m_soulInven.vecBulletSoul.push_back(baseBSoul);
 	m_soulInven.vecBulletSoul.push_back(testBSoul);
+	m_soulInven.vecBulletSoul.push_back(testBSoul);
 
 
 	guardianSoul* baseGSoul = new guardianSoul;
@@ -103,6 +104,8 @@ HRESULT player::init()
 
 	m_soulInven.vecGuardianSoul.push_back(baseGSoul);
 	m_soulInven.vecGuardianSoul.push_back(testGSoul);
+	m_soulInven.vecGuardianSoul.push_back(testGSoul);
+	m_soulInven.vecGuardianSoul.push_back(baseGSoul);
 
 	enchantSoul* baseESoul = new enchantSoul;
 	baseESoul->init(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "------", "---");
@@ -135,7 +138,7 @@ void player::release()
 void player::update()
 {
 	// 중력 적용
-
+	mapRectCollision();
 	m_fY += m_Gravity;
 	
 	
@@ -902,7 +905,7 @@ void player::update()
 
 	mapchackCollision();
 	mapMove();
-	mapRectCollision();
+
 	
 
 	m_rc = RectMakeCenter(m_fX, m_fY, (m_pImg->getFrameWidth() * 3) / 2, (m_pImg->getFrameHeight() * 3) / 2);
@@ -1129,6 +1132,21 @@ void player::mapRectCollision()
 			
 		}
 
+
+		for (int i = 0; i < ROOMMANAGER->getCurrRoom()->getRectNum(); i++)
+		{
+			if (ROOMMANAGER->getCurrRoom()->getRectObj()[i].top + 13 > m_rc.bottom &&
+				ROOMMANAGER->getCurrRoom()->getRectObj()[i].top - 7 < m_rc.bottom
+				&& (m_rc.right > ROOMMANAGER->getCurrRoom()->getRectObj()[i].left &&
+					m_rc.left < ROOMMANAGER->getCurrRoom()->getRectObj()[i].right))
+			{
+
+				m_fY=(ROOMMANAGER->getCurrRoom()->getRectObj()[i].top - 50);
+
+
+			}
+
+		}
 
 
 

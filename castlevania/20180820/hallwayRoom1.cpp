@@ -42,7 +42,7 @@ HRESULT hallwayRoom1::init()
 	m_rectGate =rectGate;
 	m_rectObj = rectObj;
 
-	m_rectNum = 2;
+	m_nRectNum = 2;
 
 	m_rectGate[0] = RectMake(0, 195, 30, 144);
 	m_rectGate[1] = RectMake(1273 * 3 -30, 195, 30, 144);
@@ -268,18 +268,7 @@ void hallwayRoom1::rectColider()
 
 	}
 
-	for (int i = 0; i < 2; i++)
-	{
-		if (m_rectObj[i].top + 13 > m_pPlayer->getRc().bottom && m_rectObj[i].top - 7 < m_pPlayer->getRc().bottom  
-			 && (m_pPlayer->getRc().right > m_rectObj[i].left && m_pPlayer->getRc().left < m_rectObj[i].right))
-		{
-			
-			m_pPlayer->setFY(m_rectObj[i].top - 50);
-			
 
-		}
-
-	}
 }
 
 void hallwayRoom1::checkCollision()
