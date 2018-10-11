@@ -80,6 +80,8 @@ private:
 
 	int		m_motionC;
 
+	int		m_SkReadyC;
+
 
 	SYNTHESIZE( float, m_fX,Fx);
 	SYNTHESIZE(float, m_fY,FY);
@@ -122,7 +124,9 @@ private:
 	bool	m_PlayerBackDash;
 
 	// 플레이어의 착지 모션
-	bool	m_PlayerStand;
+	SYNTHESIZE(bool, m_PlayerStand, PlayerStand);
+
+	bool	m_PlayerSkReady;
 
 	SYNTHESIZE(bool, m_bIsJump, IsJump);
 
@@ -142,6 +146,8 @@ public:
 	void mapMove();
 
 	void mapchackCollision();
+
+	void mapRectCollision();
 
 	player();
 	~player();
