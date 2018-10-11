@@ -20,31 +20,31 @@ HRESULT CastleHallway::init()
 	m_rectObj = rectObj;
 
 
-	m_OBJ = new RoomObject[14];
+	m_Object = new RoomObject[14];
 
 	for (int i = 0; i < 14; i++)
 	{
 		//ระบา
-		m_OBJ[0].init(361, 4058, 0);
-		m_OBJ[1].init(650, 4058, 0);
-		m_OBJ[2].init(937, 4058, 0);
+		m_Object[0].init(361, 4058, 0);
+		m_Object[1].init(650, 4058, 0);
+		m_Object[2].init(937, 4058, 0);
 
 
 
 		//ศฝบา
-		m_OBJ[3].init(772, 3450, 1);
-		m_OBJ[4].init(339, 3162, 1);
-		m_OBJ[5].init(630, 2301, 1);
-		m_OBJ[6].init(868, 2301, 1);
-		m_OBJ[7].init(1397, 2010, 1);
+		m_Object[3].init(772, 3450, 1);
+		m_Object[4].init(339, 3162, 1);
+		m_Object[5].init(630, 2301, 1);
+		m_Object[6].init(868, 2301, 1);
+		m_Object[7].init(1397, 2010, 1);
 		
-		m_OBJ[8].init(868, 1819, 1);
-		m_OBJ[9].init(628, 1725, 1);
+		m_Object[8].init(868, 1819, 1);
+		m_Object[9].init(628, 1725, 1);
 
-		m_OBJ[10].init(628, 1244, 1);
-		m_OBJ[11].init(868, 1147, 1);
-		m_OBJ[12].init(628, 572, 1);
-		m_OBJ[13].init(868, 572, 1);
+		m_Object[10].init(628, 1244, 1);
+		m_Object[11].init(868, 1147, 1);
+		m_Object[12].init(628, 572, 1);
+		m_Object[13].init(868, 572, 1);
 		
 
 	}
@@ -68,7 +68,7 @@ void CastleHallway::update()
 	//ระบา
 	for (int i = 0; i < 14; i++)
 	{
-		m_OBJ[i].update();
+		m_Object[i].update();
 	}
 	if (m_posMap.x < 0)
 	{
@@ -149,7 +149,7 @@ void CastleHallway::render(HDC hdc)
 
 	for (int i = 0; i < 14; i++)
 	{
-		m_OBJ[i].render(hdc);
+		m_Object[i].render(hdc);
 	}
 }
 
@@ -224,16 +224,15 @@ void CastleHallway::checkCollision()
 {
 	RECT rc;
 
-
-	for (int i = 0; i < 14; i++)
+	for (int i = 0; i < 4; i++)
 	{
 
 
-		if (m_OBJ[i].getAlive() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_OBJ[i].getrc()))
+		if (m_Object[i].getObjStand() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_Object[i].getrc()))
 		{
-			m_OBJ[i].setAlive(false);
+			m_Object[i].setObjStand(false);
 
-			m_OBJ[i].setDestruction(true);
+			m_Object[i].setDestruction(true);
 		}
 
 	}

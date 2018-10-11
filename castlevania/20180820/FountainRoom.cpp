@@ -20,14 +20,14 @@ HRESULT FountainRoom::init()
 	m_rectObj = rectObj;
 
 	
-	m_OBJ = new RoomObject[4];
+	m_Object = new RoomObject[4];
 
 		// Äµµé
-		m_OBJ[0].init(311, 630, 0);
-		m_OBJ[1].init(1178, 630, 0);
+		m_Object[0].init(311, 630, 0);
+		m_Object[1].init(1178, 630, 0);
 		// ÀÛÀº ºÒ
-		m_OBJ[2].init(605, 836, 1);
-		m_OBJ[3].init(891, 836, 1);
+		m_Object[2].init(605, 836, 1);
+		m_Object[3].init(891, 836, 1);
 
 	
 
@@ -54,7 +54,7 @@ void FountainRoom::update()
 	//ÃÐºÒ
 	for (int i = 0; i < 4; i++)
 	{
-		m_OBJ[i].update();
+		m_Object[i].update();
 
 
 	}
@@ -118,7 +118,7 @@ void FountainRoom::render(HDC hdc)
 
 	for (int i = 0; i < 4; i++)
 	{
-		m_OBJ[i].render(hdc);
+		m_Object[i].render(hdc);
 	}
 
 
@@ -232,11 +232,11 @@ void FountainRoom::rectColider()
 	{
 
 
-		if (m_OBJ[i].getAlive() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_OBJ[i].getrc()))
+		if (m_Object[i].getObjStand() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_Object[i].getrc()))
 		{
-			m_OBJ[i].setAlive(false);
+			m_Object[i].setObjStand(false);
 
-			m_OBJ[i].setDestruction(true);
+			m_Object[i].setDestruction(true);
 		}
 
 	}

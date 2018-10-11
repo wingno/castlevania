@@ -12,7 +12,7 @@ private:
 	RECT rectObj[2];
 
 
-	RoomObject* m_OBJ;
+	RoomObject* m_Object;
 
 
 public:

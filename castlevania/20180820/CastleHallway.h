@@ -11,7 +11,7 @@ private:
 	RECT rectGate[3];
 	//¹ßÆÇ
 	RECT rectObj[12];
-	RoomObject* m_OBJ;
+	RoomObject* m_Object;
 
 
 public:

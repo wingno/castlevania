@@ -21,12 +21,12 @@ HRESULT hallwayRoom2::init()
 
 
 	//ø¿∫Í¿Ë∆Æ
-	m_OBJ = new RoomObject[2];
+	m_Object = new RoomObject[2];
 
 	for (int i = 0; i < 2; i++)
 	{
-		m_OBJ[0].init(740, 190, 0);
-		m_OBJ[1].init(1510, 190, 0);
+		m_Object[0].init(740, 190, 0);
+		m_Object[1].init(1510, 190, 0);
 	
 
 	}
@@ -53,7 +53,7 @@ void hallwayRoom2::update()
 	//ø¿∫Í¿Ë∆Æ
 	for (int i = 0; i < 2; i++)
 	{
-		m_OBJ[i].update();
+		m_Object[i].update();
 
 	}
 
@@ -108,7 +108,7 @@ void hallwayRoom2::render(HDC hdc)
 	//ø¿∫Í¿Ë∆Æ
 	for (int i = 0; i < 2; i++)
 	{
-		m_OBJ[i].render(hdc);
+		m_Object[i].render(hdc);
 	}
 
 }
@@ -217,15 +217,15 @@ void hallwayRoom2::colliderMake()
 void hallwayRoom2::checkCollision()
 {
 	RECT rc;
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 4; i++)
 	{
 
 
-		if (m_OBJ[i].getAlive() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_OBJ[i].getrc()))
+		if (m_Object[i].getObjStand() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_Object[i].getrc()))
 		{
-			m_OBJ[i].setAlive(false);
+			m_Object[i].setObjStand(false);
 
-			m_OBJ[i].setDestruction(true);
+			m_Object[i].setDestruction(true);
 		}
 
 	}
