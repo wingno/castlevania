@@ -6,21 +6,20 @@ class image;
 class zombie
 {
 
-	image* m_zombi;
+	image* m_imgzombi;
 	SYNTHESIZE(RECT, m_rc, rc);
-	SYNTHESIZE(POINT, m_posMap, PosMap);
-
+	
 
 
 	//¾Ö³Ê¹Ì 1
-	SYNTHESIZE(float, zombiX, zomX);
-	SYNTHESIZE(float, zombiy, zomY);
-	int zombiFX;
-	int zombiFY;
-	int zombiIDX;
-	int  zombicount;
-	bool  zombimove, zombistand, zombidead;
- 	SYNTHESIZE(bool, m_Alive, Alive);
+	SYNTHESIZE(float, m_fZombieX, zomX);
+	SYNTHESIZE(float, m_fZombiey, zomY);
+	int m_nZombieFX;
+	int m_nZombieFY;
+	int m_nZombieIDX;
+	int  m_nZombiecount;
+	bool  m_bZombieMove, m_bZombiestand, m_bZombiedead;
+ 	SYNTHESIZE(bool, m_bAlive, Alive);
 
 public:
 	zombie();

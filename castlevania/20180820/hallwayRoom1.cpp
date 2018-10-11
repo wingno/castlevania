@@ -26,14 +26,14 @@ HRESULT hallwayRoom1::init()
 		m_Zombie[i].init(700 + (i * 200), 350);
 	}
 
-	m_OBJ = new RoomObject[4];
+	m_Object = new RoomObject[4];
 
 
 	//ระบา
-	m_OBJ[0].init(742, 300, 0);
-	m_OBJ[1].init(1513, 300, 0);
-	m_OBJ[2].init(2279, 300, 0);
-	m_OBJ[3].init(3045, 300, 0);
+	m_Object[0].init(742, 300, 0);
+	m_Object[1].init(1513, 300, 0);
+	m_Object[2].init(2279, 300, 0);
+	m_Object[3].init(3045, 300, 0);
 
 	
 	
@@ -80,7 +80,7 @@ void hallwayRoom1::update()
 	//ระบา
 	for (int i = 0; i < 4; i++)
 	{
-		m_OBJ[i].update();
+		m_Object[i].update();
 	}
 		
 	for (int i = 1; i < 10; i++)
@@ -159,7 +159,7 @@ void hallwayRoom1::render(HDC hdc)
 	}
 	for (int i = 0; i < 4; i++)
 	{
-		m_OBJ[i].render(hdc);
+		m_Object[i].render(hdc);
 	}
 
 }
@@ -289,11 +289,11 @@ void hallwayRoom1::checkCollision()
 	{
 
 
-		if (m_OBJ[i].getAlive() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_OBJ[i].getrc()))
+		if (m_Object[i].getObjStand() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_Object[i].getrc()))
 		{
-			m_OBJ[i].setAlive(false);
+			m_Object[i].setObjStand(false);
 		
-			m_OBJ[i].setDestruction(true);
+			m_Object[i].setDestruction(true);
 		}
 
 	}

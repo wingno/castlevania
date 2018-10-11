@@ -7,29 +7,30 @@
 HRESULT zombie::init(int startX, int startY)
 {
 
-	m_zombi = IMAGEMANAGER->addImage("M1", "MONSTER/NEWZOMBI.bmp", 140, 80, 7, 2, true, RGB(84, 109, 142));
+	m_imgzombi = IMAGEMANAGER->addImage("M1", "MONSTER/NEWZOMBI.bmp", 140, 80, 7, 2, true, RGB(84, 109, 142));
 
 
 	
 
-	zombiX = startX;
+	m_fZombieX = startX;
 	//350
-	zombiy = startY;
+	m_fZombiey = startY;
 	//310;
 
 
-	zombiFX= zombiFY = 0;
-	zombicount = 0;
-	zombiIDX = 0;
+	m_nZombieFX = 0;
+	m_nZombieFY = 0;
+	m_nZombiecount = 0;
+	m_nZombieIDX = 0;
 
-	zombistand = true;
-	zombimove = false;
-	zombidead = false;
-	m_Alive = true;
+	m_bZombiestand = true;
+	m_bZombieMove = false;
+	m_bZombiedead = false;
+	m_bAlive = true;
 
 
 
-	m_rc = RectMakeCenter(zombiX, zombiy + 30, m_zombi->getWidth() - 85, m_zombi->getHeight() + 35);
+	m_rc = RectMakeCenter(m_fZombieX, m_fZombiey + 30, m_imgzombi->getWidth() - 85, m_imgzombi->getHeight() + 35);
 
 
 	return S_OK;
@@ -44,98 +45,98 @@ void zombie::update()
 
 	
 
-	if (m_Alive)
+	if (m_bAlive)
 	{
-		if (zombistand) //좀비나오는모습
+		if (m_bZombiestand) //좀비나오는모습
 		{
 
-			zombiIDX++;
-			if (zombiIDX % 12 == 0)
+			m_nZombieIDX++;
+			if (m_nZombieIDX % 12 == 0)
 			{
 
-				zombiFX++;
-				if (zombiFX > 5)
+				m_nZombieFX++;
+				if (m_nZombieFX > 5)
 				{
 
-					zombiFX = 5;
-					zombimove = true;
-					zombistand = false;
+					m_nZombieFX = 5;
+					m_bZombieMove = true;
+					m_bZombiestand = false;
 
 				}
 			}
 		}
 
-		if (zombimove) //단순 이동모션
+		if (m_bZombieMove) //단순 이동모션
 		{
 
-			zombiX -= 1;
+			m_fZombieX -= 1;
 			
 
-			zombiIDX++;
-			zombicount ++;
-			if (zombiIDX % 40
+			m_nZombieIDX++;
+			m_nZombiecount ++;
+			if (m_nZombieIDX % 40
 				== 0)
 
 			{
 
-				zombiFX++;
-				if (zombiFX > 6)
+				m_nZombieFX++;
+				if (m_nZombieFX > 6)
 				{
-					zombiFX = 5;
+					m_nZombieFX = 5;
 
 
 				}
 			}
 
-			if (zombicount == 300|| m_rc.left < 190-ROOMMANAGER->getCurrRoom()->getPosMap().x) //이동도중 카운트를 주어서 일정 카운트가되면 데드로 해당하는 모션행동
+			if (m_nZombiecount == 300|| m_rc.left < 190-ROOMMANAGER->getCurrRoom()->getPosMap().x) //이동도중 카운트를 주어서 일정 카운트가되면 데드로 해당하는 모션행동
 			{
-				zombimove = false;
-				zombistand = false;
-				zombidead = true;
-				zombicount = 0;
-				zombiFX = 0;
-				zombiFY = 1;
+				m_bZombieMove = false;
+				m_bZombiestand = false;
+				m_bZombiedead = true;
+				m_nZombiecount = 0;
+				m_nZombieFX = 0;
+				m_nZombieFY = 1;
 
 			}
 		}
 
 
-		if (zombidead) //좀비가 데드라고했지만 일정 이상 움직일경우 땅으로 들어가개 만듬
+		if (m_bZombiedead) //좀비가 데드라고했지만 일정 이상 움직일경우 땅으로 들어가개 만듬
 		{
 
-			zombiIDX++;
-			if (zombiIDX % 20 == 0)
+			m_nZombieIDX++;
+			if (m_nZombieIDX % 20 == 0)
 			{
-				zombiFX++;
-				if (zombiFX > 5)
+				m_nZombieFX++;
+				if (m_nZombieFX > 5)
 				{
-					zombiFX = 6;
-					zombiX = zombiX + 200;
+					m_nZombieFX = 6;
+					m_fZombieX = m_fZombieX + 200;
 
 
-					zombidead = false;
+					m_bZombiedead = false;
 
 				}
 			}
-			if (zombidead == false)
+			if (m_bZombiedead == false)
 			{
-				zombistand = true;
-				zombiFY = 0;
-				zombiFX = 0;
+				m_bZombiestand = true;
+				m_nZombieFY = 0;
+				m_nZombieFX = 0;
 			}
 		}
 
-		m_rc = RectMakeCenter(zombiX - ROOMMANAGER->getCurrRoom()->getPosMap().x, zombiy + 30, m_zombi->getWidth() - 85, m_zombi->getHeight() + 35);
+		m_rc = RectMakeCenter(m_fZombieX - ROOMMANAGER->getCurrRoom()->getPosMap().x, m_fZombiey + 30, m_imgzombi->getWidth() - 85, m_imgzombi->getHeight() + 35);
 	}
 }
 
 void zombie::render(HDC hdc)
 {
-	if (m_Alive)
+	if (m_bAlive)
 	{
 		Rectangle(hdc, m_rc.left, m_rc.top, m_rc.right, m_rc.bottom);
 
-		m_zombi->frameRender(hdc, zombiX + 40 - m_zombi->getWidth() / 2  - ROOMMANAGER->getCurrRoom()->getPosMap().x, zombiy - m_zombi->getHeight() / 2, zombiFX, zombiFY, 3);
+		m_imgzombi->frameRender(hdc, m_fZombieX + 40 - m_imgzombi->getWidth() / 2  - ROOMMANAGER->getCurrRoom()->getPosMap().x, m_fZombiey - m_imgzombi->getHeight() / 2, m_nZombieFX, m_nZombieFY, 3);
 	}
 }
 

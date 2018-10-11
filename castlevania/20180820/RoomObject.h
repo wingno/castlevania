@@ -1,8 +1,5 @@
 #pragma once
-
-
 class image;
-
 class CoinObject;
 
 
@@ -10,35 +7,36 @@ class RoomObject
 {
 private:
 	
-	//파괴 여부를 채크
-	bool DestructionMove;
-	//@@@@@@@@@@@@@@@@@@@@@@@@오브잭트@@@@@@@@@@@@@@@@@@
-	//위치
-
 	//프레임 
-	int FrameX, FrameY;
+	int m_nObjFrameX, m_nObjFrameY;
 	//인덱스
-	int MyIdx;
+	int m_nObjIdx;
 	//카운트
-	int MYCount;
+	int m_nObjCount;
 	//오브잭트 번호
-	int OBnum;
+	int m_nObjNum;
 
 	CoinObject* m_coin;
 
 	//오브잭트이미지
-	image* m_Candlelight;
-	
-	SYNTHESIZE(int, FX, FX);
-	SYNTHESIZE(int, FY, FY);
-	SYNTHESIZE(bool, Alive, Alive);
-	SYNTHESIZE(bool, Destruction, Destruction);
+	image* m_imgObj;
+	//오브잭트 위치
+	SYNTHESIZE(int, m_nFX, FX);
+	SYNTHESIZE(int, m_nFY, FY);
+
+	//오브잭트 생성 기본상태
+	SYNTHESIZE(bool, m_bObjStand , ObjStand);
+	SYNTHESIZE(bool, m_bObjDestruction, Destruction);
+
+	//파괴 여부를 채크
+	bool m_bObjDestructionMove;
+// 랙트
 	SYNTHESIZE(RECT, m_rc, rc);
 
 
 public:
 
-	virtual HRESULT init(int MYX, int MYY, int Object);
+	virtual HRESULT init(int nFX, int nFY, int ObjNum);
 	virtual void release();
 	virtual void update();
 	virtual void render(HDC hdc);

@@ -62,25 +62,25 @@ private:
 	SYNTHESIZE(int, m_nGold, Gold);;
 
 
-	float	m_JumP;
+	float	m_fJumP;
 
-	float	m_SildeP;
+	float	m_fSildeP;
 
-	float	m_BackP;
+	float	m_fBackP;
 
-	int		m_SildeC;
+	int		m_nSildeC;
 
-	int		m_BackC;
+	int		m_nBackC;
 
-	int		m_JumC;
+	int		m_nJumC;
 
-	int		m_JumMC;
+	int		m_nJumMC;
 	
-	float	m_Speed;
+	float	m_fSpeed;
 
-	int		m_motionC;
+	int		m_nMotionC;
 
-	int		m_SkReadyC;
+	int		m_nSkReadyC;
 
 
 	SYNTHESIZE( float, m_fX,Fx);
@@ -94,39 +94,39 @@ private:
 	int		m_nLCurrFrameY;
 	int		m_nCount;
 
-	float	m_Gravity;
+	float	m_fGravity;
 
 	int		m_nNCurrFrameX;
 	int		m_nNCurrFrameY;
 
-	bool	m_Item;
+	bool	m_bItem;
 
 	// 플레이어가 보고 있는 방향 속성
-	bool	m_PlayerSee;
+	bool	m_bPlayerSee;
 
 	// 플레이어의 공격 모션
-	bool	m_PlayerAttack;
+	bool	m_bPlayerAttack;
 
 	// 플레이어의 점프 모션
-	int		m_PlayerJump;
-	bool	m_PlayerJumpM;
-	bool	m_PlayerJumpDown;
-	bool	m_PlayerJumpAttack;
+	int		m_nPlayerJump;
+	bool	m_bPlayerJumpM;
+	bool	m_bPlayerJumpDown;
+	bool	m_bPlayerJumpAttack;
 
 	// 플레이어의 앉기 모션
-	int		m_PlayerDown;
-	bool	m_PlayerDownAt;
+	int		m_nPlayerDown;
+	bool	m_bPlayerDownAt;
 
 	// 플레이어의 슬라이딩 모션
-	bool	m_PlayerSilde;
+	bool	m_bPlayerSilde;
 
 	// 플레이어의 백대쉬 모션
-	bool	m_PlayerBackDash;
+	bool	m_bPlayerBackDash;
 
 	// 플레이어의 착지 모션
-	SYNTHESIZE(bool, m_PlayerStand, PlayerStand);
+	SYNTHESIZE(bool, m_bPlayerStand, PlayerStand);
 
-	bool	m_PlayerSkReady;
+	bool	m_bPlayerSkReady;
 
 	SYNTHESIZE(bool, m_bIsJump, IsJump);
 

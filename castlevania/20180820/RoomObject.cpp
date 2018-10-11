@@ -3,34 +3,34 @@
 #include "room.h"
 #include "CoinObject.h"
 
-HRESULT RoomObject::init(int MYX, int MYY, int Object)
+HRESULT RoomObject::init(int nFX, int nFY, int ObjNum)
 {
 	//오브잭트
-	m_Candlelight = IMAGEMANAGER->addImage("candle", "image/object/candle.bmp", 198, 23, 11, 1, true, RGB(0, 64, 128));
-	m_Candlelight = IMAGEMANAGER->addImage("minifire", "image/object/minifire.bmp", 56, 20, 4, 1, true, RGB(0, 64, 128));
+	m_imgObj = IMAGEMANAGER->addImage("candle", "image/object/candle.bmp", 198, 23, 11, 1, true, RGB(0, 64, 128));
+	m_imgObj = IMAGEMANAGER->addImage("minifire", "image/object/minifire.bmp", 56, 20, 4, 1, true, RGB(0, 64, 128));
 	
 
 	//오브잭트
-	Alive = true;
+	m_bObjStand = true;
 	//파괴 여부를 채크
-	Destruction = false;
-	DestructionMove = false;
+	m_bObjDestruction = false;
+	m_bObjDestructionMove = false;
 	//위치
-	FX = MYX;
-	FY = MYY;
+	m_nFX = nFX;
+	m_nFY = nFY;
 	//오브잭트 번호
-	OBnum = Object;
+	m_nObjNum = ObjNum;
 	//프레임 
-	FrameX = 0;
-	FrameY = 0;
+	m_nObjFrameX = 0;
+	m_nObjFrameY = 0;
 
-	MyIdx = 0;
-	MYCount = 0;
+	m_nObjIdx = 0;
+	m_nObjCount = 0;
 
-	m_rc = RectMakeCenter(FX + 26, FY + 45, m_Candlelight->getWidth() / 4 - 3, m_Candlelight->getHeight() * 2);
+	m_rc = RectMakeCenter(m_nFX + 26,  m_nFY + 45, m_imgObj->getWidth() / 4 - 3, m_imgObj->getHeight() * 2);
 
 	m_coin = new CoinObject;
-	m_coin->init(FX, FY );
+	m_coin->init(m_nFX,  m_nFY );
 
 
 	return S_OK;
@@ -47,8 +47,8 @@ void RoomObject::update()
 
 
 
-	m_rc = RectMakeCenter(FX + 26 - ROOMMANAGER->getCurrRoom()->getPosMap().x, FY + 45- ROOMMANAGER->getCurrRoom()->getPosMap().y,
-		 m_Candlelight->getWidth() / 4 - 3, m_Candlelight->getHeight() * 2);
+	m_rc = RectMakeCenter(m_nFX + 26 - ROOMMANAGER->getCurrRoom()->getPosMap().x,  m_nFY + 45- ROOMMANAGER->getCurrRoom()->getPosMap().y,
+		 m_imgObj->getWidth() / 4 - 3, m_imgObj->getHeight() * 2);
 
 
 
@@ -56,17 +56,17 @@ void RoomObject::update()
 
 void RoomObject::render(HDC hdc)
 {
-	if (Alive||
-		Destruction||
-		DestructionMove)
+	if (m_bObjStand||
+		m_bObjDestruction||
+		m_bObjDestructionMove)
 	{
 		/*Rectangle(hdc, m_rc.left, m_rc.top,
 			m_rc.right, m_rc.bottom);*/
 		
 
-		m_Candlelight->frameRender(hdc, FX - ROOMMANAGER->getCurrRoom()->getPosMap().x,
-			FY - ROOMMANAGER->getCurrRoom()->getPosMap().y
-			, FrameX, FrameY, 3);
+		m_imgObj->frameRender(hdc, m_nFX - ROOMMANAGER->getCurrRoom()->getPosMap().x,
+			 m_nFY - ROOMMANAGER->getCurrRoom()->getPosMap().y
+			, m_nObjFrameX, m_nObjFrameY, 3);
 	
 		
 
@@ -79,47 +79,46 @@ void RoomObject::render(HDC hdc)
 
 void RoomObject::ObjectCode()
 {
-	m_coin->update();
-
-	switch (OBnum)
+	
+	switch (m_nObjNum)
 	{
 	case 0: //촛불
-		m_Candlelight = IMAGEMANAGER->findImage("candle");
+		m_imgObj = IMAGEMANAGER->findImage("candle");
 		//기본동작
-		if (Alive)
+		if (m_bObjStand)
 		{
-			MyIdx++;
-			if (MyIdx % 7 == 0)
+			m_nObjIdx++;
+			if (m_nObjIdx % 7 == 0)
 			{
-				FrameX++;
-				if (FrameX > 5)
+				m_nObjFrameX++;
+				if (m_nObjFrameX > 5)
 				{
-					FrameX = 0;
+					m_nObjFrameX = 0;
 				}
 			}
 		}
 
 
-		if (Destruction)
+		if (m_bObjDestruction)
 		{
 
-			MyIdx++;
-			if (MyIdx % 3 == 0)
+			m_nObjIdx++;
+			if (m_nObjIdx % 3 == 0)
 			{
-				FrameX++;
-				if (FrameX > 8)
+				m_nObjFrameX++;
+				if (m_nObjFrameX > 8)
 				{
-					FrameX = 8;
-					if (FrameX = 8)
+					m_nObjFrameX = 8;
+					if (m_nObjFrameX = 8)
 					{
-						FY -= 4;
-						MYCount++;
+						 m_nFY -= 4;
+						m_nObjCount++;
 
-						if (MYCount == 5)
+						if (m_nObjCount == 5)
 						{
-							FrameX = 8;
-							Destruction = false;
-							DestructionMove = true;
+							m_nObjFrameX = 8;
+							m_bObjDestruction = false;
+							m_bObjDestructionMove = true;
 
 						}
 
@@ -129,21 +128,22 @@ void RoomObject::ObjectCode()
 
 		}
 		// 죽을떄 취하는모션
-		if (DestructionMove)
+		if (m_bObjDestructionMove)
 		{
 
-			MyIdx++;
-			if (MyIdx % 5 == 0)
+			m_nObjIdx++;
+			if (m_nObjIdx % 5 == 0)
 			{
-				FrameX++;
-				if (FrameX > 10)
+				m_nObjFrameX++;
+				if (m_nObjFrameX > 10)
 				{
-					OBnum = 0;
+					m_nObjNum = 0;
 			
-					DestructionMove = false;
+					m_bObjDestructionMove = false;
 				
 					
 					m_coin->setAlive(true);
+					m_coin->update();
 
 				}
 			}
@@ -152,17 +152,18 @@ void RoomObject::ObjectCode()
 		break;
 
 	case 1: //휏불
-		m_Candlelight = IMAGEMANAGER->findImage("minifire");
+		m_imgObj = IMAGEMANAGER->findImage("minifire");
 		//기본동작
-		if (Alive)
+		if (m_bObjStand)
 		{
-			MyIdx++;
-			if (MyIdx % 5 == 0)
+			m_nObjIdx++;
+			if (m_nObjIdx % 5 == 0)
 			{
-				FrameX++;
-				if (FrameX > 3)
+				m_nObjFrameX++;
+				if (m_nObjFrameX > 3)
 				{
-					FrameX = 0;
+					m_nObjFrameX = 0;
+
 				}
 			}
 		}
