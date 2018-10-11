@@ -4,6 +4,10 @@
 #include "bulletSoul.h"
 #include "guardianSoul.h"
 #include "enchantSoul.h"
+#include "handItem.h"
+#include "bodyItem.h"
+#include "accessoryItem.h"
+#include "ItemUse.h"
 
 
 HRESULT player::init()
@@ -93,33 +97,79 @@ HRESULT player::init()
 
 	m_soulInven.vecBulletSoul.push_back(baseBSoul);
 	m_soulInven.vecBulletSoul.push_back(testBSoul);
-	m_soulInven.vecBulletSoul.push_back(testBSoul);
+
 
 
 	guardianSoul* baseGSoul = new guardianSoul;
-	baseGSoul->init(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "------", "---");
+	baseGSoul->init(1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "------", "---");
 
 	guardianSoul* testGSoul = new guardianSoul;
-	testGSoul->init(0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, "메두사 헤드", "공중에서 정지가 가능하다.");
+	testGSoul->init(1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, "메두사 헤드", "공중에서 정지가 가능하다.");
 
 	m_soulInven.vecGuardianSoul.push_back(baseGSoul);
 	m_soulInven.vecGuardianSoul.push_back(testGSoul);
-	m_soulInven.vecGuardianSoul.push_back(testGSoul);
-	m_soulInven.vecGuardianSoul.push_back(baseGSoul);
+
 
 	enchantSoul* baseESoul = new enchantSoul;
-	baseESoul->init(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "------", "---");
+	baseESoul->init(2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "------", "---");
 
 	enchantSoul* testESoul = new enchantSoul;
-	testESoul->init(0, 1, 1, 0, 0, 0, 0, 2, 0, 0, 0, "좀비", "CON +2");
+	testESoul->init(2, 1, 1, 0, 0, 0, 0, 2, 0, 0, 0, "좀비", "CON +2");
 
 	m_soulInven.vecEnchantSoul.push_back(baseESoul);
 	m_soulInven.vecEnchantSoul.push_back(testESoul);
 
 
+
+
+
+	handItem* baseHItem = new handItem;
+	baseHItem->init(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "------", "---");
+
+	handItem* testHItem = new handItem;
+	testHItem->init(0, 1, 1, 100, 0, 0, 0, 0, 0, 0, 0, "발뭉", "용을 살해한 검");
+
+	m_ItemInven.vecHandItem.push_back(baseHItem);
+	m_ItemInven.vecHandItem.push_back(testHItem);
+
+	bodyItem* baseBItem = new bodyItem;
+	baseBItem->init(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "------", "---");
+
+	bodyItem* testBItem = new bodyItem;
+	testBItem->init(0, 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, "평상복", "평소에 자주 입는 옷");
+
+	bodyItem* testBItem1 = new bodyItem;
+	testBItem1->init(0, 1, 5, 0, 33, 6, 6, 6, 6, 0, 0, "드라큘라 옷", "드라큘라의 마력이 깃든 옷");
+
+	m_ItemInven.vecBodyItem.push_back(baseBItem);
+	m_ItemInven.vecBodyItem.push_back(testBItem);
+	m_ItemInven.vecBodyItem.push_back(testBItem1);
+
+	accessoryItem* baseAItem = new accessoryItem;
+	baseAItem->init(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "------", "---");
+
+	accessoryItem* testAItem = new accessoryItem;
+	testAItem->init(0, 1, 1, 0, 2, 0, 0, 0, 0, 0, 0, "머플러", "따뜻한 머플러");
+	
+	accessoryItem* testAItem1 = new accessoryItem;
+	testAItem1->init(0, 1, 2, 0, 0, 0, 0, 0, 1, 0, 0, "펜던트", "펜던트");
+
+	accessoryItem* testAItem2 = new accessoryItem;
+	testAItem2->init(0, 1, 5, 0, 6, 2, 2, 2, 0, 0, 0, "마왕의 반지", "마왕이 몸에 지니고 있던 반지");
+
+	m_ItemInven.vecAccessoryItem.push_back(baseAItem);
+	m_ItemInven.vecAccessoryItem.push_back(testAItem);
+	m_ItemInven.vecAccessoryItem.push_back(testAItem1);
+	m_ItemInven.vecAccessoryItem.push_back(testAItem2);
+
+
 	m_soulSet.bS = baseBSoul;
 	m_soulSet.gS = baseGSoul;
 	m_soulSet.eS = baseESoul;
+
+	m_ItemSet.hI = baseHItem;
+	m_ItemSet.bI = baseBItem;
+	m_ItemSet.aI = baseAItem;
 
 
 

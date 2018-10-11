@@ -33,6 +33,8 @@ private:
 	image*	m_imgGSoul;
 	image*	m_imgESoul;
 
+	image*	m_imgItem;
+
 	animation * m_pBSoulAni;
 	animation * m_pGSoulAni;
 	animation * m_pESoulAni;
@@ -87,9 +89,15 @@ public:
 	void gsUpDate();
 	void esUpDate();
 
+	void hiUpDate();
+
+	void biUpDate();
+
+	void aiUpDate();
+
 	void fontPrint(HDC hdc);
 
-	Status changeStatus(Status status, SoulSet soulSet);
+	Status changeStatus(Status status, SoulSet soulSet,ItemSet item);
 
 	menuScene();
 	~menuScene();

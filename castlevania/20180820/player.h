@@ -137,6 +137,9 @@ private:
 	soulInven	m_soulInven;
 	SoulSet		m_soulSet;
 
+	itemInven	m_ItemInven;
+	ItemSet		m_ItemSet;
+
 public:
 	HRESULT init();
 	void release();
