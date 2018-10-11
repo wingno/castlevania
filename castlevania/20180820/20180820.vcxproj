@@ -158,6 +158,7 @@
     <ClInclude Include="bulletSoul.h" />
     <ClInclude Include="camel.h" />
     <ClInclude Include="CastleHallway.h" />
+    <ClInclude Include="CoinObject.h" />
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
@@ -189,6 +190,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="room.h" />
     <ClInclude Include="roomManager.h" />
+    <ClInclude Include="RoomObject.h" />
     <ClInclude Include="SaveRoom.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="sceneManager.h" />
@@ -218,6 +220,7 @@
     <ClCompile Include="bulletSoul.cpp" />
     <ClCompile Include="camel.cpp" />
     <ClCompile Include="CastleHallway.cpp" />
+    <ClCompile Include="CoinObject.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="enchantSoul.cpp" />
@@ -246,6 +249,7 @@
     <ClCompile Include="progressBar.cpp" />
     <ClCompile Include="room.cpp" />
     <ClCompile Include="roomManager.cpp" />
+    <ClCompile Include="RoomObject.cpp" />
     <ClCompile Include="SaveRoom.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="sceneManager.cpp" />

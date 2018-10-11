@@ -3,6 +3,7 @@
 #include "player.h"
 #include "zombie.h"
 #include "SkeletonArcher.h"
+#include "RoomObject.h"
 
 HRESULT hallwayRoom1::init()
 {
@@ -16,13 +17,28 @@ HRESULT hallwayRoom1::init()
 	m_posBG = PointMake(0, 0);
 
 	m_Zombie = new zombie[10];
-
 	m_Zombie->init(500, 350);
+
+
 
 	for (int i = 1; i < 10; i++)
 	{
 		m_Zombie[i].init(700 + (i * 200), 350);
 	}
+
+	m_OBJ = new RoomObject[4];
+
+	for (int i = 0; i < 4; i++)
+	{
+		//ระบา
+		m_OBJ[0].init(742, 300, 0);
+		m_OBJ[1].init(1513, 300, 0);
+		m_OBJ[2].init(2279, 300, 0);
+		m_OBJ[3].init(3045, 300, 0);
+
+	}
+	
+
 
 	m_rectGate =rectGate;
 	m_rectObj = rectObj;
@@ -54,13 +70,19 @@ void hallwayRoom1::release()
 		delete m_pMemDCInfo;
 	}
 
-	//SAFE_DELETE(m_Zombie);
+	
 
 }
 
 void hallwayRoom1::update()
 {
 	m_Zombie->update();
+	//ระบา
+	for (int i = 0; i < 4; i++)
+	{
+		m_OBJ[i].update();
+	}
+		
 	for (int i = 1; i < 10; i++)
 	{
 		m_Zombie[i].update();
@@ -98,8 +120,8 @@ void hallwayRoom1::update()
 	m_rectObj[0] = RectMake(384 * 3 - m_posMap.x, 80 * 3, 32 * 3, 7 * 3);
 	m_rectObj[1] = RectMake(384 * 3 - m_posMap.x, 24 * 3, 32 * 3, 7 * 3);
 
-	rectColider();
 	checkCollision();
+	rectColider();
 
 
 }
@@ -134,6 +156,10 @@ void hallwayRoom1::render(HDC hdc)
 	for (int i = 1; i < 10; i++)
 	{
 		m_Zombie[i].render(hdc);
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		m_OBJ[i].render(hdc);
 	}
 
 }
@@ -213,7 +239,7 @@ void hallwayRoom1::rectColider()
 			{
 			case 0:
 				m_pPlayer->setFY(293);
-				m_pPlayer->setFx(50 * 3);
+				m_pPlayer->setFx(200 * 3);
 
 				ROOMMANAGER->changeRoom("gateroom");
 
@@ -224,10 +250,16 @@ void hallwayRoom1::rectColider()
 				ROOMMANAGER->getCurrRoom()->setPosMap(point);
 				break;
 			case 1:
-			
-				m_pPlayer->setFY(293);
-				m_pPlayer->setFx(50 * 3);
-				ROOMMANAGER->changeRoom("FountainRoom");//ฟ๘บป
+				m_pPlayer->setFY(300);
+				m_pPlayer->setFx(20 * 3);
+				ROOMMANAGER->changeRoom("CastleHallwayy");
+				point.x = 0;
+				point.y = 3850;
+
+				ROOMMANAGER->getCurrRoom()->setPosMap(point);
+				//m_pPlayer->setFY(293);
+				//m_pPlayer->setFx(50 * 3);
+				//ROOMMANAGER->changeRoom("FountainRoom");//ฟ๘บป
 				break;
 			case 2:
 
@@ -258,9 +290,11 @@ void hallwayRoom1::rectColider()
 
 void hallwayRoom1::checkCollision()
 {
+	RECT rc;
+
 	for (int i = 0; i < 10; i++)
 	{
-		RECT rc;
+	
 
 		if (m_Zombie[i].getAlive() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_Zombie[i].getrc()))
 		{
@@ -268,6 +302,20 @@ void hallwayRoom1::checkCollision()
 		}
 
 	}
+	for (int i = 0; i < 4; i++)
+	{
+
+
+		if (m_OBJ[i].getAlive() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_OBJ[i].getrc()))
+		{
+			m_OBJ[i].setAlive(false);
+		
+			m_OBJ[i].setDestruction(true);
+		}
+
+	}
+
+
 }
 
 

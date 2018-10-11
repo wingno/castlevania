@@ -19,7 +19,7 @@ HRESULT zombie::init(int startX, int startY)
 
 
 	zombiFX= zombiFY = 0;
-
+	zombicount = 0;
 	zombiIDX = 0;
 
 	zombistand = true;
@@ -72,7 +72,7 @@ void zombie::update()
 			
 
 			zombiIDX++;
-			zombicount += 1;
+			zombicount ++;
 			if (zombiIDX % 40
 				== 0)
 
@@ -87,7 +87,7 @@ void zombie::update()
 				}
 			}
 
-			if (zombicount == 500|| m_rc.left < 170-ROOMMANAGER->getCurrRoom()->getPosMap().x) //이동도중 카운트를 주어서 일정 카운트가되면 데드로 해당하는 모션행동
+			if (zombicount == 300|| m_rc.left < 190-ROOMMANAGER->getCurrRoom()->getPosMap().x) //이동도중 카운트를 주어서 일정 카운트가되면 데드로 해당하는 모션행동
 			{
 				zombimove = false;
 				zombistand = false;

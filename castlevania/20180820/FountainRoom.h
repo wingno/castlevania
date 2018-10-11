@@ -2,12 +2,18 @@
 #include "room.h"
 
 class image;
+class RoomObject;
+
 class FountainRoom:public room
 {
 private:
 
 	RECT rectGate[3];
 	RECT rectObj[2];
+
+
+	RoomObject* m_OBJ;
+
 
 public:
 	virtual HRESULT init();
@@ -17,6 +23,7 @@ public:
 
 	void colliderMake();
 	void rectColider();	
+
 
 	FountainRoom();
 	~FountainRoom();

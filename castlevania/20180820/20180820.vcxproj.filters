@@ -61,6 +61,9 @@
     <Filter Include="MainGame\soul">
       <UniqueIdentifier>{99cfb976-0273-4ec2-9f60-588242f73363}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Object">
+      <UniqueIdentifier>{c5e5274f-3f26-4fd1-829d-639ba1929cac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -237,6 +240,12 @@
     <ClInclude Include="handItem.h">
       <Filter>MainGame\item</Filter>
     </ClInclude>
+    <ClInclude Include="RoomObject.h">
+      <Filter>MainGame\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="CoinObject.h">
+      <Filter>MainGame\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -397,6 +406,12 @@
     </ClCompile>
     <ClCompile Include="missile.cpp">
       <Filter>MainGame\missile</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomObject.cpp">
+      <Filter>MainGame\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="CoinObject.cpp">
+      <Filter>MainGame\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

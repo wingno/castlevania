@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "hallwayRoom2.h"
 #include "player.h"
+#include"RoomObject.h"
 
 HRESULT hallwayRoom2::init()
 {
@@ -18,6 +19,17 @@ HRESULT hallwayRoom2::init()
 	m_rectGate = rectGate;
 	m_rectObj = rectObj;
 
+
+	//ø¿∫Í¿Ë∆Æ
+	m_OBJ = new RoomObject[2];
+
+	for (int i = 0; i < 2; i++)
+	{
+		m_OBJ[0].init(740, 190, 0);
+		m_OBJ[1].init(1510, 190, 0);
+	
+
+	}
 
 	return S_OK;
 
@@ -38,6 +50,13 @@ void hallwayRoom2::release()
 
 void hallwayRoom2::update()
 {
+	//ø¿∫Í¿Ë∆Æ
+	for (int i = 0; i < 2; i++)
+	{
+		m_OBJ[i].update();
+
+	}
+
 	if (m_posMap.x < 0)
 	{
 		m_posMap.x = 0;
@@ -86,8 +105,11 @@ void hallwayRoom2::render(HDC hdc)
 	{
 		Rectangle(hdc, m_rectGate[i].left, m_rectGate[i].top, m_rectGate[i].right, m_rectGate[i].bottom);
 	}
-
-
+	//ø¿∫Í¿Ë∆Æ
+	for (int i = 0; i < 2; i++)
+	{
+		m_OBJ[i].render(hdc);
+	}
 
 }
 
@@ -124,9 +146,6 @@ void hallwayRoom2::rectColider()
 
 				point.x = 0;
 				point.y = 3850;
-
-
-
 
 				ROOMMANAGER->getCurrRoom()->setPosMap(point);
 				break;
@@ -194,6 +213,22 @@ void hallwayRoom2::colliderMake()
 	SelectObject(tempInfo.hMemDC, tempInfo.hOldBitmap);
 	DeleteObject(tempInfo.hBitmap);
 	DeleteDC(tempInfo.hMemDC);
+}
+void hallwayRoom2::checkCollision()
+{
+	RECT rc;
+	for (int i = 0; i < 2; i++)
+	{
+
+
+		if (m_OBJ[i].getAlive() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_OBJ[i].getrc()))
+		{
+			m_OBJ[i].setAlive(false);
+
+			m_OBJ[i].setDestruction(true);
+		}
+
+	}
 }
 hallwayRoom2::hallwayRoom2()
 {

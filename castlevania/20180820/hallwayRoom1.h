@@ -4,6 +4,7 @@
 class image;
 class SkeletonArcher;
 class zombie;
+class RoomObject;
 
 class hallwayRoom1:public room
 {
@@ -12,7 +13,7 @@ private:
 	RECT rectGate[3];
 	RECT rectObj[2];
 	SkeletonArcher* m_Archer;
-
+	RoomObject* m_OBJ;
 
 
 
