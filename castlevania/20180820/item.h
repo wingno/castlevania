@@ -2,7 +2,7 @@
 class item
 {
 protected:
-	image*	m_imgIcon;
+	SYNTHESIZE(image*, m_imgIcon, ImgIcon);
 	string	m_sName;
 	string	m_sExplanation;
 
@@ -23,6 +23,12 @@ protected:
 
 
 public:
+	virtual void init(int cType, int cCount, int cIdx, int cAtt, int cDef, int cStr,
+		int cInt, int cCon, int cLuc, int cHp, int cMp, string cName, string cExplanation);
+	virtual void release();
+	virtual void update();
+	virtual void render();
+
 	item();
 	~item();
 };
