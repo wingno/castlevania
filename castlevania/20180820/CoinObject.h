@@ -1,6 +1,8 @@
 #pragma once
 #include"RoomObject.h"
 
+class player;
+
 
 class CoinObject : public RoomObject
 {
@@ -24,8 +26,9 @@ private:
 	int MYCount;
 
 	bool Down;
-
+	bool m_bstand;
 	RoomObject* m_RoomOBJ;
+
 
 	SYNTHESIZE(bool, Alive, Alive);
 	SYNTHESIZE(bool, Destruction, Destruction);

@@ -23,13 +23,12 @@ HRESULT hallwayRoom2::init()
 	//ø¿∫Í¿Ë∆Æ
 	m_Object = new RoomObject[2];
 
-	for (int i = 0; i < 2; i++)
-	{
+	
 		m_Object[0].init(740, 190, 0);
 		m_Object[1].init(1510, 190, 0);
 	
 
-	}
+
 
 	return S_OK;
 

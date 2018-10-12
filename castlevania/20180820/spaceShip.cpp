@@ -23,9 +23,9 @@ HRESULT spaceShip::init()
 
 	// 체력바
 	m_pHPBar = new progressBar;
-	m_pHPBar->init(m_fX - (m_img->getWidth() / 2),
-		m_fY - (m_img->getHeight() / 2) - 10,
-		53, 5);
+	//m_pHPBar->init(m_fX - (m_img->getWidth() / 2),
+	//	m_fY - (m_img->getHeight() / 2) - 10,
+	//	53, 5);
 
 	m_nCurrHP = m_nMaxHP = 100;
 
@@ -57,11 +57,11 @@ HRESULT spaceShip::init(int selectNum)
 	m_pMissileMgr = new missileManager;
 	m_pMissileMgr->init();
 
-	// 체력바
-	m_pHPBar = new progressBar;
-	m_pHPBar->init(m_fX - (m_img->getWidth() / 2),
-		m_fY - (m_img->getHeight() / 2) - 10,
-		53, 5);
+	//// 체력바
+	//m_pHPBar = new progressBar;
+	//m_pHPBar->init(m_fX - (m_img->getWidth() / 2),
+	//	m_fY - (m_img->getHeight() / 2) - 10,
+	//	53, 5);
 
 	m_nCurrHP = m_nMaxHP = 100;
 

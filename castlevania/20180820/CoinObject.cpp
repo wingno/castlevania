@@ -3,6 +3,8 @@
 #include "room.h"
 #include "RoomObject.h"
 #include "CoinObject.h"
+#include "player.h"
+
 
 HRESULT CoinObject::init(int XX, int XY)
 {
@@ -14,9 +16,10 @@ HRESULT CoinObject::init(int XX, int XY)
 	//파괴 여부를 채크
 	Destruction = false;
 	Down = false;
+	m_bstand = false;
 	//위치
 	FX = XX ;
-	FY = XY ;
+	FY = XY;
 	
 	//프레임 
 	FrameX = 0;
@@ -25,6 +28,8 @@ HRESULT CoinObject::init(int XX, int XY)
 	MyIdx = 0;
 	MYCount = 0;
 
+	m_rc = RectMakeCenter(FX , FY,
+		m_coin->getWidth() / 2, m_coin->getHeight() * 2);
 	return S_OK;
 
 }
@@ -38,7 +43,7 @@ void CoinObject::update()
 	
 		if (Alive)
 		{
-			speed+=2.4f;
+			speed+=0.2;
 			FY -= 1 * speed;
 			MyIdx++;
 			MYCount++;
@@ -67,7 +72,7 @@ void CoinObject::update()
 		if (Down)
 		{
 			speed += 0.4f;
-			FY += 0.5f * speed;
+			FY += 0.8f * speed;
 			MyIdx++;
 			if (MyIdx % 3 == 0)
 			{
@@ -82,9 +87,86 @@ void CoinObject::update()
 		}
 
 
+		if (m_bstand)
+		{
 
-	m_rc = RectMakeCenter(FX +25 - ROOMMANAGER->getCurrRoom()->getPosMap().x , FY +26 - ROOMMANAGER->getCurrRoom()->getPosMap().y,
+			MyIdx++;
+			if (MyIdx % 3 == 0)
+			{
+				FrameX++;
+
+				if (FrameX > 3)
+				{
+					FrameX = 0;
+				}
+
+			}
+
+		}
+
+
+	m_rc = RectMakeCenter(FX+ 18 - ROOMMANAGER->getCurrRoom()->getPosMap().x , FY +17  - ROOMMANAGER->getCurrRoom()->getPosMap().y,
 		m_coin->getWidth() /2, m_coin->getHeight() * 2);
+
+
+	
+		RECT rc;
+
+		if (IntersectRect(&rc, &m_rc, &ROOMMANAGER->getPlayer()->getIRC()))
+		{
+			
+           Alive = false;
+			Down = false;
+			m_bstand = false;
+
+		}
+
+
+
+
+
+
+
+
+
+
+	for (int y = m_rc.top; y <= m_rc.bottom; y++)
+	{
+		COLORREF color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
+			FX, FY + 29.5f);
+
+		int r = GetRValue(color);
+		int g = GetGValue(color);
+		int b = GetBValue(color);
+
+
+
+		if (y == m_rc.bottom )
+		{
+			color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
+				FX, FY + 29.5f );
+
+			r = GetRValue(color);
+			g = GetGValue(color);
+			b = GetBValue(color);
+
+	
+			
+			if (!(r == 0 && g == 88 && b == 24))
+			{
+				Down = false;
+				m_bstand = true;
+				
+				
+			}
+		}
+	}
+
+	//수정해야함
+
+
+
+	
 
 }
 
@@ -92,8 +174,8 @@ void CoinObject::render(HDC hdc)
 {
 
 
-	if (Alive ||
-		Destruction|| Down
+	if (Alive || m_bstand||
+		 Down
 		)
 	{
 
@@ -102,9 +184,9 @@ void CoinObject::render(HDC hdc)
 
 			m_rc.right, m_rc.bottom);
 
-		m_coin->frameRender(hdc, FX + 8- ROOMMANAGER->getCurrRoom()->getPosMap().x ,FY - ROOMMANAGER->getCurrRoom()->getPosMap().y +10
+		m_coin->frameRender(hdc, FX - ROOMMANAGER->getCurrRoom()->getPosMap().x ,FY - ROOMMANAGER->getCurrRoom()->getPosMap().y
 			, FrameX, FrameY, 3);
-
+		
 
 
 	}

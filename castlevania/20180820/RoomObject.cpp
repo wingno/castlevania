@@ -6,6 +6,7 @@
 HRESULT RoomObject::init(int nFX, int nFY, int ObjNum)
 {
 	//¿ÀºêÀèÆ®
+	
 	m_imgObj = IMAGEMANAGER->addImage("candle", "image/object/candle.bmp", 198, 23, 11, 1, true, RGB(0, 64, 128));
 	m_imgObj = IMAGEMANAGER->addImage("minifire", "image/object/minifire.bmp", 56, 20, 4, 1, true, RGB(0, 64, 128));
 	
@@ -60,8 +61,8 @@ void RoomObject::render(HDC hdc)
 		m_bObjDestruction||
 		m_bObjDestructionMove)
 	{
-		/*Rectangle(hdc, m_rc.left, m_rc.top,
-			m_rc.right, m_rc.bottom);*/
+		Rectangle(hdc, m_rc.left, m_rc.top,
+			m_rc.right, m_rc.bottom);
 		
 
 		m_imgObj->frameRender(hdc, m_nFX - ROOMMANAGER->getCurrRoom()->getPosMap().x,
@@ -80,6 +81,10 @@ void RoomObject::render(HDC hdc)
 void RoomObject::ObjectCode()
 {
 	
+	
+
+
+
 	switch (m_nObjNum)
 	{
 	case 0: //ÃĞºÒ
@@ -95,6 +100,11 @@ void RoomObject::ObjectCode()
 				{
 					m_nObjFrameX = 0;
 				}
+			}
+
+			if (m_bObjStand == false)
+			{
+				m_bObjDestruction = true;
 			}
 		}
 
@@ -143,12 +153,14 @@ void RoomObject::ObjectCode()
 				
 					
 					m_coin->setAlive(true);
-					m_coin->update();
+					
 
 				}
 			}
 
 		}
+
+		
 		break;
 
 	case 1: //ÄœºÒ
@@ -176,6 +188,17 @@ void RoomObject::ObjectCode()
 	default:
 		break;
 	}
+
+
+	if (m_bObjDestructionMove == false && m_bObjStand == false && m_bObjDestruction == false)
+	{
+
+		m_coin->update();
+
+	}
+
+	
+
 
 }
 

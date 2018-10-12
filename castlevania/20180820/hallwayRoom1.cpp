@@ -35,13 +35,9 @@ HRESULT hallwayRoom1::init()
 	m_Object[2].init(2279, 300, 0);
 	m_Object[3].init(3045, 300, 0);
 
-	
-	
-
 
 	m_rectGate =rectGate;
 	m_rectObj = rectObj;
-
 	m_nRectNum = 2;
 
 	m_rectGate[0] = RectMake(0, 195, 30, 144);

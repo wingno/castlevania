@@ -5,6 +5,7 @@ class spaceShip;
 class enemyManager;
 class camel;
 class player;
+class progressBar;
 //·ë
 
 
@@ -18,7 +19,7 @@ private:
 	spaceShip*		m_pSpaceShip;
 	enemyManager*	m_pEnemyMgr;
 	camel*			m_pCamel;
-
+	progressBar*	m_progressBar;
 
 	//Á»ºñ
 	zombi* m_zombi;

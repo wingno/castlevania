@@ -6,7 +6,7 @@
 #include "camel.h"
 #include "selectScene.h"
 #include "player.h"
-
+#include "progressBar.h"
 
 
 HRESULT battleScene::init()
@@ -19,15 +19,13 @@ HRESULT battleScene::init()
 
 
 	
-
-
-
-
-	
 	m_bIsChangeScene = false;
 	m_nAlphaNum = 0;
 
 
+	m_progressBar = new progressBar;
+	m_progressBar->init(10, 50);
+	m_progressBar->setGauge(100, 50);
 	return S_OK;
 }
 
@@ -41,7 +39,8 @@ void battleScene::update()
 {
 
 	m_pPlayer->update();
-
+	m_progressBar->update();
+	
 	ROOMMANAGER->update();
 
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
@@ -74,7 +73,7 @@ void battleScene::render(HDC hdc)
 
 	ROOMMANAGER->render(hdc);
 	m_pPlayer->render(hdc);
-
+	m_progressBar->render(hdc);
 	if (m_bIsChangeScene)
 	{
 		IMAGEMANAGER->findImage("background")->alphaRender(hdc, m_nAlphaNum);
