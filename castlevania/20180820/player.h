@@ -152,6 +152,8 @@ public:
 
 	void mapRectCollision();
 
+	Status* getPState() { return &m_status; }
+
 	player();
 	~player();
 };

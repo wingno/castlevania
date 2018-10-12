@@ -129,8 +129,11 @@ HRESULT player::init()
 	handItem* testHItem = new handItem;
 	testHItem->init(0, 1, 1, 100, 0, 0, 0, 0, 0, 0, 0, "발뭉", "용을 살해한 검");
 
+
+
 	m_ItemInven.vecHandItem.push_back(baseHItem);
 	m_ItemInven.vecHandItem.push_back(testHItem);
+
 
 	bodyItem* baseBItem = new bodyItem;
 	baseBItem->init(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "------", "---");
@@ -138,29 +141,40 @@ HRESULT player::init()
 	bodyItem* testBItem = new bodyItem;
 	testBItem->init(0, 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, "평상복", "평소에 자주 입는 옷");
 
-	bodyItem* testBItem1 = new bodyItem;
-	testBItem1->init(0, 1, 5, 0, 33, 6, 6, 6, 6, 0, 0, "드라큘라 옷", "드라큘라의 마력이 깃든 옷");
+
 
 	m_ItemInven.vecBodyItem.push_back(baseBItem);
 	m_ItemInven.vecBodyItem.push_back(testBItem);
-	m_ItemInven.vecBodyItem.push_back(testBItem1);
+
 
 	accessoryItem* baseAItem = new accessoryItem;
 	baseAItem->init(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "------", "---");
 
-	accessoryItem* testAItem = new accessoryItem;
-	testAItem->init(0, 1, 1, 0, 2, 0, 0, 0, 0, 0, 0, "머플러", "따뜻한 머플러");
-	
-	accessoryItem* testAItem1 = new accessoryItem;
-	testAItem1->init(0, 1, 2, 0, 0, 0, 0, 0, 1, 0, 0, "펜던트", "펜던트");
-
-	accessoryItem* testAItem2 = new accessoryItem;
-	testAItem2->init(0, 1, 5, 0, 6, 2, 2, 2, 0, 0, 0, "마왕의 반지", "마왕이 몸에 지니고 있던 반지");
-
 	m_ItemInven.vecAccessoryItem.push_back(baseAItem);
-	m_ItemInven.vecAccessoryItem.push_back(testAItem);
-	m_ItemInven.vecAccessoryItem.push_back(testAItem1);
-	m_ItemInven.vecAccessoryItem.push_back(testAItem2);
+
+
+	ItemUse* testuItem = new ItemUse;
+	testuItem->init(0, 1, 0, 0, 0, 0, 0, 0, 0, 100, 0, "포션", "체력을 100 회복한다.");
+	ItemUse* testuItem1 = new ItemUse;
+	testuItem1->init(0, 1, 1, 0, 0, 0, 0, 0, 0, 400, 0, "하이포션", "체력을 400 회복한다.");
+	ItemUse* testuItem2 = new ItemUse;
+	testuItem2->init(0, 1, 2, 0, 0, 0, 0, 0, 0, 999999, 0, "엑스포션", "체력을 완전히 회복한다.");
+	ItemUse* testuItem3 = new ItemUse;
+	testuItem3->init(0, 1, 3, 0, 0, 0, 0, 0, 0, 0, 100, "마인드 업", "마나를 100회복한다");
+	ItemUse* testuItem4 = new ItemUse;
+	testuItem4->init(0, 1, 4, 0, 0, 0, 0, 0, 0, 0, 200, "마인드 하이업", "마나를 200회복한다.");
+	ItemUse* testuItem5 = new ItemUse;
+	testuItem5->init(0, 1, 5, 0, 0, 0, 0, 0, 0, 0, 999999, "마나 프리즘", "마나가 완전히 회복된다.");
+	ItemUse* testuItem6 = new ItemUse;
+	testuItem6->init(0, 6, 6, 0, 0, 0, 0, 0, 0, -200, 0, "썩은 고기", "썩은 고기 먹으면 안될것 같다.");
+
+	m_ItemInven.vecItemUse.push_back(testuItem);
+	m_ItemInven.vecItemUse.push_back(testuItem1);
+	m_ItemInven.vecItemUse.push_back(testuItem2);
+	m_ItemInven.vecItemUse.push_back(testuItem3);
+	m_ItemInven.vecItemUse.push_back(testuItem4);
+	m_ItemInven.vecItemUse.push_back(testuItem5);
+	m_ItemInven.vecItemUse.push_back(testuItem6);
 
 
 	m_soulSet.bS = baseBSoul;

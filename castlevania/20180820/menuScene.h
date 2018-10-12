@@ -100,6 +100,10 @@ public:
 
 	void fontPrint(HDC hdc);
 
+	void useItemFontPrint(HDC hdc);
+
+	void clearInven();
+
 	Status changeStatus(Status status, SoulSet soulSet,ItemSet item);
 
 	menuScene();

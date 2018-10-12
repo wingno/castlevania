@@ -17,6 +17,8 @@ public:
 	void update();
 	void render(HDC hdc);
 
+	void render(HDC hdc, int x, int y);
+
 	void setGauge(float currGauge, float maxGauge);
 
 	inline void setX(float x) { m_fX = x; }

@@ -39,6 +39,14 @@ void menuProgressBar::render(HDC hdc)
 		0, 0, m_fWidth, m_imgTop->getHeight());
 }
 
+void menuProgressBar::render(HDC hdc, int x, int y)
+{
+	m_imgBottom->render(hdc, x, y);
+	m_imgTop->render(hdc, x + 5, y + 4,
+		0, 0, m_fWidth, m_imgTop->getHeight());
+}
+
+
 void menuProgressBar::setGauge(float currGauge, float maxGauge)
 {
 	m_fWidth = (currGauge / maxGauge) * m_imgTop->getWidth();
