@@ -519,7 +519,7 @@ void player::update()
 		}
 
 		// 플레이어 점프 자세
-		else if (m_nRCurrFrameY == 6 && m_bPlayerJumpM == 1 && m_bPlayerStand == 0 && m_nJumC < 30 && m_bPlayerHited == 0)
+		else if (m_nRCurrFrameY == 6 && m_bPlayerJumpM == 1 && m_bPlayerStand == 0 && m_nJumC < 30 && m_bPlayerHited == 0 && m_bPlayerJumpAttack == 0)
 		{
 			if (m_nCount % 5 == 0)
 			{
@@ -540,14 +540,14 @@ void player::update()
 				m_pImg->setFrameX(m_nRCurrFrameX);
 				if (m_nRCurrFrameX > 9)
 				{
+					m_bPlayerJumpAttack = 0;
 					m_nRCurrFrameX = 0;
 				}
 			}
-
 		}
 
 		// 플레이어 떨어지는 자세
-		else if (m_bPlayerStand == 0 && m_bPlayerJumpM == 0 || m_nJumC >= 30 && m_bPlayerHited == 0)
+		else if (m_bPlayerStand == 0 && m_bPlayerJumpM == 0 || m_nJumC >= 30 && m_bPlayerHited == 0 && m_bPlayerJumpAttack == 0)
 		{
 			m_nRCurrFrameY = 6;
 			m_nRCurrFrameX = 7;
@@ -772,10 +772,11 @@ void player::update()
 		{
 			if (m_nCount % 5 == 0)
 			{
-				m_nRCurrFrameX--;
+				m_nLCurrFrameX--;
 				m_pImg2->setFrameX(m_nLCurrFrameX);
 				if (m_nLCurrFrameX < 9)
 				{
+					m_bPlayerJumpAttack = 0;
 					m_nLCurrFrameX = 18;
 				}
 			}
@@ -783,7 +784,7 @@ void player::update()
 		}
 
 		// 플레이어 떨어지는 자세
-		else if (m_bPlayerStand == 0 && m_bPlayerJumpM == 0 || m_nJumC >= 30)
+		else if (m_bPlayerStand == 0 && m_bPlayerJumpM == 0 || m_nJumC >= 30 )
 		{
 			m_nLCurrFrameY = 6;
 			m_nLCurrFrameX = 11;
@@ -1268,10 +1269,6 @@ void player::ShowDamage()
 
 void player::FallDown()
 {
-	if (m_bPlayerStand == 0)
-	{
-
-	}
 }
 
 void player::hitMosion()
