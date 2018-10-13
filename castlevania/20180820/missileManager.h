@@ -13,8 +13,7 @@ private:
 	float		m_fRange;
 	int			m_nMaxCount;
 
-	// Å¸°Ù
-	spaceShip*	m_pTarget;
+
 
 public:
 	HRESULT init(const char* szImageName, float range, int maxCount);
@@ -31,7 +30,6 @@ public:
 	{
 		return m_vecMissile;
 	}
-	inline void setTarget(spaceShip* pTarget) { m_pTarget = pTarget; }
 
 	missileManager();
 	~missileManager();

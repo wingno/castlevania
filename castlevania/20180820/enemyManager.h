@@ -28,11 +28,9 @@ public:
 
 
 
-	void setEnemy(int countX, int countY, int stage, int baseX, int baseY, int intervalX, int intervalY);
+	void setEnemy(int baseX, int baseY);
 
-	void setEnemy(vector<int> vec, int stage);
 
-	void setTarget(spaceShip* pTarget);
 
 
 	inline bool getisAllClear() { return m_bisAllClear; };

@@ -8,11 +8,10 @@ HRESULT missileManager::init(const char* szImageName, float range, int maxCount)
 	m_nMaxCount = maxCount;
 	m_szImageName = szImageName;
 
-	//m_vecMissile.resize(m_nMaxCount);
+
 	m_vecMissile.reserve(m_nMaxCount);
 
-	// 벡터의 원소의 갯수
-	//int size = m_vecMissile.size();
+
 
 	return S_OK;
 }
@@ -20,11 +19,10 @@ HRESULT missileManager::init(const char* szImageName, float range, int maxCount)
 HRESULT missileManager::init()
 {
 
-	//m_vecMissile.resize(m_nMaxCount);
+
 	m_vecMissile.reserve(m_nMaxCount);
 
-	// 벡터의 원소의 갯수
-	//int size = m_vecMissile.size();
+
 
 	return S_OK;
 }
@@ -57,7 +55,7 @@ void missileManager::render(HDC hdc)
 
 void missileManager::fire(float x, float y, float angle, float speed)
 {
-	//if (m_vecMissile.size() > m_nMaxCount)	return;
+
 	missile* pMissile;
 	pMissile = NULL;
 	for (m_iter = m_vecMissile.begin(); m_iter != m_vecMissile.end(); m_iter++)
@@ -78,24 +76,15 @@ void missileManager::fire(float x, float y, float angle, float speed)
 		m_vecMissile.push_back(pMissile);
 	}
 
-	
-	//missile* pMissile = new enemyMissile;
 
-	// 1. reserve 했을 때
-
-	// 타겟을 설정해 준다
-	pMissile->setTarget(m_pTarget);
 
 	pMissile->fire(x, y);
 
-	//// 2. resize 했을 때
-	//m_vecMissile[0]->init(m_szImageName, speed,
-	//	x, y, angle, 100);
+
 }
 
 void missileManager::fire(float x, float y)
 {
-	//if (m_vecMissile.size() > m_nMaxCount)	return;
 
 	missile* pMissile;
 	pMissile = NULL;
@@ -117,19 +106,9 @@ void missileManager::fire(float x, float y)
 		m_vecMissile.push_back(pMissile);
 	}
 
-	//missile* pMissile = new enemyMissile;
-
-	// 1. reserve 했을 때
-	
-	
-
-	// 타겟을 설정해 준다
 
 	pMissile->fire(x, y);
 
-	//// 2. resize 했을 때
-	//m_vecMissile[0]->init(m_szImageName, speed,
-	//	x, y, angle, 100);
 }
 
 void missileManager::move()

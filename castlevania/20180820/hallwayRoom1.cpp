@@ -70,6 +70,10 @@ void hallwayRoom1::release()
 		delete m_pMemDCInfo;
 	}
 
+	for (int i = 0; i < 10; i++)
+	{
+		delete &m_Zombie[i];
+	}
 	
 
 }
@@ -112,7 +116,7 @@ void hallwayRoom1::update()
 	m_posBG.y = 0;
 	m_pPlayer->setYCameraOn(false);
 
-	
+
 	m_rectGate[0] = RectMake(0 - m_posMap.x, 195, 30, 144);
 	m_rectGate[1] = RectMake(1273*3 - m_posMap.x, 195, 25, 144);
 	m_rectGate[2] = RectMake(353 * 3 - m_posMap.x, 0, 64 * 3, 30);

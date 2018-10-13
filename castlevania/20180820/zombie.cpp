@@ -13,9 +13,7 @@ HRESULT zombie::init(int startX, int startY)
 	
 
 	m_fZombieX = startX;
-	//350
 	m_fZombiey = startY;
-	//310;
 
 
 	m_nZombieFX = 0;
@@ -74,8 +72,7 @@ void zombie::update()
 
 			m_nZombieIDX++;
 			m_nZombiecount ++;
-			if (m_nZombieIDX % 40
-				== 0)
+			if (m_nZombieIDX % 40 == 0)
 
 			{
 

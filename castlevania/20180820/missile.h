@@ -6,7 +6,7 @@ class missile
 protected:
 	image * m_pImg;
 	RECT	m_rc;
-	//int		m_radius;
+
 	float	m_fSpeed;
 	float	m_fX, m_fY;
 	float	m_fFiredX, m_fFiredY;
@@ -14,7 +14,7 @@ protected:
 	float	m_fRange;
 	bool	m_isFire;
 
-	spaceShip*	m_pTarget;
+
 
 public:
 	HRESULT init();
@@ -30,7 +30,7 @@ public:
 	inline RECT getRect() { return m_rc; }
 	inline void setIsFire(bool isFire) { m_isFire = isFire; }
 	inline bool getIsFire() { return m_isFire; }
-	inline void setTarget(spaceShip* pTarget) { m_pTarget = pTarget; }
+
 
 	missile();
 	virtual ~missile();
