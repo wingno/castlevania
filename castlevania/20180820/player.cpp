@@ -90,7 +90,7 @@ HRESULT player::init()
 
 	m_nGold = 0;
 
-	m_rc = RectMakeCenter(m_fX, m_fY, (m_pImg->getFrameWidth()-20)*3, (m_pImg->getFrameHeight() - 20)*3);
+	m_rc = RectMakeCenter(m_fX, m_fY, (m_pImg->getFrameWidth() - 20) * 3, (m_pImg->getFrameHeight() - 20) * 3);
 	m_Irc = RectMakeCenter(0, 0, 0, 0);
 
 	m_xCameraOn = false;
@@ -138,7 +138,7 @@ HRESULT player::init()
 
 
 
-	
+
 
 	m_bItem = 0;
 
@@ -153,14 +153,14 @@ void player::update()
 {
 	// 중력 적용
 	mapRectCollision();
-	
+
+
 	m_fY += m_fGravity;
 	if (m_bPlayerHited == 1)
 	{
 		m_nNumC--;
 	}
-	
-	
+
 	// 키입력시 플레이어의 행동
 
 	if (KEYMANAGER->isOnceKeyDown('C'))
@@ -222,12 +222,12 @@ void player::update()
 		m_nLCurrFrameY = 0;
 	}
 
-	if (KEYMANAGER->isOnceKeyDown('Z'))
+	if (KEYMANAGER->isOnceKeyDownNotuch('Z'))
 	{
 		m_bIsJump = true;
 	}
 
-	
+
 
 	if (KEYMANAGER->isOnceKeyUp(VK_UP) && m_bPlayerHited == 0)
 	{
@@ -246,13 +246,13 @@ void player::update()
 	}
 
 	// 플레이어 점프
-	if (KEYMANAGER->isStayKeyDown('Z') && m_bPlayerAttack == 0 && m_bPlayerHited == 0)
+	if (KEYMANAGER->isStayKeyDown('Z') && m_bPlayerAttack == 0 && m_bPlayerHited == 0 && m_nPlayerDown == 0)
 	{
 		if (m_bIsJump)
 		{
 			if (m_bPlayerSee == 1)
 			{
-				if (m_nPlayerDown == 0 && m_nPlayerJump <= 2)
+				if (m_nPlayerJump <= 2)
 				{
 					m_nJumMC++;
 					if (m_nJumMC < 2)
@@ -260,7 +260,12 @@ void player::update()
 						m_nRCurrFrameX = 2;
 					}
 					m_bPlayerJumpM = 1;
-					m_nRCurrFrameY = 6;
+					if (m_bPlayerJumpAttack == 0)
+
+					{
+						m_nRCurrFrameY = 6;
+
+					}
 					if (m_nPlayerJump == 0)
 					{
 						m_nPlayerJump = 1;
@@ -279,20 +284,6 @@ void player::update()
 						{
 							m_fJumP = 0;
 						}
-					}
-				}
-
-				else if (m_nPlayerDown == 1 && m_nPlayerJump == 0)
-				{
-					m_nPlayerJump = 3;
-					m_bPlayerSilde = 1;
-					if (m_bPlayerSee == 1)
-					{
-						m_nRCurrFrameX = 7;
-					}
-					else if (m_bPlayerSee == 0)
-					{
-						m_nLCurrFrameX = 12;
 					}
 				}
 			}
@@ -332,7 +323,26 @@ void player::update()
 		}
 	}
 
-	if (KEYMANAGER->isOnceKeyUp('Z') && m_nPlayerJump <= 3 && m_bPlayerHited == 0)
+
+	//플레이어 슬라이딩
+	if (KEYMANAGER->isOnceKeyDown('Z') && m_nPlayerDown == 1 && m_nPlayerJump == 0 && m_bPlayerSilde == 0)
+	{
+		if (m_bIsJump)
+		{
+			m_bPlayerSilde = 1;
+			if (m_bPlayerSee == 1)
+			{
+				m_nRCurrFrameX = 7;
+			}
+			else if (m_bPlayerSee == 0)
+			{
+				m_nLCurrFrameX = 12;
+			}
+		}
+	}
+
+	// 점프 동작 초기화
+	if (KEYMANAGER->isOnceKeyUp('Z') && m_nPlayerJump <= 3 && m_bPlayerHited == 0 && m_nPlayerDown == 0)
 	{
 		if (m_bIsJump)
 		{
@@ -356,9 +366,9 @@ void player::update()
 	}
 
 	// 플레이어 공격
-	if (KEYMANAGER->isOnceKeyDown('X') && m_bPlayerAttack == 0 && m_bPlayerSilde == 0 && m_bPlayerJumpM == 0 && m_bPlayerHited == 0)
+	if (KEYMANAGER->isOnceKeyDown('X') && m_bPlayerAttack == 0 && m_bPlayerSilde == 0 && m_bPlayerHited == 0)
 	{
-		if (m_nPlayerDown == 0 && m_bPlayerStand == 1)
+		if (m_nPlayerDown == 0 && m_bPlayerStand == 1 && m_bPlayerJumpM == 0)
 		{
 			m_bPlayerAttack = 1;
 			m_bPlayerBackDash = 0;
@@ -375,7 +385,7 @@ void player::update()
 				m_nNCurrFrameY = 1;
 			}
 		}
-		else if (m_nPlayerDown == 1 && m_bPlayerAttack == 0 && m_bPlayerDownAt == 0)
+		else if (m_nPlayerDown == 1 && m_bPlayerAttack == 0 && m_bPlayerDownAt == 0 && m_bPlayerStand == 1)
 		{
 			m_bPlayerDownAt = 1;
 			if (m_bPlayerSee == 1)
@@ -391,10 +401,10 @@ void player::update()
 				m_nNCurrFrameY = 1;
 			}
 		}
-		else if (m_bPlayerStand == 0)
+		else if (m_nPlayerJump != 0 && m_bPlayerStand == 0 && m_bPlayerJumpAttack == 0)
 		{
 			m_bPlayerJumpAttack = 1;
-			m_nRCurrFrameY = 6;
+			m_nRCurrFrameY = 7;
 			m_nRCurrFrameX = 4;
 		}
 	}
@@ -413,24 +423,10 @@ void player::update()
 		}
 	}
 
-	if(KEYMANAGER->isOnceKeyUp(VK_DOWN) && m_bPlayerSilde == 0 && m_bPlayerDownAt == 0)
+	if (KEYMANAGER->isOnceKeyUp(VK_DOWN) && m_bPlayerSilde == 0 && m_bPlayerDownAt == 0)
 	{
 		m_nPlayerDown = 2;
 	}
-
-	//// 플레이어 슬라이딩
-	//if (KEYMANAGER->isOnceKeyDown('Z') && m_PlayerDown == 1 && m_PlayerSilde == 0 && m_PlayerAttack == 0 && m_PlayerJump == 0)
-	//{
-	//	m_PlayerSilde = 1;
-	//	if (m_PlayerSee == 1)
-	//	{
-	//		m_nRCurrFrameX = 7;
-	//	}
-	//	else if (m_PlayerSee == 0)
-	//	{
-	//		m_nLCurrFrameX = 12;
-	//	}
-	//}
 
 	// 플레이어 백대쉬
 	if (KEYMANAGER->isOnceKeyDown('A') && m_bPlayerBackDash == 0 && m_nPlayerDown == 0 && m_nPlayerJump == 0)
@@ -457,7 +453,7 @@ void player::update()
 	{
 		m_nCount++;
 		// 플레이어 기본자세
-		if (m_nRCurrFrameY == 0 && m_bPlayerStand == 1 && m_bPlayerHited == 0)
+		if (m_nRCurrFrameY == 0 && m_bPlayerStand == 1 && m_bPlayerHited == 0 && m_bPlayerJumpAttack == 0)
 		{
 			if (m_nCount % 20 == 0)
 			{
@@ -470,9 +466,9 @@ void player::update()
 				}
 			}
 		}
-		
+
 		// 플레이어 이동자세
-		else if (m_nRCurrFrameY == 3 && m_bPlayerStand == 1)
+		if (m_nRCurrFrameY == 3 && m_bPlayerStand == 1)
 		{
 			if (m_nCount % 5 == 0)
 			{
@@ -485,7 +481,7 @@ void player::update()
 				}
 			}
 		}
-		
+
 		// 플레이어 공격자세
 		else if (m_nRCurrFrameY == 1 && m_bPlayerAttack == 1 && m_bPlayerStand == 1)
 		{
@@ -504,7 +500,7 @@ void player::update()
 					}
 				}
 				m_pImg->setFrameX(m_nRCurrFrameX);
-				m_pImg3->setFrameX(m_nRCurrFrameX);
+				m_pImg3->setFrameX(m_nNCurrFrameX);
 				if (m_nRCurrFrameX > m_pImg->getMaxFrameX() - 7)
 				{
 					m_nRCurrFrameX = 0;
@@ -532,16 +528,31 @@ void player::update()
 			}
 		}
 
-		else if (m_nRCurrFrameY == 6 && m_bPlayerJumpAttack == 1 && m_bPlayerHited == 0)
+		else if (m_nRCurrFrameY == 7 && m_bPlayerHited == 0 && m_bPlayerJumpAttack == 1 && m_bPlayerStand == 0)
 		{
-			if (m_nCount % 5 == 0)
+			if (m_nCount % 6 == 0)
 			{
 				m_nRCurrFrameX++;
+				if (m_nRCurrFrameX > 6)
+				{
+					m_bItem = 1;
+					m_nNCurrFrameX++;
+					if (m_nNCurrFrameX > 0 && m_nNCurrFrameX < 5)
+					{
+						m_Irc = RectMakeCenter(m_fX + 120, m_fY - 40, m_pImg3->getFrameWidth() * 2, m_pImg3->getFrameHeight() * 2);
+					}
+				}
 				m_pImg->setFrameX(m_nRCurrFrameX);
-				if (m_nRCurrFrameX > 9)
+				m_pImg3->setFrameX(m_nNCurrFrameX);
+				if (m_nRCurrFrameX > 8)
 				{
 					m_bPlayerJumpAttack = 0;
 					m_nRCurrFrameX = 0;
+					m_nNCurrFrameX = 0;
+					m_Irc = RectMakeCenter(-10, -10, 1, 1);
+					m_nCount = 0;
+					m_bItem = 0;
+					//m_nRCurrFrameY = 6;
 				}
 			}
 		}
@@ -652,6 +663,7 @@ void player::update()
 				if (m_nRCurrFrameX > 9)
 				{
 					m_nPlayerDown = 2;
+					//m_nPlayerJump = 1;
 					m_bPlayerSilde = 0;
 					m_nRCurrFrameX = 9;
 					m_nRCurrFrameY = 11;
@@ -784,7 +796,7 @@ void player::update()
 		}
 
 		// 플레이어 떨어지는 자세
-		else if (m_bPlayerStand == 0 && m_bPlayerJumpM == 0 || m_nJumC >= 30 )
+		else if (m_bPlayerStand == 0 && m_bPlayerJumpM == 0 || m_nJumC >= 30)
 		{
 			m_nLCurrFrameY = 6;
 			m_nLCurrFrameX = 11;
@@ -932,11 +944,11 @@ void player::update()
 	hitMosion();
 	ShowDamage();
 	FallDown();
-	
+
 
 	m_rc = RectMakeCenter(m_fX, m_fY, (m_pImg->getFrameWidth() * 3) / 2, (m_pImg->getFrameHeight() * 3) / 2);
 
-	
+
 }
 
 void player::render(HDC hdc)
@@ -947,7 +959,7 @@ void player::render(HDC hdc)
 		// 플레이어가 오른쪽을 보고 있을때 이미지 랜더
 		if (m_bPlayerSee == 1)
 		{
-			m_pImg->frameRender(hdc, m_fX - (m_pImg->getFrameWidth()*3) / 2, m_fY - (m_pImg->getFrameHeight()*3) / 2-10, m_nRCurrFrameX, m_nRCurrFrameY,3);
+			m_pImg->frameRender(hdc, m_fX - (m_pImg->getFrameWidth() * 3) / 2, m_fY - (m_pImg->getFrameHeight() * 3) / 2 - 10, m_nRCurrFrameX, m_nRCurrFrameY, 3);
 			if (m_bItem)
 			{
 				if (m_bPlayerAttack)
@@ -958,13 +970,17 @@ void player::render(HDC hdc)
 				{
 					m_pImg3->frameRender(hdc, m_fX - 30, m_fY - 35, m_nNCurrFrameX, m_nNCurrFrameY, 3);
 				}
+				else if (m_bPlayerJumpAttack)
+				{
+					m_pImg3->frameRender(hdc, m_fX - 30, m_fY - 35, m_nNCurrFrameX, m_nNCurrFrameY, 3);
+				}
 			}
 		}
 
 		// 플레이어가 왼쪽을 보고 있을때 이미지 랜더
 		else if (m_bPlayerSee == 0)
 		{
-			m_pImg2->frameRender(hdc, m_fX - (m_pImg->getFrameWidth() * 3) / 2 , m_fY - (m_pImg->getFrameHeight() * 3)/2-10, m_nLCurrFrameX, m_nLCurrFrameY,3);
+			m_pImg2->frameRender(hdc, m_fX - (m_pImg->getFrameWidth() * 3) / 2, m_fY - (m_pImg->getFrameHeight() * 3) / 2 - 10, m_nLCurrFrameX, m_nLCurrFrameY, 3);
 
 			if (m_bItem)
 			{
@@ -984,8 +1000,8 @@ void player::render(HDC hdc)
 	{
 		DamageImg(hdc, 0);
 	}
-	
-	
+
+
 	Rectangle(hdc, m_Irc.left, m_Irc.top, m_Irc.right, m_Irc.bottom);
 }
 
@@ -999,7 +1015,7 @@ void player::mapMove()
 		m_fX = WINSIZEX / 2;
 	}
 
-	if (m_fY > (WINSIZEY / 2)+ 75 - 10&& m_fY < (WINSIZEY / 2)+ 75 + 10)
+	if (m_fY > (WINSIZEY / 2) + 75 - 10 && m_fY < (WINSIZEY / 2) + 75 + 10)
 	{
 		m_yCameraOn = true;
 		m_fY = WINSIZEY / 2 + 75;
@@ -1010,7 +1026,7 @@ void player::mapMove()
 	{
 		if (m_fX < WINSIZEX / 2)
 		{
-			ROOMMANAGER->mapMove( m_fX- WINSIZEX / 2, 0);
+			ROOMMANAGER->mapMove(m_fX - WINSIZEX / 2, 0);
 			m_fX = WINSIZEX / 2;
 		}
 		else if (m_fX > WINSIZEX / 2)
@@ -1021,92 +1037,92 @@ void player::mapMove()
 	}
 	if (m_yCameraOn)
 	{
-		if (m_fY < WINSIZEY / 2+ 75)
+		if (m_fY < WINSIZEY / 2 + 75)
 		{
-			ROOMMANAGER->mapMove(0, m_fY- 75 -WINSIZEY / 2);
-			m_fY = WINSIZEY / 2+ 75;
+			ROOMMANAGER->mapMove(0, m_fY - 75 - WINSIZEY / 2);
+			m_fY = WINSIZEY / 2 + 75;
 		}
 		else if (m_fY > WINSIZEY / 2 + 75)
 		{
-			ROOMMANAGER->mapMove(0, m_fY- 75 - WINSIZEY /2);
-			m_fY = WINSIZEY / 2+ 75;
+			ROOMMANAGER->mapMove(0, m_fY - 75 - WINSIZEY / 2);
+			m_fY = WINSIZEY / 2 + 75;
 		}
 	}
 }
 
 void player::mapchackCollision()
 {
-	for (int y= m_rc.top;y<=m_rc.bottom; y++)
+	for (int y = m_rc.top; y <= m_rc.bottom; y++)
 	{
 		COLORREF color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
-			m_fX+ ROOMMANAGER->getCurrRoom()->getPosMap().x,
+			m_fX + ROOMMANAGER->getCurrRoom()->getPosMap().x,
 			y + ROOMMANAGER->getCurrRoom()->getPosMap().y);
 
-			int r = GetRValue(color);
-			int g = GetGValue(color);
-			int b = GetBValue(color);
+		int r = GetRValue(color);
+		int g = GetGValue(color);
+		int b = GetBValue(color);
 
+
+		if (!(r == 0 && g == 88 && b == 24))
+		{
+			if (y > m_fY)
+			{
+				m_fY--;
+			}
+			else if ((y < m_fY))
+			{
+				m_fY++;
+			}
+		}
+		else
+		{
+			m_bPlayerStand = 0;
+		}
+
+		if (y == m_rc.bottom)
+		{
+			y++;
+
+			color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
+				m_fX + ROOMMANAGER->getCurrRoom()->getPosMap().x,
+				y + ROOMMANAGER->getCurrRoom()->getPosMap().y);
+
+			r = GetRValue(color);
+			g = GetGValue(color);
+			b = GetBValue(color);
 
 			if (!(r == 0 && g == 88 && b == 24))
 			{
-				if (y>m_fY)
-				{
-					m_fY--;
-				}
-				else if((y < m_fY))
-				{
-					m_fY++;
-				}
+
+				m_fY -= m_fGravity;
+
 			}
-			else
+
+			color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
+				m_fX + ROOMMANAGER->getCurrRoom()->getPosMap().x,
+				m_rc.bottom + 30 + ROOMMANAGER->getCurrRoom()->getPosMap().y);
+
+			r = GetRValue(color);
+			g = GetGValue(color);
+			b = GetBValue(color);
+
+			if (!(r == 0 && g == 88 && b == 24))
 			{
-				m_bPlayerStand = 0;
-			}
-
-			if (y == m_rc.bottom)
-			{
-				y++;
-
-				color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
-					m_fX + ROOMMANAGER->getCurrRoom()->getPosMap().x,
-					y + ROOMMANAGER->getCurrRoom()->getPosMap().y);
-
-				r = GetRValue(color);
-				g = GetGValue(color);
-				b = GetBValue(color);
-
-				if (!(r == 0 && g == 88 && b == 24))
+				m_bPlayerStand = 1;
+				m_nPlayerJump = 0;
+				m_bPlayerJumpAttack = 0;
+				if (m_nRCurrFrameY == 6)
 				{
-
-						m_fY-=m_fGravity;
-					
+					m_nRCurrFrameY = 0;
+					m_nRCurrFrameX = 0;
 				}
-
-				color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
-					m_fX + ROOMMANAGER->getCurrRoom()->getPosMap().x,
-					m_rc.bottom + 30 + ROOMMANAGER->getCurrRoom()->getPosMap().y);
-
-				r = GetRValue(color);
-				g = GetGValue(color);
-				b = GetBValue(color);
-
-				if (!(r == 0 && g == 88 && b == 24))
+				else if (m_nLCurrFrameY == 6)
 				{
-					m_bPlayerStand = 1;
-					m_nPlayerJump = 0;
-					if (m_nRCurrFrameY == 6)
-					{
-						m_nRCurrFrameY = 0;
-						m_nRCurrFrameX = 0;
-					}
-					else if (m_nLCurrFrameY == 6)
-					{
-						m_nLCurrFrameY = 0;
-						m_nLCurrFrameX = 18;
-					}
-
+					m_nLCurrFrameY = 0;
+					m_nLCurrFrameX = 18;
 				}
 			}
+		}
 	}
 
 	for (int x = m_rc.left; x < m_rc.right; x++)
@@ -1154,7 +1170,7 @@ void player::mapRectCollision()
 			{
 				m_nLCurrFrameY = 0;
 				m_nLCurrFrameX = 18;
-			}		
+			}
 		}
 
 
@@ -1166,7 +1182,7 @@ void player::mapRectCollision()
 					m_rc.left < ROOMMANAGER->getCurrRoom()->getRectObj()[i].right))
 			{
 
-				m_fY=(ROOMMANAGER->getCurrRoom()->getRectObj()[i].top - 50);
+				m_fY = (ROOMMANAGER->getCurrRoom()->getRectObj()[i].top - 50);
 
 
 			}
@@ -1190,7 +1206,7 @@ void player::hitCollision(int damage)
 		}
 		else if (m_bPlayerStand == 1)
 		{
-			m_bPlayerHited = 1;	
+			m_bPlayerHited = 1;
 			m_bDivin = 1;
 			if (m_nHitDivineC == 100)
 			{
@@ -1206,10 +1222,10 @@ void player::DamageImg(HDC hdc, int damage)
 	if (damage >= 10000)
 	{
 		m_pCImg->frameRender(hdc, m_fX, m_fDamageY, 9, 2, 3);
-		m_pCImg->frameRender(hdc, m_fX+15, m_fDamageY, 9, 2, 3);
-		m_pCImg->frameRender(hdc, m_fX+30, m_fDamageY, 9, 2, 3);
-		m_pCImg->frameRender(hdc, m_fX+45, m_fDamageY, 9, 2, 3);
-		m_pCImg->frameRender(hdc, m_fX+60, m_fDamageY, 9, 2, 3);
+		m_pCImg->frameRender(hdc, m_fX + 15, m_fDamageY, 9, 2, 3);
+		m_pCImg->frameRender(hdc, m_fX + 30, m_fDamageY, 9, 2, 3);
+		m_pCImg->frameRender(hdc, m_fX + 45, m_fDamageY, 9, 2, 3);
+		m_pCImg->frameRender(hdc, m_fX + 60, m_fDamageY, 9, 2, 3);
 	}
 	else if (damage < 10000 && damage >= 1000)
 	{
@@ -1253,7 +1269,7 @@ void player::ShowDamage()
 	{
 		m_bDamageShow = 1;
 	}
-	
+
 	if (m_bDamageShow == 1)
 	{
 		m_nNumC++;
@@ -1269,6 +1285,10 @@ void player::ShowDamage()
 
 void player::FallDown()
 {
+	/*	if (m_bPlayerStand == 0)
+		{
+			m_fY -= m_fGravity;
+		} */
 }
 
 void player::hitMosion()
@@ -1306,7 +1326,7 @@ void player::hitMosion()
 			else if (m_bPlayerSee == 0)
 			{
 				m_nLCurrFrameY = 5;
-				m_nLCurrFrameX = 0;
+				m_nLCurrFrameX = 18;
 			}
 		}
 		if (m_nHitC < 10)
@@ -1323,13 +1343,21 @@ void player::hitMosion()
 		else if (m_nHitC >= 10)
 		{
 			m_nHitC = 0;
-			m_nRCurrFrameY = 0;
-			m_nRCurrFrameX = 0;
 			m_bPlayerHited = 0;
+			if (m_bPlayerSee == 1)
+			{
+				m_nRCurrFrameY = 0;
+				m_nRCurrFrameX = 0;
+			}
+			else if (m_bPlayerSee == 0)
+			{
+				m_nLCurrFrameY = 0;
+				m_nLCurrFrameX = 18;
+			}
 		}
 	}
 }
-	
+
 
 
 
