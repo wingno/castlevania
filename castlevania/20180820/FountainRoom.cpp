@@ -2,6 +2,7 @@
 #include "FountainRoom.h"
 #include "player.h"
 #include "RoomObject.h"
+#include "enemyManager.h"
 
 HRESULT FountainRoom::init()
 {
@@ -22,14 +23,14 @@ HRESULT FountainRoom::init()
 	
 	m_Object = new RoomObject[4];
 
-		// Äµµé
-		m_Object[0].init(311, 630, 0);
-		m_Object[1].init(1178, 630, 0);
-		// ÀÛÀº ºÒ
-		m_Object[2].init(605, 836, 1);
-		m_Object[3].init(891, 836, 1);
+	// Äµµé
+	m_Object[0].init(311, 630, 0);
+	m_Object[1].init(1178, 630, 0);
+	// ÀÛÀº ºÒ
+	m_Object[2].init(605, 836, 1);
+	m_Object[3].init(891, 836, 1);
 
-	
+	m_pEnemyMgr->setEnemy(500, 1300, RIPPER);
 
 
 	m_nRectNum = 2;

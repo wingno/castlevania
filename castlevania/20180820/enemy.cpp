@@ -211,9 +211,9 @@ void enemy::update()
 			m_pMissileMgr->update();
 
 
-		mapchackCollision();
 		m_fMapX = m_fX - ROOMMANAGER->getCurrRoom()->getPosMap().x;
 		m_fMapY = m_fY - ROOMMANAGER->getCurrRoom()->getPosMap().y;
+		mapchackCollision();
 		m_rc = RectMake(m_fMapX, m_fMapY -10, m_pImgLMotion->getFrameWidth() * 3, m_pImgLMotion->getFrameHeight() * 3);
 
 		break;
@@ -257,10 +257,27 @@ void enemy::render(HDC hdc)
 				if (m_bIsLeftSee)
 				{
 					m_pImgLMotion->aniRender(hdc, m_fMapX, m_fMapY, m_aniL2, 3);
+					if (m_aniL2->getNowPlayFrame() == 9)
+					{
+						m_pImgLMotion->render(hdc, m_fMapX - 8 * 3, m_fMapY - 4 * 3, 176, 0, 16, 8, 3);
+					}
+					else if ((m_aniL2->getNowPlayFrame() == 10))
+					{
+						m_pImgLMotion->render(hdc, m_fMapX - 8 * 3, m_fMapY - 4 * 3, 176, 8, 16, 8, 3);
+					}
+
 				}
 				else
 				{
 					m_pImgRMotion->aniRender(hdc, m_fMapX, m_fMapY, m_aniR2, 3);
+					if (m_aniR2->getNowPlayFrame() == 2)
+					{
+						m_pImgRMotion->render(hdc, m_fMapX - 8 * 3, m_fMapY - 4 * 3, 0, 0, 16, 8, 3);
+					}
+					else if ((m_aniR2->getNowPlayFrame() == 1))
+					{
+						m_pImgRMotion->render(hdc, m_fMapX - 8 * 3, m_fMapY - 4 * 3, 0, 8, 16, 8, 3);
+					}
 				}
 
 				break;
@@ -376,6 +393,35 @@ void enemy::fire()
 
 void enemy::mapchackCollision()
 {
+
+	for (int x = m_rc.left; x < m_rc.right; x++)
+	{
+		COLORREF color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
+			x + ROOMMANAGER->getCurrRoom()->getPosMap().x,
+			m_fMapY + ROOMMANAGER->getCurrRoom()->getPosMap().y);
+
+		int r = GetRValue(color);
+		int g = GetGValue(color);
+		int b = GetBValue(color);
+
+
+		if (!(r == 0 && g == 88 && b == 24))
+		{
+			if (x > m_fX)
+			{
+				m_fX--;
+
+			}
+			else if ((x < m_fX))
+			{
+				m_fX++;
+			}
+		}
+	}
+
+	m_fMapX = m_fX - ROOMMANAGER->getCurrRoom()->getPosMap().x;
+	m_fMapY = m_fY - ROOMMANAGER->getCurrRoom()->getPosMap().y;
+
 	for (int y = m_rc.top; y <= m_rc.bottom; y++)
 	{
 		COLORREF color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
@@ -391,10 +437,12 @@ void enemy::mapchackCollision()
 		{
 			if (y > m_fMapY)
 			{
+				//if(m_fY>WINSIZEX/2)
 				m_fY--;
 			}
 			else if ((y < m_fMapY))
 			{
+				//if (m_fY < WINSIZEX / 2)
 				m_fY++;
 			}
 		}
@@ -414,7 +462,6 @@ void enemy::mapchackCollision()
 
 			if (!(r == 0 && g == 88 && b == 24))
 			{
-
 				m_fY -= m_fGravity;
 				m_bIsGround = true;
 			}
@@ -424,6 +471,8 @@ void enemy::mapchackCollision()
 			}
 		}
 	}
+
+
 }
 enemy::enemy()
 {

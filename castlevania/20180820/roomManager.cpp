@@ -81,6 +81,9 @@ HRESULT roomManager::changeRoom(string sceneName)
 	// 바꾸고자하는 씬과 현재씬이 같으면
 	if (m_iter->second == m_pCurrRoom)	return S_OK;
 
+	SAFE_DELETE(m_pEnemyMgr);
+	m_pEnemyMgr = new enemyManager;
+	m_pEnemyMgr->init();
 	// 바꾸고자하는 씬을 찾았으면 초기화
 	m_iter->second->setEnemyMgr(m_pEnemyMgr);
 	if (SUCCEEDED(m_iter->second->init()))
