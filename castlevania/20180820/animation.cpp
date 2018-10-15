@@ -52,6 +52,8 @@ HRESULT animation::init(int totalWidth, int totalHeight,
 	return S_OK;
 }
 
+//릴리즈 해줘야함
+
 void animation::setDefPlayFrame(bool reverse, bool loop)
 {
 	// 루프 여부

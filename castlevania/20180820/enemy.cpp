@@ -29,7 +29,6 @@ HRESULT enemy::init( POINT position, EnemyKind eKind)
 	m_bIsAlive = true;
 	m_pMissileMgr = NULL;
 
-	int*	m_pLAni1;
 
 	switch (m_eKind)
 	{
@@ -45,12 +44,6 @@ HRESULT enemy::init( POINT position, EnemyKind eKind)
 
 		m_fGravity = 6.0f;
 
-		m_pLAni1 =new int[5];
-		m_pLAni1[0] = 0;
-		m_pLAni1[1] = 4;
-		m_pLAni1[2] = 5;
-		m_pLAni1[3] = 6;
-		m_pLAni1[4] = 7;
 
 
 		if (m_pPlayer->getFx() > m_fX)
@@ -72,22 +65,54 @@ HRESULT enemy::init( POINT position, EnemyKind eKind)
 			m_fAngle = 100.0f;
 		}
 
+
+		m_pLAni1 = new int[5];
+		m_pLAni1[0] = 0;
+		m_pLAni1[1] = 4;
+		m_pLAni1[2] = 5;
+		m_pLAni1[3] = 6;
+		m_pLAni1[4] = 7;
+
 		m_pMissileMgr = new missileManager;
+		m_pMissileMgr->init();
+
 		m_aniL1 = new animation;
 		m_aniL1->init(192, 16, 16, 16);
 		m_aniL1->setPlayFrame(m_pLAni1, 5);
 		m_aniL1->setFPS(10);
 
+		m_pLAni2 = new int[3];
+		m_pLAni2[0] = 8;
+		m_pLAni2[1] = 9;
+		m_pLAni2[2] = 10;
+
 		m_aniL2 = new animation;
 		m_aniL2->init(192, 16, 16, 16);
+		m_aniL2->setPlayFrame(m_pLAni2, 3);
+		m_aniL2->setFPS(5);
+
+		m_pRAni1 = new int[5];
+		m_pRAni1[0] = 11;
+		m_pRAni1[1] = 7;
+		m_pRAni1[2] = 6;
+		m_pRAni1[3] = 5;
+		m_pRAni1[4] = 4;
 
 		m_aniR1 = new animation;
 		m_aniR1->init(192, 16, 16, 16);
-		m_aniL1->setPlayFrame(m_pLAni1, 5);
-		m_aniL1->setFPS(10);
+		m_aniR1->setPlayFrame(m_pRAni1, 5);
+		m_aniR1->setFPS(10);
+		
+		m_pRAni2 = new int[3];
+		m_pRAni2[0] = 3;
+		m_pRAni2[1] = 2;
+		m_pRAni2[2] = 1;
+
 
 		m_aniR2 = new animation;
 		m_aniR2->init(192, 16, 16, 16);
+		m_aniR2->setPlayFrame(m_pRAni2, 3);
+		m_aniR2->setFPS(5);
 
 		break;
 	default:
@@ -107,6 +132,7 @@ void enemy::release()
 		m_pMissileMgr->release();
 		delete m_pMissileMgr;
 	}
+
 }
 
 void enemy::update()
@@ -120,8 +146,8 @@ void enemy::update()
 	float elapsedTime= TIMEMANAGER->getElapsedTime();
 
 	m_aniL1->frameUpdate(elapsedTime);
-	m_aniL2->frameUpdate(elapsedTime);
 	m_aniR1->frameUpdate(elapsedTime);
+	m_aniL2->frameUpdate(elapsedTime);
 	m_aniR2->frameUpdate(elapsedTime);
 
 
@@ -153,7 +179,27 @@ void enemy::update()
 					}
 					break;
 				case MonsterStatus::CHASER:
+
 					move();
+
+					if (RANDOM->getInt(100)==1)
+					{
+						m_mStatus.state = MonsterStatus::ATTACK;
+
+						if (m_bIsLeftSee)
+						{
+								m_aniL2->start();
+						}
+						else
+						{
+								m_aniR2->start();
+						}
+					}
+
+					break;
+				case MonsterStatus::ATTACK:
+					move();
+					fire();
 					break;
 			
 
@@ -162,7 +208,7 @@ void enemy::update()
 			}
 
 
-
+			m_pMissileMgr->update();
 
 
 		mapchackCollision();
@@ -204,7 +250,17 @@ void enemy::render(HDC hdc)
 				}
 				else
 				{
-					m_pImgRMotion->aniReversRender(hdc, m_fMapX, m_fMapY, m_aniL1, 3);
+					m_pImgRMotion->aniRender(hdc, m_fMapX, m_fMapY, m_aniR1, 3);
+				}
+				break;
+			case MonsterStatus::ATTACK:
+				if (m_bIsLeftSee)
+				{
+					m_pImgLMotion->aniRender(hdc, m_fMapX, m_fMapY, m_aniL2, 3);
+				}
+				else
+				{
+					m_pImgRMotion->aniRender(hdc, m_fMapX, m_fMapY, m_aniR2, 3);
 				}
 
 				break;
@@ -212,6 +268,7 @@ void enemy::render(HDC hdc)
 			break;
 		}
 
+		m_pMissileMgr->render(hdc);
 
 		break;
 	default:
@@ -233,8 +290,7 @@ void enemy::move()
 			if (m_bIsGround)
 			{
 				m_fAngle =  80.0f;
-
-
+				m_aniR1->start();
 
 			}
 			else
@@ -257,9 +313,7 @@ void enemy::move()
 			if (m_bIsGround)
 			{
 				m_fAngle =  100.0f;
-
-
-
+				m_aniL1->start();
 			}
 			else
 			{
@@ -277,7 +331,7 @@ void enemy::move()
 			}
 		}
 
-
+		
 
 
 
@@ -295,6 +349,28 @@ void enemy::move()
 
 void enemy::fire()
 {
+
+	if (m_bIsLeftSee)
+	{
+		if (!m_aniL2->getIsPlaying())
+		{
+			m_mStatus.state = MonsterStatus::CHASER;
+			m_pMissileMgr->fire(m_fX, m_fY, PI, 10.0f,0);
+
+		}
+			
+	}
+	else
+	{
+		if (!m_aniR2->getIsPlaying())
+		{
+			m_mStatus.state = MonsterStatus::CHASER;
+			m_pMissileMgr->fire(m_fX, m_fY, 0, 10.0f,1);
+
+		}
+	}
+
+
 
 }
 

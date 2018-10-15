@@ -31,7 +31,10 @@ private:
 	float	m_fAngle;
 	float	m_fGravity;
 
-
+	int*	m_pLAni1;
+	int*	m_pLAni2;
+	int*	m_pRAni1;
+	int*	m_pRAni2;
 	
 
 

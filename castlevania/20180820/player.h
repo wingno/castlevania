@@ -140,6 +140,13 @@ private:
 	itemInven	m_ItemInven;
 	ItemSet		m_ItemSet;
 
+
+
+
+	bool testB;
+
+
+
 public:
 	HRESULT init();
 	void release();

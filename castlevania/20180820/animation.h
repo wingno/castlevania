@@ -49,6 +49,7 @@ public:
 
 	inline int getFrameWidth() { return m_nFrameWidth; }
 	inline int getFrameHeight() { return m_nFrameHeight; }
+	inline int getNowPlayFrame() { return m_vecPlayList[m_nNowPlayIdx];}
 
 	inline int getVecPlayListNum() { return m_vecPlayList.size(); };
 

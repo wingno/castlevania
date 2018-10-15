@@ -53,7 +53,7 @@ void missileManager::render(HDC hdc)
 	}
 }
 
-void missileManager::fire(float x, float y, float angle, float speed)
+void missileManager::fire(float x, float y, float angle, float speed,int kind)
 {
 
 	missile* pMissile;
@@ -72,11 +72,11 @@ void missileManager::fire(float x, float y, float angle, float speed)
 	if (pMissile == NULL)
 	{
 		pMissile = new missile;
-		pMissile->init(m_szImageName, speed, x, y, angle, 1000);
+		
 		m_vecMissile.push_back(pMissile);
 	}
 
-
+	pMissile->init(m_szImageName, speed, x, y, angle, 1000,kind);
 
 	pMissile->fire(x, y);
 

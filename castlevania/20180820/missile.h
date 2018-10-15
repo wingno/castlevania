@@ -14,6 +14,12 @@ protected:
 	float	m_fRange;
 	bool	m_isFire;
 
+	int		m_nKind;
+
+
+	float m_fMapX;
+	float m_fMapY;
+
 	player* m_pPlayer;
 
 
@@ -21,7 +27,7 @@ protected:
 public:
 	HRESULT init();
 	HRESULT init(const char* szImageName, float speed,
-		float x, float y, float angle, float range);
+		float x, float y, float angle, float range,int kind);
 	void release();
 	void update();
 	void render(HDC hdc);

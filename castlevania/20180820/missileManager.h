@@ -22,7 +22,7 @@ public:
 	void update();
 	void render(HDC hdc);
 
-	void fire(float x, float y, float angle, float speed);
+	void fire(float x, float y, float angle, float speed,int kind);
 	void fire(float x, float y);
 	void move();
 

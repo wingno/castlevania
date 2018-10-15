@@ -188,7 +188,8 @@ HRESULT player::init()
 
 
 
-	
+	testB = true;
+
 
 	m_bItem = 0;
 
@@ -287,10 +288,13 @@ void player::update()
 	}
 
 	// 플레이어 점프
-	if (KEYMANAGER->isStayKeyDown('Z') && m_bPlayerAttack == 0)
+
+if ( KEYMANAGER->isStayKeyDown('Z') && m_bPlayerAttack == 0)
 	{
+
 		if (m_bIsJump)
 		{
+
 			if (m_bPlayerSee == 1)
 			{
 				if (m_nPlayerDown == 0 && m_nPlayerJump <= 2)
@@ -298,10 +302,12 @@ void player::update()
 					m_nJumMC++;
 					if (m_nJumMC < 2)
 					{
-						m_nRCurrFrameX = 2;
+						if(testB)
+							m_nRCurrFrameX = 2;
 					}
 					m_bPlayerJumpM = 1;
-					m_nRCurrFrameY = 6;
+					if(testB)
+						m_nRCurrFrameY = 6;
 					if (m_nPlayerJump == 0)
 					{
 						m_nPlayerJump = 1;
@@ -345,10 +351,12 @@ void player::update()
 					m_nJumMC++;
 					if (m_nJumMC < 2)
 					{
-						m_nLCurrFrameX = 16;
+						if(testB)
+							m_nLCurrFrameX = 16;
 					}
 					m_bPlayerJumpM = 1;
-					m_nLCurrFrameY = 6;
+					if(testB)
+						m_nLCurrFrameY = 6;
 					if (m_nPlayerJump == 0)
 					{
 						m_nPlayerJump = 1;
@@ -371,6 +379,7 @@ void player::update()
 				}
 			}
 		}
+
 	}
 
 	if (KEYMANAGER->isOnceKeyUp('Z') && m_nPlayerJump <= 3)
@@ -394,6 +403,7 @@ void player::update()
 			m_fJumP = 20.0f;
 			m_nJumMC = 0;
 		}
+
 	}
 
 	// 플레이어 공격
@@ -1111,7 +1121,14 @@ void player::mapchackCollision()
 				{
 
 						m_fY-=m_fGravity;
+
+						testB = false;
+						
 					
+				}
+				else
+				{
+					testB = true;
 				}
 
 				color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
@@ -1137,7 +1154,9 @@ void player::mapchackCollision()
 						m_nLCurrFrameX = 18;
 					}
 
+
 				}
+
 			}
 	}
 
