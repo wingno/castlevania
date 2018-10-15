@@ -6,6 +6,8 @@
 HRESULT enemyManager::init()
 {
 
+
+	m_vecEnemy.reserve(10);
 	return S_OK;
 }
 
@@ -50,15 +52,37 @@ void enemyManager::render(HDC hdc)
 	}
 }
 
-void enemyManager::setEnemy(int baseX,int baseY)
+void enemyManager::setEnemy(int baseX,int baseY, EnemyKind kind)
 {
-	
+	enemy* pEnemy;
+	pEnemy = NULL;
+	for (m_iter = m_vecEnemy.begin(); m_iter != m_vecEnemy.end(); m_iter++)
+	{
+		if ((*m_iter) != NULL)
+		{
+			if (!(*m_iter)->getIsAlive())
+			{
+				pEnemy = (*m_iter);
+			}
+		}
 
-		enemy* pEnemy = new enemy;
-		pEnemy->init("image/ufo.bmp", PointMake(baseX, baseY));
+	}
+	if (pEnemy == NULL)
+	{
 
-		// vector의 마지막 원소 뒤에 새로운 데이터를 추가한다
+
+		pEnemy = new enemy;
 		m_vecEnemy.push_back(pEnemy);
+	}
+
+
+
+	pEnemy->init( PointMake(baseX, baseY),kind);
+
+
+
+
+
 
 }
 

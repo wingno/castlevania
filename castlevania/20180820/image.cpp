@@ -556,6 +556,13 @@ void image::aniRender(HDC hdc, int destX, int destY, animation * ani, int scalar
 		ani->getFrameWidth(), ani->getFrameHeight(), scalar);
 }
 
+void image::aniReversRender(HDC hdc, int destX, int destY, animation * ani, int scalar)
+{
+	render(hdc, destX, destY,
+		ani->getReversFramePos().x, ani->getReversFramePos().y,
+		ani->getFrameWidth(), ani->getFrameHeight(), scalar);
+}
+
 void image::setTransColor(bool trans, COLORREF transColor)
 {
 	m_isTransparent = trans;

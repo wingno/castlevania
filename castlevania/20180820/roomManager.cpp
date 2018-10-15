@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "roomManager.h"
 #include "room.h"
+#include "enemyManager.h"
 
 
 roomManager::roomManager()
@@ -14,6 +15,8 @@ roomManager::~roomManager()
 
 HRESULT roomManager::init()
 {
+	m_pEnemyMgr = new enemyManager;
+	m_pEnemyMgr->init();
 	return S_OK;
 }
 
@@ -44,14 +47,18 @@ void roomManager::release()
 
 void roomManager::update()
 {
+
+	m_pEnemyMgr->update();
 	if (m_pCurrRoom)
 		m_pCurrRoom->update();
 }
 
 void roomManager::render(HDC hdc)
 {
+
 	if (m_pCurrRoom)
 		m_pCurrRoom->render(hdc);
+	m_pEnemyMgr->render(hdc);
 }
 
 room * roomManager::addRoom(string roomName, room * pRoom)
@@ -75,6 +82,7 @@ HRESULT roomManager::changeRoom(string sceneName)
 	if (m_iter->second == m_pCurrRoom)	return S_OK;
 
 	// 바꾸고자하는 씬을 찾았으면 초기화
+	m_iter->second->setEnemyMgr(m_pEnemyMgr);
 	if (SUCCEEDED(m_iter->second->init()))
 	{
 		m_iter->second->setPlayer(m_pPlayer);

@@ -17,7 +17,7 @@ HRESULT battleScene::init()
 	m_pPlayer = g_mainGame.getPlayer();
 
 
-
+	
 	
 
 

@@ -104,6 +104,8 @@ public:
 	// ¾Ö´Ï ·»´õ
 	void aniRender(HDC hdc, int destX, int destY, animation* ani, int scalar = 1);
 
+	void aniReversRender(HDC hdc, int destX, int destY, animation * ani, int scalar);
+
 	void setTransColor(bool trans, COLORREF transColor);
 
 	// getter, setter

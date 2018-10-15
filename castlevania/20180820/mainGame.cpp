@@ -47,6 +47,7 @@ HRESULT mainGame::init()
 	IMAGEMANAGER->init();
 	TIMEMANAGER->init();
 	EFFECTMANAGER->init();
+	ROOMMANAGER->init();
 
 	setBackBuffer();
 

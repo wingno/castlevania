@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "missile.h"
-#include "spaceShip.h"
+#include "player.h"
 
 //using namespace MY_UTIL;
 
@@ -19,6 +19,7 @@ HRESULT missile::init()
 	ZeroMemory(&m_rc, sizeof(m_rc));
 
 	m_pImg = IMAGEMANAGER->findImage("enemy_missile_1");
+	m_pPlayer = g_mainGame.getPlayer();
 
 	return S_OK;
 }
@@ -74,11 +75,11 @@ void missile::fire(float x, float y)
 			m_pImg->getWidth(), m_pImg->getHeight());
 
 		// 플레이어의 위치를 알아야 각도를 구할 수 있다
-		if (m_pTarget)
+		if (m_pPlayer)
 		{
 			m_fAngle = MY_UTIL::getAngle(
 				m_fX, m_fY,
-				m_pTarget->getX(), m_pTarget->getY());
+				m_pPlayer->getFx(), m_pPlayer->getFY());
 		}
 
 		int a = 0;

@@ -1,5 +1,5 @@
 #pragma once
-class spaceShip;
+class player;
 
 class missile
 {
@@ -13,6 +13,8 @@ protected:
 	float	m_fAngle;
 	float	m_fRange;
 	bool	m_isFire;
+
+	player* m_pPlayer;
 
 
 

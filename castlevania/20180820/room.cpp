@@ -19,7 +19,7 @@ void room::update()
 
 void room::render(HDC hdc)
 {
-
+	
 
 }
 

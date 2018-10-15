@@ -39,6 +39,8 @@ public:
 
 	inline POINT getFramePos() { return m_vecFrameList[m_vecPlayList[m_nNowPlayIdx]]; }
 
+	inline POINT getReversFramePos() { return m_vecFrameList[m_vecPlayList[ (m_vecPlayList.size()-2)-m_nNowPlayIdx]]; }
+
 	//m_vecFrameList[0];		// 가져오고 싶은 프레임의 인덱스를 넣는다
 	// 플레이 리스트 원소 : 9, 10, 11, 0, 1, 2 
 	// m_nNowPlayIdx == 0 => 9 
@@ -47,6 +49,9 @@ public:
 
 	inline int getFrameWidth() { return m_nFrameWidth; }
 	inline int getFrameHeight() { return m_nFrameHeight; }
+
+	inline int getVecPlayListNum() { return m_vecPlayList.size(); };
+
 
 	inline bool getIsPlaying() { return m_isPlaying; }
 

@@ -28,7 +28,7 @@ public:
 
 
 
-	void setEnemy(int baseX, int baseY);
+	void setEnemy(int baseX, int baseY, EnemyKind kind);
 
 
 

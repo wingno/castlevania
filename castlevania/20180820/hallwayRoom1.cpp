@@ -4,6 +4,7 @@
 #include "zombie.h"
 #include "SkeletonArcher.h"
 #include "RoomObject.h"
+#include "enemyManager.h"
 
 HRESULT hallwayRoom1::init()
 {
@@ -18,6 +19,9 @@ HRESULT hallwayRoom1::init()
 
 	m_Zombie = new zombie[10];
 	m_Zombie->init(500, 350);
+
+	m_pEnemyMgr->setEnemy(500, 425, RIPPER);
+
 
 
 
@@ -72,7 +76,7 @@ void hallwayRoom1::release()
 
 	for (int i = 0; i < 10; i++)
 	{
-		delete &m_Zombie[i];
+		//delete &m_Zombie[i];
 	}
 	
 
