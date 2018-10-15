@@ -12,6 +12,14 @@ class zombie;
 
 class ItemUse;
 
+enum State
+{
+	Idle,
+	Move,
+	Jump1,
+	Jump2
+};
+
 class player
 {
 private:
@@ -48,6 +56,10 @@ private:
 
 	// 에너미 렉트 충돌 위한 선언
 	zombie * m_Zombie;
+
+	// 플레이어 상태값
+
+	State m_eState;
 	
 	// 플레이어 이미지
 	image *	 m_pImg;
