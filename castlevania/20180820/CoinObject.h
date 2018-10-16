@@ -1,10 +1,10 @@
 #pragma once
-#include"RoomObject.h"
+
 
 class player;
+class RoomObject;
 
-
-class CoinObject : public RoomObject
+class CoinObject 
 {
 
 private:
@@ -15,6 +15,10 @@ private:
 	int CoinNum;
 	//코인이미지
 	image* m_coin;
+	image* m_imgcoin;
+	image* m_soulob;
+
+	int m_nimgcount;
 	//위치
 	int FX, FY;
 	float speed;
@@ -24,13 +28,15 @@ private:
 	int MyIdx;
 	//카운트
 	int MYCount;
-
+	int m_angle;
 	bool Down;
 	bool m_bstand;
+	bool m_b1won;
 	RoomObject* m_RoomOBJ;
-
+	player* m_play;
 
 	SYNTHESIZE(bool, Alive, Alive);
+	SYNTHESIZE(bool, obAlive, obAlive);
 	SYNTHESIZE(bool, Destruction, Destruction);
 	SYNTHESIZE(RECT, m_rc, rc);
 
@@ -40,7 +46,7 @@ public:
 	virtual void release();
 	virtual void update();
 	virtual void render(HDC hdc);
-
+	void soulMove();
 
 
 	CoinObject();

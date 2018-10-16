@@ -19,8 +19,10 @@ private:
 	spaceShip*		m_pSpaceShip;
 	enemyManager*	m_pEnemyMgr;
 	camel*			m_pCamel;
-	progressBar*	m_progressBar;
 
+	//채력바
+	progressBar*	m_progressBarHp;
+	progressBar*	m_progressBarMp;
 	//좀비
 	zombi* m_zombi;
 

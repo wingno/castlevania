@@ -23,9 +23,19 @@ HRESULT battleScene::init()
 	m_nAlphaNum = 0;
 
 
-	m_progressBar = new progressBar;
-	m_progressBar->init(10, 50);
-	m_progressBar->setGauge(100, 50);
+	m_progressBarHp = new progressBar;
+
+
+
+	m_progressBarHp->init(0, 0,285,30);
+
+
+
+	m_progressBarHp->setGauge(m_pPlayer->getState().curHP, m_pPlayer->getState().fullHP
+					, m_pPlayer->getState().curMP, m_pPlayer->getState().fullMP);
+
+
+	
 	return S_OK;
 }
 
@@ -39,8 +49,6 @@ void battleScene::update()
 {
 
 	m_pPlayer->update();
-	m_progressBar->update();
-	
 	ROOMMANAGER->update();
 
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
@@ -73,7 +81,7 @@ void battleScene::render(HDC hdc)
 
 	ROOMMANAGER->render(hdc);
 	m_pPlayer->render(hdc);
-	m_progressBar->render(hdc);
+	m_progressBarHp->render(hdc);
 	if (m_bIsChangeScene)
 	{
 		IMAGEMANAGER->findImage("background")->alphaRender(hdc, m_nAlphaNum);

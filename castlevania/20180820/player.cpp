@@ -917,7 +917,7 @@ void player::render(HDC hdc)
 {
 	if (m_pImg)
 	{
-		//Rectangle(hdc, m_rc.left, m_rc.top, m_rc.right, m_rc.bottom);
+		Rectangle(hdc, m_rc.left, m_rc.top, m_rc.right, m_rc.bottom);
 		// 플레이어가 오른쪽을 보고 있을때 이미지 랜더
 		if (m_bPlayerSee == 1)
 		{

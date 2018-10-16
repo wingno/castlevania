@@ -20,6 +20,8 @@ private:
 
 	//오브잭트이미지
 	image* m_imgObj;
+	image* m_imgObj1;
+	image* m_imgObj2;
 	//오브잭트 위치
 	SYNTHESIZE(int, m_nFX, FX);
 	SYNTHESIZE(int, m_nFY, FY);

@@ -8,8 +8,9 @@ HRESULT RoomObject::init(int nFX, int nFY, int ObjNum)
 	//¿ÀºêÀèÆ®
 	
 	m_imgObj = IMAGEMANAGER->addImage("candle", "image/object/candle.bmp", 198, 23, 11, 1, true, RGB(0, 64, 128));
-	m_imgObj = IMAGEMANAGER->addImage("minifire", "image/object/minifire.bmp", 56, 20, 4, 1, true, RGB(0, 64, 128));
-	
+	m_imgObj1 = IMAGEMANAGER->addImage("minifire", "image/object/minifire.bmp", 56, 20, 4, 1, true, RGB(0, 64, 128));
+	m_imgObj2 = IMAGEMANAGER->addImage("soulob", "image/object/soulobject.bmp", 200, 46, 10, 1, true, RGB(0, 64, 128));
+
 
 	//¿ÀºêÀèÆ®
 	m_bObjStand = true;
@@ -64,15 +65,29 @@ void RoomObject::render(HDC hdc)
 		Rectangle(hdc, m_rc.left, m_rc.top,
 			m_rc.right, m_rc.bottom);
 		
+		switch (m_nObjNum)
+		{
+		case 0: //ÃÐºÒ
+			m_imgObj->frameRender(hdc, m_nFX - ROOMMANAGER->getCurrRoom()->getPosMap().x,
+				m_nFY - ROOMMANAGER->getCurrRoom()->getPosMap().y
+				, m_nObjFrameX, m_nObjFrameY, 3);
+			break;
+		case 1:
+			m_imgObj1->frameRender(hdc, m_nFX - ROOMMANAGER->getCurrRoom()->getPosMap().x,
+				m_nFY - ROOMMANAGER->getCurrRoom()->getPosMap().y
+				, m_nObjFrameX, m_nObjFrameY, 3);
+			break;
+		case 2:
+			m_imgObj2->frameRender(hdc, m_nFX - ROOMMANAGER->getCurrRoom()->getPosMap().x,
+				m_nFY - ROOMMANAGER->getCurrRoom()->getPosMap().y
+				, m_nObjFrameX, m_nObjFrameY, 3);
+			break;
 
-		m_imgObj->frameRender(hdc, m_nFX - ROOMMANAGER->getCurrRoom()->getPosMap().x,
-			 m_nFY - ROOMMANAGER->getCurrRoom()->getPosMap().y
-			, m_nObjFrameX, m_nObjFrameY, 3);
-	
-		
-
+		}
 	}
 	
+
+
 
 	m_coin->render(hdc);
 	
@@ -88,7 +103,7 @@ void RoomObject::ObjectCode()
 	switch (m_nObjNum)
 	{
 	case 0: //ÃÐºÒ
-		m_imgObj = IMAGEMANAGER->findImage("candle");
+		
 		//±âº»µ¿ÀÛ
 		if (m_bObjStand)
 		{
@@ -164,7 +179,7 @@ void RoomObject::ObjectCode()
 		break;
 
 	case 1: //ÄœºÒ
-		m_imgObj = IMAGEMANAGER->findImage("minifire");
+	
 		//±âº»µ¿ÀÛ
 		if (m_bObjStand)
 		{
@@ -178,14 +193,38 @@ void RoomObject::ObjectCode()
 
 				}
 			}
+			
 		}
 
 
 		break;
 	case 2: 
-	
+		if (m_bObjStand)
+		{
+			m_nObjIdx++;
+			if (m_nObjIdx % 3 == 0)
+			{
+				m_nObjFrameX++;
+				if (m_nObjFrameX > 9)
+				{
+					m_nObjFrameX = 0;
 
-	default:
+				}
+
+			}
+			
+			
+		}
+
+		if (m_bObjStand == false)
+		{
+			m_bObjDestructionMove = false;
+			m_bObjDestruction = false;
+			m_coin->setobAlive(true);
+		}
+
+		break;
+		default:
 		break;
 	}
 
