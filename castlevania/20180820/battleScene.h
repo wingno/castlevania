@@ -5,6 +5,7 @@ class spaceShip;
 class enemyManager;
 class camel;
 class player;
+class progressBar;
 //룸
 
 
@@ -19,7 +20,9 @@ private:
 	enemyManager*	m_pEnemyMgr;
 	camel*			m_pCamel;
 
-
+	//채력바
+	progressBar*	m_progressBarHp;
+	progressBar*	m_progressBarMp;
 	//좀비
 	zombi* m_zombi;
 

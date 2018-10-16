@@ -3,11 +3,15 @@ class progressBar
 {
 private:
 	RECT	m_rc;
-	float	m_fX, m_fY;
-	float	m_fWidth;
+	//MEnu X,Y
+	int  m_fX, m_fY;
 
+	float	m_fWidth;
+	float	m_fWidthMp;
+
+	image*  m_imgeMenuProgress;
 	image*	m_imgTop;
-	image*	m_imgBottom;
+	image*  m_imgMp;
 
 public:
 	HRESULT init(float x, float y, float width, float height);
@@ -15,10 +19,10 @@ public:
 	void update();
 	void render(HDC hdc);
 
-	void setGauge(float currGauge, float maxGauge);
+	void setGauge(float currGauge, float maxGauge
+		,float currGaugemp, float maxGaugemp);
 
-	inline void setX(float x) { m_fX = x; }
-	inline void setY(float y) { m_fY = y; }
+
 
 	progressBar();
 	~progressBar();

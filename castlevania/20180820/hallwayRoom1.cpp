@@ -33,7 +33,7 @@ HRESULT hallwayRoom1::init()
 		m_Zombie[i].init(700 + (i * 200), 350);
 	}
 
-	m_Object = new RoomObject[4];
+	m_Object = new RoomObject[5];
 
 
 	//ระบา
@@ -41,14 +41,11 @@ HRESULT hallwayRoom1::init()
 	m_Object[1].init(1513, 300, 0);
 	m_Object[2].init(2279, 300, 0);
 	m_Object[3].init(3045, 300, 0);
-
-	
-	
+	m_Object[4].init(500, 300, 2);
 
 
 	m_rectGate =rectGate;
 	m_rectObj = rectObj;
-
 	m_nRectNum = 2;
 
 	m_rectGate[0] = RectMake(0, 195, 30, 144);
@@ -89,7 +86,7 @@ void hallwayRoom1::update()
 {
 	m_Zombie->update();
 	//ระบา
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		m_Object[i].update();
 	}
@@ -168,7 +165,7 @@ void hallwayRoom1::render(HDC hdc)
 	{
 		m_Zombie[i].render(hdc);
 	}
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		m_Object[i].render(hdc);
 	}
@@ -296,7 +293,7 @@ void hallwayRoom1::checkCollision()
 		}
 
 	}
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 5; i++)
 	{
 
 

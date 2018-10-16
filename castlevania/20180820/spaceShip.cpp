@@ -15,7 +15,7 @@ HRESULT spaceShip::init()
 	m_fX = WINSIZEX / 2;// -m_img->getWidth() / 2;
 	m_fY = WINSIZEY / 2 + 200;// -m_img->getHeight() / 2 + 200;
 
-	m_rc = RectMakeCenter(m_fX, m_fY, m_img->getWidth(), m_img->getHeight());
+	//m_rc = RectMakeCenter(m_fX, m_fY, m_img->getWidth(), m_img->getHeight());
 
 	// 미사일
 	m_pMissileMgr = new missileManager;
@@ -23,9 +23,9 @@ HRESULT spaceShip::init()
 
 	// 체력바
 	m_pHPBar = new progressBar;
-	m_pHPBar->init(m_fX - (m_img->getWidth() / 2),
-		m_fY - (m_img->getHeight() / 2) - 10,
-		53, 5);
+	//m_pHPBar->init(m_fX - (m_img->getWidth() / 2),
+	//	m_fY - (m_img->getHeight() / 2) - 10,
+	//	53, 5);
 
 	m_nCurrHP = m_nMaxHP = 100;
 
@@ -51,17 +51,17 @@ HRESULT spaceShip::init(int selectNum)
 	m_fX = WINSIZEX / 2;// -m_img->getWidth() / 2;
 	m_fY = WINSIZEY / 2 + 200;// -m_img->getHeight() / 2 + 200;
 
-	m_rc = RectMakeCenter(m_fX, m_fY, m_img->getWidth(), m_img->getHeight());
+	/*m_rc = RectMakeCenter(m_fX, m_fY, m_img->getWidth(), m_img->getHeight());*/
 
 	// 미사일
 	m_pMissileMgr = new missileManager;
 	m_pMissileMgr->init();
 
-	// 체력바
-	m_pHPBar = new progressBar;
-	m_pHPBar->init(m_fX - (m_img->getWidth() / 2),
-		m_fY - (m_img->getHeight() / 2) - 10,
-		53, 5);
+	//// 체력바
+	//m_pHPBar = new progressBar;
+	//m_pHPBar->init(m_fX - (m_img->getWidth() / 2),
+	//	m_fY - (m_img->getHeight() / 2) - 10,
+	//	53, 5);
 
 	m_nCurrHP = m_nMaxHP = 100;
 
@@ -110,18 +110,18 @@ void spaceShip::update()
 	}
 
 
-	m_rc = RectMakeCenter(m_fX, m_fY,
-		m_img->getWidth(), m_img->getHeight());
+	//m_rc = RectMakeCenter(m_fX, m_fY,
+	//	m_img->getWidth(), m_img->getHeight());
 
 	if (m_pMissileMgr)
 		m_pMissileMgr->update();
 
-	if (m_pHPBar)
-	{
-		m_pHPBar->setX(m_fX - m_img->getWidth() / 2);
-		m_pHPBar->setY(m_fY - m_img->getHeight() / 2 - 10);
-		m_pHPBar->update();
-	}
+	//if (m_pHPBar)
+	//{
+	//	m_pHPBar->setX(m_fX - m_img->getWidth() / 2);
+	//	m_pHPBar->setY(m_fY - m_img->getHeight() / 2 - 10);
+	//	m_pHPBar->update();
+	//}
 }
 
 void spaceShip::render(HDC hdc)
@@ -129,8 +129,8 @@ void spaceShip::render(HDC hdc)
 	//Rectangle(hdc, m_rc.left, m_rc.top, m_rc.right, m_rc.bottom);
 
 	//m_img->render(hdc, m_fX - m_img->getWidth() / 2, m_fY - m_img->getHeight() / 2);
-	m_img->alphaRender(hdc,
-		m_fX - m_img->getWidth() / 2, m_fY - m_img->getHeight() / 2, 150);
+	/*m_img->alphaRender(hdc,
+		m_fX - m_img->getWidth() / 2, m_fY - m_img->getHeight() / 2, 150);*/
 	//m_fX - m_img->getWidth() / 2, m_fY - m_img->getHeight() / 2);
 
 	if (m_pMissileMgr)
@@ -148,10 +148,10 @@ void spaceShip::damaged(int damage)
 		m_nCurrHP = 0;
 	}
 
-	if (m_pHPBar)
-	{
-		m_pHPBar->setGauge(m_nCurrHP, m_nMaxHP);
-	}
+	//if (m_pHPBar)
+	//{
+	//	m_pHPBar->setGauge(m_nCurrHP, m_nMaxHP);
+	//}
 }
 
 
@@ -161,14 +161,14 @@ HRESULT spaceShip::restart()
 	m_fX = WINSIZEX / 2;// -m_img->getWidth() / 2;
 	m_fY = WINSIZEY / 2 + 200;// -m_img->getHeight() / 2 + 200;
 
-	m_rc = RectMakeCenter(m_fX, m_fY, m_img->getWidth(), m_img->getHeight());
-
-
-	m_nCurrHP = m_nMaxHP = 100;
-	if (m_pHPBar)
-	{
-		m_pHPBar->setGauge(m_nCurrHP, m_nMaxHP);
-	}
+	/*m_rc = RectMakeCenter(m_fX, m_fY, m_img->getWidth(), m_img->getHeight());
+*/
+/*
+	m_nCurrHP = m_nMaxHP = 100;*/
+	//if (m_pHPBar)
+	//{
+	//	m_pHPBar->setGauge(m_nCurrHP, m_nMaxHP);
+	//}
 
 	return S_OK;
 }

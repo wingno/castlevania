@@ -9,7 +9,7 @@ class gateRoom :public room
 	RECT rectGate[1];
 	RECT rectObj[6];
 	//ø¿∫Í¿Ë∆Æ
-	RoomObject* m_OBJ;
+	RoomObject* m_Object;
 
 
 public:

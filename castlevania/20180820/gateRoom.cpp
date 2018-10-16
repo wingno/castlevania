@@ -18,15 +18,15 @@ HRESULT gateRoom::init()
 	m_rectGate = rectGate;
 	m_rectObj = rectObj;
 
-	m_OBJ = new RoomObject[4];
+	m_Object = new RoomObject[4];
 	m_nRectNum = 6;
 
 
 	//작은불
-	m_OBJ[0].init(334, 1137, 1);
-	m_OBJ[1].init(334, 890, 1);
-	m_OBJ[2].init(867, 800, 1);
-	m_OBJ[3].init(1343, 224, 1);
+	m_Object[0].init(334, 1137, 1);
+	m_Object[1].init(334, 890, 1);
+	m_Object[2].init(867, 800, 1);
+	m_Object[3].init(1343, 224, 1);
 
 
 
@@ -52,7 +52,7 @@ void gateRoom::update()
 	//작은불
 	for (int i = 0; i < 4; i++)
 	{
-		m_OBJ[i].update();
+		m_Object[i].update();
 	}
 	if (m_posMap.x < 0)
 	{
@@ -112,7 +112,7 @@ void gateRoom::render(HDC hdc)
 
 	for (int i = 0; i < 4; i++)
 	{
-		m_OBJ[i].render(hdc);
+		m_Object[i].render(hdc);
 	}
 
 }

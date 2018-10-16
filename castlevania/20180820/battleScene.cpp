@@ -6,7 +6,7 @@
 #include "camel.h"
 #include "selectScene.h"
 #include "player.h"
-
+#include "progressBar.h"
 
 
 HRESULT battleScene::init()
@@ -19,15 +19,23 @@ HRESULT battleScene::init()
 
 	//IMAGEMANAGER->addImage("enemy_missile_1", "image/bullet.bmp", 21, 21, true, RGB(255,0,255));
 	
-
-
-
-
-	
 	m_bIsChangeScene = false;
 	m_nAlphaNum = 0;
 
 
+	m_progressBarHp = new progressBar;
+
+
+
+	m_progressBarHp->init(0, 0,285,30);
+
+
+
+	m_progressBarHp->setGauge(m_pPlayer->getState().curHP, m_pPlayer->getState().fullHP
+					, m_pPlayer->getState().curMP, m_pPlayer->getState().fullMP);
+
+
+	
 	return S_OK;
 }
 
@@ -41,7 +49,6 @@ void battleScene::update()
 {
 
 	m_pPlayer->update();
-
 	ROOMMANAGER->update();
 
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
@@ -74,7 +81,7 @@ void battleScene::render(HDC hdc)
 
 	ROOMMANAGER->render(hdc);
 	m_pPlayer->render(hdc);
-
+	m_progressBarHp->render(hdc);
 	if (m_bIsChangeScene)
 	{
 		IMAGEMANAGER->findImage("background")->alphaRender(hdc, m_nAlphaNum);

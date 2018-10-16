@@ -18,16 +18,14 @@ HRESULT CastleHallway::init()
 
 	m_rectGate = rectGate;
 	m_rectObj = rectObj;
-
+	m_nRectNum = 11;
 
 	m_Object = new RoomObject[14];
 
-	for (int i = 0; i < 14; i++)
-	{
 		//촛불
-		m_Object[0].init(361, 4058, 0);
-		m_Object[1].init(650, 4058, 0);
-		m_Object[2].init(937, 4058, 0);
+		m_Object[0].init(361, 4058, 0); //원본
+		m_Object[1].init(650, 4170, 0);
+		m_Object[2].init(937, 4170, 0);
 
 
 
@@ -47,7 +45,7 @@ HRESULT CastleHallway::init()
 		m_Object[13].init(868, 572, 1);
 		
 
-	}
+	
 	return S_OK;
 }
  void CastleHallway::release()
@@ -155,10 +153,11 @@ void CastleHallway::render(HDC hdc)
 
 void CastleHallway::rectColider()
 {
+	RECT rc;
 	for (int i = 0; i < 2; i++)
 	{
 		POINT point;
-		RECT rc;
+		
 		if (IntersectRect(&rc, &(m_pPlayer->getRc()), &(m_rectGate[i])))
 		{
 			switch (i)
@@ -196,27 +195,22 @@ void CastleHallway::rectColider()
 		}
 	}
 
-	for (int i = 0; i < 12; i++)
+
+	for (int i = 0; i < 14; i++)
 	{
-		if (m_rectObj[i].top + 13 > m_pPlayer->getRc().bottom && m_rectObj[i].top - 7 < m_pPlayer->getRc().bottom
-			&& (m_pPlayer->getRc().right > m_rectObj[i].left && m_pPlayer->getRc().left < m_rectObj[i].right))
+
+
+		if (m_Object[i].getObjStand() && IntersectRect(&rc, &m_pPlayer->getIRC(), &m_Object[i].getrc()))
 		{
+			m_Object[i].setObjStand(false);
 
-			m_pPlayer->setFY(m_rectObj[i].top - 50);
-
-
-			//맵에걸릴경우 내려가는거 임시방편 나중에 수정해야함 !!!
-			if (m_rectObj[i].top - 50)
-			{
-				if (KEYMANAGER->isOnceKeyDown('C'))
-				{
-					m_pPlayer->setFY(m_rectObj[i].top - 10);
-				}
-			}
-
-
+			m_Object[i].setDestruction(true);
 		}
+
 	}
+
+
+
 
 }
 
