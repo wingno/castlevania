@@ -125,6 +125,7 @@ private:
 
 	// 플레이어가 보고 있는 방향 속성
 	bool	m_bPlayerSee;
+	bool	m_bPlayerReady;
 
 	// 플레이어의 공격 모션
 	bool	m_bPlayerAttack;
@@ -157,6 +158,7 @@ private:
 	SYNTHESIZE(bool, m_bPlayerStand, PlayerStand);
 
 	bool	m_bPlayerSkReady;
+	bool	m_bPlayerSkAttack;
 
 	SYNTHESIZE(bool, m_bIsJump, IsJump);
 

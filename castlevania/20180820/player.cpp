@@ -55,6 +55,7 @@ HRESULT player::init()
 
 	// 플레이어가 오른쪽 보고 있는 상태로 초기화
 	m_bPlayerSee = 1;
+	m_bPlayerReady = 1;
 
 	// 플레이어의 공격 모션 초기화
 	m_bPlayerAttack = 0;
@@ -191,6 +192,7 @@ void player::update()
 		}
 	}
 
+
 	// 플레이어 좌우 이동
 	if (KEYMANAGER->isStayKeyDown(VK_RIGHT) && m_nPlayerDown == 0 && m_bPlayerBackDash == 0 && m_bPlayerAttack == 0 && m_bPlayerHited == 0)
 	{
@@ -257,13 +259,14 @@ void player::update()
 					m_nJumMC++;
 					if (m_nJumMC < 2)
 					{
-						m_nRCurrFrameX = 2;
+						if(m_bPlayerReady == 1)
+							m_nRCurrFrameX = 2;
 					}
 					m_bPlayerJumpM = 1;
 					if (m_bPlayerJumpAttack == 0)
-
 					{
-						m_nRCurrFrameY = 6;
+						if (m_bPlayerReady == 1)
+							m_nRCurrFrameY = 6;
 
 					}
 					if (m_nPlayerJump == 0)
@@ -295,10 +298,12 @@ void player::update()
 					m_nJumMC++;
 					if (m_nJumMC < 2)
 					{
-						m_nLCurrFrameX = 16;
+						if (m_bPlayerReady == 1)
+							m_nLCurrFrameX = 16;
 					}
 					m_bPlayerJumpM = 1;
-					m_nLCurrFrameY = 6;
+					if (m_bPlayerReady == 1)
+						m_nLCurrFrameY = 6;
 					if (m_nPlayerJump == 0)
 					{
 						m_nPlayerJump = 1;
@@ -368,7 +373,7 @@ void player::update()
 	// 플레이어 공격
 	if (KEYMANAGER->isOnceKeyDown('X') && m_bPlayerAttack == 0 && m_bPlayerSilde == 0 && m_bPlayerHited == 0)
 	{
-		if (m_nPlayerDown == 0 && m_bPlayerStand == 1 && m_bPlayerJumpM == 0)
+		if (m_nPlayerDown == 0 && m_bPlayerStand == 1 && m_bPlayerJumpM == 0 && m_bPlayerSkReady == 0)
 		{
 			m_bPlayerAttack = 1;
 			m_bPlayerBackDash = 0;
@@ -406,11 +411,27 @@ void player::update()
 			m_bPlayerJumpAttack = 1;
 			m_nRCurrFrameY = 7;
 			m_nRCurrFrameX = 4;
+			m_nNCurrFrameY = 0;
+			m_nNCurrFrameX = 0;
+		}
+		else if (m_bPlayerSkReady == 1 && m_bPlayerStand == 1)
+		{
+			m_bPlayerSkAttack = 1;
+			if (m_bPlayerSee == 1)
+			{
+				m_nRCurrFrameX = 2;
+				m_nRCurrFrameY = 1;
+			}
+			else if (m_bPlayerSee == 0)
+			{
+				m_nLCurrFrameX = 16;
+				m_nLCurrFrameY = 1;
+			}
 		}
 	}
 
 	// 플레이어 앉기
-	if (KEYMANAGER->isStayKeyDown(VK_DOWN) && m_bPlayerAttack == 0)
+	if (KEYMANAGER->isStayKeyDown(VK_DOWN) && m_bPlayerAttack == 0 && m_bPlayerJumpAttack == 0)
 	{
 		m_nPlayerDown = 1;
 		if (m_bPlayerSee == 1)
@@ -483,7 +504,7 @@ void player::update()
 		}
 
 		// 플레이어 공격자세
-		else if (m_nRCurrFrameY == 1 && m_bPlayerAttack == 1 && m_bPlayerStand == 1)
+		else if (m_nRCurrFrameY == 1 && m_bPlayerAttack == 1 && m_bPlayerStand == 1 && m_bPlayerSkAttack == 0)
 		{
 			if (m_nCount % 4 == 0)
 			{
@@ -514,6 +535,8 @@ void player::update()
 			}
 		}
 
+
+
 		// 플레이어 점프 자세
 		else if (m_nRCurrFrameY == 6 && m_bPlayerJumpM == 1 && m_bPlayerStand == 0 && m_nJumC < 30 && m_bPlayerHited == 0 && m_bPlayerJumpAttack == 0)
 		{
@@ -530,10 +553,9 @@ void player::update()
 
 		else if (m_nRCurrFrameY == 7 && m_bPlayerHited == 0 && m_bPlayerJumpAttack == 1 && m_bPlayerStand == 0)
 		{
-			if (m_nCount % 6 == 0)
+			if (m_nCount % 2 == 0)
 			{
-				m_nRCurrFrameX++;
-				if (m_nRCurrFrameX > 6)
+				if (m_nRCurrFrameX > 5)
 				{
 					m_bItem = 1;
 					m_nNCurrFrameX++;
@@ -542,6 +564,11 @@ void player::update()
 						m_Irc = RectMakeCenter(m_fX + 120, m_fY - 40, m_pImg3->getFrameWidth() * 2, m_pImg3->getFrameHeight() * 2);
 					}
 				}
+			}
+			if (m_nCount % 6 == 0)
+			{
+				m_nRCurrFrameX++;
+				
 				m_pImg->setFrameX(m_nRCurrFrameX);
 				m_pImg3->setFrameX(m_nNCurrFrameX);
 				if (m_nRCurrFrameX > 8)
@@ -558,7 +585,7 @@ void player::update()
 		}
 
 		// 플레이어 떨어지는 자세
-		else if (m_bPlayerStand == 0 && m_bPlayerJumpM == 0 || m_nJumC >= 30 && m_bPlayerHited == 0 && m_bPlayerJumpAttack == 0)
+		else if (m_bPlayerStand == 0 && m_bPlayerJumpM == 0 && m_bPlayerHited == 0 && m_bPlayerJumpAttack != 1 || m_nJumC >= 30)
 		{
 			m_nRCurrFrameY = 6;
 			m_nRCurrFrameX = 7;
@@ -690,7 +717,7 @@ void player::update()
 			}
 		}
 		// 플레이어 스킬모션 대기 자세
-		else if (m_bPlayerSkReady == 1 && m_nRCurrFrameY != 3)
+		else if (m_bPlayerSkReady == 1 && m_nRCurrFrameY != 3 && m_bPlayerSkAttack == 0)
 		{
 			if (m_nCount % 5 == 0)
 			{
@@ -698,6 +725,23 @@ void player::update()
 				{
 					m_nRCurrFrameX++;
 					m_pImg->setFrameX(m_nRCurrFrameX);
+				}
+			}
+		}
+
+		else if (m_bPlayerSkAttack == 1 && m_nRCurrFrameY == 1)
+		{
+			if (m_nCount % 4 == 0)
+			{
+				m_nRCurrFrameX++;
+				m_pImg->setFrameX(m_nRCurrFrameX);
+				if (m_nRCurrFrameX > m_pImg->getMaxFrameX() - 7)
+				{
+					m_nRCurrFrameX = 0;
+					m_bPlayerSkAttack = 0;
+					m_nRCurrFrameY = 0;
+					m_nNCurrFrameX = 0;
+					m_nCount = 0;
 				}
 			}
 		}
@@ -926,7 +970,7 @@ void player::update()
 			}
 		}
 		// 플레이어 스킬 대기 자세
-		else if (m_bPlayerSkReady == 1 && m_nLCurrFrameY != 3)
+		else if (m_bPlayerSkReady == 1 && m_nLCurrFrameY != 3 && m_bPlayerSkAttack == 0)
 		{
 			if (m_nCount % 5 == 0)
 			{
@@ -934,6 +978,22 @@ void player::update()
 				{
 					m_nLCurrFrameX--;
 					m_pImg2->setFrameX(m_nLCurrFrameX);
+				}
+			}
+		}
+		else if (m_bPlayerSkAttack == 1 && m_nLCurrFrameY == 1)
+		{
+			if (m_nCount % 4 == 0)
+			{
+				m_nLCurrFrameX--;
+				m_pImg->setFrameX(m_nLCurrFrameX);
+				if (m_nLCurrFrameX < 7)
+				{
+					m_nLCurrFrameX = 18;
+					m_bPlayerSkAttack = 0;
+					m_nLCurrFrameY = 0;
+					m_nNCurrFrameX = 0;
+					m_nCount = 0;
 				}
 			}
 		}
@@ -972,7 +1032,7 @@ void player::render(HDC hdc)
 				}
 				else if (m_bPlayerJumpAttack)
 				{
-					m_pImg3->frameRender(hdc, m_fX - 30, m_fY - 35, m_nNCurrFrameX, m_nNCurrFrameY, 3);
+					m_pImg3->frameRender(hdc, m_fX - 30, m_fY - 65, m_nNCurrFrameX, m_nNCurrFrameY, 3);
 				}
 			}
 		}
@@ -1002,7 +1062,7 @@ void player::render(HDC hdc)
 	}
 
 
-	Rectangle(hdc, m_Irc.left, m_Irc.top, m_Irc.right, m_Irc.bottom);
+	//Rectangle(hdc, m_Irc.left, m_Irc.top, m_Irc.right, m_Irc.bottom);
 }
 
 
@@ -1095,7 +1155,12 @@ void player::mapchackCollision()
 			{
 
 				m_fY -= m_fGravity;
+				m_bPlayerReady = false;
 
+			}
+			else
+			{
+				m_bPlayerReady = true;
 			}
 
 			color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
@@ -1110,7 +1175,16 @@ void player::mapchackCollision()
 			{
 				m_bPlayerStand = 1;
 				m_nPlayerJump = 0;
-				m_bPlayerJumpAttack = 0;
+
+				if (m_bPlayerJumpAttack != 0)
+				{
+					m_bPlayerJumpAttack = 0;
+					m_nRCurrFrameY = 0;
+					m_nRCurrFrameX = 0;
+					m_nNCurrFrameX = 0;
+					m_bItem = 0;
+					m_Irc = RectMakeCenter(-10, -10, 1, 1);
+				}
 				if (m_nRCurrFrameY == 6)
 				{
 					m_nRCurrFrameY = 0;
@@ -1161,6 +1235,16 @@ void player::mapRectCollision()
 		{
 			m_bPlayerStand = 1;
 			m_nPlayerJump = 0;
+
+			if (m_bPlayerJumpAttack != 0)
+			{
+				m_bPlayerJumpAttack = 0;
+				m_nRCurrFrameY = 0;
+				m_nRCurrFrameX = 0;
+				m_nNCurrFrameX = 0;
+				m_bItem = 0;
+				m_Irc = RectMakeCenter(-10, -10, 1, 1);
+			}
 			if (m_nRCurrFrameY == 6)
 			{
 				m_nRCurrFrameY = 0;
@@ -1285,10 +1369,6 @@ void player::ShowDamage()
 
 void player::FallDown()
 {
-	/*	if (m_bPlayerStand == 0)
-		{
-			m_fY -= m_fGravity;
-		} */
 }
 
 void player::hitMosion()
