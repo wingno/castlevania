@@ -30,7 +30,7 @@ HRESULT FountainRoom::init()
 	m_Object[2].init(605, 836, 1);
 	m_Object[3].init(891, 836, 1);
 
-	m_pEnemyMgr->setEnemy(500, 1300, RIPPER);
+	//m_pEnemyMgr->setEnemy(500, 1300, RIPPER);
 
 
 	m_nRectNum = 2;

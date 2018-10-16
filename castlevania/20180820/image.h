@@ -56,6 +56,8 @@ private:
 	LPIMAGE_INFO	m_pImageInfo;
 	bool			m_isTransparent;
 	COLORREF		m_transColor;
+	LPIMAGE_INFO	m_ptempImage;	// 알파 블렌드를 사용하기 위한 중간 이미지
+	LPIMAGE_INFO	m_rateteImage;
 
 	// 알파 블렌드
 	BLENDFUNCTION	m_blendFunc;	// 알파 블렌드를 위한 정보
@@ -100,6 +102,8 @@ public:
 	// 알파 블렌드 렌더
 	void alphaRender(HDC hdc, BYTE alpha);
 	void alphaRender(HDC hdc, int destX, int destY, BYTE alpha);
+
+	void rotateRender(HDC hdc, float rotateAngle, float fX, float fY, int scalar);
 
 	// 애니 렌더
 	void aniRender(HDC hdc, int destX, int destY, animation* ani, int scalar = 1);

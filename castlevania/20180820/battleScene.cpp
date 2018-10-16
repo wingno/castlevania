@@ -17,7 +17,7 @@ HRESULT battleScene::init()
 	m_pPlayer = g_mainGame.getPlayer();
 
 
-	IMAGEMANAGER->addImage("enemy_missile_1", "image/bullet.bmp", 21, 21, true, RGB(255,0,255));
+	//IMAGEMANAGER->addImage("enemy_missile_1", "image/bullet.bmp", 21, 21, true, RGB(255,0,255));
 	
 
 

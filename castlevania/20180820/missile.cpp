@@ -53,6 +53,9 @@ HRESULT missile::init(const char * szImageName, float speed,
 	case 1:
 		m_pImg = IMAGEMANAGER->findImage("image/RipperR.bmp");
 		break;
+	case 2:
+		m_pImg = IMAGEMANAGER->addImage("image/axe.bmp","image/axe.bmp",28,28,true,RGB(84,109,142));
+		break;
 	default:
 		break;
 	}
@@ -110,7 +113,7 @@ void missile::fire(float x, float y)
 		else 
 		{
 			m_rc = RectMakeCenter(m_fX, m_fY,
-				m_pImg->getWidth(), m_pImg->getHeight());
+				m_pImg->getWidth()*3, m_pImg->getHeight()*3);
 		}
 
 
@@ -122,7 +125,7 @@ void missile::fire(float x, float y)
 		//		m_pPlayer->getFx(), m_pPlayer->getFY());
 		//}
 
-		int a = 0;
+
 	}
 }
 

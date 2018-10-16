@@ -3,6 +3,9 @@ class image;
 class missileManager;
 class player;
 class animation;
+
+#define AXE_ARMOR_RANGE 400
+
 class enemy
 {
 private:
@@ -11,6 +14,7 @@ private:
 	image * m_pImgRMotion;
 	image * m_pImgLMotion;
 	RECT	m_rc;
+	RECT	m_chaserRc;
 	
 	
 	MonsterStatus m_mStatus;
@@ -19,6 +23,8 @@ private:
 	bool	m_bIsAlive;
 	bool	m_bIsLeftSee;
 	bool	m_bIsGround;
+	bool	m_bIsMove;
+
 
 	float	m_fX;
 	float	m_fY;
@@ -30,12 +36,16 @@ private:
 
 	float	m_fAngle;
 	float	m_fGravity;
+	float	m_fElapsedTime;
+
+
 
 	int*	m_pLAni1;
 	int*	m_pLAni2;
 	int*	m_pRAni1;
 	int*	m_pRAni2;
 	
+
 
 
 
@@ -48,6 +58,7 @@ private:
 	animation* m_aniR1;
 	animation* m_aniR2;
 	
+	
 
 
 
@@ -59,7 +70,22 @@ public:
 
 	void move();
 	void fire();
-	void mapchackCollision();
+
+
+
+	void ripperMapchackCollision();
+	void axeAromorMapchackCollision();
+
+	void ripperInit(POINT position, EnemyKind eKind);
+	void ripperUpdate();
+	void ripperMove();
+	void ripperRender(HDC hdc);
+
+
+
+	void axeArmorInit(POINT position, EnemyKind eKind);
+	void axeArmorUpdate();
+	void axeArmorRender(HDC hdc);
 
 	inline missileManager* getMissileMgr()
 	{ return m_pMissileMgr; }

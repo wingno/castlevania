@@ -549,6 +549,82 @@ void image::alphaRender(HDC hdc, int destX, int destY, BYTE alpha)
 	}
 }
 
+void image::rotateRender(HDC hdc, float rotateAngle, float fX, float fY, int scalar/*=1*/)
+{
+
+	// 현재 각도를 라디안값으로 변환
+	float theta = rotateAngle * PI / 180.0f;
+
+	// sin, cos값 구하기
+	float s = sinf(theta);
+	float c = cosf(theta);
+
+	float fAncherX = 0.5; // 앵커들은 회전의 기준이 됨 그러나 이번 프로젝트에선 가운데를 기준으로 회전만 하기 떄문에 0.5로 고정값을 해놓음
+	float fAncherY = 0.5;
+
+	float posXSrcL = m_pImageInfo->nWidth * fAncherX;
+	float posYSrcL = m_pImageInfo->nHeight * fAncherY;
+	float posXSrcR = m_pImageInfo->nWidth * (1.0f - fAncherX);
+	float posYSrcR = m_pImageInfo->nHeight * (1.0f - fAncherY);
+
+	POINT m_vertices[3];
+
+
+	if (m_isTransparent)
+	{
+
+		// Upper-Left
+		m_vertices[0].x = (LONG)((-posXSrcL * c + posYSrcL * s) + m_pImageInfo->nWidth / 2);
+		m_vertices[0].y = (LONG)((-posXSrcL * s - posYSrcL * c) + m_pImageInfo->nHeight / 2);
+		// Upper-Right
+		m_vertices[1].x = (LONG)((posXSrcR * c + posYSrcL * s) + m_pImageInfo->nWidth / 2);
+		m_vertices[1].y = (LONG)((posXSrcR * s - posYSrcL * c) + m_pImageInfo->nHeight / 2);
+		// Lower-Right
+		m_vertices[2].x = (LONG)((-posXSrcL * c - posYSrcR * s) + m_pImageInfo->nWidth / 2);
+		m_vertices[2].y = (LONG)((-posXSrcL * s + posYSrcR * c) + m_pImageInfo->nHeight / 2);
+
+		HBRUSH brush = CreateSolidBrush(RGB(255, 0, 255));
+
+		RECT rc;
+		rc = RectMake(0, 0, m_pImageInfo->nWidth + (m_pImageInfo->nWidth / 2), m_pImageInfo->nHeight + (m_pImageInfo->nHeight / 2));
+
+		FillRect(m_ptempImage->hMemDC, &rc, brush);
+		DeleteObject(brush);
+
+
+
+
+		PlgBlt(m_ptempImage->hMemDC, m_vertices, m_pImageInfo->hMemDC, 0, 0, m_pImageInfo->nWidth, m_pImageInfo->nHeight, NULL, 0, 0);
+
+
+
+		// 2. 출력할 이미지를 blendImage에 복사
+		GdiTransparentBlt(hdc,
+			fX - m_pImageInfo->nWidth / 2, fY - m_pImageInfo->nHeight / 2,
+			(m_pImageInfo->nWidth)*scalar, (m_pImageInfo->nHeight)*scalar,
+			m_ptempImage->hMemDC,
+			0, 0,
+			m_pImageInfo->nWidth, m_pImageInfo->nHeight,
+			RGB(255, 0, 255));
+	}
+	else
+	{
+		// Upper-Left
+		m_vertices[0].x = (LONG)((-posXSrcL * c + posYSrcL * s) + fX);
+		m_vertices[0].y = (LONG)((-posXSrcL * s - posYSrcL * c) + fY);
+		// Upper-Right
+		m_vertices[1].x = (LONG)((posXSrcR * c + posYSrcL * s) + fX);
+		m_vertices[1].y = (LONG)((posXSrcR * s - posYSrcL * c) + fY);
+		// Lower-Right
+		m_vertices[2].x = (LONG)((-posXSrcL * c - posYSrcR * s) + fX);
+		m_vertices[2].y = (LONG)((-posXSrcL * s + posYSrcR * c) + fY);
+
+		PlgBlt(hdc, m_vertices, m_pImageInfo->hMemDC, 0, 0, m_pImageInfo->nWidth + 20, m_pImageInfo->nHeight + 20, NULL, 0, 0);
+
+	}
+
+}
+
 void image::aniRender(HDC hdc, int destX, int destY, animation * ani, int scalar)
 {
 	render(hdc, destX, destY,
