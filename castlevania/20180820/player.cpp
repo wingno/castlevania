@@ -103,10 +103,10 @@ HRESULT player::init()
 	m_bIsJump = false;
 
 	bulletSoul* baseBSoul = new bulletSoul;
-	baseBSoul->init(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, "------", "---");
+	baseBSoul->init(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "------", "---");
 
 	bulletSoul* testBSoul = new bulletSoul;
-	testBSoul->init(0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,8, "해골사수", "마법의 활을 쏜다");
+	testBSoul->init(0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 8, "해골사수", "마법의 활을 쏜다");
 
 
 	m_soulInven.vecBulletSoul.push_back(baseBSoul);
@@ -115,20 +115,20 @@ HRESULT player::init()
 
 
 	guardianSoul* baseGSoul = new guardianSoul;
-	baseGSoul->init(1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, "------", "---");
+	baseGSoul->init(1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "------", "---");
 
 	guardianSoul* testGSoul = new guardianSoul;
-	testGSoul->init(1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,10, "메두사 헤드", "공중에서 정지가 가능하다.");
+	testGSoul->init(1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 10, "메두사 헤드", "공중에서 정지가 가능하다.");
 
 	m_soulInven.vecGuardianSoul.push_back(baseGSoul);
 	m_soulInven.vecGuardianSoul.push_back(testGSoul);
 
 
 	enchantSoul* baseESoul = new enchantSoul;
-	baseESoul->init(2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, "------", "---");
+	baseESoul->init(2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "------", "---");
 
 	enchantSoul* testESoul = new enchantSoul;
-	testESoul->init(2, 1, 1, 0, 0, 0, 0, 2, 0, 0, 0,0, "좀비", "CON +2");
+	testESoul->init(2, 1, 1, 0, 0, 0, 0, 2, 0, 0, 0, 0, "좀비", "CON +2");
 
 	m_soulInven.vecEnchantSoul.push_back(baseESoul);
 	m_soulInven.vecEnchantSoul.push_back(testESoul);
@@ -324,8 +324,10 @@ void player::update()
 					m_nJumMC++;
 					if (m_nJumMC < 2)
 					{
-						if(m_bPlayerReady == 1)
+						if (m_bPlayerReady == 1)
+						{
 							m_nRCurrFrameX = 2;
+						}
 					}
 					m_bPlayerJumpM = 1;
 					if (m_bPlayerJumpAttack == 0)
@@ -364,11 +366,18 @@ void player::update()
 					if (m_nJumMC < 2)
 					{
 						if (m_bPlayerReady == 1)
+						{
 							m_nLCurrFrameX = 16;
+						}
 					}
 					m_bPlayerJumpM = 1;
-					if (m_bPlayerReady == 1)
-						m_nLCurrFrameY = 6;
+					if (m_bPlayerJumpAttack == 0)
+					{
+						if (m_bPlayerReady == 1)
+						{
+							m_nLCurrFrameY = 6;
+						}
+					}
 					if (m_nPlayerJump == 0)
 					{
 						m_nPlayerJump = 1;
@@ -476,10 +485,18 @@ void player::update()
 		else if (m_nPlayerJump != 0 && m_bPlayerStand == 0 && m_bPlayerJumpAttack == 0)
 		{
 			m_bPlayerJumpAttack = 1;
-			m_nRCurrFrameY = 7;
-			m_nRCurrFrameX = 4;
-			m_nNCurrFrameY = 0;
-			m_nNCurrFrameX = 0;
+			if (m_bPlayerSee == 1)
+			{
+				m_nRCurrFrameY = 7;
+				m_nRCurrFrameX = 4;
+				m_nNCurrFrameY = 0;
+			}
+			else if (m_bPlayerSee == 0)
+			{
+				m_nLCurrFrameY = 7;
+				m_nLCurrFrameX = 14;
+				m_nNCurrFrameY = 1;
+			}
 		}
 		else if (m_bPlayerSkReady == 1 && m_bPlayerStand == 1)
 		{
@@ -635,7 +652,7 @@ void player::update()
 			if (m_nCount % 6 == 0)
 			{
 				m_nRCurrFrameX++;
-				
+
 				m_pImg->setFrameX(m_nRCurrFrameX);
 				m_pImg3->setFrameX(m_nNCurrFrameX);
 				if (m_nRCurrFrameX > 8)
@@ -821,7 +838,7 @@ void player::update()
 		m_nCount++;
 
 		// 플레이어 왼쪽 기본자세
-		if (m_nLCurrFrameY == 0 && m_bPlayerStand == 1 && m_bPlayerHited == 0)
+		if (m_nLCurrFrameY == 0 && m_bPlayerStand == 1 && m_bPlayerHited == 0 && m_bPlayerJumpAttack == 0)
 		{
 			if (m_nCount % 20 == 0)
 			{
@@ -878,7 +895,7 @@ void player::update()
 
 		// 플레이어 점프자세
 
-		else if (m_nLCurrFrameY == 6 && m_bPlayerJumpM == 1 && m_bPlayerStand == 0 && m_nJumC < 30)
+		else if (m_nLCurrFrameY == 6 && m_bPlayerJumpM == 1 && m_bPlayerStand == 0 && m_nJumC < 30 && m_bPlayerHited == 0 && m_bPlayerJumpAttack == 0)
 		{
 			if (m_nCount % 5 == 0)
 			{
@@ -890,24 +907,42 @@ void player::update()
 				m_pImg2->setFrameX(m_nLCurrFrameX);
 			}
 		}
-
-		else if (m_nLCurrFrameY == 6 && m_bPlayerJumpAttack == 1)
+		else if (m_nLCurrFrameY == 7 && m_bPlayerHited == 0 && m_bPlayerJumpAttack == 1 && m_bPlayerStand == 0)
 		{
-			if (m_nCount % 5 == 0)
+			if (m_nCount % 2 == 0)
+			{
+				if (m_nLCurrFrameX < 13)
+				{
+					m_bItem = 1;
+					m_nNCurrFrameX++;
+					if (m_nNCurrFrameX > 0 && m_nNCurrFrameX < 5)
+					{
+						m_Irc = RectMakeCenter(m_fX + 120, m_fY - 40, m_pImg3->getFrameWidth() * 2, m_pImg3->getFrameHeight() * 2);
+					}
+				}
+			}
+			if (m_nCount % 6 == 0)
 			{
 				m_nLCurrFrameX--;
+
 				m_pImg2->setFrameX(m_nLCurrFrameX);
-				if (m_nLCurrFrameX < 9)
+				m_pImg3->setFrameX(m_nNCurrFrameX);
+				if (m_nLCurrFrameX < 11)
 				{
 					m_bPlayerJumpAttack = 0;
 					m_nLCurrFrameX = 18;
+					m_nNCurrFrameX = 0;
+					m_Irc = RectMakeCenter(-10, -10, 1, 1);
+					m_nCount = 0;
+					m_bItem = 0;
+					//m_nRCurrFrameY = 6;
 				}
 			}
-
 		}
 
+
 		// 플레이어 떨어지는 자세
-		else if (m_bPlayerStand == 0 && m_bPlayerJumpM == 0 || m_nJumC >= 30)
+		else if (m_bPlayerStand == 0 && m_bPlayerJumpM == 0 && m_bPlayerHited == 0 && m_bPlayerJumpAttack != 1 || m_nJumC >= 30)
 		{
 			m_nLCurrFrameY = 6;
 			m_nLCurrFrameX = 11;
@@ -1119,6 +1154,10 @@ void player::render(HDC hdc)
 				{
 					m_pImg3->frameRender(hdc, m_fX - 200, m_fY - 35, m_nNCurrFrameX, m_nNCurrFrameY, 3);
 				}
+				else if (m_bPlayerJumpAttack)
+				{
+					m_pImg3->frameRender(hdc, m_fX - 30, m_fY - 65, m_nNCurrFrameX, m_nNCurrFrameY, 3);
+				}
 			}
 		}
 	}
@@ -1248,6 +1287,8 @@ void player::mapchackCollision()
 					m_bPlayerJumpAttack = 0;
 					m_nRCurrFrameY = 0;
 					m_nRCurrFrameX = 0;
+					m_nLCurrFrameY = 0;
+					m_nLCurrFrameX = 18;
 					m_nNCurrFrameX = 0;
 					m_bItem = 0;
 					m_Irc = RectMakeCenter(-10, -10, 1, 1);
@@ -1308,6 +1349,8 @@ void player::mapRectCollision()
 				m_bPlayerJumpAttack = 0;
 				m_nRCurrFrameY = 0;
 				m_nRCurrFrameX = 0;
+				m_nLCurrFrameY = 0;
+				m_nLCurrFrameX = 18;
 				m_nNCurrFrameX = 0;
 				m_bItem = 0;
 				m_Irc = RectMakeCenter(-10, -10, 1, 1);

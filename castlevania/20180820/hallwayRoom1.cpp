@@ -17,7 +17,7 @@ HRESULT hallwayRoom1::init()
 	m_posMap = PointMake(0, 0);
 	m_posBG = PointMake(0, 0);
 
-	m_pEnemyMgr->setEnemy(500, 300, AXE_ARMOR);
+	//m_pEnemyMgr->setEnemy(500, 300, AXE_ARMOR);
 
 	m_Zombie = new zombie[10];
 	m_Zombie->init(500, 350);
