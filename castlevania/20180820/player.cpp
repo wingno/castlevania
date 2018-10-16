@@ -90,7 +90,7 @@ HRESULT player::init()
 	m_bDivin = 0;
 	m_bDamageShow = 0;
 
-	m_status = { 10,10,12,12,11,11,9,9, 10,10,6,6,320,320,80,80,0,84 };
+	m_status = { 10,10,12,12,11,11,9,9, 10,10,6,6,356,356,80,80,0,84 };
 
 	m_nGold = 0;
 
@@ -229,7 +229,7 @@ void player::update()
 
 	if (KEYMANAGER->isOnceKeyDown('C'))
 	{
-		hitCollision(3);
+		hitCollision(20);
 	}
 
 	// 플레이어 스킬 준비 모션

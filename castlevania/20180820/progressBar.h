@@ -10,8 +10,10 @@ private:
 	float	m_fWidthMp;
 
 	image*  m_imgeMenuProgress;
-	image*	m_imgTop;
+	image*	m_imgHp;
 	image*  m_imgMp;
+	image*  m_imgNum;
+	
 
 public:
 	HRESULT init(float x, float y, float width, float height);
