@@ -50,6 +50,7 @@ private:
 	image *	 m_pImg;
 	image *	 m_pImg2;
 	image *	 m_pImg3;
+	image *  m_pCImg;
 
 	
 	// 플레이어 렉트
@@ -82,6 +83,12 @@ private:
 
 	int		m_nSkReadyC;
 
+	int		m_nHitC;
+
+	int		m_nHitDivineC;
+
+	int		m_nNumC;
+
 
 	SYNTHESIZE( float, m_fX,Fx);
 	SYNTHESIZE(float, m_fY,FY);
@@ -103,6 +110,7 @@ private:
 
 	// 플레이어가 보고 있는 방향 속성
 	bool	m_bPlayerSee;
+	bool	m_bPlayerReady;
 
 	// 플레이어의 공격 모션
 	bool	m_bPlayerAttack;
@@ -123,10 +131,19 @@ private:
 	// 플레이어의 백대쉬 모션
 	bool	m_bPlayerBackDash;
 
+	// 플레이어의 피격 모션
+	bool	m_bPlayerHited;
+	bool	m_bDivin;
+	bool	m_bDamageShow;
+
+	// 데미지의 속성
+	float	m_fDamageY;
+
 	// 플레이어의 착지 모션
 	SYNTHESIZE(bool, m_bPlayerStand, PlayerStand);
 
 	bool	m_bPlayerSkReady;
+	bool	m_bPlayerSkAttack;
 
 	SYNTHESIZE(bool, m_bIsJump, IsJump);
 
@@ -143,8 +160,6 @@ private:
 
 
 
-	bool testB;
-
 
 
 public:
@@ -152,12 +167,22 @@ public:
 	void release();
 	void update();
 	void render(HDC hdc);
+	
+	void hitMosion();
 
 	void mapMove();
 
 	void mapchackCollision();
 
 	void mapRectCollision();
+
+	void hitCollision(int damge);
+
+	void DamageImg(HDC hdc, int damge);
+
+	void ShowDamage();
+
+	void FallDown();
 
 	Status* getPState() { return &m_status; }
 
