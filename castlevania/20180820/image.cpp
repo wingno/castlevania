@@ -129,6 +129,18 @@ HRESULT image::init(const char * szFileName, int width, int height, bool trans /
 	m_isTransparent = trans;
 	m_transColor = transColor;
 
+
+	// 알파 블렌드 사용을 위한 중간 이미지
+	m_ptempImage = new IMAGE_INFO;
+	m_ptempImage->hMemDC = CreateCompatibleDC(hdc);
+	m_ptempImage->hBitmap = CreateCompatibleBitmap(hdc,
+		WINSIZEX, WINSIZEY);
+	m_ptempImage->hOldBitmap = (HBITMAP)SelectObject(
+		m_ptempImage->hMemDC, m_ptempImage->hBitmap);
+	m_ptempImage->nWidth = WINSIZEX;
+	m_ptempImage->nHeight = WINSIZEY;
+
+
 	ReleaseDC(g_hWnd, hdc);
 
 	if (m_pImageInfo->hBitmap == NULL)
@@ -583,7 +595,7 @@ void image::rotateRender(HDC hdc, float rotateAngle, float fX, float fY, int sca
 		m_vertices[2].x = (LONG)((-posXSrcL * c - posYSrcR * s) + m_pImageInfo->nWidth / 2);
 		m_vertices[2].y = (LONG)((-posXSrcL * s + posYSrcR * c) + m_pImageInfo->nHeight / 2);
 
-		HBRUSH brush = CreateSolidBrush(RGB(255, 0, 255));
+		HBRUSH brush = CreateSolidBrush(m_transColor);
 
 		RECT rc;
 		rc = RectMake(0, 0, m_pImageInfo->nWidth + (m_pImageInfo->nWidth / 2), m_pImageInfo->nHeight + (m_pImageInfo->nHeight / 2));
@@ -605,7 +617,7 @@ void image::rotateRender(HDC hdc, float rotateAngle, float fX, float fY, int sca
 			m_ptempImage->hMemDC,
 			0, 0,
 			m_pImageInfo->nWidth, m_pImageInfo->nHeight,
-			RGB(255, 0, 255));
+			m_transColor);
 	}
 	else
 	{

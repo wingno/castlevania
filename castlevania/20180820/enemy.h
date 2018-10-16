@@ -24,6 +24,7 @@ private:
 	bool	m_bIsLeftSee;
 	bool	m_bIsGround;
 	bool	m_bIsMove;
+	bool	m_bIsShot;
 
 
 	float	m_fX;
@@ -38,6 +39,7 @@ private:
 	float	m_fGravity;
 	float	m_fElapsedTime;
 
+	int		m_nPattonNum;
 
 
 	int*	m_pLAni1;
@@ -85,6 +87,7 @@ public:
 
 	void axeArmorInit(POINT position, EnemyKind eKind);
 	void axeArmorUpdate();
+	void axeArmorShot();
 	void axeArmorRender(HDC hdc);
 
 	inline missileManager* getMissileMgr()

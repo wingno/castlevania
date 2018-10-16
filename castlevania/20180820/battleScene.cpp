@@ -50,7 +50,8 @@ void battleScene::update()
 
 	m_pPlayer->update();
 	ROOMMANAGER->update();
-
+	m_progressBarHp->setGauge(m_pPlayer->getState().curHP, m_pPlayer->getState().fullHP
+		, m_pPlayer->getState().curMP, m_pPlayer->getState().fullMP);
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 	{
 		m_bIsChangeScene = true;

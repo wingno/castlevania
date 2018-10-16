@@ -13,6 +13,9 @@ protected:
 	float	m_fAngle;
 	float	m_fRange;
 	bool	m_isFire;
+	bool	m_bIsturn;
+
+	float	m_fRotateAngle;
 
 	int		m_nKind;
 

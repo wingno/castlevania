@@ -229,7 +229,7 @@ void player::update()
 
 	if (KEYMANAGER->isOnceKeyDown('C'))
 	{
-		hitCollision(3);
+		hitCollision(30);
 	}
 
 	// 플레이어 스킬 준비 모션

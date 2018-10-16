@@ -12,15 +12,7 @@
 HRESULT enemy::init( POINT position, EnemyKind eKind)
 {
 
-	//std::string strFile = std::string(szFileName);
-	//m_pImg = IMAGEMANAGER->addImage(strFile, szFileName,
-	//	530, 32, 10, 1, true, RGB(255, 0, 255));
 
-	//m_rc = RectMakeCenter(position.x, position.y,
-	//	m_pImg->getFrameWidth(), m_pImg->getFrameHeight());
-
-	//m_pMissileMgr = new missileManager;
-	//m_pMissileMgr->init("image/bullet.bmp", 200.0f, 10);
 	m_pPlayer = g_mainGame.getPlayer();
 
 	m_fX = position.x;
@@ -28,7 +20,7 @@ HRESULT enemy::init( POINT position, EnemyKind eKind)
 
 	m_bIsAlive = true;
 	m_pMissileMgr = NULL;
-
+	m_bIsShot = true;
 	m_eKind = eKind;
 
 
@@ -68,15 +60,6 @@ void enemy::update()
 	if (!m_bIsAlive)
 		return;
 	m_fY += m_fGravity;
-
-
-
-
-
-
-
-
-
 	switch (m_eKind)
 	{
 		case RIPPER:
@@ -124,18 +107,20 @@ void enemy::move()
 
 		break;
 	case AXE_ARMOR:
-		if (m_bIsLeftSee)
+
+		if (m_bIsMove)
 		{
-			m_fX--;
+			if (m_bIsLeftSee)
+			{
+				m_fX--;
+			}
+			else
+			{
+				m_fX++;
+			}
 			if (!m_aniL1->getIsPlaying())
 				m_aniL1->start();
 
-		}
-		else
-		{
-			m_fX++;
-			if (!m_aniL1->getIsPlaying())
-				m_aniL1->start();
 		}
 		break;
 	default:
@@ -154,8 +139,8 @@ void enemy::fire()
 			{
 				if (!m_aniL2->getIsPlaying())
 				{
-					m_mStatus.state = MonsterStatus::CHASER;
 					m_pMissileMgr->fire(m_fX, m_fY, PI, 10.0f, 0);
+					m_mStatus.state = MonsterStatus::CHASER;
 				}
 
 			}
@@ -163,8 +148,8 @@ void enemy::fire()
 			{
 				if (!m_aniR2->getIsPlaying())
 				{
-					m_mStatus.state = MonsterStatus::CHASER;
 					m_pMissileMgr->fire(m_fX, m_fY, 0, 10.0f, 1);
+					m_mStatus.state = MonsterStatus::CHASER;
 
 				}
 			}
@@ -173,24 +158,8 @@ void enemy::fire()
 
 			break;
 		case AXE_ARMOR:
-			if (m_bIsLeftSee)
-			{
-				if (!m_aniL2->getIsPlaying())
-				{
-					
-					m_pMissileMgr->fire(m_fX, m_fY, PI, 10.0f, 3);
-				}
 
-			}
-			else
-			{
-				if (!m_aniR2->getIsPlaying())
-				{
-
-					m_pMissileMgr->fire(m_fX, m_fY, 0, 10.0f, 3);
-
-				}
-			}
+			axeArmorShot();
 
 			break;
 		default:
@@ -340,37 +309,57 @@ void enemy::axeAromorMapchackCollision()
 			//	//if (m_fY < WINSIZEX / 2)
 			//	m_fY++;
 			//}
-			m_fY = y - ((m_pImgLMotion->getFrameHeight() * 3) - 140);
+			m_fY = y - ((m_pImgLMotion->getFrameHeight() * 3) - 140)+ ROOMMANAGER->getCurrRoom()->getPosMap().y;
 			break;
 
 		}
 
-
-
-
-		//if (y == m_rc.bottom)
-		//{
-		//	y++;
-
-		//	color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
-		//		m_fMapX + ROOMMANAGER->getCurrRoom()->getPosMap().x,
-		//		y + ROOMMANAGER->getCurrRoom()->getPosMap().y);
-
-		//	r = GetRValue(color);
-		//	g = GetGValue(color);
-		//	b = GetBValue(color);
-
-		//	if (!(r == 0 && g == 88 && b == 24))
-		//	{
-		//		m_fY -= m_fGravity;
-		//		m_bIsGround = true;
-		//	}
-		//	else
-		//	{
-		//		m_bIsGround = false;
-		//	}
-		//}
 	}
+
+
+	m_bIsMove = false;
+	//y += 50;
+	for (int yUnder = m_rc.bottom; yUnder < m_rc.bottom + 40; yUnder++)
+	{
+
+		if (m_bIsLeftSee)
+		{
+			COLORREF color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
+				m_rc.left + ROOMMANAGER->getCurrRoom()->getPosMap().x,
+				yUnder + ROOMMANAGER->getCurrRoom()->getPosMap().y);
+
+			int r = GetRValue(color);
+			int g = GetGValue(color);
+			int b = GetBValue(color);
+
+			if (!(r == 0 && g == 88 && b == 24))
+			{
+				m_bIsMove = true;
+			}
+
+
+		}
+		else
+		{
+			COLORREF color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
+				m_rc.right + ROOMMANAGER->getCurrRoom()->getPosMap().x,
+				yUnder + ROOMMANAGER->getCurrRoom()->getPosMap().y);
+
+			int r = GetRValue(color);
+			int g = GetGValue(color);
+			int b = GetBValue(color);
+
+			if (!(r == 0 && g == 88 && b == 24))
+			{
+				m_bIsMove = true;
+
+			}
+
+
+		}
+	}
+
+	
 
 }
 void enemy::ripperInit(POINT position, EnemyKind eKind)
@@ -656,10 +645,11 @@ void enemy::axeArmorInit(POINT position, EnemyKind eKind)
 	m_fSpeed = 3.0f;
 
 
-
+	m_nPattonNum = 0;
 	m_fGravity = 6.0f;
 
 	m_fElapsedTime = 0;
+	m_bIsMove = true;
 
 
 	if (m_pPlayer->getFx() > m_fX)
@@ -694,7 +684,7 @@ void enemy::axeArmorInit(POINT position, EnemyKind eKind)
 
 	m_aniL1 = new animation;
 	m_aniL1->init(80, 1610, 80, 70);
-	m_aniL1->setPlayFrame(0,6,false,true);
+	m_aniL1->setPlayFrame(0,6,false,false);
 	m_aniL1->setFPS(10);
 
 	//m_pLAni2 = new int[3];
@@ -702,10 +692,15 @@ void enemy::axeArmorInit(POINT position, EnemyKind eKind)
 	//m_pLAni2[1] = 9;
 	//m_pLAni2[2] = 10;
 
-	//m_aniL2 = new animation;
-	//m_aniL2->init(192, 16, 16, 16);
-	//m_aniL2->setPlayFrame(m_pLAni2, 3);
-	//m_aniL2->setFPS(5);
+	m_aniL2 = new animation;
+	m_aniL2->init(80, 1610, 80, 70);
+	m_aniL2->setPlayFrame(7, 13, false, false);
+	m_aniL2->setFPS(10);
+
+	m_aniR1 = new animation;
+	m_aniR1->init(80, 1610, 80, 70);
+	m_aniR1->setPlayFrame(14, 23, false, false);
+	m_aniR1->setFPS(10);
 
 	
 }
@@ -714,10 +709,14 @@ void enemy::axeArmorUpdate()
 
 	if (m_pPlayer->getFx() > m_fMapX)
 	{
+		if(m_bIsLeftSee)
+			m_bIsMove = true;
 		m_bIsLeftSee = false;
 	}
 	else
 	{
+		if (!m_bIsLeftSee)
+			m_bIsMove = true;
 		m_bIsLeftSee = true;
 	}
 
@@ -743,13 +742,13 @@ void enemy::axeArmorUpdate()
 		}
 		break;
 	case MonsterStatus::CHASER:
-
+		
 		m_aniL1->frameUpdate(TIMEMANAGER->getElapsedTime());
-
+		m_fElapsedTime += TIMEMANAGER->getElapsedTime();
 		if (IntersectRect(&rc, &m_pPlayer->getRc(), &m_chaserRc))
 		{
 			m_aniL1->stop();
-			if (m_fElapsedTime > 2)
+			if (m_fElapsedTime > 3)
 			{
 				m_mStatus.state = MonsterStatus::ATTACK;
 				m_fElapsedTime = 0;
@@ -776,13 +775,14 @@ void enemy::axeArmorUpdate()
 
 
 		}
-		m_fElapsedTime += TIMEMANAGER->getElapsedTime();
+		
 
 
 
 		break;
 	case MonsterStatus::ATTACK:
-
+		m_aniL2->frameUpdate(TIMEMANAGER->getElapsedTime());
+		m_aniR1->frameUpdate(TIMEMANAGER->getElapsedTime());
 		fire();
 		break;
 
@@ -801,6 +801,106 @@ void enemy::axeArmorUpdate()
 	m_rc = RectMakeCenter(m_fMapX, m_fMapY, m_pImgLMotion->getFrameWidth(), (m_pImgLMotion->getFrameHeight() * 3)-60);
 
 	m_chaserRc= RectMakeCenter(m_fMapX, m_fMapY, AXE_ARMOR_RANGE, (m_pImgLMotion->getFrameHeight() * 3) - 60);
+}
+void enemy::axeArmorShot()
+{
+
+	if (m_fElapsedTime == 0)
+	{
+		if (m_nPattonNum = RANDOM->getInt(2))
+		{
+			m_aniL2->start();
+		}
+		else
+		{
+			m_aniR1->start();
+		}
+
+	}
+	m_fElapsedTime += TIMEMANAGER->getElapsedTime();
+
+	if (m_nPattonNum == 1)
+	{
+		if (m_bIsLeftSee)
+		{
+			if (!m_aniL2->getIsPlaying())
+			{
+
+
+				m_mStatus.state = MonsterStatus::CHASER;
+				m_fElapsedTime = 0;
+				m_bIsShot = true;
+			}
+			if (m_aniL2->getNowPlayFrame() == 11 && m_bIsShot)
+			{
+
+				m_pMissileMgr->fire(m_fX, m_fY + 20, PI, 10.0f, 2);
+				m_bIsShot = false;
+			}
+
+		}
+		else
+		{
+			if (!m_aniL2->getIsPlaying())
+			{
+
+
+
+				m_mStatus.state = MonsterStatus::CHASER;
+				m_fElapsedTime = 0;
+				m_bIsShot = true;
+
+			}
+
+			if (m_aniL2->getNowPlayFrame() == 11 && m_bIsShot)
+			{
+				m_pMissileMgr->fire(m_fX, m_fY + 20, 0, 10.0f, 2);
+				m_bIsShot = false;
+			}
+		}
+
+	}
+	else
+	{
+		if (m_bIsLeftSee)
+		{
+			if (!m_aniR1->getIsPlaying())
+			{
+
+				
+				m_mStatus.state = MonsterStatus::CHASER;
+				m_fElapsedTime = 0;
+				m_bIsShot = true;
+			}
+
+			if (m_aniR1->getNowPlayFrame() == 19 && m_bIsShot)
+			{
+				m_pMissileMgr->fire(m_fX, m_fY - 50, PI, 10.0f, 2);
+				m_bIsShot = false;
+			}
+
+		}
+		else
+		{
+			if (!m_aniR1->getIsPlaying())
+			{
+
+
+
+				m_mStatus.state = MonsterStatus::CHASER;
+				m_fElapsedTime = 0;
+				m_bIsShot = true;
+
+			}
+			if (m_aniR1->getNowPlayFrame() == 19 && m_bIsShot)
+			{
+
+				m_bIsShot = false;
+				m_pMissileMgr->fire(m_fX, m_fY - 50, 0, 10.0f, 2);
+			}
+		}
+	}
+
 }
 void enemy::axeArmorRender(HDC hdc)
 {
@@ -828,37 +928,22 @@ void enemy::axeArmorRender(HDC hdc)
 			m_pImgRMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth()*1.5, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniL1, 3);
 		}
 		break;
-	//case MonsterStatus::ATTACK:
-	//	if (m_bIsLeftSee)
-	//	{
-	//		m_pImgLMotion->aniRender(hdc, m_fMapX, m_fMapY, m_aniL2, 3);
-	//		if (m_aniL2->getNowPlayFrame() == 9)
-	//		{
-	//			m_pImgLMotion->render(hdc, m_fMapX - 8 * 3, m_fMapY - 4 * 3, 176, 0, 16, 8, 3);
-	//		}
-	//		else if ((m_aniL2->getNowPlayFrame() == 10))
-	//		{
-	//			m_pImgLMotion->render(hdc, m_fMapX - 8 * 3, m_fMapY - 4 * 3, 176, 8, 16, 8, 3);
-	//		}
+	case MonsterStatus::ATTACK:
 
-	//	}
-	//	else
-	//	{
-	//		m_pImgRMotion->aniRender(hdc, m_fMapX, m_fMapY, m_aniR2, 3);
-	//		if (m_aniR2->getNowPlayFrame() == 2)
-	//		{
-	//			m_pImgRMotion->render(hdc, m_fMapX - 8 * 3, m_fMapY - 4 * 3, 0, 0, 16, 8, 3);
-	//		}
-	//		else if ((m_aniR2->getNowPlayFrame() == 1))
-	//		{
-	//			m_pImgRMotion->render(hdc, m_fMapX - 8 * 3, m_fMapY - 4 * 3, 0, 8, 16, 8, 3);
-	//		}
-	//	}
+		if (m_bIsLeftSee)
+		{
+			m_pImgLMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth()*1.5, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_nPattonNum? m_aniL2: m_aniR1, 3);
+		}
+		else
+		{
+			m_pImgRMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth()*1.5, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_nPattonNum ? m_aniL2 : m_aniR1, 3);
+		}
 
 		break;
 	default:
 		break;
 	}
+	m_pMissileMgr->render(hdc);
 }
 enemy::enemy()
 {

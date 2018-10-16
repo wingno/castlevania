@@ -38,6 +38,7 @@ HRESULT missile::init(const char * szImageName, float speed,
 	m_isFire = false;
 
 	m_nKind = kind;
+	m_fRotateAngle = 0;
 
 	m_fMapX = m_fX - ROOMMANAGER->getCurrRoom()->getPosMap().x;
 	m_fMapY = m_fY - ROOMMANAGER->getCurrRoom()->getPosMap().y;
@@ -55,6 +56,8 @@ HRESULT missile::init(const char * szImageName, float speed,
 		break;
 	case 2:
 		m_pImg = IMAGEMANAGER->addImage("image/axe.bmp","image/axe.bmp",28,28,true,RGB(84,109,142));
+		m_fRange = 300;
+		m_bIsturn = false;
 		break;
 	default:
 		break;
@@ -78,7 +81,7 @@ void missile::render(HDC hdc)
 {
 	if (m_isFire)
 	{
-		Rectangle(hdc, m_rc.left, m_rc.top, m_rc.right, m_rc.bottom);
+		//Rectangle(hdc, m_rc.left, m_rc.top, m_rc.right, m_rc.bottom);
 		if (m_nKind ==0)
 		{
 			m_pImg->render(hdc, m_fMapX - 8*3, m_fMapY - 4*3,176,8,16,8,3);
@@ -89,7 +92,7 @@ void missile::render(HDC hdc)
 		}
 		else
 		{
-			m_pImg->render(hdc, m_fMapX - m_pImg->getWidth() / 2, m_fMapY - m_pImg->getHeight() / 2);
+			m_pImg->rotateRender(hdc , m_fRotateAngle+=15, (m_fMapX -( m_pImg->getWidth()*3) / 2)+10, m_fMapY - ((m_pImg->getHeight()*3) / 2)+10,3);
 		}
 
 	}
@@ -110,9 +113,9 @@ void missile::fire(float x, float y)
 			m_rc = RectMakeCenter(m_fX, m_fY,
 				m_pImg->getFrameWidth()*3, 8*3);
 		}
-		else 
+		else if(m_nKind==2)
 		{
-			m_rc = RectMakeCenter(m_fX, m_fY,
+			m_rc = RectMakeCenter(m_fMapX, m_fMapY,
 				m_pImg->getWidth()*3, m_pImg->getHeight()*3);
 		}
 
@@ -143,17 +146,35 @@ void missile::move()
 		{
 			m_rc = RectMakeCenter(m_fMapX, m_fMapY,
 				m_pImg->getFrameWidth()*3, 8*3);
+
+			if (m_fRange < MY_UTIL::getDistance(m_fFiredX, m_fFiredY, m_fX, m_fY))
+			{
+				m_isFire = false;
+			}
 		}
-		else
+		else if(m_nKind==2)
 		{
-			m_rc = RectMakeCenter(m_fX, m_fY,
-				m_pImg->getWidth(), m_pImg->getHeight());
+			m_rc = RectMakeCenter(m_fMapX, m_fMapY,
+				m_pImg->getWidth()*3, m_pImg->getHeight()*3);
+
+			if (m_fRange < MY_UTIL::getDistance(m_fFiredX, m_fFiredY, m_fX, m_fY))
+			{
+				if (m_bIsturn)
+				{
+					m_isFire = false;
+				}
+				else
+				{
+					m_fAngle += PI;
+					m_bIsturn = true;
+					m_fRange = 1000.0f;
+				}
+
+			}
+
 		}
 
-		if (m_fRange < MY_UTIL::getDistance(m_fFiredX, m_fFiredY, m_fX, m_fY))
-		{
-			m_isFire = false;
-		}
+
 	}
 }
 
