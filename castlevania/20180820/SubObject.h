@@ -43,13 +43,13 @@ class SubObject
 
 public:
 
-	virtual HRESULT init(int XX, int XY);
+	virtual HRESULT init();
 	virtual void release();
 	virtual void update();
 	virtual void render(HDC hdc);
 	virtual void checkCollision();
 	void SetSubObjectNum(int Num);
-	
+	void SetSubObjectXY(int X, int Y);
 	void soulMove();
 
 

@@ -5,7 +5,7 @@
 #include "CoinObject.h"
 #include "player.h"
 
-HRESULT SubObject::init(int XX, int XY)
+HRESULT SubObject::init()
 {
 	m_imgCoin = IMAGEMANAGER->addImage("1coin", "image/object/onecoin.bmp", 33, 10, 3, 1, true, RGB(0, 64, 128));
 	m_imgOneCoin = IMAGEMANAGER->addImage("1won", "image/object/1won.bmp", 143 / 1.2, 75 / 1.2, 1, 1, true, RGB(255, 0, 255));
@@ -18,8 +18,8 @@ HRESULT SubObject::init(int XX, int XY)
 	m_bSoulStand = true;
 
 	SubObjectNum = 0;
-	m_fX = XX;
-	m_fY = XY;
+	m_fX = 0;
+	m_fY = 0;
 	m_fSpeed = 0;
 	m_nFrameX = 0;
 	m_nFrameY = 0;
@@ -240,6 +240,13 @@ void SubObject::checkCollision()
 void SubObject::SetSubObjectNum(int Num)
 {
 	SubObjectNum = Num;
+}
+
+void SubObject::SetSubObjectXY(int X, int Y)
+{
+
+	m_fX = X;
+	m_fY = Y;
 }
 
 void SubObject::soulMove()
