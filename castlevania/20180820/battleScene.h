@@ -40,6 +40,8 @@ private:
 
 	bool m_bIsChangeScene;
 
+	bool m_bPlayerDieChangeScene;
+
 
 
 	int m_nAlphaNum;

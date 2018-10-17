@@ -93,6 +93,9 @@ HRESULT player::init()
 	m_bDivin = 0;
 	m_bDamageShow = 0;
 
+	// 플레이어의 죽음
+	m_bPlayerDie = 0;
+
 	m_nSwordAngle = 0;
 
 	m_status = { 10,10,12,12,11,11,9,9, 10,10,6,6,320,320,80,80,0,84 };
@@ -221,7 +224,7 @@ HRESULT player::init()
 	m_soulSet.gS = baseGSoul;
 	m_soulSet.eS = baseESoul;
 
-	m_ItemSet.hI = test2HItem;
+	m_ItemSet.hI = testHItem;
 	m_ItemSet.bI = baseBItem;
 	m_ItemSet.aI = baseAItem;
 
@@ -243,10 +246,16 @@ void player::release()
 
 void player::update()
 {
+	PlayerDie();
+	if (m_bPlayerDie != 0)
+	{
+		return;
+	}
 	// 중력 적용
 	mapRectCollision();
-
+	
 	m_fY += m_fGravity;
+	
 	if (m_nHitDmg != 0)
 	{
 		m_nNumC--;
@@ -1346,10 +1355,14 @@ void player::mapRectCollision()
 
 void player::hitCollision(int damage)
 {
-
-
 	if (m_bDivin == 0)
 	{
+		m_bPlayerAttack = 0;
+		m_bPlayerDownAt = 0;
+		m_bPlayerSilde = 0;
+		m_nPlayerDown = 0;
+		m_bPlayerJumpAttack = 0;
+		m_nNCurrFrameX = 0;
 		if (m_bPlayerStand == 0)
 		{
 			m_bPlayerHited = 1;
@@ -1741,6 +1754,52 @@ void player::PlayerDownAttack()
 					m_Irc = RectMakeCenter(-10, -10, 1, 1);
 				}
 			}
+	}
+}
+
+void player::PlayerDie()
+{
+	if (m_status.curHP <= 0 && m_bPlayerDie == 0)
+	{
+		m_status.curHP = 0;
+		m_bPlayerDie = 1;
+		if (m_bPlayerSee == 1)
+		{
+			m_nRCurrFrameY = 5;
+			m_nRCurrFrameX = 2;
+		}
+		else if (m_bPlayerSee == 0)
+		{
+			m_nLCurrFrameY = 5;
+			m_nLCurrFrameX = 16;
+		}
+		
+	}
+
+	if (m_bPlayerDie == 1)
+	{
+		m_nCount++;
+		if (m_nCount % 20 == 0)
+		{
+			if (m_bPlayerSee == 1)
+			{
+				m_nRCurrFrameX++;
+				if (m_nRCurrFrameX >= 6)
+				{
+					m_nRCurrFrameX = 6;
+					m_nCount = 0;
+				}
+			}
+			else if (m_bPlayerSee == 0)
+			{
+				m_nLCurrFrameX--;
+				if (m_nLCurrFrameX <= 12)
+				{
+					m_nLCurrFrameX = 12;
+					m_nCount = 0;
+				}
+			}
+		}
 	}
 }
 

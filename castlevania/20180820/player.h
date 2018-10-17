@@ -146,6 +146,9 @@ private:
 	// 플레이어의 착지 모션
 	SYNTHESIZE(bool, m_bPlayerStand, PlayerStand);
 
+	// 플레이어 죽음
+	SYNTHESIZE(bool, m_bPlayerDie, PlayerDie);
+
 	bool	m_bPlayerSkReady;
 	bool	m_bPlayerSkAttack;
 
@@ -197,6 +200,8 @@ public:
 	void PlayerStandAttack();
 
 	void PlayerDownAttack();
+
+	void PlayerDie();
 
 	
 	

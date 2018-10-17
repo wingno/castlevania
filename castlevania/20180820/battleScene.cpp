@@ -19,6 +19,8 @@ HRESULT battleScene::init()
 	//IMAGEMANAGER->addImage("enemy_missile_1", "image/bullet.bmp", 21, 21, true, RGB(255,0,255));
 
 	m_bIsChangeScene = false;
+	m_bPlayerDieChangeScene = false;
+	
 	m_nAlphaNum = 0;
 
 
@@ -55,6 +57,24 @@ void battleScene::update()
 
 	}
 
+	if (m_pPlayer->getPlayerDie() == 1)
+	{
+		m_bPlayerDieChangeScene = true;
+	}
+
+	if (m_bPlayerDieChangeScene)
+	{
+
+		if (m_nAlphaNum <= 250)
+		{
+			m_nAlphaNum ++;
+		}
+		else
+		{
+			SCENEMANAGER->changeScene("titleScene");
+		}
+	}
+
 	if (m_bIsChangeScene)
 	{
 
@@ -82,6 +102,12 @@ void battleScene::render(HDC hdc)
 	m_progressBar->render(hdc);
 	if (m_bIsChangeScene)
 	{
+		IMAGEMANAGER->findImage("background")->alphaRender(hdc, m_nAlphaNum);
+
+	}
+	else if (m_bPlayerDieChangeScene)
+	{
+		
 		IMAGEMANAGER->findImage("background")->alphaRender(hdc, m_nAlphaNum);
 
 	}
