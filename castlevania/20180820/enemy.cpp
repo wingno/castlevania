@@ -1104,7 +1104,7 @@ void enemy::axeArmorRender(HDC hdc)
 }
 void enemy::lizardManInit(POINT position, EnemyKind eKind)
 {
-	m_mStatus = { "리자드맨", 50,40,300,300,0,0,50,MonsterStatus::IDLE };
+	m_mStatus = { "리자드맨", 50,40,200,200,0,0,50,MonsterStatus::IDLE };
 	m_pImgLMotion = IMAGEMANAGER->addImage("image/lizard.bmp", "image/lizard.bmp", 80, 980, 1, 14, true, RGB(84, 109, 142));
 	m_pImgRMotion = IMAGEMANAGER->addImage("image/rizard.bmp", "image/rizard.bmp", 80, 980, 1, 14, true, RGB(84, 109, 142));
 	m_rc = RectMake(position.x, position.y, m_pImgLMotion->getFrameWidth() * 3, m_pImgLMotion->getFrameHeight() * 3);
@@ -1335,7 +1335,7 @@ void enemy::Damagehit()
 		}
 
 
-		if (m_fDivineTime>0.7)
+		if (m_fDivineTime>1.2)
 		{
 			m_nHitDmg = 0;
 			

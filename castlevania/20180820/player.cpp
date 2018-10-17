@@ -208,6 +208,8 @@ HRESULT player::init()
 	m_ItemSet.bI = baseBItem;
 	m_ItemSet.aI = baseAItem;
 
+	
+	m_status = changeStatus(m_status, m_soulSet, m_ItemSet);
 
 
 	m_nHitDmg = 0;
@@ -1397,6 +1399,22 @@ void player::DamageImg(HDC hdc, int damage)
 		m_pCImg->frameRender(hdc, m_fX, m_fDamageY, Num, 2, 3);
 	}
 
+}
+
+Status player::changeStatus(Status status, SoulSet soulSet, ItemSet itemSet)
+{
+	status.curStr = status.originStr + soulSet.eS->m_nChangeStr + soulSet.gS->m_nChangeStr + soulSet.bS->m_nChangeStr + itemSet.hI->m_nChangeStr + itemSet.bI->m_nChangeStr + itemSet.aI->m_nChangeStr;
+	status.curCon = status.originCon + soulSet.eS->m_nChangeCon + soulSet.gS->m_nChangeCon + soulSet.bS->m_nChangeCon + itemSet.hI->m_nChangeCon + itemSet.bI->m_nChangeCon + itemSet.aI->m_nChangeCon;
+	status.curInt = status.originInt + soulSet.eS->m_nChangeInt + soulSet.gS->m_nChangeInt + soulSet.bS->m_nChangeInt + itemSet.hI->m_nChangeInt + itemSet.bI->m_nChangeInt + itemSet.aI->m_nChangeInt;
+	status.curLck = status.originLck + soulSet.eS->m_nChangeLck + soulSet.gS->m_nChangeLck + soulSet.bS->m_nChangeLck + itemSet.hI->m_nChangeLck + itemSet.bI->m_nChangeLck + itemSet.aI->m_nChangeLck;
+
+	status.originAtt = status.curStr;
+	status.originDef = status.curCon / 2;
+
+	status.curAtt = status.originAtt + soulSet.eS->m_nChangeAtt + soulSet.gS->m_nChangeAtt + soulSet.bS->m_nChangeAtt + itemSet.hI->m_nChangeAtt + itemSet.bI->m_nChangeAtt + itemSet.aI->m_nChangeAtt;
+	status.curDef = status.originDef + soulSet.eS->m_nChangeDef + soulSet.gS->m_nChangeDef + soulSet.bS->m_nChangeDef + itemSet.hI->m_nChangeDef + itemSet.bI->m_nChangeDef + itemSet.aI->m_nChangeDef;
+
+	return status;
 }
 
 void player::ShowDamage()

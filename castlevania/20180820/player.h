@@ -186,6 +186,8 @@ public:
 
 	void DamageImg(HDC hdc, int damge);
 
+	Status changeStatus(Status status, SoulSet soulSet, ItemSet itemSet);
+
 	void ShowDamage();
 
 	void FallDown();
