@@ -9,11 +9,14 @@ HRESULT SubObject::init(int XX, int XY)
 {
 	m_imgCoin = IMAGEMANAGER->addImage("1coin", "image/object/onecoin.bmp", 33, 10, 3, 1, true, RGB(0, 64, 128));
 	m_imgOneCoin = IMAGEMANAGER->addImage("1won", "image/object/1won.bmp", 143 / 1.2, 75 / 1.2, 1, 1, true, RGB(255, 0, 255));
-
+	m_imgSoul = IMAGEMANAGER->addImage("soul", "image/object/soulob.bmp", 80, 20, 4, 1, true, RGB(0, 64, 128));
 	m_bAlive = false;
 	m_bOneCoin = false;
 	m_bDown = false;
 	m_bStand = false;
+	m_bSoulMove = false;
+	m_bSoulStand = true;
+
 	SubObjectNum = 0;
 	m_fX = XX;
 	m_fY = XY;
@@ -22,10 +25,12 @@ HRESULT SubObject::init(int XX, int XY)
 	m_nFrameY = 0;
 	m_nIndex = 0;
 	m_nCount = 0;
+	m_fangle = 0;
+	m_nSoulIndex = 0;
+	m_fRange = 0;
 
 
-
-
+	
 	return S_OK;
 }
 
@@ -104,17 +109,39 @@ void SubObject::update()
 			}
 		}
 		break;
+	
 	case 1:
+		
+		if (m_bAlive)
+		{
+			
+			m_nIndex++;
+			soulMove();
+				
+
+			if (m_nIndex % 4 == 0)
+			{
+				m_nFrameX++;
+
+				if (m_nFrameX > 3)
+				{
+					m_nFrameX = 0;
+				}
+			}
+
+		}
+
+		
 		break;
 	default:
 		break;
 	}
 
-	
-	checkCollision();
-	
 	m_rc = RectMakeCenter(m_fX + 18 - ROOMMANAGER->getCurrRoom()->getPosMap().x, m_fY + 17 - ROOMMANAGER->getCurrRoom()->getPosMap().y,
 		m_imgCoin->getWidth() / 2, m_imgCoin->getHeight() * 2);
+	checkCollision();
+	
+
 	
 	if(!m_bAlive &&!m_bStand &&!m_bDown)
 	{
@@ -129,29 +156,34 @@ void SubObject::render(HDC hdc)
 
 	Rectangle(hdc, m_rc.left, m_rc.top,
 		m_rc.right, m_rc.bottom);
-
-	if (m_bAlive || m_bStand ||
-		m_bDown
-		)
+	switch (SubObjectNum)
 	{
-		
-		m_imgCoin->frameRender(hdc, m_fX - ROOMMANAGER->getCurrRoom()->getPosMap().x, m_fY - ROOMMANAGER->getCurrRoom()->getPosMap().y
-			, m_nFrameX, m_nFrameY, 3);
+	case 0:
+
+		if (m_bAlive || m_bStand ||
+			m_bDown
+			)
+		{
+
+			m_imgCoin->frameRender(hdc, m_fX - ROOMMANAGER->getCurrRoom()->getPosMap().x, m_fY - ROOMMANAGER->getCurrRoom()->getPosMap().y
+				, m_nFrameX, m_nFrameY, 3);
+		}
+
+		if (m_bOneCoin)
+		{
+			m_imgOneCoin->render(hdc, 0, 420);
+
+		}
+		break;
+	case 1:
+		if (m_bAlive || m_bSoulMove)
+		{
+			m_imgSoul->frameRender(hdc, m_fX - ROOMMANAGER->getCurrRoom()->getPosMap().x, m_fY - ROOMMANAGER->getCurrRoom()->getPosMap().y
+				, m_nFrameX, m_nFrameY, 3);
+		}
+		break;
 	}
-
-	if (m_bOneCoin)
-	{
-		m_imgOneCoin->render(hdc, 0, 420);
-
-	}
-
-
-
 }
-
-
-
-
 
 void SubObject::checkCollision()
 {
@@ -208,8 +240,45 @@ void SubObject::checkCollision()
 void SubObject::SetSubObjectNum(int Num)
 {
 	SubObjectNum = Num;
-
 }
+
+void SubObject::soulMove()
+{
+	if (m_bSoulStand)
+	{
+		m_fSpeed = 22;
+		m_fX += cosf(m_fangle) * m_fSpeed;
+		m_fY += -sinf(m_fangle)* m_fSpeed;
+
+		if (m_nSoulIndex % 2 == 0)
+		{
+
+			m_fangle += 0.2;
+		}
+
+
+		if (m_fangle >
+			4)
+		{
+			m_bSoulStand = false;
+			m_bSoulMove = true;
+
+		}
+	}
+	if (m_bSoulMove)
+	{
+		
+		m_fRange = MY_UTIL::getDistance(ROOMMANAGER->getPlayer()->getFx()
+			, ROOMMANAGER->getPlayer()->getFY(), m_fX, m_fY);
+
+		m_fX = m_fX+ cosf(m_fangle) * 20 ;
+		m_fY = m_fY + (-sinf(m_fangle)) * 20;
+	
+
+	}
+}
+
+
 
 
 
