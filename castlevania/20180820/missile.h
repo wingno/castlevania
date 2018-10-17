@@ -18,6 +18,7 @@ protected:
 	float	m_fRotateAngle;
 
 	int		m_nKind;
+	SYNTHESIZE (int,m_nDmg,Dmg);
 
 
 	float m_fMapX;

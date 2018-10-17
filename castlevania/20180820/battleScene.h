@@ -23,8 +23,7 @@ private:
 	//채력바
 	progressBar*	m_progressBarHp;
 	progressBar*	m_progressBarMp;
-	//좀비
-	zombi* m_zombi;
+
 
 	//롬
 

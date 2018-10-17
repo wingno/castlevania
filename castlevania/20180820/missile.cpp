@@ -50,12 +50,15 @@ HRESULT missile::init(const char * szImageName, float speed,
 	{
 	case 0:
 		m_pImg = IMAGEMANAGER->findImage("image/RipperL.bmp");
+		m_nDmg = 30;
 		break;
 	case 1:
 		m_pImg = IMAGEMANAGER->findImage("image/RipperR.bmp");
+		m_nDmg = 30;
 		break;
 	case 2:
 		m_pImg = IMAGEMANAGER->addImage("image/axe.bmp","image/axe.bmp",28,28,true,RGB(84,109,142));
+		m_nDmg = 80;
 		m_fRange = 300;
 		m_bIsturn = false;
 		break;

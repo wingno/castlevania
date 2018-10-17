@@ -4,8 +4,8 @@ class missileManager;
 class player;
 class animation;
 
-#define AXE_ARMOR_RANGE 400
-
+#define AXE_ARMOR_RANGE 500
+#define LIZARMAN_RANGE 300
 
 
 class enemy
@@ -17,7 +17,7 @@ private:
 	image * m_pImgLMotion;
 	RECT	m_rc;
 	RECT	m_chaserRc;
-	
+	RECT	m_attackRect;
 	
 	MonsterStatus m_mStatus;
 	EnemyKind m_eKind;
@@ -43,6 +43,8 @@ private:
 	float	m_fElapsedTime;
 
 	int		m_nPattonNum;
+
+	int		m_nTempDef;
 
 
 	int*	m_pLAni1;
@@ -74,7 +76,10 @@ public:
 	void render(HDC hdc);
 
 	void move();
+	void lizardMove();
 	void fire();
+	void attack();
+	void defense();
 
 
 

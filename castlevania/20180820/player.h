@@ -61,7 +61,9 @@ private:
 	// 플레이어 속성 값
 
 	SYNTHESIZE(Status ,m_status,State);
-	SYNTHESIZE(int, m_nGold, Gold);;
+	SYNTHESIZE(int, m_nGold, Gold);
+
+	SYNTHESIZE(int, m_nHitDmg, HitDmg);
 
 
 	float	m_fJumP;
@@ -114,17 +116,17 @@ private:
 	bool	m_bPlayerReady;
 
 	// 플레이어의 공격 모션
-	bool	m_bPlayerAttack;
+	SYNTHESIZE( bool,	m_bPlayerAttack, PlayerAttack);
 
 	// 플레이어의 점프 모션
 	int		m_nPlayerJump;
 	bool	m_bPlayerJumpM;
 	bool	m_bPlayerJumpDown;
-	bool	m_bPlayerJumpAttack;
+	SYNTHESIZE(bool, m_bPlayerJumpAttack, PlayerJumpAttack);
 
 	// 플레이어의 앉기 모션
 	int		m_nPlayerDown;
-	bool	m_bPlayerDownAt;
+	SYNTHESIZE(bool, m_bPlayerDownAt, PlayerDownAt);
 
 	// 플레이어의 슬라이딩 모션
 	bool	m_bPlayerSilde;

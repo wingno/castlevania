@@ -23,6 +23,7 @@ HRESULT enemy::init( POINT position, EnemyKind eKind)
 	m_bIsShot = true;
 	m_eKind = eKind;
 	m_bIsWallTouch = false;
+	m_attackRect = RectMakeCenter(-1,-1,2,2);
 
 	switch (m_eKind)
 	{
@@ -74,7 +75,9 @@ void enemy::update()
 			axeArmorUpdate();
 			break;
 
-
+		case LIZARDMAN:
+			lizardManUpdate();
+			break;
 
 	default:
 		break;
@@ -94,6 +97,9 @@ void enemy::render(HDC hdc)
 		break;
 	case AXE_ARMOR:
 		axeArmorRender(hdc);
+		break;
+	case LIZARDMAN:
+		lizardManRender(hdc);
 		break;
 	default:
 		break;
@@ -125,9 +131,56 @@ void enemy::move()
 				m_aniL1->start();
 
 		}
+		else
+		{
+			m_aniL1->stop();
+		}
+		break;
+
+	case LIZARDMAN:
+
+		if (m_bIsMove)
+		{
+			if (m_bIsLeftSee)
+			{
+				m_fX+=3;
+			}
+			else
+			{
+				m_fX-=3;
+			}
+			if (!m_aniL1->getIsPlaying())
+				m_aniL1->start();
+		}
+		else
+		{
+			m_aniL1->stop();
+		}
 		break;
 	default:
 		break;
+	}
+}
+
+void enemy::lizardMove()
+{
+	if (m_bIsMove)
+	{
+		if (m_bIsLeftSee)
+		{
+			m_fX-=3;
+		}
+		else
+		{
+			m_fX+=3;
+		}
+		if (!m_aniL1->getIsPlaying())
+			m_aniL1->start();
+
+	}
+	else
+	{
+		m_aniL1->stop();
 	}
 }
 
@@ -170,6 +223,86 @@ void enemy::fire()
 	}
 
 
+
+
+}
+
+void enemy::attack()
+{
+	if (m_fElapsedTime == 0)
+	{
+		m_aniL2->start();
+	}
+
+
+
+	if (m_aniL2->getNowPlayFrame() <= 7)
+	{
+		if (m_aniL2->getIsPlaying())
+		{
+			m_aniL2->pause();
+		}
+		else if (!m_aniL2->getIsPlaying())
+		{
+			m_aniL2->resume();
+		}
+	}
+
+
+	if (m_aniL2->getNowPlayFrame() > 7)
+	{
+		if (m_bIsMove)
+		{
+			if (m_bIsLeftSee)
+			{
+				m_fX-=7;
+			}
+			else
+			{
+				m_fX+=7;
+			}
+
+		}
+		if (m_bIsLeftSee)
+		{
+
+			m_attackRect = RectMakeCenter(m_fMapX-110, m_fMapY, m_pImgLMotion->getFrameWidth()+40, 30);
+		}
+		else
+		{
+			m_attackRect = RectMakeCenter(m_fMapX + 110, m_fMapY, m_pImgLMotion->getFrameWidth() + 40, 30);
+		}
+		
+
+		if (!m_aniL2->getIsPlaying())
+		{
+			m_mStatus.state = MonsterStatus::CHASER;
+			m_attackRect = RectMakeCenter(-1, -1, 2, 2);
+		}
+	}
+		
+}
+
+void enemy::defense()
+{
+	if (m_mStatus.curDef < 9999999)
+	{
+		m_nTempDef = m_mStatus.curDef;
+		m_mStatus.curDef = 99999999;
+
+	}
+	if (m_fElapsedTime == 0)
+	{
+		m_aniR1->start();
+	}
+	if (!m_aniR1->getIsPlaying() && m_fElapsedTime>3)
+	{
+		m_mStatus.state = MonsterStatus::CHASER;
+		m_fElapsedTime = 0;
+		m_mStatus.curDef = m_nTempDef;
+	}
+
+	
 
 
 }
@@ -957,7 +1090,7 @@ void enemy::lizardManInit(POINT position, EnemyKind eKind)
 	m_pImgLMotion = IMAGEMANAGER->addImage("image/lizard.bmp", "image/lizard.bmp", 80, 980, 1, 14, true, RGB(84, 109, 142));
 	m_pImgRMotion = IMAGEMANAGER->addImage("image/rizard.bmp", "image/rizard.bmp", 80, 980, 1, 14, true, RGB(84, 109, 142));
 	m_rc = RectMake(position.x, position.y, m_pImgLMotion->getFrameWidth() * 3, m_pImgLMotion->getFrameHeight() * 3);
-	m_chaserRc = RectMakeCenter(m_fMapX, m_fMapY, AXE_ARMOR_RANGE, (m_pImgLMotion->getFrameHeight() * 3) - 60);
+	m_chaserRc = RectMakeCenter(m_fMapX, m_fMapY, LIZARMAN_RANGE, (m_pImgLMotion->getFrameHeight() * 3) - 60);
 	m_fSpeed = 3.0f;
 
 
@@ -977,30 +1110,9 @@ void enemy::lizardManInit(POINT position, EnemyKind eKind)
 		m_bIsLeftSee = true;
 	}
 
-	if (!m_bIsLeftSee)
-	{
-
-		m_fAngle = 80.0f;
-	}
-	else
-	{
-		m_fAngle = 100.0f;
-	}
-
-	m_pMissileMgr = new missileManager;
-	m_pMissileMgr->init();
-
-	//m_pLAni1 = new int[5];
-	//m_pLAni1[0] = 0;
-	//m_pLAni1[1] = 4;
-	//m_pLAni1[2] = 5;
-	//m_pLAni1[3] = 6;
-	//m_pLAni1[4] = 7;
-
-
 	m_aniL1 = new animation;
-	m_aniL1->init(80, 1610, 80, 70);
-	m_aniL1->setPlayFrame(0, 6, false, false);
+	m_aniL1->init(80, 980, 80, 70);
+	m_aniL1->setPlayFrame(0, 5, false, false);
 	m_aniL1->setFPS(10);
 
 	//m_pLAni2 = new int[3];
@@ -1009,20 +1121,174 @@ void enemy::lizardManInit(POINT position, EnemyKind eKind)
 	//m_pLAni2[2] = 10;
 
 	m_aniL2 = new animation;
-	m_aniL2->init(80, 1610, 80, 70);
-	m_aniL2->setPlayFrame(7, 13, false, false);
-	m_aniL2->setFPS(10);
+	m_aniL2->init(80, 980, 80, 70);
+	m_aniL2->setPlayFrame(6, 10, false, false);
+	m_aniL2->setFPS(5);
 
 	m_aniR1 = new animation;
-	m_aniR1->init(80, 1610, 80, 70);
-	m_aniR1->setPlayFrame(14, 23, false, false);
-	m_aniR1->setFPS(10);
+	m_aniR1->init(80, 980, 80, 70);
+	m_aniR1->setPlayFrame(11,13 , false, false);
+	m_aniR1->setFPS(15);
+
+
 }
 void enemy::lizardManUpdate()
 {
+	if (m_pPlayer->getFx() > m_fMapX)
+	{
+		if (m_bIsLeftSee)
+			m_bIsMove = true;
+		m_bIsLeftSee = false;
+	}
+	else
+	{
+		if (!m_bIsLeftSee)
+			m_bIsMove = true;
+		m_bIsLeftSee = true;
+	}
+
+
+
+
+	RECT rc;
+	switch (m_mStatus.state)
+	{
+		case MonsterStatus::IDLE:
+			if (WINSIZEX > m_fMapX && m_fMapX > 0 && WINSIZEY > m_fMapY &&m_fMapY > 0)
+			{
+				m_mStatus.state = MonsterStatus::CHASER;
+			}
+			break;
+		case MonsterStatus::CHASER:
+			m_aniL1->frameUpdate(TIMEMANAGER->getElapsedTime());
+			m_fElapsedTime += TIMEMANAGER->getElapsedTime();
+			if (IntersectRect(&rc, &m_pPlayer->getRc(), &m_chaserRc))
+			{
+
+
+				move();
+			
+
+			}
+			else
+			{
+
+				if (MY_UTIL::getDistance(m_pPlayer->getFx(),m_pPlayer->getFY(), m_fMapX, m_fMapY)<190&& m_fElapsedTime>3)
+				{
+					m_aniL1->stop();
+					m_mStatus.state = MonsterStatus::ATTACK;
+					m_fElapsedTime = 0;
+				}
+				else
+				{
+						lizardMove();
+				}
+
+
+			}
+			if (m_pPlayer->getPlayerAttack() || m_pPlayer->getPlayerJumpAttack() || m_pPlayer->getPlayerDownAt())
+			{
+				m_mStatus.state = MonsterStatus::DEFENSE;
+				m_fElapsedTime = 0;
+			}
+			
+
+			if (!(WINSIZEX > m_fMapX && m_fMapX > 0 && WINSIZEY > m_fMapY &&m_fMapY > 0))
+			{
+				m_mStatus.state = MonsterStatus::IDLE;
+				
+			}
+			break;
+		case MonsterStatus::ATTACK:
+			m_aniL2->frameUpdate(TIMEMANAGER->getElapsedTime());
+			attack();
+			m_fElapsedTime += TIMEMANAGER->getElapsedTime();
+
+			if (!(WINSIZEX > m_fMapX && m_fMapX > 0 && WINSIZEY > m_fMapY &&m_fMapY > 0))
+			{
+				m_mStatus.state = MonsterStatus::IDLE;
+
+			}
+			break;
+		case MonsterStatus::DEFENSE:
+			m_aniR1->frameUpdate(TIMEMANAGER->getElapsedTime());
+			defense();
+			m_fElapsedTime += TIMEMANAGER->getElapsedTime();
+
+			if (!(WINSIZEX > m_fMapX && m_fMapX > 0 && WINSIZEY > m_fMapY &&m_fMapY > 0))
+			{
+				m_mStatus.state = MonsterStatus::IDLE;
+
+			}
+			break;
+
+		default:
+			break;
+	}
+
+
+
+	m_fMapX = m_fX - ROOMMANAGER->getCurrRoom()->getPosMap().x;
+	m_fMapY = m_fY - ROOMMANAGER->getCurrRoom()->getPosMap().y;
+	axeAromorMapchackCollision();
+	m_rc = RectMakeCenter(m_fMapX, m_fMapY, m_pImgLMotion->getFrameWidth(), (m_pImgLMotion->getFrameHeight() * 3) - 60);
+
+	m_chaserRc = RectMakeCenter(m_fMapX, m_fMapY, LIZARMAN_RANGE, (m_pImgLMotion->getFrameHeight() * 3) - 60);
 }
 void enemy::lizardManRender(HDC hdc)
 {
+	//Rectangle(hdc, m_chaserRc.left, m_chaserRc.top, m_chaserRc.right, m_chaserRc.bottom);
+	switch (m_mStatus.state)
+	{
+	case MonsterStatus::IDLE:
+		if (m_bIsLeftSee)
+		{
+			m_pImgLMotion->frameRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth()*2, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, 0, 0, 3);
+		}
+		else
+		{
+			m_pImgRMotion->frameRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth(), m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, 0, 0, 3);
+		}
+
+		break;
+	case MonsterStatus::CHASER:
+		if (m_bIsLeftSee)
+		{
+			m_pImgLMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth() * 2, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniL1, 3);
+		}
+		else
+		{
+			m_pImgRMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth(), m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniL1, 3);
+		}
+		break;
+	case MonsterStatus::ATTACK:
+		Rectangle(hdc, m_attackRect.left, m_attackRect.top, m_attackRect.right, m_attackRect.bottom);
+		if (m_bIsLeftSee)
+		{
+			m_pImgLMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth()*2, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniL2, 3);
+		}
+		else
+		{
+			m_pImgRMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth(), m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniL2 , 3);
+		}
+
+		break;
+	case MonsterStatus::DEFENSE:
+
+		
+		if (m_bIsLeftSee)
+		{
+			m_pImgLMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth() * 2, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniR1, 3);
+		}
+		else
+		{
+			m_pImgRMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth(), m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniR1, 3);
+		}
+
+		break;
+	default:
+		break;
+	}
 }
 enemy::enemy()
 {
