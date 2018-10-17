@@ -39,7 +39,7 @@ HRESULT battleScene::init()
 
 void battleScene::release()
 {
-
+	SAFE_DELETE(m_progressBar);
 
 }
 
@@ -71,7 +71,15 @@ void battleScene::update()
 		}
 		else
 		{
+			m_pPlayer->release();
+			m_pPlayer->init();
+
+			m_bIsChangeScene = false;
+			m_bPlayerDieChangeScene = false;
+
+			m_nAlphaNum = 0;
 			SCENEMANAGER->changeScene("titleScene");
+			ROOMMANAGER->changeRoom("gateroom");
 		}
 	}
 

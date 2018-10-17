@@ -43,6 +43,9 @@ void roomManager::release()
 		}
 	}
 	m_mapRooms.clear();
+	m_pEnemyMgr->release();
+	SAFE_DELETE(m_pEnemyMgr);
+	
 }
 
 void roomManager::update()

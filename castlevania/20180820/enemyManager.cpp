@@ -16,6 +16,7 @@ void enemyManager::release()
 	// vector의 첫 원소부터 마지막 원소까지 순회하며 각 원소를 delete한다
 	for (m_iter = m_vecEnemy.begin(); m_iter != m_vecEnemy.end(); m_iter++)
 	{
+		(*m_iter)->release();
 		delete (*m_iter);
 	}
 	// vector 자체를 삭제한다

@@ -55,7 +55,7 @@ HRESULT player::init()
 	m_nNumC = 0;
 	// 플레이어의 초기 위치 값
 	m_fX = 200;
-	m_fY = 400;
+	m_fY = 2000;
 
 	m_fDamageY = m_fY - 80;
 
@@ -242,6 +242,65 @@ HRESULT player::init()
 
 void player::release()
 {
+	for (int i=0; i< m_soulInven.vecBulletSoul.size(); i++)
+	{
+		m_soulInven.vecBulletSoul[i]->release();
+		delete (m_soulInven.vecBulletSoul[i]);
+	}
+	m_soulInven.vecBulletSoul.clear();
+
+	for (int i = 0; i < m_soulInven.vecGuardianSoul.size(); i++)
+	{
+		m_soulInven.vecGuardianSoul[i]->release();
+		delete (m_soulInven.vecGuardianSoul[i]);
+	}
+	m_soulInven.vecGuardianSoul.clear();
+
+	for (int i = 0; i < m_soulInven.vecEnchantSoul.size(); i++)
+	{
+		m_soulInven.vecEnchantSoul[i]->release();
+		delete (m_soulInven.vecEnchantSoul[i]);
+	}
+	m_soulInven.vecEnchantSoul.clear();
+
+	for (int i = 0; i < m_ItemInven.vecHandItem.size(); i++)
+	{
+		m_ItemInven.vecHandItem[i]->release();
+		delete (m_ItemInven.vecHandItem[i]);
+	}
+	m_ItemInven.vecHandItem.clear();
+
+
+	for (int i = 0; i < m_ItemInven.vecBodyItem.size(); i++)
+	{
+		m_ItemInven.vecBodyItem[i]->release();
+		delete (m_ItemInven.vecBodyItem[i]);
+	}
+	m_ItemInven.vecBodyItem.clear();
+
+	for (int i = 0; i < m_ItemInven.vecAccessoryItem.size(); i++)
+	{
+		m_ItemInven.vecAccessoryItem[i]->release();
+		delete (m_ItemInven.vecAccessoryItem[i]);
+	}
+	m_ItemInven.vecAccessoryItem.clear();
+
+	for (int i = 0; i < m_ItemInven.vecItemUse.size(); i++)
+	{
+		m_ItemInven.vecItemUse[i]->release();
+		delete (m_ItemInven.vecItemUse[i]);
+	}
+	m_ItemInven.vecItemUse.clear();
+
+
+
+
+
+
+
+
+
+
 }
 
 void player::update()

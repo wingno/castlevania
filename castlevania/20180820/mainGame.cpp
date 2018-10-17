@@ -79,7 +79,7 @@ HRESULT mainGame::init()
 	m_BrickStaircaseroom = new BrickStaircaseroom;
 	ROOMMANAGER->addRoom("BrickStaircaseroom", m_BrickStaircaseroom);
 
-	ROOMMANAGER->changeRoom("hallwayRoom1");
+	ROOMMANAGER->changeRoom("gateroom");
 
 
 	/*m_pTitleScene = new titleScene;
@@ -101,7 +101,7 @@ HRESULT mainGame::init()
 
 
 
-	SCENEMANAGER->changeScene("battle");
+	SCENEMANAGER->changeScene("titleScene");
 	
 
 	//m_pBattleScene->setIsScore(&m_nscore);
@@ -150,6 +150,7 @@ void mainGame::release()
 	TIMEMANAGER->release();
 	EFFECTMANAGER->release();
 	SCENEMANAGER->release();
+	ROOMMANAGER->release();
 
 	TXTDATA->releaseSingleton();
 	KEYMANAGER->releaseSingleton();
