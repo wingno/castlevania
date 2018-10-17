@@ -6,6 +6,8 @@ class animation;
 
 #define AXE_ARMOR_RANGE 400
 
+
+
 class enemy
 {
 private:
@@ -25,6 +27,7 @@ private:
 	bool	m_bIsGround;
 	bool	m_bIsMove;
 	bool	m_bIsShot;
+	bool	m_bIsWallTouch;
 
 
 	float	m_fX;
@@ -89,6 +92,10 @@ public:
 	void axeArmorUpdate();
 	void axeArmorShot();
 	void axeArmorRender(HDC hdc);
+
+	void lizardManInit(POINT position, EnemyKind eKind);
+	void lizardManUpdate();
+	void lizardManRender(HDC hdc);
 
 	inline missileManager* getMissileMgr()
 	{ return m_pMissileMgr; }

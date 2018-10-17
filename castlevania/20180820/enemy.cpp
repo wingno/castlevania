@@ -22,7 +22,7 @@ HRESULT enemy::init( POINT position, EnemyKind eKind)
 	m_pMissileMgr = NULL;
 	m_bIsShot = true;
 	m_eKind = eKind;
-
+	m_bIsWallTouch = false;
 
 	switch (m_eKind)
 	{
@@ -34,6 +34,9 @@ HRESULT enemy::init( POINT position, EnemyKind eKind)
 		break;
 	case AXE_ARMOR:
 		axeArmorInit(position, eKind);
+		break;
+	case LIZARDMAN:
+		lizardManInit(position, eKind);
 		break;
 	default:
 		break;
@@ -202,6 +205,8 @@ void enemy::ripperMapchackCollision()
 	m_fMapX = m_fX - ROOMMANAGER->getCurrRoom()->getPosMap().x;
 	m_fMapY = m_fY - ROOMMANAGER->getCurrRoom()->getPosMap().y;
 
+
+
 	for (int y = m_rc.top; y <= m_rc.bottom; y++)
 	{
 		COLORREF color = GetPixel(ROOMMANAGER->getCurrRoom()->getMemDCInfo()->hMemDC,
@@ -269,12 +274,12 @@ void enemy::axeAromorMapchackCollision()
 
 		if (!(r == 0 && g == 88 && b == 24))
 		{
-			if (x > m_fX)
+			if (x > (m_fMapX))
 			{
 				m_fX--;
 
 			}
-			else if ((x < m_fX))
+			else if ((x < m_fMapX))
 			{
 				m_fX++;
 			}
@@ -283,6 +288,7 @@ void enemy::axeAromorMapchackCollision()
 
 	m_fMapX = m_fX - ROOMMANAGER->getCurrRoom()->getPosMap().x;
 	m_fMapY = m_fY - ROOMMANAGER->getCurrRoom()->getPosMap().y;
+	m_rc = RectMakeCenter(m_fMapX, m_fMapY, m_pImgLMotion->getFrameWidth(), (m_pImgLMotion->getFrameHeight() * 3) - 60);
 
 	for (int y = m_rc.top; y <= m_rc.bottom; y++)
 	{
@@ -944,6 +950,79 @@ void enemy::axeArmorRender(HDC hdc)
 		break;
 	}
 	m_pMissileMgr->render(hdc);
+}
+void enemy::lizardManInit(POINT position, EnemyKind eKind)
+{
+	m_mStatus = { "리자드맨", 50,10,50,50,0,0,30,MonsterStatus::IDLE };
+	m_pImgLMotion = IMAGEMANAGER->addImage("image/lizard.bmp", "image/lizard.bmp", 80, 980, 1, 14, true, RGB(84, 109, 142));
+	m_pImgRMotion = IMAGEMANAGER->addImage("image/rizard.bmp", "image/rizard.bmp", 80, 980, 1, 14, true, RGB(84, 109, 142));
+	m_rc = RectMake(position.x, position.y, m_pImgLMotion->getFrameWidth() * 3, m_pImgLMotion->getFrameHeight() * 3);
+	m_chaserRc = RectMakeCenter(m_fMapX, m_fMapY, AXE_ARMOR_RANGE, (m_pImgLMotion->getFrameHeight() * 3) - 60);
+	m_fSpeed = 3.0f;
+
+
+	m_nPattonNum = 0;
+	m_fGravity = 6.0f;
+
+	m_fElapsedTime = 0;
+	m_bIsMove = true;
+
+
+	if (m_pPlayer->getFx() > m_fX)
+	{
+		m_bIsLeftSee = false;
+	}
+	else
+	{
+		m_bIsLeftSee = true;
+	}
+
+	if (!m_bIsLeftSee)
+	{
+
+		m_fAngle = 80.0f;
+	}
+	else
+	{
+		m_fAngle = 100.0f;
+	}
+
+	m_pMissileMgr = new missileManager;
+	m_pMissileMgr->init();
+
+	//m_pLAni1 = new int[5];
+	//m_pLAni1[0] = 0;
+	//m_pLAni1[1] = 4;
+	//m_pLAni1[2] = 5;
+	//m_pLAni1[3] = 6;
+	//m_pLAni1[4] = 7;
+
+
+	m_aniL1 = new animation;
+	m_aniL1->init(80, 1610, 80, 70);
+	m_aniL1->setPlayFrame(0, 6, false, false);
+	m_aniL1->setFPS(10);
+
+	//m_pLAni2 = new int[3];
+	//m_pLAni2[0] = 8;
+	//m_pLAni2[1] = 9;
+	//m_pLAni2[2] = 10;
+
+	m_aniL2 = new animation;
+	m_aniL2->init(80, 1610, 80, 70);
+	m_aniL2->setPlayFrame(7, 13, false, false);
+	m_aniL2->setFPS(10);
+
+	m_aniR1 = new animation;
+	m_aniR1->init(80, 1610, 80, 70);
+	m_aniR1->setPlayFrame(14, 23, false, false);
+	m_aniR1->setFPS(10);
+}
+void enemy::lizardManUpdate()
+{
+}
+void enemy::lizardManRender(HDC hdc)
+{
 }
 enemy::enemy()
 {
