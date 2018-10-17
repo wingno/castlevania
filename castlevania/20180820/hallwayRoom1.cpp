@@ -24,7 +24,7 @@ HRESULT hallwayRoom1::init()
 
 	//m_pEnemyMgr->setEnemy(500, 425, RIPPER);
 	//m_pEnemyMgr->setEnemy(900, 425, RIPPER);
-	//m_pEnemyMgr->setEnemy(1300, 425, RIPPER);
+	m_pEnemyMgr->setEnemy(1300, 425, RIPPER);
 	//m_pEnemyMgr->setEnemy(3000, 425, RIPPER);
 
 

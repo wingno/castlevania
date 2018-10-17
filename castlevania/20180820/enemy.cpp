@@ -1152,19 +1152,23 @@ void enemy::lizardManInit(POINT position, EnemyKind eKind)
 }
 void enemy::lizardManUpdate()
 {
-	if (m_pPlayer->getFx() > m_fMapX)
+	if (m_mStatus.state != MonsterStatus::ATTACK)
 	{
-		if (m_bIsLeftSee)
-			m_bIsMove = true;
-		m_bIsLeftSee = false;
-	}
-	else
-	{
-		if (!m_bIsLeftSee)
-			m_bIsMove = true;
-		m_bIsLeftSee = true;
-	}
+		if (m_pPlayer->getFx() > m_fMapX)
+		{
+			if (m_bIsLeftSee)
+				m_bIsMove = true;
+			m_bIsLeftSee = false;
+		}
+		else
+		{
+			if (!m_bIsLeftSee)
+				m_bIsMove = true;
+			m_bIsLeftSee = true;
+		}
 
+
+	}
 
 
 
@@ -1224,13 +1228,14 @@ void enemy::lizardManUpdate()
 
 			if (m_bIshit)
 			{
-
+				m_aniL2->stop();
 				m_mStatus.state = MonsterStatus::CHASER;
 				m_fElapsedTime = 0;
 			}
 
 			if (!(WINSIZEX > m_fMapX && m_fMapX > 0 && WINSIZEY > m_fMapY &&m_fMapY > 0))
 			{
+				m_aniL2->stop();
 				m_mStatus.state = MonsterStatus::IDLE;
 				m_fElapsedTime = 0;
 
@@ -1244,6 +1249,7 @@ void enemy::lizardManUpdate()
 			if (!(WINSIZEX > m_fMapX && m_fMapX > 0 && WINSIZEY > m_fMapY &&m_fMapY > 0))
 			{
 				m_mStatus.state = MonsterStatus::IDLE;
+				m_aniR1->stop();
 
 			}
 			break;

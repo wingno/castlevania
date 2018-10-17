@@ -140,7 +140,7 @@ void battleScene::checkCollision()
 				if ((*iterMissile)->getIsFire() && IntersectRect(&rc, &m_pPlayer->getIRC(), &(*iterMissile)->getRect()))
 				{
 					// 미사일 삭제
-					//(*iterMissile)->setIsFire(false);
+					(*iterMissile)->setIsFire(false);
 
 				}
 
@@ -174,7 +174,28 @@ void battleScene::checkCollision()
 
 		}
 
+		
+		if ((*iter)->getIsAlive() &&
+			(IntersectRect(&rc, &m_pPlayer->getRc(), &(*iter)->getRc()) || IntersectRect(&rc, &m_pPlayer->getRc(), &(*iter)->getAttackRect()))                )
+		{
+			//(*iter)->setIsAlive(false);
 
+
+			int damage = (*iter)->getMStatus().curAtt - m_pPlayer->getState().curDef;
+
+			if (damage < 1)
+			{
+				damage = 1;
+			}
+
+			if (m_pPlayer->getHitDivineC() == 100)
+			{
+				m_pPlayer->setHitDmg(damage);
+				m_pPlayer->hitCollision(damage);
+
+			}
+
+		}
 
 
 	}
