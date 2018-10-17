@@ -1725,6 +1725,7 @@ void player::PlayerDie()
 {
 	if (m_status.curHP <= 0 && m_bPlayerDie == 0)
 	{
+		m_status.curHP = 0;
 		m_bPlayerDie = 1;
 		if (m_bPlayerSee == 1)
 		{
