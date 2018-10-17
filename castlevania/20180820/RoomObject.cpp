@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "RoomObject.h"
 #include "room.h"
-#include "CoinObject.h"
+#include "SubObject.h"
 
 HRESULT RoomObject::init(int nFX, int nFY, int ObjNum)
 {
@@ -31,8 +31,8 @@ HRESULT RoomObject::init(int nFX, int nFY, int ObjNum)
 
 	m_rc = RectMakeCenter(m_nFX + 26,  m_nFY + 45, m_imgObj->getWidth() / 4 - 3, m_imgObj->getHeight() * 2);
 
-	m_coin = new CoinObject;
-	m_coin->init(m_nFX,  m_nFY );
+	m_SubObject = new SubObject;
+	m_SubObject->init(m_nFX, m_nFY);
 
 
 	return S_OK;
@@ -89,7 +89,7 @@ void RoomObject::render(HDC hdc)
 
 
 
-	m_coin->render(hdc);
+	m_SubObject->render(hdc);
 	
 }
 
@@ -165,10 +165,7 @@ void RoomObject::ObjectCode()
 					m_nObjNum = 0;
 			
 					m_bObjDestructionMove = false;
-				
-					
-					m_coin->setAlive(true);
-					
+					m_SubObject->setAlive(true);
 
 				}
 			}
@@ -196,7 +193,20 @@ void RoomObject::ObjectCode()
 			
 		}
 
+		if (!m_bObjStand)
+		{
+			m_nObjIdx++;
+			if (m_nObjIdx % 5 == 0)
+			{
+				m_nObjFrameX++;
+				if (m_nObjFrameX > 3)
+				{
+					m_nObjFrameX = 0;
 
+				}
+			}
+
+		}
 		break;
 	case 2: 
 		if (m_bObjStand)
@@ -220,7 +230,6 @@ void RoomObject::ObjectCode()
 		{
 			m_bObjDestructionMove = false;
 			m_bObjDestruction = false;
-			m_coin->setobAlive(true);
 		}
 
 		break;
@@ -232,7 +241,7 @@ void RoomObject::ObjectCode()
 	if (m_bObjDestructionMove == false && m_bObjStand == false && m_bObjDestruction == false)
 	{
 
-		m_coin->update();
+		m_SubObject->update();
 
 	}
 

@@ -21,8 +21,8 @@ private:
 	camel*			m_pCamel;
 
 	//채력바
-	progressBar*	m_progressBarHp;
-	progressBar*	m_progressBarMp;
+	progressBar*	m_progressBar;
+	
 
 
 	//롬
