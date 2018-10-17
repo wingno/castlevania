@@ -44,6 +44,17 @@ HRESULT image::init(int width, int height)
 	m_pBlendImage->nWidth = WINSIZEX;
 	m_pBlendImage->nHeight = WINSIZEY;
 
+
+	// 알파 블렌드 사용을 위한 중간 이미지
+	m_ptempImage = new IMAGE_INFO;
+	m_ptempImage->hMemDC = CreateCompatibleDC(hdc);
+	m_ptempImage->hBitmap = CreateCompatibleBitmap(hdc,
+		WINSIZEX, WINSIZEY);
+	m_ptempImage->hOldBitmap = (HBITMAP)SelectObject(
+		m_ptempImage->hMemDC, m_ptempImage->hBitmap);
+	m_ptempImage->nWidth = WINSIZEX;
+	m_ptempImage->nHeight = WINSIZEY;
+
 	ReleaseDC(g_hWnd, hdc);
 
 	if (m_pImageInfo->hBitmap == NULL)
@@ -198,6 +209,17 @@ HRESULT image::init(const char * szFileName, float x, float y,
 		m_pBlendImage->hMemDC, m_pBlendImage->hBitmap);
 	m_pBlendImage->nWidth = WINSIZEX;
 	m_pBlendImage->nHeight = WINSIZEY;
+
+
+	// 알파 블렌드 사용을 위한 중간 이미지
+	m_ptempImage = new IMAGE_INFO;
+	m_ptempImage->hMemDC = CreateCompatibleDC(hdc);
+	m_ptempImage->hBitmap = CreateCompatibleBitmap(hdc,
+		WINSIZEX, WINSIZEY);
+	m_ptempImage->hOldBitmap = (HBITMAP)SelectObject(
+		m_ptempImage->hMemDC, m_ptempImage->hBitmap);
+	m_ptempImage->nWidth = WINSIZEX;
+	m_ptempImage->nHeight = WINSIZEY;
 
 	// 투명 컬러 셋팅
 	m_isTransparent = trans;
@@ -561,7 +583,7 @@ void image::alphaRender(HDC hdc, int destX, int destY, BYTE alpha)
 	}
 }
 
-void image::rotateRender(HDC hdc, float rotateAngle, float fX, float fY, int scalar/*=1*/)
+void image::rotateRender(HDC hdc, float rotateAngle, float fX, float fY, float anchorX/*0.5*/, float anchorY/*0.5*/, int scalar/*=1*/)
 {
 
 	// 현재 각도를 라디안값으로 변환
@@ -571,8 +593,8 @@ void image::rotateRender(HDC hdc, float rotateAngle, float fX, float fY, int sca
 	float s = sinf(theta);
 	float c = cosf(theta);
 
-	float fAncherX = 0.5; // 앵커들은 회전의 기준이 됨 그러나 이번 프로젝트에선 가운데를 기준으로 회전만 하기 떄문에 0.5로 고정값을 해놓음
-	float fAncherY = 0.5;
+	float fAncherX = anchorX; // 앵커들은 회전의 기준이 됨 그러나 이번 프로젝트에선 가운데를 기준으로 회전만 하기 떄문에 0.5로 고정값을 해놓음
+	float fAncherY = anchorY;
 
 	float posXSrcL = m_pImageInfo->nWidth * fAncherX;
 	float posYSrcL = m_pImageInfo->nHeight * fAncherY;
