@@ -1368,6 +1368,8 @@ void player::mapRectCollision()
 
 void player::hitCollision(int damage)
 {
+
+
 	if (m_bDivin == 0)
 	{
 		if (m_bPlayerStand == 0)
@@ -1664,7 +1666,7 @@ void player::hitMosion()
 				m_nLCurrFrameX = 18;
 			}
 		}
-		if (m_nHitC < 10)
+		if (m_nHitC < 10 && m_nHitC>20)
 		{
 			if (m_bPlayerSee == 1)
 			{

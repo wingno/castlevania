@@ -15,11 +15,12 @@ private:
 
 	image * m_pImgRMotion;
 	image * m_pImgLMotion;
-	RECT	m_rc;
+	image *  m_pCImg;
+	SYNTHESIZE (RECT,m_rc,Rc);
 	RECT	m_chaserRc;
-	RECT	m_attackRect;
+	SYNTHESIZE(RECT, m_attackRect, AttackRect);
 	
-	MonsterStatus m_mStatus;
+	SYNTHESIZE (MonsterStatus, m_mStatus, MStatus);
 	EnemyKind m_eKind;
 
 	bool	m_bIsAlive;
@@ -28,6 +29,7 @@ private:
 	bool	m_bIsMove;
 	bool	m_bIsShot;
 	bool	m_bIsWallTouch;
+	SYNTHESIZE(bool,m_bIshit,Ishit);
 
 
 	float	m_fX;
@@ -42,9 +44,15 @@ private:
 	float	m_fGravity;
 	float	m_fElapsedTime;
 
+	float	m_fDivineTime;
+
 	int		m_nPattonNum;
 
+	float	m_fDamageY;
+
+
 	int		m_nTempDef;
+	SYNTHESIZE(int, m_nHitDmg, HitDmg);
 
 
 	int*	m_pLAni1;
@@ -101,6 +109,10 @@ public:
 	void lizardManInit(POINT position, EnemyKind eKind);
 	void lizardManUpdate();
 	void lizardManRender(HDC hdc);
+
+	void Damagehit();
+
+	void DamageImg(HDC hdc, int damage);
 
 	inline missileManager* getMissileMgr()
 	{ return m_pMissileMgr; }

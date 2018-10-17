@@ -22,10 +22,10 @@ HRESULT hallwayRoom1::init()
 	m_Zombie = new zombie[10];
 	m_Zombie->init(500, 350);
 
-	m_pEnemyMgr->setEnemy(500, 425, RIPPER);
-	m_pEnemyMgr->setEnemy(900, 425, RIPPER);
-	m_pEnemyMgr->setEnemy(1300, 425, RIPPER);
-	m_pEnemyMgr->setEnemy(3000, 425, RIPPER);
+	//m_pEnemyMgr->setEnemy(500, 425, RIPPER);
+	//m_pEnemyMgr->setEnemy(900, 425, RIPPER);
+	//m_pEnemyMgr->setEnemy(1300, 425, RIPPER);
+	//m_pEnemyMgr->setEnemy(3000, 425, RIPPER);
 
 
 	for (int i = 1; i < 10; i++)

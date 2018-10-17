@@ -53,6 +53,7 @@ private:
 	image *	 m_pImg4;
 	image *  m_pCImg;
 
+
 	
 	// 플레이어 렉트
 	SYNTHESIZE (RECT, m_rc, Rc);
@@ -88,7 +89,7 @@ private:
 
 	int		m_nHitC;
 
-	int		m_nHitDivineC;
+	SYNTHESIZE( int,m_nHitDivineC, HitDivineC);
 
 	int		m_nNumC;
 

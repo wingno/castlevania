@@ -28,11 +28,10 @@ void enemyManager::update()
 	// vector의 첫 원소부터 마지막 원소까지 순회하며 각 원소를 update한다
 	for (m_iter = m_vecEnemy.begin(); m_iter != m_vecEnemy.end(); m_iter++)
 	{
-		if ((*m_iter)->getIsAlive())
-		{
-			(*m_iter)->update();
 
-		}
+		(*m_iter)->update();
+
+		
 
 		//m_bisSetting = (*m_iter)->getIsSetting();
 	}
@@ -45,7 +44,7 @@ void enemyManager::render(HDC hdc)
 	// vector의 첫 원소부터 마지막 원소까지 순회하며 각 원소를 render한다
 	for (m_iter = m_vecEnemy.begin(); m_iter != m_vecEnemy.end(); m_iter++)
 	{
-		if ((*m_iter)->getIsAlive())
+		
 			(*m_iter)->render(hdc);
 
 

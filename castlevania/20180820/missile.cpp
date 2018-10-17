@@ -95,7 +95,7 @@ void missile::render(HDC hdc)
 		}
 		else
 		{
-			m_pImg->rotateRender(hdc , m_fRotateAngle+=15, (m_fMapX -( m_pImg->getWidth()*3) / 2)+10, m_fMapY - ((m_pImg->getHeight()*3) / 2)+10,3);
+			m_pImg->rotateRender(hdc , m_fRotateAngle+=15, (m_fMapX -( m_pImg->getWidth()*3) / 2)+10, m_fMapY - ((m_pImg->getHeight()*3) / 2)+10,0.5f,0.5f,3);
 		}
 
 	}

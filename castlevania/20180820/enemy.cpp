@@ -14,7 +14,7 @@ HRESULT enemy::init( POINT position, EnemyKind eKind)
 
 
 	m_pPlayer = g_mainGame.getPlayer();
-
+	
 	m_fX = position.x;
 	m_fY = position.y;
 
@@ -24,6 +24,10 @@ HRESULT enemy::init( POINT position, EnemyKind eKind)
 	m_eKind = eKind;
 	m_bIsWallTouch = false;
 	m_attackRect = RectMakeCenter(-1,-1,2,2);
+	m_nHitDmg = 0;
+	m_bIshit = false;
+
+	m_pCImg = IMAGEMANAGER->addImage("숫자", "image/숫자.bmp", 96, 40, 12, 4, true, RGB(255, 0, 255));
 
 	switch (m_eKind)
 	{
@@ -61,6 +65,7 @@ void enemy::release()
 
 void enemy::update()
 {
+	Damagehit();
 	if (!m_bIsAlive)
 		return;
 	m_fY += m_fGravity;
@@ -82,14 +87,23 @@ void enemy::update()
 	default:
 		break;
 	}
+	if (m_mStatus.curHP <= 0)
+	{
+		m_bIsAlive = false;
+	}
+
 }
 
 void enemy::render(HDC hdc)
 {
+	if (m_nHitDmg != 0)
+	{
+		DamageImg(hdc, m_nHitDmg);
+	}
 	if (!m_bIsAlive)
 		return;
 
-	Rectangle(hdc, m_rc.left, m_rc.top, m_rc.right, m_rc.bottom);
+	//Rectangle(hdc, m_rc.left, m_rc.top, m_rc.right, m_rc.bottom);
 	switch (m_eKind)
 	{
 	case RIPPER:
@@ -104,6 +118,10 @@ void enemy::render(HDC hdc)
 	default:
 		break;
 	}
+
+
+
+
 }
 
 void enemy::move()
@@ -1086,7 +1104,7 @@ void enemy::axeArmorRender(HDC hdc)
 }
 void enemy::lizardManInit(POINT position, EnemyKind eKind)
 {
-	m_mStatus = { "리자드맨", 50,10,50,50,0,0,30,MonsterStatus::IDLE };
+	m_mStatus = { "리자드맨", 50,40,300,300,0,0,50,MonsterStatus::IDLE };
 	m_pImgLMotion = IMAGEMANAGER->addImage("image/lizard.bmp", "image/lizard.bmp", 80, 980, 1, 14, true, RGB(84, 109, 142));
 	m_pImgRMotion = IMAGEMANAGER->addImage("image/rizard.bmp", "image/rizard.bmp", 80, 980, 1, 14, true, RGB(84, 109, 142));
 	m_rc = RectMake(position.x, position.y, m_pImgLMotion->getFrameWidth() * 3, m_pImgLMotion->getFrameHeight() * 3);
@@ -1204,9 +1222,17 @@ void enemy::lizardManUpdate()
 			attack();
 			m_fElapsedTime += TIMEMANAGER->getElapsedTime();
 
+			if (m_bIshit)
+			{
+
+				m_mStatus.state = MonsterStatus::CHASER;
+				m_fElapsedTime = 0;
+			}
+
 			if (!(WINSIZEX > m_fMapX && m_fMapX > 0 && WINSIZEY > m_fMapY &&m_fMapY > 0))
 			{
 				m_mStatus.state = MonsterStatus::IDLE;
+				m_fElapsedTime = 0;
 
 			}
 			break;
@@ -1290,6 +1316,86 @@ void enemy::lizardManRender(HDC hdc)
 		break;
 	}
 }
+
+void enemy::Damagehit()
+{
+	if (m_nHitDmg != 0)
+	{
+		m_fDamageY--;
+		m_bIshit = true;
+		if (m_fDivineTime == 0)
+		{
+			m_mStatus.curHP -= m_nHitDmg;
+		}
+
+
+		if (m_fDivineTime>0.7)
+		{
+			m_nHitDmg = 0;
+			
+		}
+
+		m_fDivineTime += TIMEMANAGER->getElapsedTime();
+	}
+	else
+	{
+		m_bIshit = false;
+		m_fDamageY = m_fMapY-30;
+		m_fDivineTime = 0;
+	}
+
+
+}
+
+void enemy::DamageImg(HDC hdc, int damage)
+{
+	int Num = 0;
+	if (damage >= 10000)
+	{
+		m_pCImg->frameRender(hdc, m_fMapX, m_fDamageY, 9, 2, 3);
+		m_pCImg->frameRender(hdc, m_fMapX + 15, m_fDamageY, 9, 2, 3);
+		m_pCImg->frameRender(hdc, m_fMapX + 30, m_fDamageY, 9, 2, 3);
+		m_pCImg->frameRender(hdc, m_fMapX + 45, m_fDamageY, 9, 2, 3);
+		m_pCImg->frameRender(hdc, m_fMapX + 60, m_fDamageY, 9, 2, 3);
+	}
+	else if (damage < 10000 && damage >= 1000)
+	{
+
+		Num = (damage / 1000);
+		m_pCImg->frameRender(hdc, m_fMapX, m_fDamageY, Num, 2, 3);
+		Num = (damage / 100) - ((damage / 1000) * 10);
+		m_pCImg->frameRender(hdc, m_fMapX + 15, m_fDamageY, Num, 2, 3);
+		Num = (damage / 10) - ((damage / 100) * 10);
+		m_pCImg->frameRender(hdc, m_fMapX + 30, m_fDamageY, Num, 2, 3);
+		Num = (damage % 10);
+		m_pCImg->frameRender(hdc, m_fMapX + 45, m_fDamageY, Num, 2, 3);
+	}
+	else if (damage < 1000 && damage >= 100)
+	{
+		Num = (damage / 100);
+		m_pCImg->frameRender(hdc, m_fMapX, m_fDamageY, Num, 2, 3);
+		Num = (damage / 10) - ((damage / 100) * 10);
+		m_pCImg->frameRender(hdc, m_fMapX + 15, m_fDamageY, Num, 2, 3);
+		Num = (damage % 10);
+		m_pCImg->frameRender(hdc, m_fMapX + 30, m_fDamageY, Num, 2, 3);
+	}
+	else if (damage < 100 && damage >= 10)
+	{
+		Num = (damage / 10) - ((damage / 100) * 10);
+		m_pCImg->frameRender(hdc, m_fMapX, m_fDamageY, Num, 2, 3);
+		Num = (damage % 10);
+		m_pCImg->frameRender(hdc, m_fMapX + 15, m_fDamageY, Num, 2, 3);
+	}
+	else
+	{
+		Num = (damage % 10);
+		m_pCImg->frameRender(hdc, m_fMapX, m_fDamageY, Num, 2, 3);
+	}
+
+}
+
+
+
 enemy::enemy()
 {
 }

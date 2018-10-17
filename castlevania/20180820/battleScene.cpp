@@ -12,12 +12,12 @@ HRESULT battleScene::init()
 {
 	IMAGEMANAGER->addImage("background", "image/mapImage.bmp", WINSIZEX, WINSIZEY, false, 0);
 
-	
+
 	m_pPlayer = g_mainGame.getPlayer();
 
 
 	//IMAGEMANAGER->addImage("enemy_missile_1", "image/bullet.bmp", 21, 21, true, RGB(255,0,255));
-	
+
 	m_bIsChangeScene = false;
 	m_nAlphaNum = 0;
 
@@ -26,16 +26,16 @@ HRESULT battleScene::init()
 
 
 
-	m_progressBarHp->init(0, 0,285,30);
+	m_progressBarHp->init(0, 0, 285, 30);
 
 
 
 	m_progressBarHp->setGauge(m_pPlayer->getState().curHP, m_pPlayer->getState().fullHP
-					, m_pPlayer->getState().curMP, m_pPlayer->getState().fullMP);
+		, m_pPlayer->getState().curMP, m_pPlayer->getState().fullMP);
 
-	
 
-	
+
+
 	return S_OK;
 }
 
@@ -90,7 +90,7 @@ void battleScene::render(HDC hdc)
 	}
 
 
-	
+
 }
 
 void battleScene::checkCollision()
@@ -121,16 +121,20 @@ void battleScene::checkCollision()
 						damage = 1;
 					}
 
+					if (m_pPlayer->getHitDivineC() == 100)
+					{
+						m_pPlayer->setHitDmg(damage);
+						m_pPlayer->hitCollision(damage);
 
-					m_pPlayer->setHitDmg(damage);
-					m_pPlayer->hitCollision(damage);
-					m_pPlayer->hitMosion();
+					}
+
+					
 					// 미사일 삭제
 
 
 
 
-					(*iterMissile)->setIsFire(false);
+					//(*iterMissile)->setIsFire(false);
 
 
 
@@ -139,12 +143,12 @@ void battleScene::checkCollision()
 				if ((*iterMissile)->getIsFire() && IntersectRect(&rc, &m_pPlayer->getIRC(), &(*iterMissile)->getRect()))
 				{
 					// 미사일 삭제
-					(*iterMissile)->setIsFire(false);
+					//(*iterMissile)->setIsFire(false);
 
 				}
-			
 
-			
+
+
 
 
 			}
@@ -154,26 +158,25 @@ void battleScene::checkCollision()
 
 
 
-		//std::vector<missile*> vPMissile = m_pPlayer->getMissileMgr()->getVecMissile();
-		//std::vector<missile*>::iterator iterPMissile;
+		RECT rc;
+		if ((*iter)->getIsAlive() && 
+			IntersectRect(&rc, &m_pPlayer->getIRC(), &(*iter)->getRc()))
+		{
+			//(*iter)->setIsAlive(false);
 
-		//for (iterPMissile = vPMissile.begin(); iterPMissile != vPMissile.end(); iterPMissile++)
-		//{
-		//	RECT rc;
-		//	if ((*iter)->getIsAlive() && (*iterPMissile)->getIsFire() &&
-		//		IntersectRect(&rc, &(*iterPMissile)->getRect(), &(*iter)->getRect()))
-		//	{
-		//		(*iter)->setIsAlive(false);
+	
+			int damage = m_pPlayer->getState().curAtt - (*iter)->getMStatus().curDef;
 
-		//		(*iterPMissile)->setIsFire(false);
+			if (damage < 1)
+			{
+				damage = 1;
+			}
 
-		//		g_mainGame.setScore(g_mainGame.getScore() + ((*iter)->getKind() * 100));
+			if(!((*iter)->getIshit()))
+				(*iter)->setHitDmg(damage);
 
-		//		//EFFECTMANAGER->play("explosion1", rc.left, rc.top);
+		}
 
-
-		//	}
-		//}
 
 
 
