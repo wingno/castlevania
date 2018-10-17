@@ -50,6 +50,7 @@ private:
 	image *	 m_pImg;
 	image *	 m_pImg2;
 	image *	 m_pImg3;
+	image *	 m_pImg4;
 	image *  m_pCImg;
 
 	
@@ -183,6 +184,11 @@ public:
 	void ShowDamage();
 
 	void FallDown();
+
+	void PlayerRect();
+
+	void PlayerStandAttack();
+	
 
 	Status* getPState() { return &m_status; }
 

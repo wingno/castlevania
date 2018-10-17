@@ -18,8 +18,11 @@ HRESULT player::init()
 	// 플레이어의 왼쪽 보고 있을떄의 이미지 18부터 프레임 시작
 	m_pImg2 = IMAGEMANAGER->addImage("player2", "image/playerMotion2.bmp", 855, 741, 19, 13, true, RGB(0, 64, 128));
 
-	// 칼
+	// 발뭉
 	m_pImg3 = IMAGEMANAGER->addImage("발뭉", "image/발뭉.bmp", 720, 48, 9, 2, true, RGB(255, 0, 255));
+
+	// 크라우 솔루스
+	m_pImg4 = IMAGEMANAGER->addImage("크라우솔루스", "image/크라우솔루스.bmp", 19, 55, 1, 1, true, RGB(255, 0, 255));
 
 	// 숫자 이미지
 	m_pCImg = IMAGEMANAGER->addImage("숫자", "image/숫자.bmp", 96, 40, 12, 4, true, RGB(255, 0, 255));
@@ -143,10 +146,14 @@ HRESULT player::init()
 	handItem* testHItem = new handItem;
 	testHItem->init(0, 1, 1, 100, 0, 0, 0, 0, 0, 0, 0, "발뭉", "용을 살해한 검");
 
+	handItem* test2HItem = new handItem;
+	test2HItem->init(0, 1, 2, 100, 0, 0, 0, 0, 0, 0, 0, "크라우-솔루스", "빛나는 검날을 가진 검");
+
 
 
 	m_ItemInven.vecHandItem.push_back(baseHItem);
 	m_ItemInven.vecHandItem.push_back(testHItem);
+	m_ItemInven.vecHandItem.push_back(test2HItem);
 
 
 	bodyItem* baseBItem = new bodyItem;
@@ -333,7 +340,9 @@ void player::update()
 					if (m_bPlayerJumpAttack == 0)
 					{
 						if (m_bPlayerReady == 1)
+						{
 							m_nRCurrFrameY = 6;
+						}
 
 					}
 					if (m_nPlayerJump == 0)
@@ -515,7 +524,7 @@ void player::update()
 	}
 
 	// 플레이어 앉기
-	if (KEYMANAGER->isStayKeyDown(VK_DOWN) && m_bPlayerAttack == 0 && m_bPlayerJumpAttack == 0)
+	if (KEYMANAGER->isStayKeyDown(VK_DOWN) && m_bPlayerAttack == 0 && m_bPlayerJumpAttack == 0 && m_bPlayerJumpM == 0)
 	{
 		m_nPlayerDown = 1;
 		if (m_bPlayerSee == 1)
@@ -590,33 +599,7 @@ void player::update()
 		// 플레이어 공격자세
 		else if (m_nRCurrFrameY == 1 && m_bPlayerAttack == 1 && m_bPlayerStand == 1 && m_bPlayerSkAttack == 0)
 		{
-			if (m_nCount % 4 == 0)
-			{
-				m_nRCurrFrameX++;
-				if (m_nRCurrFrameX > 2)
-				{
-					m_bItem = 1;
-					m_nNCurrFrameX++;
-
-
-					if (m_nNCurrFrameX > 0 && m_nNCurrFrameX < 5)
-					{
-						m_Irc = RectMakeCenter(m_fX + 120, m_fY - 40, m_pImg3->getFrameWidth() * 2, m_pImg3->getFrameHeight() * 2);
-					}
-				}
-				m_pImg->setFrameX(m_nRCurrFrameX);
-				m_pImg3->setFrameX(m_nNCurrFrameX);
-				if (m_nRCurrFrameX > m_pImg->getMaxFrameX() - 7)
-				{
-					m_nRCurrFrameX = 0;
-					m_bPlayerAttack = 0;
-					m_nRCurrFrameY = 0;
-					m_nNCurrFrameX = 0;
-					m_bItem = 0;
-					m_nCount = 0;
-					m_Irc = RectMakeCenter(-10, -10, 1, 1);
-				}
-			}
+			PlayerStandAttack();
 		}
 
 
@@ -1106,9 +1089,9 @@ void player::update()
 	hitMosion();
 	ShowDamage();
 	FallDown();
+	PlayerRect();
 
-
-	m_rc = RectMakeCenter(m_fX, m_fY, (m_pImg->getFrameWidth() * 3) / 2, (m_pImg->getFrameHeight() * 3) / 2);
+	
 
 
 }
@@ -1124,17 +1107,24 @@ void player::render(HDC hdc)
 			m_pImg->frameRender(hdc, m_fX - (m_pImg->getFrameWidth() * 3) / 2, m_fY - (m_pImg->getFrameHeight() * 3) / 2 - 10, m_nRCurrFrameX, m_nRCurrFrameY, 3);
 			if (m_bItem)
 			{
-				if (m_bPlayerAttack)
+				if (m_ItemSet.hI->m_nIdx == 1)
 				{
-					m_pImg3->frameRender(hdc, m_fX - 30, m_fY - 70, m_nNCurrFrameX, m_nNCurrFrameY, 3);
+					if (m_bPlayerAttack)
+					{
+						m_pImg3->frameRender(hdc, m_fX - 30, m_fY - 70, m_nNCurrFrameX, m_nNCurrFrameY, 3);
+					}
+					else if (m_bPlayerDownAt)
+					{
+						m_pImg3->frameRender(hdc, m_fX - 30, m_fY - 35, m_nNCurrFrameX, m_nNCurrFrameY, 3);
+					}
+					else if (m_bPlayerJumpAttack)
+					{
+						m_pImg3->frameRender(hdc, m_fX - 30, m_fY - 65, m_nNCurrFrameX, m_nNCurrFrameY, 3);
+					}
 				}
-				else if (m_bPlayerDownAt)
+				else if (m_ItemSet.hI->m_nIdx == 2)
 				{
-					m_pImg3->frameRender(hdc, m_fX - 30, m_fY - 35, m_nNCurrFrameX, m_nNCurrFrameY, 3);
-				}
-				else if (m_bPlayerJumpAttack)
-				{
-					m_pImg3->frameRender(hdc, m_fX - 30, m_fY - 65, m_nNCurrFrameX, m_nNCurrFrameY, 3);
+					m_pImg4->rotateRender(hdc, 90, m_fX, m_fY, 3);
 				}
 			}
 		}
@@ -1146,17 +1136,24 @@ void player::render(HDC hdc)
 
 			if (m_bItem)
 			{
-				if (m_bPlayerAttack)
+				if (m_ItemSet.hI->m_nIdx == 1)
 				{
-					m_pImg3->frameRender(hdc, m_fX - 200, m_fY - 70, m_nNCurrFrameX, m_nNCurrFrameY, 3);
+					if (m_bPlayerAttack)
+					{
+						m_pImg3->frameRender(hdc, m_fX - 200, m_fY - 70, m_nNCurrFrameX, m_nNCurrFrameY, 3);
+					}
+					else if (m_bPlayerDownAt)
+					{
+						m_pImg3->frameRender(hdc, m_fX - 200, m_fY - 35, m_nNCurrFrameX, m_nNCurrFrameY, 3);
+					}
+					else if (m_bPlayerJumpAttack)
+					{
+						m_pImg3->frameRender(hdc, m_fX - 30, m_fY - 65, m_nNCurrFrameX, m_nNCurrFrameY, 3);
+					}
 				}
-				else if (m_bPlayerDownAt)
+				else if (m_ItemSet.hI->m_nIdx == 2)
 				{
-					m_pImg3->frameRender(hdc, m_fX - 200, m_fY - 35, m_nNCurrFrameX, m_nNCurrFrameY, 3);
-				}
-				else if (m_bPlayerJumpAttack)
-				{
-					m_pImg3->frameRender(hdc, m_fX - 30, m_fY - 65, m_nNCurrFrameX, m_nNCurrFrameY, 3);
+
 				}
 			}
 		}
@@ -1479,6 +1476,73 @@ void player::ShowDamage()
 
 void player::FallDown()
 {
+}
+
+void player::PlayerRect()
+{
+	if (m_nPlayerDown == 0)
+	{
+		m_rc = RectMakeCenter(m_fX, m_fY, (m_pImg->getFrameWidth() * 3) / 2, (m_pImg->getFrameHeight() * 3) / 2);
+	}
+	else if (m_nPlayerDown == 1)
+	{
+		m_rc = RectMakeCenter(m_fX, m_fY + 15, (m_pImg->getFrameWidth() * 3) / 2, ((m_pImg->getFrameHeight() * 3) / 2 - 30));
+	}
+}
+
+void player::PlayerStandAttack()
+{
+	if (m_ItemSet.hI->m_nIdx == 1)
+	{
+		if (m_nCount % 4 == 0)
+		{
+			m_nRCurrFrameX++;
+			if (m_nRCurrFrameX > 2)
+			{
+				m_bItem = 1;
+				m_nNCurrFrameX++;
+
+
+				if (m_nNCurrFrameX > 0 && m_nNCurrFrameX < 5)
+				{
+					m_Irc = RectMakeCenter(m_fX + 120, m_fY - 40, m_pImg3->getFrameWidth() * 2, m_pImg3->getFrameHeight() * 2);
+				}
+			}
+			m_pImg->setFrameX(m_nRCurrFrameX);
+			m_pImg3->setFrameX(m_nNCurrFrameX);
+			if (m_nRCurrFrameX > m_pImg->getMaxFrameX() - 7)
+			{
+				m_nRCurrFrameX = 0;
+				m_bPlayerAttack = 0;
+				m_nRCurrFrameY = 0;
+				m_nNCurrFrameX = 0;
+				m_bItem = 0;
+				m_nCount = 0;
+				m_Irc = RectMakeCenter(-10, -10, 1, 1);
+			}
+		}
+	}
+	else if (m_ItemSet.hI->m_nIdx == 2)
+	{
+		if (m_nCount % 4 == 0)
+		{
+			m_nRCurrFrameX++;
+			if (m_nRCurrFrameX > 2)
+			{
+				m_bItem = 1;
+			}
+			m_pImg->setFrameX(m_nRCurrFrameX);
+			if (m_nRCurrFrameX > m_pImg->getMaxFrameX() - 7)
+			{
+				m_nRCurrFrameX = 0;
+				m_bPlayerAttack = 0;
+				m_nRCurrFrameY = 0;
+				m_bItem = 0;
+				m_nCount = 0;
+				m_Irc = RectMakeCenter(-10, -10, 1, 1);
+			}
+		}
+	}
 }
 
 void player::hitMosion()
