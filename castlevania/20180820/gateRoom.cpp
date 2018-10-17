@@ -78,6 +78,30 @@ void gateRoom::update()
 		m_pPlayer->setYCameraOn(false);
 	}
 
+	if (m_posMap.x == 0 && m_pPlayer->getFx() > WINSIZEX / 2)
+	{
+
+		m_pPlayer->setXCameraOn(true);
+	}
+
+	if (m_posMap.x == 510 * 3 - WINSIZEX && m_pPlayer->getFx() < WINSIZEX / 2)
+	{
+
+		m_pPlayer->setXCameraOn(true);
+	}
+
+	if (m_posMap.y == 0 && m_pPlayer->getFY() > WINSIZEY / 2 + 75)
+	{
+
+		m_pPlayer->setYCameraOn(true);
+	}
+
+	if (m_posMap.y == 666 * 3 - WINSIZEY && m_pPlayer->getFY() < WINSIZEY / 2 + 75)
+	{
+
+		m_pPlayer->setYCameraOn(true);
+	}
+
 
 	//게이트
 	m_rectGate[0] = RectMake(1530- m_posMap.x, 1714 - m_posMap.y, 30, 150 );
@@ -181,8 +205,8 @@ void gateRoom::rectColider()
 				
 
 				m_pPlayer->setFY(300); //플레이어의시작위치
-				m_pPlayer->setFx(WINSIZEX- (160 * 3));
-
+				m_pPlayer->setFx(50);
+				m_pPlayer->PlayerRect();
 				ROOMMANAGER->changeRoom("hallwayRoom1");
 
 				POINT point;

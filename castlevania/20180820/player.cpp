@@ -140,8 +140,6 @@ HRESULT player::init()
 
 
 
-
-
 	handItem* baseHItem = new handItem;
 	baseHItem->init(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "------", "---");
 
@@ -149,7 +147,7 @@ HRESULT player::init()
 	testHItem->init(0, 1, 1, 100, 0, 0, 0, 0, 0, 0, 0, "발뭉", "용을 살해한 검");
 
 	handItem* test2HItem = new handItem;
-	test2HItem->init(0, 1, 2, 100, 0, 0, 0, 0, 0, 0, 0, "크라우-솔루스", "빛나는 검날을 가진 검");
+	test2HItem->init(0, 1, 2, 99, 0, 7, 7, 7, 0, 0, 0, "크라우-솔루스", "빛나는 검날을 가진 검");
 
 
 
@@ -164,16 +162,33 @@ HRESULT player::init()
 	bodyItem* testBItem = new bodyItem;
 	testBItem->init(0, 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, "평상복", "평소에 자주 입는 옷");
 
+	bodyItem* testBItem1 = new bodyItem;
+	testBItem1->init(0, 1, 5, 0, 33, 6, 6, 6, 6, 0, 0, "드라큘라 옷", "드라큘라의 마력이 깃든 옷");
+
 
 
 	m_ItemInven.vecBodyItem.push_back(baseBItem);
 	m_ItemInven.vecBodyItem.push_back(testBItem);
+	m_ItemInven.vecBodyItem.push_back(testBItem1);
 
 
 	accessoryItem* baseAItem = new accessoryItem;
 	baseAItem->init(0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "------", "---");
 
+	accessoryItem* testAItem = new accessoryItem;
+	testAItem->init(0, 1, 1, 0, 2, 0, 0, 0, 0, 0, 0, "머플러", "따뜻한 머플러");
+
+	accessoryItem* testAItem1 = new accessoryItem;
+	testAItem1->init(0, 1, 2, 0, 0, 0, 0, 0, 1, 0, 0, "펜던트", "펜던트");
+
+	accessoryItem* testAItem2 = new accessoryItem;
+	testAItem2->init(0, 1, 5, 0, 6, 2, 2, 2, 0, 0, 0, "마왕의 반지", "마왕이 몸에 지니고 있던 반지");
+
+
 	m_ItemInven.vecAccessoryItem.push_back(baseAItem);
+	m_ItemInven.vecAccessoryItem.push_back(testAItem);
+	m_ItemInven.vecAccessoryItem.push_back(testAItem1);
+	m_ItemInven.vecAccessoryItem.push_back(testAItem2);
 
 
 	ItemUse* testuItem = new ItemUse;
@@ -198,6 +213,8 @@ HRESULT player::init()
 	m_ItemInven.vecItemUse.push_back(testuItem4);
 	m_ItemInven.vecItemUse.push_back(testuItem5);
 	m_ItemInven.vecItemUse.push_back(testuItem6);
+
+
 
 
 	m_soulSet.bS = baseBSoul;
@@ -1340,6 +1357,7 @@ void player::hitCollision(int damage)
 			if (m_nHitDivineC == 100)
 			{
 				m_status.curHP -= damage;
+
 			}
 		}
 		else if (m_bPlayerStand == 1)
@@ -1349,6 +1367,7 @@ void player::hitCollision(int damage)
 			if (m_nHitDivineC == 100)
 			{
 				m_status.curHP -= damage;
+
 			}
 		}
 	}

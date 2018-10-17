@@ -122,6 +122,7 @@ void battleScene::checkCollision()
 					{
 						m_pPlayer->setHitDmg(damage);
 						m_pPlayer->hitCollision(damage);
+						
 
 					}
 

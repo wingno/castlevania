@@ -98,7 +98,7 @@ void hallwayRoom3::rectColider()
 
 				m_pPlayer->setFY(300);
 				m_pPlayer->setFx(640 - (30 * 3));
-
+				m_pPlayer->PlayerRect();
 				ROOMMANAGER->changeRoom("CastleHallwayy");
 
 
@@ -112,7 +112,7 @@ void hallwayRoom3::rectColider()
 
 				m_pPlayer->setFY(300);
 				m_pPlayer->setFx(30 * 3);
-
+				m_pPlayer->PlayerRect();
 				ROOMMANAGER->changeRoom("BrickStaircaseroom");
 				
 				break;

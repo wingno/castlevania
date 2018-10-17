@@ -116,6 +116,18 @@ void hallwayRoom1::update()
 		m_pPlayer->setXCameraOn(false);
 	}
 
+	if (m_posBG.x == 0 && m_pPlayer->getFx()>WINSIZEX/2 )
+	{
+
+		m_pPlayer->setXCameraOn(true);
+	}
+
+	if (m_posBG.x == 3200 && m_pPlayer->getFx() < WINSIZEX / 2)
+	{
+
+		m_pPlayer->setXCameraOn(true);
+	}
+
 	m_posMap.y = 0;
 	m_posBG.y = 0;
 	m_pPlayer->setYCameraOn(false);

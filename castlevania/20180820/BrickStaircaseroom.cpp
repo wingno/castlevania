@@ -96,7 +96,7 @@ void BrickStaircaseroom::rectColider()
 
 				m_pPlayer->setFY(293);
 				m_pPlayer->setFx(WINSIZEX - (30 * 3));
-
+				m_pPlayer->PlayerRect();
 				ROOMMANAGER->changeRoom("hallwayRoom3");
 
 

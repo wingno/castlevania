@@ -73,8 +73,6 @@ void enemy::update()
 	{
 		case RIPPER:
 			ripperUpdate();
-
-
 		break;
 		case AXE_ARMOR:
 			axeArmorUpdate();
@@ -1210,6 +1208,7 @@ void enemy::lizardManUpdate()
 			}
 			if (m_pPlayer->getPlayerAttack() || m_pPlayer->getPlayerJumpAttack() || m_pPlayer->getPlayerDownAt())
 			{
+				m_mStatus.curDef = 99999999;
 				m_mStatus.state = MonsterStatus::DEFENSE;
 				m_fElapsedTime = 0;
 			}

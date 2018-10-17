@@ -85,6 +85,31 @@ void FountainRoom::update()
 		m_pPlayer->setYCameraOn(false);
 	}
 
+	if (m_posMap.x == 0 && m_pPlayer->getFx() > WINSIZEX / 2)
+	{
+
+		m_pPlayer->setXCameraOn(true);
+	}
+
+	if (m_posMap.x == 512 * 3 - WINSIZEX && m_pPlayer->getFx() < WINSIZEX / 2)
+	{
+
+		m_pPlayer->setXCameraOn(true);
+	}
+
+	if (m_posMap.y == 0 && m_pPlayer->getFY() > WINSIZEY / 2 +75)
+	{
+
+		m_pPlayer->setYCameraOn(true);
+	}
+
+	if (m_posMap.y == 416 * 3 - WINSIZEY && m_pPlayer->getFY() < WINSIZEY / 2 +75)
+	{
+
+		m_pPlayer->setYCameraOn(true);
+	}
+	
+
 	
 	m_rectGate[0] = RectMake(-30 - m_posMap.x, 193 - m_posMap.y, 30, 144);
 	//- 30 안보이는 상태에서 충돌시 맵이동
@@ -194,20 +219,20 @@ void FountainRoom::rectColider()
 			case 0:
 				m_pPlayer->setFY(293);
 				m_pPlayer->setFx(WINSIZEX - (30 * 3));
-
+				m_pPlayer->PlayerRect();
 				ROOMMANAGER->changeRoom("hallwayRoom1");
 
 				
 				point.x = 1276 * 3 - WINSIZEX;
 				point.y = 0;
-
+				m_pPlayer->PlayerRect();
 				ROOMMANAGER->getCurrRoom()->setPosMap(point);
 
 				break;
 			case 1:
 				m_pPlayer->setFY(300);
 				m_pPlayer->setFx(30 * 3);
-
+				m_pPlayer->PlayerRect();
 				ROOMMANAGER->changeRoom("hallwayRoom2");
 
 				
@@ -217,7 +242,7 @@ void FountainRoom::rectColider()
 			case 2:
 				m_pPlayer->setFY(330);
 				m_pPlayer->setFx(40 * 3);
-
+				m_pPlayer->PlayerRect();
 
 				ROOMMANAGER->changeRoom("saveroom");
 

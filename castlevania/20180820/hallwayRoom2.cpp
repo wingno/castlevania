@@ -128,24 +128,25 @@ void hallwayRoom2::rectColider()
 
 				m_pPlayer->setFY(300);
 				m_pPlayer->setFx(590 - (30 * 3));
-
+				m_pPlayer->PlayerRect();
 				ROOMMANAGER->changeRoom("FountainRoom");
 
 
 				point.x = 520 * 3 - WINSIZEX;
 				point.y = 0;
-
+				m_pPlayer->PlayerRect();
 				ROOMMANAGER->getCurrRoom()->setPosMap(point);
 				break;
 			case 1:
 
 				m_pPlayer->setFY(300);
 				m_pPlayer->setFx(20 * 3);
+				m_pPlayer->PlayerRect();
 				ROOMMANAGER->changeRoom("CastleHallwayy");
 
 				point.x = 0;
 				point.y = 3850;
-
+				m_pPlayer->PlayerRect();
 				ROOMMANAGER->getCurrRoom()->setPosMap(point);
 				break;
 			case 2:

@@ -100,6 +100,30 @@ void CastleHallway::update()
 
 	}
 
+	if (m_posMap.x == 0 && m_pPlayer->getFx() > WINSIZEX / 2)
+	{
+
+		m_pPlayer->setXCameraOn(true);
+	}
+
+	if (m_posMap.x == 512 * 3 - WINSIZEX && m_pPlayer->getFx() < WINSIZEX / 2)
+	{
+
+		m_pPlayer->setXCameraOn(true);
+	}
+
+	if (m_posMap.y == 0 && m_pPlayer->getFY() > WINSIZEY / 2 + 75)
+	{
+
+		m_pPlayer->setYCameraOn(true);
+	}
+
+	if (m_posMap.y == 1440 * 3 - WINSIZEY && m_pPlayer->getFY() < WINSIZEY / 2 + 75)
+	{
+
+		m_pPlayer->setYCameraOn(true);
+	}
+
 
 	m_rectGate[0] = RectMake(-20 - m_posMap.x, 4032 - m_posMap.y, 30, 144);
 	m_rectGate[1] = RectMake(1530 - m_posMap.x, 4032 - m_posMap.y, 30, 144);
@@ -166,13 +190,13 @@ void CastleHallway::rectColider()
 
 				m_pPlayer->setFY(293);
 				m_pPlayer->setFx(WINSIZEX - (20 * 3));
-
+				m_pPlayer->PlayerRect();
 				ROOMMANAGER->changeRoom("hallwayRoom2");
 
 
 				point.x = 780 * 3 - WINSIZEX;
 				point.y = 0;
-
+				m_pPlayer->PlayerRect();
 				ROOMMANAGER->getCurrRoom()->setPosMap(point);
 			
 				break;
@@ -180,7 +204,7 @@ void CastleHallway::rectColider()
 
 				m_pPlayer->setFY(300);
 				m_pPlayer->setFx(30 * 3);
-
+				m_pPlayer->PlayerRect();
 				ROOMMANAGER->changeRoom("hallwayRoom3");
 				break;
 			case 2:
