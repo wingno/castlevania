@@ -14,7 +14,6 @@ HRESULT hallwayRoom3::init()
 	m_posBG = PointMake(0, 0);
 
 
-
 	m_rectGate = rectGate;
 	m_rectObj = rectObj;
 
@@ -61,7 +60,6 @@ void hallwayRoom3::update()
 	}
 
 	m_rectGate[0] = RectMake(-20 - m_posMap.x, 193, 30, 144);
-	m_rectGate[1] = RectMake(1525 - m_posMap.x, 193 - m_posMap.y, 30, 144);
 
 	rectColider();
 }
@@ -76,7 +74,7 @@ void hallwayRoom3::render(HDC hdc)
 
 	m_imgBg->render(hdc, 0, 0, 3592 + m_posMap.x / 3, 1551 + m_posMap.y / 3, 300, 160, 3);
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		Rectangle(hdc, m_rectGate[i].left, m_rectGate[i].top, m_rectGate[i].right, m_rectGate[i].bottom);
 	}
@@ -108,19 +106,6 @@ void hallwayRoom3::rectColider()
 				ROOMMANAGER->getCurrRoom()->setPosMap(point);
 
 				break;
-			case 1:
-
-				m_pPlayer->setFY(300);
-				m_pPlayer->setFx(30 * 3);
-
-				ROOMMANAGER->changeRoom("BrickStaircaseroom");
-				
-				break;
-			case 2:
-
-
-				break;
-
 
 			default:
 				break;
