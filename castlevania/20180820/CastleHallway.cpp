@@ -20,6 +20,16 @@ HRESULT CastleHallway::init()
 	m_rectObj = rectObj;
 	m_nRectNum = 11;
 
+	m_pEnemyMgr->setEnemy(772, 3450, LIZARDMAN);
+
+	m_pEnemyMgr->setEnemy(339, 3450, LIZARDMAN);
+	m_pEnemyMgr->setEnemy(1397, 2010, LIZARDMAN);
+	m_pEnemyMgr->setEnemy(628, 572, LIZARDMAN);
+	m_pEnemyMgr->setEnemy(937, 4170, LIZARDMAN);
+
+
+	m_pEnemyMgr->setEnemy(361, 4170, LIZARDMAN);
+
 	m_Object = new RoomObject[14];
 
 		//촛불
@@ -159,13 +169,13 @@ void CastleHallway::render(HDC hdc)
 	//게이트 오브젝트
 	for (int i = 0; i < 3; i++)
 	{
-		Rectangle(hdc, m_rectGate[i].left, m_rectGate[i].top, m_rectGate[i].right, m_rectGate[i].bottom);
+		//Rectangle(hdc, m_rectGate[i].left, m_rectGate[i].top, m_rectGate[i].right, m_rectGate[i].bottom);
 
 	}
 	//발판 오브젝트
 	for (int i = 0; i < 12; i++)
 	{
-		Rectangle(hdc, m_rectObj[i].left, m_rectObj[i].top, m_rectObj[i].right, m_rectObj[i].bottom);
+		//Rectangle(hdc, m_rectObj[i].left, m_rectObj[i].top, m_rectObj[i].right, m_rectObj[i].bottom);
 	}
 
 

@@ -792,7 +792,7 @@ void enemy::ripperRender(HDC hdc)
 void enemy::axeArmorInit(POINT position, EnemyKind eKind)
 {
 
-	m_mStatus = { "엑스아머", 50,10,50,50,0,0,30,MonsterStatus::IDLE };
+	m_mStatus = { "엑스아머", 80,47,200,200,0,0,80,MonsterStatus::IDLE };
 	m_pImgLMotion = IMAGEMANAGER->addImage("image/axeArmorL.bmp", "image/axeArmorL.bmp", 80, 1610, 1, 23, true, RGB(84, 109, 142));
 	m_pImgRMotion = IMAGEMANAGER->addImage("image/axeArmorR.bmp", "image/axeArmorR.bmp", 80, 1610, 1, 23, true, RGB(84, 109, 142));
 	m_rc = RectMake(position.x, position.y, m_pImgLMotion->getFrameWidth() * 3, m_pImgLMotion->getFrameHeight() * 3);
@@ -903,7 +903,7 @@ void enemy::axeArmorUpdate()
 		if (IntersectRect(&rc, &m_pPlayer->getRc(), &m_chaserRc))
 		{
 			m_aniL1->stop();
-			if (m_fElapsedTime > 3)
+			if (m_fElapsedTime > 1)
 			{
 				m_mStatus.state = MonsterStatus::ATTACK;
 				m_fElapsedTime = 0;
@@ -1102,7 +1102,7 @@ void enemy::axeArmorRender(HDC hdc)
 }
 void enemy::lizardManInit(POINT position, EnemyKind eKind)
 {
-	m_mStatus = { "리자드맨", 50,40,200,200,0,0,50,MonsterStatus::IDLE };
+	m_mStatus = { "리자드맨", 50,40,200,200,0,0,200,MonsterStatus::IDLE };
 	m_pImgLMotion = IMAGEMANAGER->addImage("image/lizard.bmp", "image/lizard.bmp", 80, 980, 1, 14, true, RGB(84, 109, 142));
 	m_pImgRMotion = IMAGEMANAGER->addImage("image/rizard.bmp", "image/rizard.bmp", 80, 980, 1, 14, true, RGB(84, 109, 142));
 	m_rc = RectMake(position.x, position.y, m_pImgLMotion->getFrameWidth() * 3, m_pImgLMotion->getFrameHeight() * 3);
@@ -1193,7 +1193,7 @@ void enemy::lizardManUpdate()
 			else
 			{
 
-				if (MY_UTIL::getDistance(m_pPlayer->getFx(),m_pPlayer->getFY(), m_fMapX, m_fMapY)<190&& m_fElapsedTime>3)
+				if (MY_UTIL::getDistance(m_pPlayer->getFx(),m_pPlayer->getFY(), m_fMapX, m_fMapY)<190&& m_fElapsedTime>1)
 				{
 					m_aniL1->stop();
 					m_mStatus.state = MonsterStatus::ATTACK;
@@ -1293,7 +1293,7 @@ void enemy::lizardManRender(HDC hdc)
 		}
 		break;
 	case MonsterStatus::ATTACK:
-		Rectangle(hdc, m_attackRect.left, m_attackRect.top, m_attackRect.right, m_attackRect.bottom);
+		//Rectangle(hdc, m_attackRect.left, m_attackRect.top, m_attackRect.right, m_attackRect.bottom);
 		if (m_bIsLeftSee)
 		{
 			m_pImgLMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth()*2, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniL2, 3);
@@ -1334,7 +1334,7 @@ void enemy::Damagehit()
 		}
 
 
-		if (m_fDivineTime>1.2)
+		if (m_fDivineTime>0.5)
 		{
 			m_nHitDmg = 0;
 			
@@ -1346,6 +1346,11 @@ void enemy::Damagehit()
 	{
 		m_bIshit = false;
 		m_fDamageY = m_fMapY-30;
+
+		if (m_eKind == AXE_ARMOR)
+		{
+			m_fDamageY = m_fMapY - 60;
+		}
 		m_fDivineTime = 0;
 	}
 
@@ -1355,6 +1360,8 @@ void enemy::Damagehit()
 void enemy::DamageImg(HDC hdc, int damage)
 {
 	int Num = 0;
+
+
 	if (damage >= 10000)
 	{
 		m_pCImg->frameRender(hdc, m_fMapX, m_fDamageY, 9, 2, 3);

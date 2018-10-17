@@ -24,10 +24,14 @@ HRESULT hallwayRoom2::init()
 	m_Object = new RoomObject[2];
 
 	
-		m_Object[0].init(740, 190, 0);
-		m_Object[1].init(1510, 190, 0);
+	m_Object[0].init(740, 190, 0);
+	m_Object[1].init(1510, 190, 0);
 	
-
+	m_pEnemyMgr->setEnemy(500, 425, RIPPER);
+	m_pEnemyMgr->setEnemy(900, 425, RIPPER);
+	m_pEnemyMgr->setEnemy(1300, 425, RIPPER);
+	m_pEnemyMgr->setEnemy(2000, 425, RIPPER);
+	m_pEnemyMgr->setEnemy(3000, 425, RIPPER);
 
 
 	return S_OK;
@@ -102,7 +106,7 @@ void hallwayRoom2::render(HDC hdc)
 
 	for (int i = 0; i < 2; i++)
 	{
-		Rectangle(hdc, m_rectGate[i].left, m_rectGate[i].top, m_rectGate[i].right, m_rectGate[i].bottom);
+		//Rectangle(hdc, m_rectGate[i].left, m_rectGate[i].top, m_rectGate[i].right, m_rectGate[i].bottom);
 	}
 	//¿ÀºêÀèÆ®
 	for (int i = 0; i < 2; i++)

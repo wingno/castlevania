@@ -1,8 +1,8 @@
 #pragma once
-
+#include "enemyManager.h"
 
 class player;
-class enemyManager;
+//class enemyManager;
 class room
 {
 protected:

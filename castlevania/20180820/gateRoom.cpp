@@ -126,12 +126,12 @@ void gateRoom::render(HDC hdc)
 
 	m_imgBg->render(hdc, 0, 0, 10+ m_posMap.x / 3, 1044 + m_posMap.y / 3, 300, 160, 3);
 	
-	Rectangle(hdc, m_rectGate[0].left, m_rectGate[0].top, m_rectGate[0].right, m_rectGate[0].bottom);
+	//Rectangle(hdc, m_rectGate[0].left, m_rectGate[0].top, m_rectGate[0].right, m_rectGate[0].bottom);
 
 
 	for (int i = 0; i < 6; i++)
 	{
-		Rectangle(hdc, m_rectObj[i].left, m_rectObj[i].top, m_rectObj[i].right, m_rectObj[i].bottom);
+		//Rectangle(hdc, m_rectObj[i].left, m_rectObj[i].top, m_rectObj[i].right, m_rectObj[i].bottom);
 	}
 
 	for (int i = 0; i < 4; i++)

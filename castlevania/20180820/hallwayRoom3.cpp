@@ -78,7 +78,7 @@ void hallwayRoom3::render(HDC hdc)
 
 	for (int i = 0; i < 2; i++)
 	{
-		Rectangle(hdc, m_rectGate[i].left, m_rectGate[i].top, m_rectGate[i].right, m_rectGate[i].bottom);
+		//Rectangle(hdc, m_rectGate[i].left, m_rectGate[i].top, m_rectGate[i].right, m_rectGate[i].bottom);
 	}
 
 }

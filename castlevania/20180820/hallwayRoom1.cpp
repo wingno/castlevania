@@ -17,15 +17,12 @@ HRESULT hallwayRoom1::init()
 	m_posMap = PointMake(0, 0);
 	m_posBG = PointMake(0, 0);
 
-	m_pEnemyMgr->setEnemy(500, 300, LIZARDMAN);
+	//m_pEnemyMgr->setEnemy(500, 300, LIZARDMAN);
 
 	m_Zombie = new zombie[10];
 	m_Zombie->init(500, 350);
 
-	//m_pEnemyMgr->setEnemy(500, 425, RIPPER);
-	//m_pEnemyMgr->setEnemy(900, 425, RIPPER);
-	m_pEnemyMgr->setEnemy(1300, 425, RIPPER);
-	//m_pEnemyMgr->setEnemy(3000, 425, RIPPER);
+
 
 
 	for (int i = 1; i < 10; i++)
@@ -165,11 +162,11 @@ void hallwayRoom1::render(HDC hdc)
 
 	for (int i = 0; i < 3; i++)
 	{
-		Rectangle(hdc, m_rectGate[i].left, m_rectGate[i].top, m_rectGate[i].right, m_rectGate[i].bottom);
+		//Rectangle(hdc, m_rectGate[i].left, m_rectGate[i].top, m_rectGate[i].right, m_rectGate[i].bottom);
 	}
 	for (int i = 0; i < 2; i++)
 	{
-		Rectangle(hdc, m_rectObj[i].left, m_rectObj[i].top, m_rectObj[i].right, m_rectObj[i].bottom);
+		//Rectangle(hdc, m_rectObj[i].left, m_rectObj[i].top, m_rectObj[i].right, m_rectObj[i].bottom);
 	}
 	
 	m_Zombie->render(hdc);

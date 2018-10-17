@@ -42,7 +42,7 @@ void SkeletonArcher::update()
 void SkeletonArcher::render(HDC hdc)
 {
 
-	Rectangle(hdc, m_rc.left, m_rc.top, m_rc.right, m_rc.bottom);
+	//Rectangle(hdc, m_rc.left, m_rc.top, m_rc.right, m_rc.bottom);
 
 	m_Archer->frameRender(hdc, ArcherX -60 , Archery - m_Archer->getHeight() / 2, ArcherFX, ArcherFY, 3);
 }

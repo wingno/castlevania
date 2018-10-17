@@ -139,7 +139,7 @@ void zombie::render(HDC hdc)
 {
 	if (m_bAlive)
 	{
-		Rectangle(hdc, m_rc.left, m_rc.top, m_rc.right, m_rc.bottom);
+		//Rectangle(hdc, m_rc.left, m_rc.top, m_rc.right, m_rc.bottom);
 
 		m_imgzombi->frameRender(hdc, m_fZombieX + 40 - m_imgzombi->getWidth() / 2  - ROOMMANAGER->getCurrRoom()->getPosMap().x, m_fZombiey - m_imgzombi->getHeight() / 2, m_nZombieFX, m_nZombieFY, 3);
 	}

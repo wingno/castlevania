@@ -31,8 +31,14 @@ HRESULT FountainRoom::init()
 	m_Object[3].init(891, 836, 1);
 
 	m_pEnemyMgr->setEnemy(300, 450, AXE_ARMOR);
-	m_pEnemyMgr->setEnemy(800, 1000, AXE_ARMOR);
+	m_pEnemyMgr->setEnemy(700, 1000, AXE_ARMOR);
 	m_pEnemyMgr->setEnemy(600, 600, AXE_ARMOR);
+
+	m_pEnemyMgr->setEnemy(1300, 1000, AXE_ARMOR);
+
+	m_pEnemyMgr->setEnemy(1100, 600, AXE_ARMOR);
+
+	m_pEnemyMgr->setEnemy(1500, 450, AXE_ARMOR);
 
 	m_nRectNum = 2;
 
@@ -135,12 +141,12 @@ void FountainRoom::render(HDC hdc)
 	
 	for (int i = 0; i < 3; i++)
 	{
-		Rectangle(hdc, m_rectGate[i].left, m_rectGate[i].top, m_rectGate[i].right, m_rectGate[i].bottom);
+		//Rectangle(hdc, m_rectGate[i].left, m_rectGate[i].top, m_rectGate[i].right, m_rectGate[i].bottom);
 	}
 
 	for (int i = 0; i < 2; i++)
 	{
-		Rectangle(hdc, m_rectObj[i].left, m_rectObj[i].top, m_rectObj[i].right, m_rectObj[i].bottom);
+		//Rectangle(hdc, m_rectObj[i].left, m_rectObj[i].top, m_rectObj[i].right, m_rectObj[i].bottom);
 	}
 
 	for (int i = 0; i < 4; i++)

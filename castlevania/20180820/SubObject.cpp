@@ -154,8 +154,7 @@ void SubObject::update()
 void SubObject::render(HDC hdc)
 {
 
-	Rectangle(hdc, m_rc.left, m_rc.top,
-		m_rc.right, m_rc.bottom);
+	//Rectangle(hdc, m_rc.left, m_rc.top,m_rc.right, m_rc.bottom);
 	switch (SubObjectNum)
 	{
 	case 0:

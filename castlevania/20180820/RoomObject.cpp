@@ -62,8 +62,7 @@ void RoomObject::render(HDC hdc)
 		m_bObjDestruction||
 		m_bObjDestructionMove)
 	{
-		Rectangle(hdc, m_rc.left, m_rc.top,
-			m_rc.right, m_rc.bottom);
+		//Rectangle(hdc, m_rc.left, m_rc.top,m_rc.right, m_rc.bottom);
 		
 		switch (m_nObjNum)
 		{
