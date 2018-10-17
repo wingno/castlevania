@@ -192,6 +192,10 @@ public:
 	void PlayerRect();
 
 	void PlayerStandAttack();
+
+	void PlayerDownAttack();
+
+	
 	
 
 	Status* getPState() { return &m_status; }
