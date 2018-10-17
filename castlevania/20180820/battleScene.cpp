@@ -25,7 +25,7 @@ HRESULT battleScene::init()
 
 	m_progressBar = new progressBar;
 
-	m_progressBar->init(100, 100,230,25);
+	m_progressBar->init(0, 0,230,25);
 
 	m_progressBar->setGauge(m_pPlayer->getState().curHP , m_pPlayer->getState().fullHP
 					, m_pPlayer->getState().curMP, m_pPlayer->getState().fullMP);
@@ -47,6 +47,7 @@ void battleScene::update()
 	ROOMMANAGER->update();
 	m_progressBar->setGauge(m_pPlayer->getState().curHP, m_pPlayer->getState().fullHP
 		, m_pPlayer->getState().curMP, m_pPlayer->getState().fullMP);
+	
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 	{
 		m_bIsChangeScene = true;

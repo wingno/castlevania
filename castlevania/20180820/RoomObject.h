@@ -1,6 +1,6 @@
 #pragma once
 class image;
-class CoinObject;
+class SubObject;
 
 
 class RoomObject 
@@ -16,7 +16,7 @@ private:
 	//오브잭트 번호
 	int m_nObjNum;
 
-	CoinObject* m_coin;
+	SubObject* m_SubObject;
 
 	//오브잭트이미지
 	image* m_imgObj;
