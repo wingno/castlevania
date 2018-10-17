@@ -22,7 +22,7 @@ HRESULT player::init()
 	m_pImg3 = IMAGEMANAGER->addImage("발뭉", "image/발뭉.bmp", 720, 48, 9, 2, true, RGB(255, 0, 255));
 
 	// 크라우 솔루스
-	m_pImg4 = IMAGEMANAGER->addImage("크라우솔루스", "image/크라우솔루스.bmp", 19, 55, 1, 1, true, RGB(255, 0, 255));
+	m_pImg4 = IMAGEMANAGER->addImage("크라우솔루스", "image/크라우솔루스.bmp", 110, 110, true, RGB(255, 0, 255));
 
 	// 숫자 이미지
 	m_pCImg = IMAGEMANAGER->addImage("숫자", "image/숫자.bmp", 96, 40, 12, 4, true, RGB(255, 0, 255));
@@ -92,6 +92,8 @@ HRESULT player::init()
 	m_bPlayerHited = 0;
 	m_bDivin = 0;
 	m_bDamageShow = 0;
+
+	m_nSwordAngle = 0;
 
 	m_status = { 10,10,12,12,11,11,9,9, 10,10,6,6,320,320,80,80,0,84 };
 
@@ -202,7 +204,7 @@ HRESULT player::init()
 	m_soulSet.gS = baseGSoul;
 	m_soulSet.eS = baseESoul;
 
-	m_ItemSet.hI = baseHItem;
+	m_ItemSet.hI = test2HItem;
 	m_ItemSet.bI = baseBItem;
 	m_ItemSet.aI = baseAItem;
 
@@ -319,10 +321,8 @@ void player::update()
 	// 플레이어 점프
 	if (KEYMANAGER->isStayKeyDown('Z') && m_bPlayerAttack == 0 && m_nHitDmg == 0 && m_nPlayerDown == 0)
 	{
-
 		if (m_bIsJump)
 		{
-
 			if (m_bPlayerSee == 1)
 			{
 				if (m_nPlayerJump <= 2)
@@ -464,8 +464,15 @@ void player::update()
 			if (m_bPlayerSee == 1)
 			{
 				m_nRCurrFrameX = 0;
-				m_nRCurrFrameY = 1;
 				m_nNCurrFrameY = 0;
+				if (m_ItemSet.hI->m_nIdx == 2)
+				{
+					m_nRCurrFrameY = 9;
+				}
+				else
+				{
+					m_nRCurrFrameY = 1;
+				}
 			}
 			else if (m_bPlayerSee == 0)
 			{
@@ -596,7 +603,7 @@ void player::update()
 		}
 
 		// 플레이어 공격자세
-		else if (m_nRCurrFrameY == 1 && m_bPlayerAttack == 1 && m_bPlayerStand == 1 && m_bPlayerSkAttack == 0)
+		else if (m_bPlayerAttack == 1 && m_bPlayerStand == 1 && m_bPlayerSkAttack == 0)
 		{
 			PlayerStandAttack();
 		}
@@ -848,31 +855,9 @@ void player::update()
 		}
 
 		// 플레이어 왼쪽 공격자세
-		else if (m_nLCurrFrameY == 1 && m_bPlayerAttack == 1 && m_bPlayerStand == 1)
+		else if (m_bPlayerAttack == 1 && m_bPlayerStand == 1)
 		{
-			if (m_nCount % 4 == 0)
-			{
-				if (m_nLCurrFrameX < 17)
-				{
-					m_bItem = 1;
-					m_nNCurrFrameX++;
-					if (m_nNCurrFrameX > 0 && m_nNCurrFrameX < 5)
-					{
-						m_Irc = RectMakeCenter(m_fX - 110, m_fY - 40, m_pImg3->getFrameWidth() * 2, m_pImg3->getFrameHeight() * 2);
-					}
-				}
-				m_nLCurrFrameX--;
-				m_pImg3->setFrameX(m_nRCurrFrameX);
-				m_pImg2->setFrameX(m_nLCurrFrameX);
-				if (m_nLCurrFrameX < 7)
-				{
-					m_nLCurrFrameX = 18;
-					m_bPlayerAttack = 0;
-					m_nLCurrFrameY = 0;
-					m_nNCurrFrameX = 0;
-					m_Irc = RectMakeCenter(-10, -10, 1, 1);
-				}
-			}
+			PlayerStandAttack();
 		}
 
 		// 플레이어 점프자세
@@ -1123,7 +1108,7 @@ void player::render(HDC hdc)
 				}
 				else if (m_ItemSet.hI->m_nIdx == 2)
 				{
-					m_pImg4->rotateRender(hdc, 90, m_fX, m_fY, 3);
+					m_pImg4->rotateRender(hdc, m_nSwordAngle, m_fX - 90, m_fY - 145, 0.5, 1, 3);
 				}
 			}
 		}
@@ -1164,7 +1149,7 @@ void player::render(HDC hdc)
 	}
 
 
-	//Rectangle(hdc, m_Irc.left, m_Irc.top, m_Irc.right, m_Irc.bottom);
+	Rectangle(hdc, m_Irc.left, m_Irc.top, m_Irc.right, m_Irc.bottom);
 }
 
 
@@ -1491,54 +1476,150 @@ void player::PlayerRect()
 
 void player::PlayerStandAttack()
 {
-	if (m_ItemSet.hI->m_nIdx == 1)
+	if (m_bPlayerSee == 1)
 	{
-		if (m_nCount % 4 == 0)
+		if (m_ItemSet.hI->m_nIdx == 0)
 		{
-			m_nRCurrFrameX++;
-			if (m_nRCurrFrameX > 2)
+			if (m_nCount % 4 == 0)
 			{
-				m_bItem = 1;
-				m_nNCurrFrameX++;
-
-
-				if (m_nNCurrFrameX > 0 && m_nNCurrFrameX < 5)
+				m_nRCurrFrameX++;
+				m_pImg->setFrameX(m_nRCurrFrameX);
+				if (m_nRCurrFrameX > m_pImg->getMaxFrameX() - 7)
 				{
-					m_Irc = RectMakeCenter(m_fX + 120, m_fY - 40, m_pImg3->getFrameWidth() * 2, m_pImg3->getFrameHeight() * 2);
+					m_nRCurrFrameX = 0;
+					m_bPlayerAttack = 0;
+					m_nRCurrFrameY = 0;
+					m_nCount = 0;
 				}
 			}
-			m_pImg->setFrameX(m_nRCurrFrameX);
-			m_pImg3->setFrameX(m_nNCurrFrameX);
-			if (m_nRCurrFrameX > m_pImg->getMaxFrameX() - 7)
+		}
+		else if (m_ItemSet.hI->m_nIdx == 1)
+		{
+			if (m_nCount % 4 == 0)
 			{
-				m_nRCurrFrameX = 0;
-				m_bPlayerAttack = 0;
-				m_nRCurrFrameY = 0;
-				m_nNCurrFrameX = 0;
-				m_bItem = 0;
-				m_nCount = 0;
-				m_Irc = RectMakeCenter(-10, -10, 1, 1);
+				m_nRCurrFrameX++;
+				if (m_nRCurrFrameX > 2)
+				{
+					m_bItem = 1;
+					m_nNCurrFrameX++;
+
+
+					if (m_nNCurrFrameX > 0 && m_nNCurrFrameX < 5)
+					{
+						m_Irc = RectMakeCenter(m_fX + 120, m_fY - 40, m_pImg3->getFrameWidth() * 2, m_pImg3->getFrameHeight() * 2);
+					}
+				}
+				m_pImg->setFrameX(m_nRCurrFrameX);
+				m_pImg3->setFrameX(m_nNCurrFrameX);
+				if (m_nRCurrFrameX > m_pImg->getMaxFrameX() - 7)
+				{
+					m_nRCurrFrameX = 0;
+					m_bPlayerAttack = 0;
+					m_nRCurrFrameY = 0;
+					m_nNCurrFrameX = 0;
+					m_bItem = 0;
+					m_nCount = 0;
+					m_Irc = RectMakeCenter(-10, -10, 1, 1);
+				}
+			}
+		}
+		else if (m_ItemSet.hI->m_nIdx == 2)
+		{
+			if (m_nSwordAngle <= 130)
+			{
+				m_bItem = 1;
+				m_nSwordAngle+=10;
+			}
+			else if (m_nSwordAngle >= 130)
+			{
+				if (m_nCount % 4 == 0)
+				{
+					m_nRCurrFrameX++;
+					m_bItem = 0;
+					m_pImg->setFrameX(m_nRCurrFrameX);
+					if (m_nRCurrFrameX > 2)
+					{
+						m_nSwordAngle = 0;
+						m_nRCurrFrameX = 0;
+						m_bPlayerAttack = 0;
+						m_nRCurrFrameY = 0;
+						m_nCount = 0;
+						m_Irc = RectMakeCenter(-10, -10, 1, 1);
+					}
+				}
 			}
 		}
 	}
-	else if (m_ItemSet.hI->m_nIdx == 2)
+	else if (m_bPlayerSee == 0)
 	{
-		if (m_nCount % 4 == 0)
+		if (m_ItemSet.hI->m_nIdx == 0)
 		{
-			m_nRCurrFrameX++;
-			if (m_nRCurrFrameX > 2)
+			if (m_nCount % 4 == 0)
+			{
+				m_nLCurrFrameX--;
+				m_pImg2->setFrameX(m_nLCurrFrameX);
+				if (m_nLCurrFrameX < 7)
+				{
+					m_nLCurrFrameX = 18;
+					m_bPlayerAttack = 0;
+					m_nLCurrFrameY = 0;
+					m_Irc = RectMakeCenter(-10, -10, 1, 1);
+				}
+			}
+		}
+		else if (m_ItemSet.hI->m_nIdx == 1)
+		{
+			if (m_nCount % 4 == 0)
+			{
+				if (m_nCount % 4 == 0)
+				{
+					if (m_nLCurrFrameX < 17)
+					{
+						m_bItem = 1;
+						m_nNCurrFrameX++;
+						if (m_nNCurrFrameX > 0 && m_nNCurrFrameX < 5)
+						{
+							m_Irc = RectMakeCenter(m_fX - 110, m_fY - 40, m_pImg3->getFrameWidth() * 2, m_pImg3->getFrameHeight() * 2);
+						}
+					}
+					m_nLCurrFrameX--;
+					m_pImg3->setFrameX(m_nRCurrFrameX);
+					m_pImg2->setFrameX(m_nLCurrFrameX);
+					if (m_nLCurrFrameX < 7)
+					{
+						m_nLCurrFrameX = 18;
+						m_bPlayerAttack = 0;
+						m_nLCurrFrameY = 0;
+						m_nNCurrFrameX = 0;
+						m_Irc = RectMakeCenter(-10, -10, 1, 1);
+					}
+				}
+			}
+		}
+		else if (m_ItemSet.hI->m_nIdx == 2)
+		{
+			if (m_nSwordAngle <= 130)
 			{
 				m_bItem = 1;
+				m_nSwordAngle -= 10;
 			}
-			m_pImg->setFrameX(m_nRCurrFrameX);
-			if (m_nRCurrFrameX > m_pImg->getMaxFrameX() - 7)
+			else if (m_nSwordAngle >= 130)
 			{
-				m_nRCurrFrameX = 0;
-				m_bPlayerAttack = 0;
-				m_nRCurrFrameY = 0;
-				m_bItem = 0;
-				m_nCount = 0;
-				m_Irc = RectMakeCenter(-10, -10, 1, 1);
+				if (m_nCount % 4 == 0)
+				{
+					m_nLCurrFrameX--;
+					m_bItem = 0;
+					m_pImg2->setFrameX(m_nLCurrFrameX);
+					if (m_nLCurrFrameX < 16)
+					{
+						m_nSwordAngle = 0;
+						m_nLCurrFrameX = 18;
+						m_bPlayerAttack = 0;
+						m_nLCurrFrameY = 0;
+						m_nCount = 0;
+						m_Irc = RectMakeCenter(-10, -10, 1, 1);
+					}
+				}
 			}
 		}
 	}

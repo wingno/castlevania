@@ -55,7 +55,7 @@ private:
 
 	
 	// 플레이어 렉트
-	SYNTHESIZE (RECT, m_rc,Rc);
+	SYNTHESIZE (RECT, m_rc, Rc);
 	SYNTHESIZE(RECT, m_Irc, IRC);
 	
 	// 플레이어 속성 값
@@ -153,6 +153,8 @@ private:
 
 	SYNTHESIZE(bool,m_xCameraOn,XCameraOn);
 	SYNTHESIZE(bool, m_yCameraOn, YCameraOn);
+
+	int			m_nSwordAngle;
 
 	soulInven	m_soulInven;
 	SoulSet		m_soulSet;
