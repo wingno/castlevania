@@ -246,6 +246,9 @@
     <ClInclude Include="SubObject.h">
       <Filter>MainGame\Object</Filter>
     </ClInclude>
+    <ClInclude Include="balore.h">
+      <Filter>MainGame\enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -412,6 +415,9 @@
     </ClCompile>
     <ClCompile Include="SubObject.cpp">
       <Filter>MainGame\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="balore.cpp">
+      <Filter>MainGame\enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -152,6 +152,7 @@
     <ClInclude Include="abilitySoul.h" />
     <ClInclude Include="accessoryItem.h" />
     <ClInclude Include="animation.h" />
+    <ClInclude Include="balore.h" />
     <ClInclude Include="battleScene.h" />
     <ClInclude Include="bodyItem.h" />
     <ClInclude Include="BrickStaircaseroom.h" />
@@ -214,6 +215,7 @@
     <ClCompile Include="abilitySoul.cpp" />
     <ClCompile Include="accessoryItem.cpp" />
     <ClCompile Include="animation.cpp" />
+    <ClCompile Include="balore.cpp" />
     <ClCompile Include="battleScene.cpp" />
     <ClCompile Include="bodyItem.cpp" />
     <ClCompile Include="BrickStaircaseroom.cpp" />

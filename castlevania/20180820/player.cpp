@@ -55,8 +55,8 @@ HRESULT player::init()
 	m_nNumC = 0;
 	// 플레이어의 초기 위치 값
 	m_fX = 200;
-	m_fY = 2000;
-
+	//m_fY = 2000;
+	m_fY = 200;
 	m_fDamageY = m_fY - 80;
 
 	// 플레이어가 오른쪽 보고 있는 상태로 초기화

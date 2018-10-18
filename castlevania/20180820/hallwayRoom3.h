@@ -1,5 +1,6 @@
 #pragma once
 #include "room.h"
+#include "balore.h"
 class image;
 
 
@@ -11,6 +12,8 @@ private:
 
 	RECT rectGate[3];
 	RECT rectObj[2];
+	balore  m_nBalore;
+	
 
 public:
 

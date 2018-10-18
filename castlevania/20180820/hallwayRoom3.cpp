@@ -4,8 +4,8 @@
 
 HRESULT hallwayRoom3::init()
 {
-	m_imgBg = IMAGEMANAGER->addImage("image/MAP1.bmp", "image/MAP1.bmp", 5784, 2012, true, RGB(0, 88, 24));
-	//m_imgMap= IMAGEMANAGER->addImage("image/MAP1PIX.bmp", "image/MAP1PIX.bmp", 5784, 2012, true, RGB(255, 0, 255));
+	m_imgBg = IMAGEMANAGER->addImage("image/bossRoom.bmp", "image/bossRoom.bmp", 512, 160, true, RGB(0, 88, 24));
+	m_imgMap= IMAGEMANAGER->addImage("image/bossRoomMa.bmp", "image/bossRoomMa.bmp", 512, 160, true, RGB(255, 0, 255));
 
 	colliderMake();
 
@@ -14,9 +14,11 @@ HRESULT hallwayRoom3::init()
 	m_posBG = PointMake(0, 0);
 
 
+	m_nBalore.init();
 
-	m_rectGate = rectGate;
-	m_rectObj = rectObj;
+
+	//m_rectGate = rectGate;
+	//m_rectObj = rectObj;
 
 
 	return S_OK;
@@ -60,73 +62,88 @@ void hallwayRoom3::update()
 		m_pPlayer->setYCameraOn(false);
 	}
 
-	m_rectGate[0] = RectMake(-20 - m_posMap.x, 193, 30, 144);
-	m_rectGate[1] = RectMake(1525 - m_posMap.x, 193 - m_posMap.y, 30, 144);
+		if (m_posMap.x == 0 && m_pPlayer->getFx() > WINSIZEX / 2)
+	{
 
-	rectColider();
+		m_pPlayer->setXCameraOn(true);
+	}
+
+	if (m_posMap.x == 512 * 3 - WINSIZEX && m_pPlayer->getFx() < WINSIZEX / 2)
+	{
+
+		m_pPlayer->setXCameraOn(true);
+	}
+
+	m_nBalore.update();
+
+	//m_rectGate[0] = RectMake(-20 - m_posMap.x, 193, 30, 144);
+	//m_rectGate[1] = RectMake(1525 - m_posMap.x, 193 - m_posMap.y, 30, 144);
+
+	//rectColider();
 }
 
 void hallwayRoom3::render(HDC hdc)
 {
 
 
-	m_imgBg->render(hdc, 0, 0, 542, 1839, 300, 160, 3);
 
-	m_imgBg->render(hdc, 0, 140, 542 + m_posBG.x / 3, 1725, 300, 100, 3);
 
-	m_imgBg->render(hdc, 0, 0, 3592 + m_posMap.x / 3, 1551 + m_posMap.y / 3, 300, 160, 3);
+	m_imgBg->render(hdc, 0 - m_posMap.x, 0 - m_posMap.y, 0, 0 , 512,160, 3);
+	m_nBalore.headRender(hdc);
+	m_imgMap->render(hdc, 0 - m_posMap.x, 0 - m_posMap.y, 0, 0, 512, 160, 3);
+	m_nBalore.armRender(hdc);
 
-	for (int i = 0; i < 2; i++)
-	{
-		//Rectangle(hdc, m_rectGate[i].left, m_rectGate[i].top, m_rectGate[i].right, m_rectGate[i].bottom);
-	}
+	//for (int i = 0; i < 2; i++)
+	//{
+	//	//Rectangle(hdc, m_rectGate[i].left, m_rectGate[i].top, m_rectGate[i].right, m_rectGate[i].bottom);
+	//}
 
 }
 
 void hallwayRoom3::rectColider()
 {
-	for (int i = 0; i < 2; i++)
-	{
-		POINT point;
-		RECT rc;
-		if (IntersectRect(&rc, &(m_pPlayer->getRc()), &(m_rectGate[i])))
-		{
-			switch (i)
-			{
-			case 0:
+	//for (int i = 0; i < 2; i++)
+	//{
+	//	POINT point;
+	//	RECT rc;
+	//	if (IntersectRect(&rc, &(m_pPlayer->getRc()), &(m_rectGate[i])))
+	//	{
+	//		switch (i)
+	//		{
+	//		case 0:
 
 
-				m_pPlayer->setFY(300);
-				m_pPlayer->setFx(640 - (30 * 3));
-				m_pPlayer->PlayerRect();
-				ROOMMANAGER->changeRoom("CastleHallwayy");
+	//			m_pPlayer->setFY(300);
+	//			m_pPlayer->setFx(640 - (30 * 3));
+	//			m_pPlayer->PlayerRect();
+	//			ROOMMANAGER->changeRoom("CastleHallwayy");
 
 
-				point.x = 540 * 3 - WINSIZEX;
-				point.y = 3850;
+	//			point.x = 540 * 3 - WINSIZEX;
+	//			point.y = 3850;
 
-				ROOMMANAGER->getCurrRoom()->setPosMap(point);
+	//			ROOMMANAGER->getCurrRoom()->setPosMap(point);
 
-				break;
-			case 1:
+	//			break;
+	//		case 1:
 
-				m_pPlayer->setFY(300);
-				m_pPlayer->setFx(30 * 3);
-				m_pPlayer->PlayerRect();
-				ROOMMANAGER->changeRoom("BrickStaircaseroom");
-				
-				break;
-			case 2:
-
-
-				break;
+	//			m_pPlayer->setFY(300);
+	//			m_pPlayer->setFx(30 * 3);
+	//			m_pPlayer->PlayerRect();
+	//			ROOMMANAGER->changeRoom("BrickStaircaseroom");
+	//			
+	//			break;
+	//		case 2:
 
 
-			default:
-				break;
-			}
-		}
-	}
+	//			break;
+
+
+	//		default:
+	//			break;
+	//		}
+	//	}
+	//}
 }
 
 void hallwayRoom3::colliderMake()
@@ -140,15 +157,15 @@ void hallwayRoom3::colliderMake()
 	// 원본 DC와 호환되는 비트맵 생성
 	tempInfo.hBitmap = (HBITMAP)LoadImage(
 		g_hInstance,
-		"image/MAP1PIX.bmp",
+		"image/bossRoomPIX.bmp",
 		IMAGE_BITMAP,
-		5784, 2012,
+		512, 160,
 		LR_LOADFROMFILE);
 	// 새로 생성한 메모리DC 와 새로 생성한 비트맵을 연동시킨다
 	tempInfo.hOldBitmap = (HBITMAP)SelectObject(tempInfo.hMemDC, tempInfo.hBitmap);
 
-	tempInfo.nWidth = 5784;
-	tempInfo.nHeight = 2012;
+	tempInfo.nWidth = 512;
+	tempInfo.nHeight = 160;
 
 
 	m_pMemDCInfo = new tagMemDCInfo;
@@ -171,7 +188,7 @@ void hallwayRoom3::colliderMake()
 
 						// 대상
 		tempInfo.hMemDC,	// 복사할 대상 DC
-		3592, 1551,			// 복사될 영역 시작좌표
+		0, 0,			// 복사될 영역 시작좌표
 		512, 160,	// 복사될 영역지정 좌표
 
 		RGB(255, 0, 255));			// 복사에서 제외할 색상

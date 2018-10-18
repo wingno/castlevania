@@ -13,6 +13,7 @@ HRESULT enemy::init( POINT position, EnemyKind eKind)
 {
 
 
+
 	m_pPlayer = g_mainGame.getPlayer();
 	
 	m_fX = position.x;

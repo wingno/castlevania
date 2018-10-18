@@ -13,6 +13,7 @@ private:
 
 
 
+
 	bool m_bisAllClear;
 
 	bool m_bisSetting;
@@ -22,6 +23,7 @@ public:
 	void release();
 	void update();
 	void render(HDC hdc);
+
 
 
 
