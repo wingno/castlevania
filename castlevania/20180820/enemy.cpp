@@ -1350,7 +1350,7 @@ void enemy::Damagehit()
 
 		if (m_eKind == AXE_ARMOR)
 		{
-			m_fDamageY = m_fMapY - 60;
+			m_fDamageY = m_fMapY - 80;
 		}
 		m_fDivineTime = 0;
 	}

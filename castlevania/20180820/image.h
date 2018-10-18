@@ -106,6 +106,8 @@ public:
 
 	void rotateRender(HDC hdc, float rotateAngle, float fX, float fY, float anchorX = 0.5f, float anchorY = 0.5f, int scalar = 1);
 
+
+
 	// ¾Ö´Ï ·»´õ
 	void aniRender(HDC hdc, int destX, int destY, animation* ani, int scalar = 1);
 

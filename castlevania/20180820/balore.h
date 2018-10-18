@@ -3,6 +3,8 @@
 #define START_Y 392
 #define START_ARMY 150
 
+class animation;
+
 class balore
 {
 private:
@@ -23,6 +25,9 @@ private:
 	image* m_imgLarm;
 	image* m_imgRHand;
 	image* m_imgRarm;
+	image* m_imgLaser;
+	image* m_imgFire;
+	image *  m_pCImg;
 
 
 	RECT m_rectEye;
@@ -31,15 +36,23 @@ private:
 	RECT m_handUpRect[2];
 	RECT m_handDownRect[2];
 
+	RECT m_fireRect[14];
+
+	animation* m_ani;
+
 
 	SYNTHESIZE(MonsterStatus, m_mStatus, MStatus);
-	
+
+	SYNTHESIZE(bool, m_bIshit, Ishit);
 
 	bool	m_bIsAlive;
 	int		m_nPhase;
 	int		m_nWhereSee;
 
 	int		m_nPattern;
+
+	int		m_nLaserX;
+
 
 	
 	player* m_pPlayer;
@@ -53,6 +66,9 @@ private:
 	float	m_fAngle;
 	float	m_fDivineTime;
 	float	m_fDamageY;
+
+	float	m_fStartCount;
+
 
 	float	m_fLArmMapY;
 	float	m_fLArmMapX;
@@ -77,7 +93,9 @@ private:
 	float	m_fRArmAngle;
 	float	m_fLArmAngle;
 
+	
 
+	int		m_nfireCount;
 
 	bool	m_bIsUp;
 
@@ -85,6 +103,9 @@ private:
 
 	bool	m_bIsLeft;
 
+	bool	m_bIsLaser;
+
+	bool	m_bIsLeftLaser;
 
 
 	SYNTHESIZE(int, m_nHitDmg, HitDmg);
@@ -99,6 +120,14 @@ public:
 
 
 	void phase1Update();
+	void phase2Update();
+	void firePlay();
+	void fireRender();
+	void chackCollition();
+
+	void Damagehit();
+
+	void DamageImg(HDC hdc, int damage);
 
 	balore();
 	~balore();

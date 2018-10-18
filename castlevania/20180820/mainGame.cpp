@@ -81,7 +81,7 @@ HRESULT mainGame::init()
 	m_BrickStaircaseroom = new BrickStaircaseroom;
 	ROOMMANAGER->addRoom("BrickStaircaseroom", m_BrickStaircaseroom);
 
-	ROOMMANAGER->changeRoom("hallwayRoom3");
+	ROOMMANAGER->changeRoom("gateroom");
 
 
 	m_pBattleScene = new battleScene;
@@ -103,6 +103,8 @@ HRESULT mainGame::init()
 
 	SCENEMANAGER->changeScene("battle");
 	
+
+	m_phallwayRoom3->setBattleSceen(m_pBattleScene);
 
 	//m_pBattleScene->setIsScore(&m_nscore);
 	//m_pscoreScene->setIsScore(&m_nscore);

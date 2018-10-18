@@ -27,6 +27,8 @@ HRESULT player::init()
 	// 숫자 이미지
 	m_pCImg = IMAGEMANAGER->addImage("숫자", "image/숫자.bmp", 96, 40, 12, 4, true, RGB(255, 0, 255));
 
+	m_bIsRide = false;
+
 	// 플레이어의 동작 프레임 값
 	m_nCount = 0;
 	m_nRCurrFrameX = 0;
@@ -54,9 +56,9 @@ HRESULT player::init()
 	m_nHitDivineC = 100;
 	m_nNumC = 0;
 	// 플레이어의 초기 위치 값
-	m_fX = 200;
+	m_fX = 800;
 	//m_fY = 2000;
-	m_fY = 200;
+	m_fY = 2000;
 	m_fDamageY = m_fY - 80;
 
 	// 플레이어가 오른쪽 보고 있는 상태로 초기화
@@ -195,11 +197,11 @@ HRESULT player::init()
 
 
 	ItemUse* testuItem = new ItemUse;
-	testuItem->init(0, 1, 0, 0, 0, 0, 0, 0, 0, 100, 0, "포션", "체력을 100 회복한다.");
+	testuItem->init(0, 10, 0, 0, 0, 0, 0, 0, 0, 100, 0, "포션", "체력을 100 회복한다.");
 	ItemUse* testuItem1 = new ItemUse;
-	testuItem1->init(0, 1, 1, 0, 0, 0, 0, 0, 0, 400, 0, "하이포션", "체력을 400 회복한다.");
+	testuItem1->init(0, 10, 1, 0, 0, 0, 0, 0, 0, 400, 0, "하이포션", "체력을 400 회복한다.");
 	ItemUse* testuItem2 = new ItemUse;
-	testuItem2->init(0, 1, 2, 0, 0, 0, 0, 0, 0, 999999, 0, "엑스포션", "체력을 완전히 회복한다.");
+	testuItem2->init(0, 10, 2, 0, 0, 0, 0, 0, 0, 999999, 0, "엑스포션", "체력을 완전히 회복한다.");
 	ItemUse* testuItem3 = new ItemUse;
 	testuItem3->init(0, 1, 3, 0, 0, 0, 0, 0, 0, 0, 100, "마인드 업", "마나를 100회복한다");
 	ItemUse* testuItem4 = new ItemUse;
@@ -1064,7 +1066,7 @@ void player::render(HDC hdc)
 {
 	if (m_pImg)
 	{
-		Rectangle(hdc, m_rc.left, m_rc.top, m_rc.right, m_rc.bottom);
+		//Rectangle(hdc, m_rc.left, m_rc.top, m_rc.right, m_rc.bottom);
 		// 플레이어가 오른쪽을 보고 있을때 이미지 랜더
 		if (m_bPlayerSee == 1)
 		{
@@ -1151,7 +1153,7 @@ void player::render(HDC hdc)
 	}
 
 
-	Rectangle(hdc, m_Irc.left, m_Irc.top, m_Irc.right, m_Irc.bottom);
+	//Rectangle(hdc, m_Irc.left, m_Irc.top, m_Irc.right, m_Irc.bottom);
 }
 
 
@@ -1479,6 +1481,10 @@ void player::ShowDamage()
 	if (m_nHitDmg != 0)
 	{
 		m_bDamageShow = 1;
+	}
+	else
+	{
+		m_fDamageY = m_fY - 80;
 	}
 
 	if (m_bDamageShow == 1)
@@ -2028,6 +2034,83 @@ void player::PlayerDie()
 			}
 		}
 	}
+}
+
+void player::bossRectCollision(RECT collRc,int idx)
+{
+
+
+
+	RECT rc;
+
+	if (IntersectRect(&rc, &m_rc, &collRc))
+	{
+		m_bPlayerStand = 1;
+		m_nPlayerJump = 0;
+
+		if (m_bPlayerJumpAttack != 0)
+		{
+			m_bPlayerJumpAttack = 0;
+			m_nRCurrFrameY = 0;
+			m_nRCurrFrameX = 0;
+			m_nLCurrFrameY = 0;
+			m_nLCurrFrameX = 18;
+			m_nNCurrFrameX = 0;
+			m_bItem = 0;
+			m_Irc = RectMakeCenter(-10, -10, 1, 1);
+		}
+		if (m_nRCurrFrameY == 6)
+		{
+			m_nRCurrFrameY = 0;
+			m_nRCurrFrameX = 0;
+		}
+		else if (m_nLCurrFrameY == 6)
+		{
+			m_nLCurrFrameY = 0;
+			m_nLCurrFrameX = 18;
+		}
+
+		if (idx == 0)
+		{
+			m_bIsLide = true;
+
+		}
+		else
+		{
+			m_bIsRide = true;
+		}
+	}
+	else
+	{
+		if (idx == 0)
+		{
+			m_bIsLide = false;
+
+		}
+		else
+		{
+			m_bIsRide = false;
+		}
+	}
+
+
+		if (collRc.top + 13 > m_rc.bottom &&
+			collRc.top - 7 < m_rc.bottom
+			&& (m_rc.right > collRc.left &&
+				m_rc.left < collRc.right))
+		{
+
+			m_fY = (collRc.top - 50);
+
+
+
+
+		}
+
+
+
+	
+	
 }
 
 

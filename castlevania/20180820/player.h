@@ -168,7 +168,8 @@ private:
 
 
 
-
+	SYNTHESIZE(bool, m_bIsRide, IsRide);
+	SYNTHESIZE(bool, m_bIsLide, IsLide);
 
 
 public:
@@ -204,6 +205,8 @@ public:
 	void PlayerJumpAttack();
 
 	void PlayerDie();
+
+	void bossRectCollision(RECT collRc, int idx);
 
 
 	

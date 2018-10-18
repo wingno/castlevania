@@ -42,6 +42,7 @@ private:
 
 	bool m_bPlayerDieChangeScene;
 
+	SYNTHESIZE(bool, m_bGameEnd, GameEnd);
 
 
 	int m_nAlphaNum;

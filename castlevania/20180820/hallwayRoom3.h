@@ -1,6 +1,8 @@
 #pragma once
 #include "room.h"
 #include "balore.h"
+
+class battleScene;
 class image;
 
 
@@ -13,7 +15,7 @@ private:
 	RECT rectGate[3];
 	RECT rectObj[2];
 	balore  m_nBalore;
-	
+	SYNTHESIZE(battleScene*, m_pBattleSceen,BattleSceen);
 
 public:
 

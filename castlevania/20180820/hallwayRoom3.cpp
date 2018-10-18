@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "hallwayRoom3.h"
 #include "player.h"
-
+#include "battleScene.h"
 HRESULT hallwayRoom3::init()
 {
 	m_imgBg = IMAGEMANAGER->addImage("image/bossRoom.bmp", "image/bossRoom.bmp", 512, 160, true, RGB(0, 88, 24));
@@ -38,6 +38,9 @@ void hallwayRoom3::release()
 
 void hallwayRoom3::update()
 {
+
+
+
 	if (m_posMap.x < 0)
 	{
 		m_posMap.x = 0;
@@ -76,6 +79,11 @@ void hallwayRoom3::update()
 
 	m_nBalore.update();
 
+
+	if (m_nBalore.m_bIsAlive == false)
+	{
+		m_pBattleSceen->setGameEnd(true);
+	}
 	//m_rectGate[0] = RectMake(-20 - m_posMap.x, 193, 30, 144);
 	//m_rectGate[1] = RectMake(1525 - m_posMap.x, 193 - m_posMap.y, 30, 144);
 

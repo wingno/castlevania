@@ -32,7 +32,7 @@ HRESULT battleScene::init()
 					, m_pPlayer->getState().curMP, m_pPlayer->getState().fullMP);
 
 
-
+	m_bGameEnd = false;
 
 	return S_OK;
 }
@@ -80,6 +80,29 @@ void battleScene::update()
 			m_nAlphaNum = 0;
 			SCENEMANAGER->changeScene("titleScene");
 			ROOMMANAGER->changeRoom("gateroom");
+		}
+	}
+
+	if (m_bGameEnd)
+	{
+
+		if (m_nAlphaNum <= 250)
+		{
+			m_nAlphaNum+=30;
+		}
+		else
+		{
+			m_pPlayer->release();
+			m_pPlayer->init();
+
+			m_bIsChangeScene = false;
+			m_bPlayerDieChangeScene = false;
+
+			m_nAlphaNum = 0;
+			SCENEMANAGER->changeScene("titleScene");
+			ROOMMANAGER->changeRoom("gateroom");
+
+			m_bGameEnd = false;
 		}
 	}
 
