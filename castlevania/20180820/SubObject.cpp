@@ -108,8 +108,8 @@ void SubObject::update()
 				m_bOneCoin = false;
 			}
 		}
+		checkCollision();
 		break;
-	
 	case 1:
 		
 		if (m_bAlive)
@@ -139,7 +139,7 @@ void SubObject::update()
 
 	m_rc = RectMakeCenter(m_fX + 18 - ROOMMANAGER->getCurrRoom()->getPosMap().x, m_fY + 17 - ROOMMANAGER->getCurrRoom()->getPosMap().y,
 		m_imgCoin->getWidth() / 2, m_imgCoin->getHeight() * 2);
-	checkCollision();
+	
 	
 
 	
@@ -253,20 +253,20 @@ void SubObject::soulMove()
 {
 	if (m_bSoulStand)
 	{
-		m_fSpeed = 22;
+		m_fSpeed = 150;
+		m_fangle += 0.2;
+
 		m_fX += cosf(m_fangle) * m_fSpeed;
 		m_fY += -sinf(m_fangle)* m_fSpeed;
-
-		if (m_nSoulIndex % 2 == 0)
-		{
-
-			m_fangle += 0.2;
-		}
+	
 
 
 		if (m_fangle >
-			4)
+			2)
 		{
+			m_fangle = 0;
+			m_fX = m_fX;
+			m_fY = m_fY;
 			m_bSoulStand = false;
 			m_bSoulMove = true;
 
@@ -275,13 +275,10 @@ void SubObject::soulMove()
 	if (m_bSoulMove)
 	{
 		
-		m_fRange = MY_UTIL::getDistance(ROOMMANAGER->getPlayer()->getFx()
-			, ROOMMANAGER->getPlayer()->getFY(), m_fX, m_fY);
+		m_fX -= cosf(m_fangle) * m_fSpeed;
+		m_fY -= -sinf(m_fangle)* m_fSpeed;
 
-		m_fX = m_fX+ cosf(m_fangle) * 20 ;
-		m_fY = m_fY + (-sinf(m_fangle)) * 20;
 	
-
 	}
 }
 
