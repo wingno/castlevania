@@ -200,8 +200,11 @@ public:
 	void PlayerStandAttack();
 
 	void PlayerDownAttack();
+	
+	void PlayerJumpAttack();
 
 	void PlayerDie();
+
 
 	
 	
