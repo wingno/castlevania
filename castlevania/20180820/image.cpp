@@ -532,11 +532,57 @@ void image::alphaRender(HDC hdc, int destX, int destY, BYTE alpha)
 	if (m_isTransparent)
 	{
 		// 1. 출력해야되는 DC에 그려져있는 내용을 blendImage에 복사
+		BitBlt(m_pBlendImage->hMemDC,
+			0, 0,
+			m_pImageInfo->nWidth, m_pImageInfo->nHeight,
+			hdc,
+			destX, destY,
+			SRCCOPY);
+
+		// 2. 출력할 이미지를 blendImage에 복사
+		GdiTransparentBlt(m_pBlendImage->hMemDC,
+			0, 0,
+			m_pImageInfo->nWidth, m_pImageInfo->nHeight,
+			m_pImageInfo->hMemDC,
+			0, 0,
+			m_pImageInfo->nWidth, m_pImageInfo->nHeight,
+			m_transColor);
+		// 3. blendDC를 출력해야되는 DC에 복사
+		AlphaBlend(hdc,
+			destX, destY,
+			m_pImageInfo->nWidth, m_pImageInfo->nHeight,
+			m_pBlendImage->hMemDC,
+			0, 0,
+			m_pImageInfo->nWidth, m_pImageInfo->nHeight,
+			m_blendFunc);
+	}
+	else
+	{
+		AlphaBlend(
+			// 복사할 목표
+			hdc,
+			destX, destY,
+			m_pImageInfo->nWidth, m_pImageInfo->nHeight,
+			// 복사할 대상
+			m_pImageInfo->hMemDC,
+			0, 0,
+			m_pImageInfo->nWidth, m_pImageInfo->nHeight,
+			m_blendFunc);
+	}
+}
+
+void image::alphaRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha, float scale)
+{
+	m_blendFunc.SourceConstantAlpha = alpha;
+
+	if (m_isTransparent)
+	{
+		// 1. 출력해야되는 DC에 그려져있는 내용을 blendImage에 복사
 		BitBlt(
 			// 목적지
 			m_pBlendImage->hMemDC,
 			0, 0,
-			m_pImageInfo->nWidth, m_pImageInfo->nHeight,
+			sourWidth , sourHeight ,
 
 			// 대상
 			hdc,
@@ -560,11 +606,11 @@ void image::alphaRender(HDC hdc, int destX, int destY, BYTE alpha)
 			// 목적지
 			hdc,
 			destX, destY,
-			m_pImageInfo->nWidth, m_pImageInfo->nHeight,
+			sourWidth , sourHeight,
 
 			// 대상
 			m_pBlendImage->hMemDC,
-			0, 0,
+			sourX, sourY,
 			m_pImageInfo->nWidth, m_pImageInfo->nHeight,
 			m_blendFunc);
 	}
@@ -574,10 +620,10 @@ void image::alphaRender(HDC hdc, int destX, int destY, BYTE alpha)
 			// 복사할 목표
 			hdc,
 			destX, destY,
-			m_pImageInfo->nWidth, m_pImageInfo->nHeight,
+			sourWidth  , sourHeight,
 			// 복사할 대상
 			m_pImageInfo->hMemDC,
-			0, 0,
+			sourX, sourY,
 			m_pImageInfo->nWidth, m_pImageInfo->nHeight,
 			m_blendFunc);
 	}

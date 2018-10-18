@@ -4,13 +4,14 @@
 class titleScene : public scene
 {
 private:
-	image * m_intro;
-	int FX, FY, fIdx;
-	int Fcount;
+	image * m_imgIntro;
+	int m_nFrameX, m_nFrameY, nIdx, m_nSpeed;
+	int m_nFcount;
 
-	image* m_select;
-	image* m_select2;
-	int menuX, menuY, menuFY;
+	image* m_imgSelect;
+	image* m_imgSelect2;
+
+	int m_nMenuX, m_nMenuY, m_nMenuFrameY;
 	int menuX2, menuY2;
 
 	bool title1, title2;

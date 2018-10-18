@@ -46,13 +46,13 @@ HRESULT hallwayRoom1::init()
 
 	m_rectGate =rectGate;
 	m_rectObj = rectObj;
-	m_nRectNum = 2;
+	m_nRectNum = 1;
 
 	m_rectGate[0] = RectMake(0, 195, 30, 144);
 	m_rectGate[1] = RectMake(1273 * 3 -30, 195, 30, 144);
 
 	m_rectObj[0] = RectMake(386 * 3, 88 * 3, 32 * 3, 7 * 3);
-	m_rectObj[1] = RectMake(386 * 3, 47 * 3, 32 * 3, 7 * 3);
+
 
 
 
@@ -124,7 +124,7 @@ void hallwayRoom1::update()
 	
 
 	m_rectObj[0] = RectMake(384 * 3 - m_posMap.x, 80 * 3, 32 * 3, 7 * 3);
-	m_rectObj[1] = RectMake(384 * 3 - m_posMap.x, 24 * 3, 32 * 3, 7 * 3);
+	
 
 	checkCollision();
 	rectColider();
@@ -153,7 +153,7 @@ void hallwayRoom1::render(HDC hdc)
 	{
 		Rectangle(hdc, m_rectGate[i].left, m_rectGate[i].top, m_rectGate[i].right, m_rectGate[i].bottom);
 	}
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		Rectangle(hdc, m_rectObj[i].left, m_rectObj[i].top, m_rectObj[i].right, m_rectObj[i].bottom);
 	}
