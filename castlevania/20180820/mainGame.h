@@ -3,9 +3,13 @@ class titleScene;
 class battleScene;
 class scoreScene;
 class selectScene;
+class EndingScene;
 class menuScene;
+class GameOverScene;
 class spaceShip;
 class player;
+
+
 
 class roomManager;
 class hallwayRoom1;
@@ -45,6 +49,8 @@ private:
 	scoreScene*		m_pscoreScene;
 	selectScene*	m_pselectScene;
 	menuScene*		m_pmenuScene;
+	GameOverScene*  m_pGameOverScene;
+	EndingScene*	m_pEndingScene;
 
 	hallwayRoom1*	m_phallwayRoom1;
 	hallwayRoom2*	m_phallwayRoom2;

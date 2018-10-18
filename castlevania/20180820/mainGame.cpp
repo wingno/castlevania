@@ -7,6 +7,8 @@
 #include "spaceShip.h"
 #include "menuScene.h"
 #include "player.h"
+#include"GameOverScene.h"
+#include "EndingScene.h"
 
 //·ë
 #include "hallwayRoom1.h"
@@ -82,9 +84,6 @@ HRESULT mainGame::init()
 	ROOMMANAGER->changeRoom("hallwayRoom3");
 
 
-	/*m_pTitleScene = new titleScene;
-	SCENEMANAGER->addScene("title", m_pTitleScene);
-*/
 	m_pBattleScene = new battleScene;
 	SCENEMANAGER->addScene("battle", m_pBattleScene);
 
@@ -95,13 +94,14 @@ HRESULT mainGame::init()
 	m_pmenuScene = new menuScene;
 	SCENEMANAGER->addScene("menu", m_pmenuScene);
 
-	//m_pscoreScene = new scoreScene;
-	//SCENEMANAGER->addScene("score", m_pscoreScene);
+	m_pGameOverScene = new GameOverScene;
+	SCENEMANAGER->addScene("GameOverScene", m_pGameOverScene);
+
+	m_pEndingScene = new EndingScene;
+	SCENEMANAGER->addScene("EndingScene", m_pEndingScene);
 
 
-
-
-	SCENEMANAGER->changeScene("battle");
+	SCENEMANAGER->changeScene("titleScene");
 	
 
 	//m_pBattleScene->setIsScore(&m_nscore);

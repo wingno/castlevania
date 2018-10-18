@@ -30,7 +30,7 @@ HRESULT zombie::init(int startX, int startY)
 
 
 	m_SubObject = new SubObject;
-	m_SubObject->init(m_fZombieX, m_fZombiey);
+	m_SubObject->init();
 	return S_OK;
 }
 
@@ -127,6 +127,7 @@ void zombie::update()
 	{
 	
 			m_SubObject->SetSubObjectNum(1);
+			m_SubObject->SetSubObjectXY(m_fZombieX, m_fZombiey);
 			m_SubObject->setAlive(true);
 			m_SubObject->update();
 	}

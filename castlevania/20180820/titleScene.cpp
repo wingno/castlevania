@@ -4,24 +4,25 @@
 
 HRESULT titleScene::init()
 {
-	m_intro = IMAGEMANAGER->addImage("intro", "image/introcopy.bmp", 5280, 320, 22, 2, true, RGB(255, 0, 255));
+	m_imgIntro = IMAGEMANAGER->addImage("intro", "image/introcopy.bmp", 5280, 320, 22, 2, true, RGB(255, 0, 255));
+	m_imgSelect = IMAGEMANAGER->addImage("select", "image/title.bmp", 75, 75, 1, 3, true, RGB(255, 0, 255));
+	m_imgSelect2 = IMAGEMANAGER->addImage("menu", "image/since.bmp", 232, 16, 1, 1, true, RGB(255, 0, 255));
 	title1 = true;
-	fIdx, Fcount, FX, FY = 0;
-
-	m_select = IMAGEMANAGER->addImage("select", "image/title.bmp", 75, 75, 1, 3, true, RGB(255, 0, 255));
-	m_select2 = IMAGEMANAGER->addImage("menu", "image/since.bmp", 232, 16, 1, 1, true, RGB(255, 0, 255));
-
 	title2 = false;
-	menuX = 210;
-	menuY = 350;
-	m_rc = RectMakeCenter(menuX, menuY, m_select->getWidth() / 2, m_select->getHeight() / 2);
-
+	m_nMenuX = 210;
+	m_nMenuY = 350;
+	
+	nIdx = 0;
+	m_nFcount = 0;
+	m_nFrameX = 0;
+	m_nFrameY = 0;
 
 	menuX2 = -20;
 	menuY2 = 430;
-	m_rc = RectMakeCenter(menuX2, menuY2, m_select2->getWidth() / 2, m_select2->getHeight() / 2);
+	m_rc = RectMakeCenter(m_nMenuX, m_nMenuY, m_imgSelect->getWidth() / 2, m_imgSelect->getHeight() / 2);
+	m_rc = RectMakeCenter(menuX2, menuY2, m_imgSelect2->getWidth() / 2, m_imgSelect2->getHeight() / 2);
 
-
+	m_nSpeed = 7;
 	return S_OK;
 }
 
@@ -31,60 +32,73 @@ void titleScene::release()
 
 void titleScene::update()
 {
+
+
 	if (title1)
 	{
 
-		fIdx++;
-		if (fIdx % 7 == 0)
+		if (KEYMANAGER->isStayKeyDown('Z'))
+		{
+			m_nSpeed = 2;
+		}
+		if (KEYMANAGER->isOnceKeyUp('Z'))
+		{
+			m_nSpeed = 7;
+		}
+		nIdx++;
+		if (nIdx % m_nSpeed == 0)
 		{
 
-			FX++;
-			if (FX > 21)
+			m_nFrameX++;
+			if (m_nFrameX > 21)
 			{
-				Fcount++;
-				FX = 0;
+				m_nFcount++;
+				m_nFrameX = 0;
 
-				FY = 1;
+				m_nFrameY = 1;
 
 			}
 
 		}
 
-		if (Fcount == 2)
-		{
-			FX = 22;
-			title1 = false;
-			title2 = true;
-			Fcount = 0;
-
-		}
 
 	}
+
+	if (m_nFcount == 2)
+	{
+		m_nFrameX = 22;
+		title1 = false;
+		title2 = true;
+		m_nFcount = 0;
+
+	}
+
+
 
 	if (title2)
 	{
 
 
-		if (menuFY < 1)
+		if (m_nMenuFrameY < 1)
 		{
-			menuFY = 1;
+			m_nMenuFrameY = 1;
 		}
-		if (menuFY > 2)
+		if (m_nMenuFrameY > 2)
 		{
-			menuFY = 2;
+			m_nMenuFrameY = 2;
 		}
 		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 		{
-			menuFY += 1;
+			m_nMenuFrameY += 1;
 
 
 		}
 		if (KEYMANAGER->isOnceKeyDown(VK_UP))
 		{
-			menuFY -= 1;
+			m_nMenuFrameY -= 1;
 
 		}
-		if (menuFY == 1)
+		if (m_nMenuFrameY == 1)
 		{
 			if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
 			{
@@ -104,14 +118,14 @@ void titleScene::render(HDC hdc)
 {
 	if (title1)
 	{
-		m_intro->frameRender(hdc, 0, 0, FX, FY, WINSIZEX, WINSIZEY);
+		m_imgIntro->frameRender(hdc, 0, 0, m_nFrameX, m_nFrameY, WINSIZEX, WINSIZEY);
 	}
 
 	if (title2)
 	{
 
-		m_select->frameRender(hdc, menuX, menuY, 0, menuFY, 3);
-		m_select2->frameRender(hdc, menuX2, menuY2, 0, 0, 3);
+		m_imgSelect->frameRender(hdc, m_nMenuX, m_nMenuY, 0, m_nMenuFrameY, 3);
+		m_imgSelect2->frameRender(hdc, menuX2, menuY2, 0, 0, 3);
 
 	}
 

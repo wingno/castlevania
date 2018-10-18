@@ -32,7 +32,7 @@ HRESULT RoomObject::init(int nFX, int nFY, int ObjNum)
 	m_rc = RectMakeCenter(m_nFX + 26,  m_nFY + 45, m_imgObj->getWidth() / 4 - 3, m_imgObj->getHeight() * 2);
 
 	m_SubObject = new SubObject;
-	m_SubObject->init(m_nFX, m_nFY);
+	m_SubObject->init();
 
 
 	return S_OK;
@@ -164,8 +164,9 @@ void RoomObject::ObjectCode()
 					m_nObjNum = 0;
 			
 					m_bObjDestructionMove = false;
+					m_SubObject->SetSubObjectXY(m_nFX, m_nFY);
 					m_SubObject->setAlive(true);
-
+					
 				}
 			}
 

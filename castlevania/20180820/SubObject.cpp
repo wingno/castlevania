@@ -5,7 +5,7 @@
 #include "CoinObject.h"
 #include "player.h"
 
-HRESULT SubObject::init(int XX, int XY)
+HRESULT SubObject::init()
 {
 	m_imgCoin = IMAGEMANAGER->addImage("1coin", "image/object/onecoin.bmp", 33, 10, 3, 1, true, RGB(0, 64, 128));
 	m_imgOneCoin = IMAGEMANAGER->addImage("1won", "image/object/1won.bmp", 143 / 1.2, 75 / 1.2, 1, 1, true, RGB(255, 0, 255));
@@ -18,8 +18,8 @@ HRESULT SubObject::init(int XX, int XY)
 	m_bSoulStand = true;
 
 	SubObjectNum = 0;
-	m_fX = XX;
-	m_fY = XY;
+	m_fX = 0;
+	m_fY = 0;
 	m_fSpeed = 0;
 	m_nFrameX = 0;
 	m_nFrameY = 0;
@@ -108,8 +108,8 @@ void SubObject::update()
 				m_bOneCoin = false;
 			}
 		}
+		checkCollision();
 		break;
-	
 	case 1:
 		
 		if (m_bAlive)
@@ -139,7 +139,7 @@ void SubObject::update()
 
 	m_rc = RectMakeCenter(m_fX + 18 - ROOMMANAGER->getCurrRoom()->getPosMap().x, m_fY + 17 - ROOMMANAGER->getCurrRoom()->getPosMap().y,
 		m_imgCoin->getWidth() / 2, m_imgCoin->getHeight() * 2);
-	checkCollision();
+	
 	
 
 	
@@ -241,24 +241,31 @@ void SubObject::SetSubObjectNum(int Num)
 	SubObjectNum = Num;
 }
 
+void SubObject::SetSubObjectXY(int X, int Y)
+{
+
+	m_fX = X;
+	m_fY = Y;
+}
+
 void SubObject::soulMove()
 {
 	if (m_bSoulStand)
 	{
-		m_fSpeed = 22;
+		m_fSpeed = 150;
+		m_fangle += 0.2;
+
 		m_fX += cosf(m_fangle) * m_fSpeed;
 		m_fY += -sinf(m_fangle)* m_fSpeed;
-
-		if (m_nSoulIndex % 2 == 0)
-		{
-
-			m_fangle += 0.2;
-		}
+	
 
 
 		if (m_fangle >
-			4)
+			2)
 		{
+			m_fangle = 0;
+			m_fX = m_fX;
+			m_fY = m_fY;
 			m_bSoulStand = false;
 			m_bSoulMove = true;
 
@@ -267,13 +274,10 @@ void SubObject::soulMove()
 	if (m_bSoulMove)
 	{
 		
-		m_fRange = MY_UTIL::getDistance(ROOMMANAGER->getPlayer()->getFx()
-			, ROOMMANAGER->getPlayer()->getFY(), m_fX, m_fY);
+		m_fX -= cosf(m_fangle) * m_fSpeed;
+		m_fY -= -sinf(m_fangle)* m_fSpeed;
 
-		m_fX = m_fX+ cosf(m_fangle) * 20 ;
-		m_fY = m_fY + (-sinf(m_fangle)) * 20;
 	
-
 	}
 }
 
