@@ -1401,8 +1401,7 @@ void player::hitCollision(int damage)
 
 			}
 		}*/
-		if (m_bPlayerStand == 1)
-		{
+	
 			m_bPlayerHited = 1;
 			m_bDivin = 1;
 			if (m_nHitDivineC == 100)
@@ -1410,7 +1409,7 @@ void player::hitCollision(int damage)
 				m_status.curHP -= damage;
 
 			}
-		}
+		
 	}
 }
 
@@ -2142,8 +2141,7 @@ void player::hitMosion()
 				m_nLCurrFrameY = 5;
 			}
 		}*/
-		if (m_bPlayerStand == 1)
-		{
+	
 			if (m_bPlayerSee == 1)
 			{
 				m_nRCurrFrameY = 5;
@@ -2154,7 +2152,7 @@ void player::hitMosion()
 				m_nLCurrFrameY = 5;
 				m_nLCurrFrameX = 18;
 			}
-		}
+
 
 		if (m_nHitC < 10 )
 		{
