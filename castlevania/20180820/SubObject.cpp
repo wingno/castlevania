@@ -252,33 +252,14 @@ void SubObject::soulMove()
 {
 	if (m_bSoulStand)
 	{
-		m_fSpeed = 150;
+		m_fSpeed = 50;
 		m_fangle += 0.2;
 
 		m_fX += cosf(m_fangle) * m_fSpeed;
 		m_fY += -sinf(m_fangle)* m_fSpeed;
-	
 
-
-		if (m_fangle >
-			2)
-		{
-			m_fangle = 0;
-			m_fX = m_fX;
-			m_fY = m_fY;
-			m_bSoulStand = false;
-			m_bSoulMove = true;
-
-		}
 	}
-	if (m_bSoulMove)
-	{
-		
-		m_fX -= cosf(m_fangle) * m_fSpeed;
-		m_fY -= -sinf(m_fangle)* m_fSpeed;
 
-	
-	}
 }
 
 
