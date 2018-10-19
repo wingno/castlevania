@@ -78,7 +78,7 @@ void battleScene::update()
 			m_bPlayerDieChangeScene = false;
 
 			m_nAlphaNum = 0;
-			SCENEMANAGER->changeScene("titleScene");
+			SCENEMANAGER->changeScene("GameOverScene");
 			ROOMMANAGER->changeRoom("gateroom");
 		}
 	}
@@ -99,7 +99,7 @@ void battleScene::update()
 			m_bPlayerDieChangeScene = false;
 
 			m_nAlphaNum = 0;
-			SCENEMANAGER->changeScene("titleScene");
+			SCENEMANAGER->changeScene("EndingScene");
 			ROOMMANAGER->changeRoom("gateroom");
 
 			m_bGameEnd = false;

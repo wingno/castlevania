@@ -28,6 +28,7 @@ private:
 	image* m_imgLaser;
 	image* m_imgFire;
 	image *  m_pCImg;
+	image* m_imgFlash;
 
 
 	RECT m_rectEye;
@@ -52,6 +53,8 @@ private:
 	int		m_nPattern;
 
 	int		m_nLaserX;
+
+	int		m_nFlashRotate;
 
 
 	

@@ -21,6 +21,10 @@ HRESULT balore::init()
 
 	m_imgFire= IMAGEMANAGER->addImage("image/fire.bmp", "image/fire.bmp", 162, 65,6,1, true, RGB(84, 109, 142));
 	m_pCImg = IMAGEMANAGER->addImage("숫자", "image/숫자.bmp", 96, 40, 12, 4, true, RGB(255, 0, 255));
+
+	m_imgFlash= IMAGEMANAGER->addImage("image/flash.bmp", "image/flash.bmp", 63, 64, true, RGB(84, 109, 142));
+
+
 	m_bIsAlive = true;
 
 	m_fMapX = 220*3;
@@ -47,7 +51,7 @@ HRESULT balore::init()
 
 	m_bIsLeft = true;
 
-	m_bIsPatternEnd = false;
+	m_bIsPatternEnd = true;
 
 	if (m_nPhase ==1)
 	{
@@ -77,6 +81,8 @@ HRESULT balore::init()
 	m_rectEye = RectMakeCenter(-100, -100, 1, 1);
 
 	m_mStatus = { "발로어",200,70,800,800,0,0,200,MonsterStatus::IDLE };
+
+	m_nFlashRotate = 0;
 
 	return S_OK;
 }
@@ -187,6 +193,18 @@ void balore::headRender(HDC hdc)
 		m_imgHead->frameRender(hdc, m_fX - m_imgHead->getFrameWidth() / 2, m_fY - m_imgHead->getFrameHeight() / 2, 6, 1, 3);
 
 		//m_imgLaser->rotateRender(hdc, -m_fAngle, m_fX - m_imgHead->getFrameWidth() / 2, m_fY - m_imgHead->getFrameHeight() / 2 + 52, 0.5f, 0.5f, 1);
+
+		if (m_nFlashRotate%10 < 2)
+		{
+			m_imgFlash->rotateRender(hdc, m_nFlashRotate++,m_fX-100, m_fY - m_imgHead->getFrameHeight() / 2 -75,0.5,0.5,6 );
+
+		}
+		else
+		{
+			m_imgFlash->rotateRender(hdc, m_nFlashRotate++, m_fX - 140, m_fY - m_imgHead->getFrameHeight() / 2 - 110, 0.5, 0.5, 7);
+
+		}
+
 
 		
 	}
@@ -508,7 +526,14 @@ void balore::phase1Update()
 void balore::phase2Update()
 {
 
+	m_handDownRect[0] = RectMakeCenter(-100, -100, 1, 1);
 
+	m_handDownRect[1] = RectMakeCenter(-100, -100, 1, 1);
+
+
+	m_handUpRect[0] = RectMakeCenter(-100, -100, 1, 1);
+
+	m_handUpRect[1] = RectMakeCenter(-100, -100, 1, 1);
 
 	if (m_bIsLaser)
 	{
@@ -671,6 +696,7 @@ void balore::chackCollition()
 
 		if (!(m_bIshit))
 			m_nHitDmg=damage;
+
 
 	}
 }

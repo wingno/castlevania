@@ -197,11 +197,11 @@ HRESULT player::init()
 
 
 	ItemUse* testuItem = new ItemUse;
-	testuItem->init(0, 10, 0, 0, 0, 0, 0, 0, 0, 100, 0, "포션", "체력을 100 회복한다.");
+	testuItem->init(0, 1, 0, 0, 0, 0, 0, 0, 0, 100, 0, "포션", "체력을 100 회복한다.");
 	ItemUse* testuItem1 = new ItemUse;
-	testuItem1->init(0, 10, 1, 0, 0, 0, 0, 0, 0, 400, 0, "하이포션", "체력을 400 회복한다.");
+	testuItem1->init(0, 2, 1, 0, 0, 0, 0, 0, 0, 400, 0, "하이포션", "체력을 400 회복한다.");
 	ItemUse* testuItem2 = new ItemUse;
-	testuItem2->init(0, 10, 2, 0, 0, 0, 0, 0, 0, 999999, 0, "엑스포션", "체력을 완전히 회복한다.");
+	testuItem2->init(0, 2, 2, 0, 0, 0, 0, 0, 0, 999999, 0, "엑스포션", "체력을 완전히 회복한다.");
 	ItemUse* testuItem3 = new ItemUse;
 	testuItem3->init(0, 1, 3, 0, 0, 0, 0, 0, 0, 0, 100, "마인드 업", "마나를 100회복한다");
 	ItemUse* testuItem4 = new ItemUse;
@@ -651,6 +651,7 @@ void player::update()
 		m_bPlayerBackDash = 1;
 		m_bPlayerAttack = 0;
 		m_nNCurrFrameX = 0;
+		m_nSwordAngle = 0;
 		m_Irc = RectMakeCenter(-10, -10, 1, 1);
 		if (m_bPlayerSee == 1)
 		{
