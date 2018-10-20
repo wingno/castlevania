@@ -10,6 +10,10 @@ class accessoryItem;
 class ItemUse;
 
 class ItemUse;
+enum PlayerState
+{
+	Idle, Move, StandAttack, BackDash, Down, DownAttack, Silde, Jump1, Jump2, JumpAttack, FallDown, SkillReady, SkillAttack, Die, HitMosion
+};
 
 class player
 {
@@ -88,6 +92,10 @@ private:
 	int		m_nSkReadyC;
 
 	int		m_nHitC;
+
+	int		m_nState;
+
+	int		m_nPrevState;
 
 	SYNTHESIZE( int,m_nHitDivineC, HitDivineC);
 
@@ -207,6 +215,8 @@ public:
 	void PlayerDie();
 
 	void bossRectCollision(RECT collRc, int idx);
+
+	void ChangeState(PlayerState nextState);
 
 
 	

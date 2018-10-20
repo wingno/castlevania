@@ -55,6 +55,10 @@ HRESULT player::init()
 	m_nHitC = 0;
 	m_nHitDivineC = 100;
 	m_nNumC = 0;
+
+	m_nState = PlayerState::Idle;
+	m_nPrevState = m_nState;
+
 	// 플레이어의 초기 위치 값
 	m_fX = 800;
 	//m_fY = 2000;
@@ -351,8 +355,10 @@ void player::update()
 
 
 	// 플레이어 좌우 이동
-	if (KEYMANAGER->isStayKeyDown(VK_RIGHT) && m_nPlayerDown == 0 && m_bPlayerBackDash == 0 && m_bPlayerAttack == 0 && m_nHitDmg == 0 && m_bPlayerSkAttack == 0)
+	//if (KEYMANAGER->isStayKeyDown(VK_RIGHT) && m_nPlayerDown == 0 && m_bPlayerBackDash == 0 && m_bPlayerAttack == 0 && m_nHitDmg == 0 && m_bPlayerSkAttack == 0)
+	if(KEYMANAGER->isStayKeyDown(VK_RIGHT) && m_nState != PlayerState::Down)
 	{
+		m_nState = PlayerState::Move;
 		m_bPlayerAttack = 0;
 		m_bPlayerSee = 1;
 		m_bPlayerSkReady = 0;
@@ -1401,8 +1407,6 @@ void player::hitCollision(int damage)
 
 			}
 		}*/
-		if (m_bPlayerStand == 1)
-		{
 			m_bPlayerHited = 1;
 			m_bDivin = 1;
 			if (m_nHitDivineC == 100)
@@ -1410,7 +1414,6 @@ void player::hitCollision(int damage)
 				m_status.curHP -= damage;
 
 			}
-		}
 	}
 }
 
@@ -2114,6 +2117,24 @@ void player::bossRectCollision(RECT collRc,int idx)
 	
 }
 
+void player::ChangeState(PlayerState nextState)
+{
+	m_nPrevState = m_nState;
+	m_nState = nextState;
+
+
+	switch (m_nState)
+	{
+	case PlayerState::Idle : 
+		m_nRCurrFrameX = 0;
+		m_nRCurrFrameY = 0;
+	case PlayerState::Move :
+
+		default:
+		break;
+	}
+}
+
 
 
 void player::hitMosion()
@@ -2142,8 +2163,6 @@ void player::hitMosion()
 				m_nLCurrFrameY = 5;
 			}
 		}*/
-		if (m_bPlayerStand == 1)
-		{
 			if (m_bPlayerSee == 1)
 			{
 				m_nRCurrFrameY = 5;
@@ -2154,7 +2173,6 @@ void player::hitMosion()
 				m_nLCurrFrameY = 5;
 				m_nLCurrFrameX = 18;
 			}
-		}
 
 		if (m_nHitC < 10 )
 		{
