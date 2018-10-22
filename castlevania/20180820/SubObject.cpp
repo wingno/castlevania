@@ -265,9 +265,8 @@ void SubObject::soulMove()
 
 		m_fX += cosf(m_fangle) * m_fSpeed;
 		m_fY += -sinf(m_fangle)* m_fSpeed;
+
 	}
-
-
 
 }
 
