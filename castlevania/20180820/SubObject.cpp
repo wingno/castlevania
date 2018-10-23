@@ -130,7 +130,7 @@ void SubObject::update()
 			}
 
 		}
-		checkCollision();
+
 		
 		break;
 	default:
@@ -141,6 +141,13 @@ void SubObject::update()
 		m_imgCoin->getWidth() / 2, m_imgCoin->getHeight() * 2);
 	
 	
+
+	
+	if(!m_bAlive &&!m_bStand &&!m_bDown)
+	{
+		m_rc = RectMakeCenter(-10, -10,
+			-1,-1);
+	}
 
 }
 
@@ -168,7 +175,7 @@ void SubObject::render(HDC hdc)
 		}
 		break;
 	case 1:
-		if (m_bAlive || m_bSoulStand)
+		if (m_bAlive || m_bSoulMove)
 		{
 			m_imgSoul->frameRender(hdc, m_fX - ROOMMANAGER->getCurrRoom()->getPosMap().x, m_fY - ROOMMANAGER->getCurrRoom()->getPosMap().y
 				, m_nFrameX, m_nFrameY, 3);
@@ -214,30 +221,15 @@ void SubObject::checkCollision()
 
 	if (IntersectRect(&rc, &m_rc, &ROOMMANAGER->getPlayer()->getRc()))
 	{
-		
+		m_bAlive = false;
+		m_bStand = false;
 		
 		
 		switch (SubObjectNum)
 		{
 		case 0:
-			m_bAlive = false;
-			m_bStand = false;
 			m_bOneCoin = true;
-			if (!m_bAlive && !m_bStand && !m_bDown)
-			{
-				m_rc = RectMakeCenter(-10, -10,
-					-1, -1);
-			}
-		case 1:
-			m_bAlive = false;
-			m_bSoulStand = false;
-			if (!m_bAlive && !m_bSoulStand)
-			{
-				m_rc = RectMakeCenter(-10, -10,
-					-1, -1);
-			}
 			break;
-
 		}
 
 	}
@@ -260,14 +252,33 @@ void SubObject::soulMove()
 {
 	if (m_bSoulStand)
 	{
-		m_fSpeed = 30;
+		m_fSpeed = 150;
 		m_fangle += 0.2;
 
 		m_fX += cosf(m_fangle) * m_fSpeed;
 		m_fY += -sinf(m_fangle)* m_fSpeed;
+	
 
+
+		if (m_fangle >
+			2)
+		{
+			m_fangle = 0;
+			m_fX = m_fX;
+			m_fY = m_fY;
+			m_bSoulStand = false;
+			m_bSoulMove = true;
+
+		}
 	}
+	if (m_bSoulMove)
+	{
+		
+		m_fX -= cosf(m_fangle) * m_fSpeed;
+		m_fY -= -sinf(m_fangle)* m_fSpeed;
 
+	
+	}
 }
 
 
