@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "enemyManager.h"
 #include "spaceShip.h"
+#include "missileManager.h"
 
 
 HRESULT enemyManager::init()
@@ -33,6 +34,27 @@ void enemyManager::update()
 		(*m_iter)->update();
 
 		
+
+		//m_bisSetting = (*m_iter)->getIsSetting();
+	}
+
+
+}
+
+
+void enemyManager::allDie()
+{
+
+	// vector의 첫 원소부터 마지막 원소까지 순회하며 각 원소를 update한다
+	for (m_iter = m_vecEnemy.begin(); m_iter != m_vecEnemy.end(); m_iter++)
+	{
+
+		(*m_iter)->setIsAlive(false);
+
+		if ((*m_iter)->getMissileMgr())
+		{
+			((*m_iter)->getMissileMgr())->allDie();
+		}
 
 		//m_bisSetting = (*m_iter)->getIsSetting();
 	}

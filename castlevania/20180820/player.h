@@ -113,7 +113,7 @@ private:
 	bool	m_bItem;
 
 	// 플레이어가 보고 있는 방향 속성
-	bool	m_bPlayerSee;
+	SYNTHESIZE(bool	,m_bPlayerSee, PlayerSee);
 	bool	m_bPlayerReady;
 
 	// 플레이어의 공격 모션

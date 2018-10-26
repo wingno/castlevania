@@ -42,6 +42,7 @@ HRESULT missile::init(const char * szImageName, float speed,
 
 	m_fMapX = m_fX - ROOMMANAGER->getCurrRoom()->getPosMap().x;
 	m_fMapY = m_fY - ROOMMANAGER->getCurrRoom()->getPosMap().y;
+	m_bIsHit = false;
 
 	//memset(&m_rc, 3, sizeof(m_rc));
 	ZeroMemory(&m_rc, sizeof(m_rc));
@@ -166,13 +167,16 @@ void missile::move()
 				{
 					m_isFire = false;
 				}
-				else
+				else if (!m_bIsHit)
 				{
 					m_fAngle += PI;
 					m_bIsturn = true;
 					m_fRange = 1000.0f;
 				}
-
+				else
+				{
+					m_isFire = false;
+				}
 			}
 
 		}

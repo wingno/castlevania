@@ -201,10 +201,11 @@ void mainGame::render()
 	HDC backDC = m_pBackBuffer->getMemDC();
 
 
+	SetBkMode(backDC, TRANSPARENT);
 	SCENEMANAGER->render(backDC);
 	
-	TIMEMANAGER->render(backDC);
-
+	//TIMEMANAGER->render(backDC);
+	// TRANSPARENT : 투명, OPAQUE : 불투명
 	m_pBackBuffer->render(hdc, 0, 0);
 }
 

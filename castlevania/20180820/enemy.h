@@ -65,7 +65,7 @@ private:
 
 
 	// 미사일 매니저
-	missileManager*	m_pMissileMgr;
+	SYNTHESIZE(  missileManager*,m_pMissileMgr, MissileMgr);
 	player* m_pPlayer;
 
 	animation* m_aniL1;
@@ -114,8 +114,8 @@ public:
 
 	void DamageImg(HDC hdc, int damage);
 
-	inline missileManager* getMissileMgr()
-	{ return m_pMissileMgr; }
+	//inline missileManager* getMissileMgr()
+	//{ return m_pMissileMgr; }
 
 	inline bool getIsAlive() { return m_bIsAlive; }
 	inline void setIsAlive(bool isAlive) { m_bIsAlive = isAlive; }

@@ -165,7 +165,7 @@ void battleScene::checkCollision()
 			{
 
 				RECT rc;
-				if ((*iterMissile)->getIsFire() &&
+				if ((*iterMissile)->getIsFire() && !((*iterMissile)->getIshit())&&
 					IntersectRect(&rc, &m_pPlayer->getRc(), &(*iterMissile)->getRect()))
 				{
 					int damage = (*iterMissile)->getDmg() - m_pPlayer->getState().curDef;
@@ -198,7 +198,13 @@ void battleScene::checkCollision()
 				if ((*iterMissile)->getIsFire() && IntersectRect(&rc, &m_pPlayer->getIRC(), &(*iterMissile)->getRect()))
 				{
 					// 미사일 삭제
-					(*iterMissile)->setIsFire(false);
+					
+					if(m_pPlayer->getPlayerSee())
+						(*iterMissile)->setAngle(PI/4);
+					else
+						(*iterMissile)->setAngle(PI+ PI/4);
+
+					(*iterMissile)->setIshit(true);
 
 				}
 

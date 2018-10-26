@@ -20,6 +20,7 @@ public:
 	HRESULT init();
 	void release();
 	void update();
+	void allDie();
 	void render(HDC hdc);
 
 	void fire(float x, float y, float angle, float speed,int kind);

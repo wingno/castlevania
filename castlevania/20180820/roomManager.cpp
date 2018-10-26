@@ -15,7 +15,8 @@ roomManager::~roomManager()
 
 HRESULT roomManager::init()
 {
-	m_pEnemyMgr = new enemyManager;
+	if(!m_pEnemyMgr)
+		m_pEnemyMgr = new enemyManager;
 	m_pEnemyMgr->init();
 	return S_OK;
 }
@@ -43,8 +44,8 @@ void roomManager::release()
 		}
 	}
 	m_mapRooms.clear();
-	m_pEnemyMgr->release();
-	SAFE_DELETE(m_pEnemyMgr);
+	m_pEnemyMgr->allDie();
+	//SAFE_DELETE(m_pEnemyMgr);
 	
 }
 

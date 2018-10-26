@@ -22,6 +22,7 @@ public:
 	HRESULT init();
 	void release();
 	void update();
+	void allDie();
 	void render(HDC hdc);
 
 

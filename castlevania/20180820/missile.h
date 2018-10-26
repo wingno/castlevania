@@ -10,7 +10,8 @@ protected:
 	float	m_fSpeed;
 	float	m_fX, m_fY;
 	float	m_fFiredX, m_fFiredY;
-	float	m_fAngle;
+	SYNTHESIZE(float,m_fAngle,Angle);
+	SYNTHESIZE(bool, m_bIsHit, Ishit);
 	float	m_fRange;
 	bool	m_isFire;
 	bool	m_bIsturn;

@@ -13,6 +13,7 @@ public:
 	void release();
 	
 	void update(float lockFPS = 0.0f);
+	float getwordTime();
 	void render(HDC hdc);
 
 	inline float getElapsedTime() { return m_timer->getElapsedTime(); }

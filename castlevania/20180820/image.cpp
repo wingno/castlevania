@@ -55,6 +55,10 @@ HRESULT image::init(int width, int height)
 	m_ptempImage->nWidth = WINSIZEX;
 	m_ptempImage->nHeight = WINSIZEY;
 
+
+
+
+
 	ReleaseDC(g_hWnd, hdc);
 
 	if (m_pImageInfo->hBitmap == NULL)
@@ -152,6 +156,64 @@ HRESULT image::init(const char * szFileName, int width, int height, bool trans /
 	m_ptempImage->nHeight = WINSIZEY;
 
 
+	// 피격 블렌드
+	m_blendFuncHit.AlphaFormat = 0;
+	m_blendFuncHit.BlendFlags = 0;
+	m_blendFuncHit.BlendOp = AC_SRC_OVER;
+
+	m_pBlendImageHit = new IMAGE_INFO;
+	m_pBlendImageHit->hMemDC = CreateCompatibleDC(hdc);
+	m_pBlendImageHit->hBitmap = CreateCompatibleBitmap(hdc, m_pImageInfo->nWidth, m_pImageInfo->nHeight);
+	m_pBlendImageHit->hOldBitmap = (HBITMAP)SelectObject(m_pBlendImageHit->hMemDC, m_pBlendImageHit->hBitmap);
+	m_pBlendImageHit->nWidth = m_pImageInfo->nWidth;
+	m_pBlendImageHit->nHeight = m_pImageInfo->nHeight;
+
+	// 브러시 색상 이미지 준비
+	HBRUSH brush = CreateSolidBrush(RGB(255, 0, 0));
+	HBRUSH oldBrush = (HBRUSH)SelectObject(m_pBlendImageHit->hMemDC, brush);
+	FillRect(m_pBlendImageHit->hMemDC, &RectMake(0, 0, m_pBlendImageHit->nWidth, m_pBlendImageHit->nHeight), brush);
+	SelectObject(m_pBlendImageHit->hMemDC, oldBrush);
+	DeleteObject(brush);
+
+	//for (int y = 0; y < m_pBlendImageHit->nHeight; y++)
+	//{
+	//	for (int x = 0; x < m_pBlendImageHit->nWidth; x++)
+	//	{
+	//		COLORREF color = GetPixel(m_pImageInfo->hMemDC, x, y);
+	//		int r = GetRValue(color);
+	//		int g = GetGValue(color);
+	//		int b = GetBValue(color);
+	//		if (!(r == 255 && g == 0 && b == 255))
+	//		{
+	//			SetPixel(m_pBlendImageHit->hMemDC, x, y, RGB(255, 0, 0));
+	//		}
+	//		else
+	//		{
+	//			SetPixel(m_pBlendImageHit->hMemDC, x, y, RGB(255, 0, 255));
+	//		}
+	//	}
+	//}
+
+	m_pTempImageHit = new IMAGE_INFO;
+	// 기본 DC와 분리되는 메모리 DC, 비트맵 출력을 위한 공간
+	m_pTempImageHit->hMemDC = CreateCompatibleDC(hdc);
+	// 원본 DC와 호환되는 비트맵 생성
+	m_pTempImageHit->hBitmap = (HBITMAP)LoadImage(
+		g_hInstance,
+		szFileName,
+		IMAGE_BITMAP,
+		width, height,
+		LR_LOADFROMFILE);
+	// 새로 생성한 메모리DC 와 새로 생성한 비트맵을 연동시킨다
+	m_pTempImageHit->hOldBitmap = (HBITMAP)SelectObject(m_pTempImageHit->hMemDC, m_pTempImageHit->hBitmap);
+
+	m_pTempImageHit->nWidth = width;
+	m_pTempImageHit->nHeight = height;
+
+	// 투명 컬러 셋팅
+	m_isTransparent = trans;
+	m_transColor = transColor;
+
 	ReleaseDC(g_hWnd, hdc);
 
 	if (m_pImageInfo->hBitmap == NULL)
@@ -220,6 +282,63 @@ HRESULT image::init(const char * szFileName, float x, float y,
 		m_ptempImage->hMemDC, m_ptempImage->hBitmap);
 	m_ptempImage->nWidth = WINSIZEX;
 	m_ptempImage->nHeight = WINSIZEY;
+
+
+	// 피격 블렌드
+	m_blendFuncHit.AlphaFormat = 0;
+	m_blendFuncHit.BlendFlags = 0;
+	m_blendFuncHit.BlendOp = AC_SRC_OVER;
+
+	m_pBlendImageHit = new IMAGE_INFO;
+	m_pBlendImageHit->hMemDC = CreateCompatibleDC(hdc);
+	m_pBlendImageHit->hBitmap = CreateCompatibleBitmap(hdc, m_pImageInfo->nWidth, m_pImageInfo->nHeight);
+	m_pBlendImageHit->hOldBitmap = (HBITMAP)SelectObject(m_pBlendImageHit->hMemDC, m_pBlendImageHit->hBitmap);
+	m_pBlendImageHit->nWidth = m_pImageInfo->nWidth;
+	m_pBlendImageHit->nHeight = m_pImageInfo->nHeight;
+
+	// 브러시 색상 이미지 준비
+	HBRUSH brush = CreateSolidBrush(RGB(255, 0, 0));
+	HBRUSH oldBrush = (HBRUSH)SelectObject(m_pBlendImageHit->hMemDC, brush);
+	FillRect(m_pBlendImageHit->hMemDC, &RectMake(0, 0, m_pBlendImageHit->nWidth, m_pBlendImageHit->nHeight), brush);
+	SelectObject(m_pBlendImageHit->hMemDC, oldBrush);
+	DeleteObject(brush);
+
+	//for (int y = 0; y < m_pBlendImageHit->nHeight; y++)
+	//{
+	//	for (int x = 0; x < m_pBlendImageHit->nWidth; x++)
+	//	{
+	//		COLORREF color = GetPixel(m_pImageInfo->hMemDC, x, y);
+	//		int r = GetRValue(color);
+	//		int g = GetGValue(color);
+	//		int b = GetBValue(color);
+	//		if (!(r == 255 && g == 0 && b == 255))
+	//		{
+	//			SetPixel(m_pBlendImageHit->hMemDC, x, y, RGB(255, 0, 0));
+	//		}
+	//		else
+	//		{
+	//			SetPixel(m_pBlendImageHit->hMemDC, x, y, RGB(255, 0, 255));
+	//		}
+	//	}
+	//}
+
+	m_pTempImageHit = new IMAGE_INFO;
+	// 기본 DC와 분리되는 메모리 DC, 비트맵 출력을 위한 공간
+	m_pTempImageHit->hMemDC = CreateCompatibleDC(hdc);
+	// 원본 DC와 호환되는 비트맵 생성
+	m_pTempImageHit->hBitmap = (HBITMAP)LoadImage(
+		g_hInstance,
+		szFileName,
+		IMAGE_BITMAP,
+		width, height,
+		LR_LOADFROMFILE);
+	// 새로 생성한 메모리DC 와 새로 생성한 비트맵을 연동시킨다
+	m_pTempImageHit->hOldBitmap = (HBITMAP)SelectObject(m_pTempImageHit->hMemDC, m_pTempImageHit->hBitmap);
+
+	m_pTempImageHit->nWidth = width;
+	m_pTempImageHit->nHeight = height;
+
+
 
 	// 투명 컬러 셋팅
 	m_isTransparent = trans;
@@ -338,6 +457,8 @@ void image::render(HDC hdc, int destX, int destY, int scalar)
 void image::render(HDC hdc, int destX, int destY, 
 	int sourX, int sourY, int sourWidth, int sourHeight, int scalar)
 {
+
+
 	if (m_isTransparent)
 	{
 		GdiTransparentBlt(
@@ -360,6 +481,63 @@ void image::render(HDC hdc, int destX, int destY,
 			destX, destY,
 			sourX, sourY,
 			m_pImageInfo->hMemDC,
+			0, 0, SRCCOPY);
+	}
+}
+void image::hitRender(HDC hdc, int destX, int destY,
+	int sourX, int sourY, int sourWidth, int sourHeight, int scalar)
+{
+	// 임시 이미지 준비
+	BitBlt(
+		// 목적지
+		m_pTempImageHit->hMemDC,
+		0, 0,
+		m_pTempImageHit->nWidth, m_pTempImageHit->nHeight,
+
+		// 대상
+		m_pImageInfo->hMemDC,
+		0, 0,
+		SRCCOPY);
+
+	// 브러시 + 임시
+	BitBlt(
+		// 목적지
+		m_pTempImageHit->hMemDC,
+		0, 0,
+		m_pTempImageHit->nWidth, m_pTempImageHit->nHeight,
+
+		// 대상
+		m_pBlendImageHit->hMemDC,
+		0, 0,
+		SRCPAINT);
+
+
+	COLORREF	transColor= (m_transColor|255);
+	
+
+
+	if (m_isTransparent)
+	{
+		GdiTransparentBlt(
+			// 목적지
+			hdc,					// 복사될 목적지 DC
+			destX, destY,			// 복사될 좌표 시작점
+			sourWidth * scalar, sourHeight * scalar,	// 복사될 크기
+
+			// 대상
+			m_pTempImageHit->hMemDC,	// 복사할 대상 DC
+			sourX, sourY,			// 복사될 영역 시작좌표
+			sourWidth, sourHeight,	// 복사될 영역지정 좌표
+
+			transColor);			// 복사에서 제외할 색상
+	}
+	else
+	{
+		BitBlt(
+			hdc,
+			destX, destY,
+			sourX, sourY,
+			m_pTempImageHit->hMemDC,
 			0, 0, SRCCOPY);
 	}
 }
@@ -710,6 +888,24 @@ void image::aniRender(HDC hdc, int destX, int destY, animation * ani, int scalar
 	render(hdc, destX, destY,
 		ani->getFramePos().x, ani->getFramePos().y,
 		ani->getFrameWidth(), ani->getFrameHeight(), scalar);
+}
+
+void image::hitAniRender(HDC hdc, int destX, int destY, animation * ani, int scalar)
+{
+	if (((((int)(TIMEMANAGER->getwordTime() * 10)) % 2)==1 ))
+	{
+		hitRender(hdc, destX, destY,
+			ani->getFramePos().x, ani->getFramePos().y,
+			ani->getFrameWidth(), ani->getFrameHeight(), scalar);
+
+	}
+	else
+	{
+		render(hdc, destX, destY,
+			ani->getFramePos().x, ani->getFramePos().y,
+			ani->getFrameWidth(), ani->getFrameHeight(), scalar);
+	}
+
 }
 
 void image::aniReversRender(HDC hdc, int destX, int destY, animation * ani, int scalar)

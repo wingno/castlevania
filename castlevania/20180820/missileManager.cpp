@@ -44,6 +44,20 @@ void missileManager::update()
 		(*m_iter)->update();
 	}
 }
+void missileManager::allDie()
+{
+
+	for (m_iter = m_vecMissile.begin(); m_iter != m_vecMissile.end(); m_iter++)
+	{
+		(*m_iter)->setIsFire(false);
+	}
+		
+
+
+
+
+
+}
 
 void missileManager::render(HDC hdc)
 {

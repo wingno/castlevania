@@ -22,6 +22,15 @@ void timeManager::update(float lockFPS)
 		m_timer->tick(lockFPS);
 }
 
+float timeManager::getwordTime()
+{
+	if (m_timer)
+		return  m_timer->getWorldTime();
+	else
+		return 0;
+}
+
+
 void timeManager::render(HDC hdc)
 {
 	char szText[256];

@@ -67,6 +67,11 @@ void enemy::release()
 void enemy::update()
 {
 	Damagehit();
+	if (m_pMissileMgr)
+	{
+		m_pMissileMgr->update();
+	}
+
 	if (!m_bIsAlive)
 		return;
 	m_fY += m_fGravity;
@@ -99,6 +104,11 @@ void enemy::render(HDC hdc)
 	{
 		DamageImg(hdc, m_nHitDmg);
 	}
+	if (m_pMissileMgr)
+	{
+		m_pMissileMgr->render(hdc);
+	}
+
 	if (!m_bIsAlive)
 		return;
 
@@ -664,7 +674,7 @@ void enemy::ripperUpdate()
 	}
 
 
-	m_pMissileMgr->update();
+	//m_pMissileMgr->update();
 
 
 	m_fMapX = m_fX - ROOMMANAGER->getCurrRoom()->getPosMap().x;
@@ -787,7 +797,7 @@ void enemy::ripperRender(HDC hdc)
 		break;
 	}
 
-	m_pMissileMgr->render(hdc);
+	//m_pMissileMgr->render(hdc);
 }
 
 void enemy::axeArmorInit(POINT position, EnemyKind eKind)
@@ -948,7 +958,7 @@ void enemy::axeArmorUpdate()
 	}
 
 
-	m_pMissileMgr->update();
+//	m_pMissileMgr->update();
 
 
 	m_fMapX = m_fX - ROOMMANAGER->getCurrRoom()->getPosMap().x;
@@ -1077,29 +1087,43 @@ void enemy::axeArmorRender(HDC hdc)
 	case MonsterStatus::CHASER:
 		if (m_bIsLeftSee)
 		{
-			m_pImgLMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth()*1.5, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniL1, 3);
+			if(m_bIshit)
+				m_pImgLMotion->hitAniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth()*1.5, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniL1, 3);
+			else
+			{
+				m_pImgLMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth()*1.5, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniL1, 3);
+			}
 		}
 		else
 		{
-			m_pImgRMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth()*1.5, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniL1, 3);
+			if (m_bIshit)
+				m_pImgRMotion->hitAniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth()*1.5, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniL1, 3);
+			else
+				m_pImgRMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth()*1.5, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniL1, 3);
 		}
 		break;
 	case MonsterStatus::ATTACK:
 
 		if (m_bIsLeftSee)
 		{
-			m_pImgLMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth()*1.5, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_nPattonNum? m_aniL2: m_aniR1, 3);
+			if (m_bIshit)
+				m_pImgLMotion->hitAniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth()*1.5, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_nPattonNum? m_aniL2: m_aniR1, 3);
+			else
+				m_pImgLMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth()*1.5, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_nPattonNum ? m_aniL2 : m_aniR1, 3);
 		}
 		else
 		{
-			m_pImgRMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth()*1.5, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_nPattonNum ? m_aniL2 : m_aniR1, 3);
+			if (m_bIshit)
+				m_pImgRMotion->hitAniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth()*1.5, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_nPattonNum ? m_aniL2 : m_aniR1, 3);
+			else
+				m_pImgRMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth()*1.5, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_nPattonNum ? m_aniL2 : m_aniR1, 3);
 		}
 
 		break;
 	default:
 		break;
 	}
-	m_pMissileMgr->render(hdc);
+	//m_pMissileMgr->render(hdc);
 }
 void enemy::lizardManInit(POINT position, EnemyKind eKind)
 {
@@ -1286,22 +1310,35 @@ void enemy::lizardManRender(HDC hdc)
 	case MonsterStatus::CHASER:
 		if (m_bIsLeftSee)
 		{
-			m_pImgLMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth() * 2, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniL1, 3);
+			if (!m_bIshit)
+				m_pImgLMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth() * 2, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniL1, 3);
+			else
+				m_pImgLMotion->hitAniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth() * 2, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniL1, 3);
 		}
 		else
 		{
-			m_pImgRMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth(), m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniL1, 3);
+			if (m_bIshit)
+				m_pImgRMotion->hitAniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth(), m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniL1, 3);
+			else
+				m_pImgRMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth(), m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniL1, 3);
 		}
 		break;
 	case MonsterStatus::ATTACK:
 		//Rectangle(hdc, m_attackRect.left, m_attackRect.top, m_attackRect.right, m_attackRect.bottom);
 		if (m_bIsLeftSee)
 		{
-			m_pImgLMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth()*2, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniL2, 3);
+			if (m_bIshit)
+				m_pImgLMotion->hitAniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth() * 2, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniL2, 3);
+			else
+				m_pImgLMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth()*2, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniL2, 3);
 		}
 		else
 		{
-			m_pImgRMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth(), m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniL2 , 3);
+
+			if (m_bIshit)
+				m_pImgRMotion->hitAniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth(), m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniL2, 3);
+			else
+				m_pImgRMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth(), m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniL2 , 3);
 		}
 
 		break;
@@ -1310,11 +1347,17 @@ void enemy::lizardManRender(HDC hdc)
 		
 		if (m_bIsLeftSee)
 		{
-			m_pImgLMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth() * 2, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniR1, 3);
+			if (m_bIshit)
+				m_pImgLMotion->hitAniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth() * 2, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniR1, 3);
+			else
+				m_pImgLMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth() * 2, m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniR1, 3);
 		}
 		else
 		{
-			m_pImgRMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth(), m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniR1, 3);
+			if (m_bIshit)
+				m_pImgRMotion->hitAniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth(), m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniR1, 3);
+			else
+				m_pImgRMotion->aniRender(hdc, m_fMapX - m_pImgLMotion->getFrameWidth(), m_fMapY - (m_pImgLMotion->getFrameHeight() * 3) + 65, m_aniR1, 3);
 		}
 
 		break;
